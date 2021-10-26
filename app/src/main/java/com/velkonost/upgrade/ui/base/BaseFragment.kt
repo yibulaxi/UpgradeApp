@@ -188,7 +188,7 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
             val objLayoutInflater: LayoutInflater =
                 it.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val snackView: View = objLayoutInflater.inflate(R.layout.snackbar_success, null)
-            snackView.imageView.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.ic_launcher_background))
+            snackView.imageView.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.logo))
             showSnackBarView(msg, snackView)
         }
     }

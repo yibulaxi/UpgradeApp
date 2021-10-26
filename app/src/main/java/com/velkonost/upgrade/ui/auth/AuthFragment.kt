@@ -1,0 +1,62 @@
+package com.velkonost.upgrade.ui.auth
+
+import android.app.Activity.RESULT_OK
+import android.os.Bundle
+import androidx.core.content.ContextCompat
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
+import com.jaeger.library.StatusBarUtil
+import com.velkonost.upgrade.App
+import com.velkonost.upgrade.R
+import com.velkonost.upgrade.databinding.FragmentSplashBinding
+import com.velkonost.upgrade.ui.base.BaseFragment
+
+class AuthFragment : BaseFragment<AuthViewModel, FragmentSplashBinding>(
+    R.layout.fragment_auth,
+    AuthViewModel::class,
+    Handler::class
+) {
+
+
+
+    override fun onLayoutReady(savedInstanceState: Bundle?) {
+        super.onLayoutReady(savedInstanceState)
+        StatusBarUtil.setColor(
+            requireActivity(),
+            ContextCompat.getColor(requireContext(), R.color.colorWhite),
+            0
+        )
+        StatusBarUtil.setLightMode(requireActivity())
+
+
+    }
+
+
+
+//    private fun signOut() {
+//        // [START auth_fui_signout]
+//        AuthUI.getInstance()
+//            .signOut(this)
+//            .addOnCompleteListener {
+//                // ...
+//            }
+//        // [END auth_fui_signout]
+//    }
+
+
+    // delete account
+    private fun delete() {
+        // [START auth_fui_delete]
+        AuthUI.getInstance()
+            .delete(context!!)
+            .addOnCompleteListener {
+                // ...
+            }
+        // [END auth_fui_delete]
+    }
+
+    inner class Handler
+
+}

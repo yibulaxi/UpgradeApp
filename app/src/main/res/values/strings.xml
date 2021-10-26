@@ -3,4 +3,5 @@
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
 
     <string name="default_error_message">Произошла ошибка при загрузке данных. Попробуйте позже.</string>
+
 </resources>

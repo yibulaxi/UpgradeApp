@@ -1,0 +1,101 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="negative_activity_horizontal_margin">-16dp</dimen>
+    <dimen name="negative_activity_vertical_margin">-16dp</dimen>
+    <dimen name="double_activity_horizontal_margin">32dp</dimen>
+    <dimen name="one_and_a_half_activity_vertical_margin">24dp</dimen>
+    <dimen name="one_and_a_half_activity_horizontal_margin">24dp</dimen>
+    <dimen name="negative_one_and_a_half_activity_vertical_margin">-24dp</dimen>
+    <dimen name="negative_one_and_a_half_activity_horizontal_margin">-24dp</dimen>
+    <dimen name="double_activity_vertical_margin">32dp</dimen>
+    <dimen name="two_and_a_half_activity_vertical_margin">40dp</dimen>
+    <dimen name="two_and_a_half_activity_horizontal_margin">40dp</dimen>
+    <dimen name="triple_activity_vertical_margin">48dp</dimen>
+    <dimen name="triple_activity_horizontal_margin">48dp</dimen>
+    <dimen name="quadruple_activity_vertical_margin">64dp</dimen>
+    <dimen name="quadruple_activity_horizontal_margin">64dp</dimen>
+    <dimen name="half_activity_horizontal_margin">8dp</dimen>
+    <dimen name="half_activity_vertical_margin">8dp</dimen>
+    <dimen name="negative_half_activity_horizontal_margin">-8dp</dimen>
+    <dimen name="negative_half_activity_vertical_margin">-8dp</dimen>
+    <dimen name="three_quarters_activity_vertical_margin">12dp</dimen>
+    <dimen name="three_quarters_activity_horizontal_margin">12dp</dimen>
+    <dimen name="quarter_activity_horizontal_margin">4dp</dimen>
+    <dimen name="quarter_activity_vertical_margin">4dp</dimen>
+    <dimen name="negative_quarter_activity_horizontal_margin">-4dp</dimen>
+    <dimen name="negative_quarter_activity_vertical_margin">-4dp</dimen>
+
+    <!-- Material Design -->
+    <dimen name="app_bar_elevation">4dp</dimen>
+    <dimen name="double_app_bar_elevation">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="minimum_touch_target_size">48dp</dimen>
+    <dimen name="list_padding_top">@dimen/half_activity_vertical_margin</dimen>
+    <dimen name="list_item_subheader">48dp</dimen>
+    <dimen name="list_item_single_line_dense">48dp</dimen>
+    <dimen name="list_item_single_line">56dp</dimen>
+    <dimen name="list_item_double_line_dense">60dp</dimen>
+    <dimen name="list_item_double_line">72dp</dimen>
+    <dimen name="list_item_padding_bottom_large">80dp</dimen>
+
+    <!-- App Defaults -->
+    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="corner_radius_big">18dp</dimen>
+    <dimen name="corner_radius_medium">12dp</dimen>
+    <dimen name="corner_radius_small">4dp</dimen>
+    <dimen name="inner_corner_radius">6dp</dimen>
+    <dimen name="one_dp">1dp</dimen>
+
+    <dimen name="product_page_indicator_padding">10dp</dimen>
+    <dimen name="icon_size_half">12dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="icon_size_large">48dp</dimen>
+    <dimen name="icon_size_medium">32dp</dimen>
+    <dimen name="icon_size_small">16dp</dimen>
+    <dimen name="icon_size_remove">40dp</dimen>
+    <dimen name="icon_home_delivery">41dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="text_size_8">8sp</dimen>
+    <dimen name="text_size_9">9sp</dimen>
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_11">11sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_13">13sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_size_19">19sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_22">22sp</dimen>
+    <dimen name="text_size_24">24sp</dimen>
+
+    <dimen name="bottom_navigation_bar_size">56dp</dimen>
+    <dimen name="card_elevation">6dp</dimen>
+
+    <!--  Material Spinner  -->
+    <dimen name="ms__padding_left">24dp</dimen>
+    <dimen name="ms__padding_top">12dp</dimen>
+    <dimen name="ms__item_height">48dp</dimen>
+    <dimen name="ms__popup_padding_left">24dp</dimen>
+    <dimen name="ms__popup_padding_top">12dp</dimen>
+    <dimen name="short_card_height">236dp</dimen>
+    <dimen name="dispatcher_card_size">144dp</dimen>
+    <dimen name="search_view_height">40dp</dimen>
+    <dimen name="button_corners">26dp</dimen>
+
+    <dimen name="update_button_corners">30dp</dimen>
+
+    <dimen name="home_delivary_search">36dp</dimen>
+
+    <dimen name="dishAddButtonCorners">26dp</dimen>
+
+    <dimen name="homeSearchMargins">0dp</dimen>
+    <dimen name="homeScrollMarginTop">110dp</dimen>
+    <dimen name="catalogToolbarExtHeight">1dp</dimen>
+    <dimen name="productListToolbarExtHeight">1dp</dimen>
+    <dimen name="cartChangeDishButtonCorners">20dp</dimen>
+    <dimen name="ordersChipCorners">25dp</dimen>
+</resources>

@@ -16,7 +16,13 @@ class Preferences(context: Context) {
         sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
     }
 
+    var uid: String?
+    set(value) = sharedPreferences.edit().putString(USER_ID, value).apply()
+    get() = sharedPreferences.getString(USER_ID, null)
+
     companion object {
-        const val PREF_FILE_NAME = "cv_prefs"
+        const val PREF_FILE_NAME = "cv_prefs_upgrade"
+
+        const val USER_ID = "user_id"
     }
 }

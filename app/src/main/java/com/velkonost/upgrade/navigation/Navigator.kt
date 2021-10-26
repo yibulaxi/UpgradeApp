@@ -1,6 +1,7 @@
 package com.velkonost.upgrade.navigation
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,11 @@ object Navigator {
 
         f.findNavController().popBackStack()
 //        f.findNavController().navigate(destId, lastUsedFragmentArgs)
+    }
+
+    fun splashToAuth(f: Fragment) {
+        f.findNavController().navigate(
+            R.id.action_navigation_splash_to_navigation_auth)
     }
 
 }

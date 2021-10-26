@@ -1,43 +1,34 @@
 {
   "project_info": {
-    "project_number": "702602819082",
-    "firebase_url": "https://foodzo-33170.firebaseio.com",
-    "project_id": "foodzo-33170",
-    "storage_bucket": "foodzo-33170.appspot.com"
+    "project_number": "765139219355",
+    "project_id": "upgrade-1635b",
+    "storage_bucket": "upgrade-1635b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:702602819082:android:abde7eef9f6388550d91f3",
+        "mobilesdk_app_id": "1:765139219355:android:750941b94785351abe273e",
         "android_client_info": {
           "package_name": "com.velkonost.upgrade"
         }
       },
       "oauth_client": [
         {
-          "client_id": "702602819082-gkdc2fiq23gka6bg6ce6vbao6kggd9jp.apps.googleusercontent.com",
+          "client_id": "765139219355-t7k60tra26njti80mhpo151qmj7noijb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCqx-b8JSmWfJgfLcSfdr2Rx9385QInxIo"
+          "current_key": "AIzaSyAbloDDav3vtgcWDjp3ZmKgNGmrWt_y9Rg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "702602819082-gkdc2fiq23gka6bg6ce6vbao6kggd9jp.apps.googleusercontent.com",
+              "client_id": "765139219355-t7k60tra26njti80mhpo151qmj7noijb.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "702602819082-0tm7vrel4l452lhvsng46p3l0o2m22k1.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.monarch.foodzo",
-                "app_store_id": "1529254801"
-              }
             }
           ]
         }

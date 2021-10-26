@@ -10,6 +10,15 @@
         android:name="com.velkonost.upgrade.ui.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_navigation_splash_to_navigation_auth"
+            app:destination="@id/navigation_auth" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_auth"
+        android:name="com.velkonost.upgrade.ui.auth.AuthFragment"
+        android:label="AuthFragment"
+        tools:layout="@layout/fragment_auth">
+    </fragment>
 </navigation>
