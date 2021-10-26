@@ -147,6 +147,7 @@ dependencies {
     kapt 'com.android.databinding:compiler:3.1.4'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
 

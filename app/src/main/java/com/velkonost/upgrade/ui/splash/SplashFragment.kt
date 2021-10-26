@@ -62,7 +62,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             if (App.preferences.uid.isNullOrEmpty()) {
                 createSignInIntent()
             } else {
-
+                Navigator.splashToMetric(this@SplashFragment)
             }
         }
     }
@@ -114,7 +114,5 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         )?.show()
     }
 
-    inner class Handler {
-
-    }
+    inner class Handler
 }

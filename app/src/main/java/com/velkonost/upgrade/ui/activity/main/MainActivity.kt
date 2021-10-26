@@ -56,6 +56,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         subscribePushTopic()
     }
 
+
     private fun subscribePushTopic() {
         try {
             val topic =

@@ -37,4 +37,9 @@ object Navigator {
             R.id.action_navigation_splash_to_navigation_auth)
     }
 
+    fun splashToMetric(f: Fragment) {
+        f.findNavController().navigate(
+            R.id.action_navigation_splash_to_navigation_metric)
+    }
+
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_splash_to_navigation_auth"
             app:destination="@id/navigation_auth" />
+        <action
+            android:id="@+id/action_navigation_splash_to_navigation_metric"
+            app:destination="@id/navigation_metric" />
     </fragment>
 
     <fragment
@@ -20,5 +23,12 @@
         android:name="com.velkonost.upgrade.ui.auth.AuthFragment"
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth">
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_metric"
+        android:name="com.velkonost.upgrade.ui.metric.MetricFragment"
+        android:label="MetricFragment"
+        tools:layout="@layout/fragment_metric">
     </fragment>
 </navigation>
