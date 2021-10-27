@@ -42,4 +42,14 @@ object Navigator {
             R.id.action_navigation_splash_to_navigation_metric)
     }
 
+    fun splashToWelcome(f: Fragment) {
+        f.findNavController().navigate(
+            R.id.action_navigation_splash_to_navigation_welcome)
+    }
+
+    fun welcomeToMetric(f: Fragment) {
+        f.findNavController().navigate(
+            R.id.action_navigation_welcome_to_navigation_metric)
+    }
+
 }

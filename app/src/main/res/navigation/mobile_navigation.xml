@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_splash_to_navigation_metric"
             app:destination="@id/navigation_metric" />
+        <action
+            android:id="@+id/action_navigation_splash_to_navigation_welcome"
+            app:destination="@id/navigation_welcome" />
     </fragment>
 
     <fragment
@@ -30,5 +33,15 @@
         android:name="com.velkonost.upgrade.ui.metric.MetricFragment"
         android:label="MetricFragment"
         tools:layout="@layout/fragment_metric">
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_welcome"
+        android:name="com.velkonost.upgrade.ui.welcome.WelcomeFragment"
+        android:label="WelcomeFragment"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_navigation_welcome_to_navigation_metric"
+            app:destination="@id/navigation_metric" />
     </fragment>
 </navigation>

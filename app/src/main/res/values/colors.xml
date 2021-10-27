@@ -12,6 +12,7 @@
     <color name="colorPrimaryDark">#FFFFFFFF</color>
     <color name="colorText">#2D2D2D</color>
     <color name="colorPrimaryRed">#FF0000</color>
+    <color name="colorPrimaryGreen">#00FF00</color>
     <color name="colorLightGray">#DFE6F1</color>
     <color name="colorGray">#767D88</color>
     <color name="colorPurple">#B69BD8</color>

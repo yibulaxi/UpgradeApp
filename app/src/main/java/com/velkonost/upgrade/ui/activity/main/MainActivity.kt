@@ -15,10 +15,16 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jaeger.library.StatusBarUtil
+import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.ChangeTabEvent
+import com.velkonost.upgrade.event.InitUserInterestsEvent
+import com.velkonost.upgrade.event.InitUserSettingsEvent
+import com.velkonost.upgrade.event.UpdateUserInterestEvent
+import com.velkonost.upgrade.model.Interest
+import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseActivity
 import org.greenrobot.eventbus.Subscribe
@@ -102,6 +108,77 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     @Subscribe
     fun onChangeTabEvent(e: ChangeTabEvent) {
         binding.navView.selectedItemId = e.itemId
+    }
+
+    @Subscribe
+    fun onInitUserSettingsEvent(e: InitUserSettingsEvent) {
+
+        val userSettings = hashMapOf(
+            "is_push_available" to true,
+            "difficulty" to 1,
+            "is_interests_initialized" to false
+        )
+
+        cloudFirestoreDatabase
+            .collection("users_settings").document(e.userId)
+            .set(userSettings)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    @Subscribe
+    fun onUpdateUserInterestEvent(e: UpdateUserInterestEvent) {
+        cloudFirestoreDatabase
+            .collection("users_interests").document(App.preferences.uid!!)
+            .get()
+            .addOnSuccessListener {
+                val interestPrevAmount = (it.get(e.interest.id.toString())).toString().toDouble()
+                val interestNewAmount = interestPrevAmount + e.amount
+
+                setInterestAmount(e.interest, interestNewAmount)
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    @Subscribe
+    fun onInitUserInterestsEvent(e: InitUserInterestsEvent) {
+        cloudFirestoreDatabase
+            .collection("users_interests").document(App.preferences.uid!!)
+            .set(e.data)
+            .addOnSuccessListener {
+                App.preferences.isInterestsInitialized = true
+                cloudFirestoreDatabase
+                    .collection("users_settings").document(App.preferences.uid!!)
+                    .update(mapOf("is_interests_initialized" to true))
+                    .addOnSuccessListener {
+                        Navigator.welcomeToMetric(e.f)
+                    }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    private fun setInterestAmount(interest: Interest, amount: Double) {
+        val data = hashMapOf(
+            interest.id.toString() to amount
+        )
+
+        cloudFirestoreDatabase
+            .collection("users_interests").document(App.preferences.uid!!)
+            .set(data)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+
+            }
     }
 
     inner class Handler

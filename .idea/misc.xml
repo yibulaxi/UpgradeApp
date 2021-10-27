@@ -7,12 +7,16 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/ic_launcher_notification.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/rounded_rect_primary.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/snack_neutral_gradient.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/snack_success_gradient.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/drawable/snack_warning_gradient.xml" value="0.215625" />
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2375" />
         <entry key="app/src/main/res/layout/fragment_metric.xml" value="0.27708333333333335" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_simple_custom_snackbar.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/radar_markerview.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/screen_progress.xml" value="0.19947916666666668" />

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.velkonost.upgrade.di.scope.ViewModelKey
 import com.velkonost.upgrade.ui.auth.AuthViewModel
 import com.velkonost.upgrade.ui.splash.SplashViewModel
+import com.velkonost.upgrade.ui.welcome.WelcomeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -15,6 +16,11 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     fun splashViewModel(m: SplashViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WelcomeViewModel::class)
+    fun welcomeViewModel(m: WelcomeViewModel) : ViewModel
 
     @Binds
     @IntoMap

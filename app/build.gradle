@@ -17,7 +17,7 @@ android {
         buildConfigField "String", "FIREBASE_DATABASE", "\"https://manna-store-89181-default-rtdb.europe-west1.firebasedatabase.app/\""
 
         applicationId "com.velkonost.upgrade"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
@@ -146,6 +146,9 @@ dependencies {
 
     kapt 'com.android.databinding:compiler:3.1.4'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
+
+    implementation "com.github.kojofosu:Quantitizer:1.6.4"
+
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 

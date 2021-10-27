@@ -14,9 +14,11 @@ import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentSplashBinding
+import com.velkonost.upgrade.event.InitUserSettingsEvent
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
+import org.greenrobot.eventbus.EventBus
 
 class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     R.layout.fragment_splash,
@@ -55,17 +57,21 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         })
     }
 
-
-
     private fun goNext() {
         if (binding.logoText.isAnimationLoaded) {
             if (App.preferences.uid.isNullOrEmpty()) {
                 createSignInIntent()
             } else {
-                Navigator.splashToMetric(this@SplashFragment)
+                if (App.preferences.isInterestsInitialized) {
+                    Navigator.splashToMetric(this@SplashFragment)
+                } else {
+                    Navigator.splashToWelcome(this@SplashFragment)
+                }
+//                Navigator.splashToMetric(this@SplashFragment)
             }
         }
     }
+
 
     private fun createSignInIntent() {
         val providers = arrayListOf(
@@ -92,13 +98,61 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
             if (user != null && user.uid.isNotEmpty()) {
                 App.preferences.uid = user.uid
-                goNext()
+
+                if (response!!.isNewUser) {
+                    onSignUpSuccess()
+                    initNewUserData(user.uid)
+                } else {
+                    App.preferences.isInterestsInitialized = true
+                    onSignInSuccess()
+                    goNext()
+                }
             } else {
               onAuthFailed()
             }
         } else {
             onAuthFailed()
         }
+    }
+
+    private fun initNewUserData(userId: String) {
+// interests // diary // got achievments // settings
+// select interests
+
+        EventBus.getDefault()
+            .post(
+                InitUserSettingsEvent(
+                    userId
+                )
+            )
+
+        Navigator.splashToWelcome(this@SplashFragment)
+    }
+
+    private fun onSignUpSuccess() {
+        SimpleCustomSnackbar.make(
+            binding.coordinator,
+            "Вы успешно зарегистрировались",
+            Snackbar.LENGTH_SHORT,
+            null,
+            null,
+            null,
+            null,
+            R.drawable.snack_success_gradient,
+        )?.show()
+    }
+
+    private fun onSignInSuccess() {
+        SimpleCustomSnackbar.make(
+            binding.coordinator,
+            "Вы успешно авторизовались",
+            Snackbar.LENGTH_SHORT,
+            null,
+            null,
+            null,
+            null,
+            R.drawable.snack_success_gradient,
+        )?.show()
     }
 
     private fun onAuthFailed() {

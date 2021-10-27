@@ -3,7 +3,6 @@ package com.velkonost.upgrade.ui.metric
 import android.R.attr
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.databinding.FragmentMetricBinding
 import com.velkonost.upgrade.ui.base.BaseFragment
@@ -31,9 +30,7 @@ import kotlinx.android.synthetic.main.snackbar_success.view.*
 import android.graphics.Bitmap
 
 import android.graphics.drawable.BitmapDrawable
-
-
-
+import androidx.core.content.res.ResourcesCompat
 
 
 class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
@@ -52,6 +49,15 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
         )
         StatusBarUtil.setLightMode(requireActivity())
 
+
+
+        setupChart()
+
+
+
+    }
+
+    private fun setupChart() {
         binding.radarChart.description.isEnabled = false
 
         binding.radarChart.setExtraOffsets(50f, 50f, 50f, 50f)
@@ -63,72 +69,56 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
         binding.radarChart.webColorInner = Color.LTGRAY
         binding.radarChart.webAlpha = 100
 
-        setData()
+        setChartData()
 
         binding.radarChart.animateXY(1400, 1400, Easing.EaseInOutQuad)
 
+        setChartAxis()
+    }
+
+    private fun setChartAxis() {
         val xAxis: XAxis = binding.radarChart.xAxis
 
-//        xAxis.typeface = tfLight
         xAxis.textSize = 9f
         xAxis.yOffset = 0f
         xAxis.xOffset = 0f
         xAxis.isEnabled = true
         xAxis.labelCount = 3
 
-
         xAxis.setCenterAxisLabels(true)
         xAxis.valueFormatter = object : ValueFormatter() {
-
-            override fun getFormattedValue(value: Float): String {
-                return ""
-            }
-
-
+            override fun getFormattedValue(value: Float): String { return "" }
         }
 
         xAxis.setDrawLabels(true)
         xAxis.textColor = Color.WHITE
 
         val yAxis: YAxis = binding.radarChart.yAxis
-//        yAxis.typeface = tfLight
         yAxis.setLabelCount(10, true)
 
         yAxis.textSize = 9f
         yAxis.yOffset = -10f
         yAxis.xOffset = -10f
         yAxis.axisMinimum = 0f
-        yAxis.axisMaximum = 80f
+        yAxis.axisMaximum = 10f
         yAxis.setDrawLabels(false)
 
         val l: Legend = binding.radarChart.legend
         l.isEnabled = false
-        l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-        l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        l.orientation = Legend.LegendOrientation.HORIZONTAL
-        l.setDrawInside(false)
-//        l.setTypeface(tfLight)
-        l.xEntrySpace = 7f
-        l.yEntrySpace = 5f
-        l.textColor = Color.WHITE
-
-
     }
 
-    private fun setData() {
-        val mul = 80f
-        val min = 20f
+    private fun setChartData() {
+        val mul = 10f
+        val min = 0f
         val cnt = 8
         val icons: ArrayList<RadarEntry> = ArrayList()
         val entries1: ArrayList<RadarEntry> = ArrayList()
         val entries2: ArrayList<RadarEntry> = ArrayList()
 
-        val val0 = mul + 10
+        val val0 = mul + 2
         val en = RadarEntry(val0)
-        val dr = context!!.resources.getDrawable(R.drawable.logo)
+        val dr = ResourcesCompat.getDrawable(context!!.resources, R.drawable.logo, activity!!.theme)
         val bitmap = (dr as BitmapDrawable).bitmap
-// Scale it to 50 x 50
-// Scale it to 50 x 50
         val d: Drawable =
             BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 50, 50, true))
 
@@ -152,8 +142,6 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
         set0.isDrawHighlightCircleEnabled = false
         set0.setDrawHighlightIndicators(false)
 
-        // NOTE: The order of the entries when being added to the entries array determines their position around the center of
-        // the chart.
         for (i in 0 until cnt) {
             val val1 = (Math.random() * mul).toFloat() + min
 
@@ -161,32 +149,34 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
             val val2 = (Math.random() * mul).toFloat() + min
             entries2.add(RadarEntry(val2))
         }
-        val set1 = RadarDataSet(entries1, "Last Week")
+
+        val set1 = RadarDataSet(entries1, "Current")
         set1.color = ContextCompat.getColor(context!!, R.color.colorPurpleDark)
         set1.fillColor = ContextCompat.getColor(context!!, R.color.colorPurple)
         set1.setDrawFilled(true)
         set1.fillAlpha = 180
         set1.lineWidth = 1f
-        set1.isDrawHighlightCircleEnabled = true
-        set1.setDrawHighlightIndicators(true)
+        set1.valueTextColor = ContextCompat.getColor(context!!, R.color.colorText)
+        set1.isDrawHighlightCircleEnabled = false
+        set1.setDrawHighlightIndicators(false)
 
-        val set2 = RadarDataSet(entries2, "This Week")
+        val set2 = RadarDataSet(entries2, "Default")
         set2.color = ContextCompat.getColor(context!!, R.color.colorBlue)
         set2.fillColor = ContextCompat.getColor(context!!, R.color.colorBlueLight)
         set2.setDrawFilled(true)
         set2.fillAlpha = 180
         set2.lineWidth = 1f
-        set2.isDrawHighlightCircleEnabled = true
-        set2.setDrawHighlightIndicators(true)
+        set2.valueTextColor = Color.TRANSPARENT
+        set2.isDrawHighlightCircleEnabled = false
+        set2.setDrawHighlightIndicators(false)
         val sets: ArrayList<IRadarDataSet> = ArrayList()
         sets.add(set0)
         sets.add(set1)
         sets.add(set2)
         val data = RadarData(sets)
-//        data.setValueTypeface(tfLight)
         data.setValueTextSize(8f)
         data.setDrawValues(true)
-        data.setValueTextColor(Color.WHITE)
+
         binding.radarChart.data = data
         binding.radarChart.invalidate()
     }

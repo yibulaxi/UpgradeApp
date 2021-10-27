@@ -20,9 +20,14 @@ class Preferences(context: Context) {
     set(value) = sharedPreferences.edit().putString(USER_ID, value).apply()
     get() = sharedPreferences.getString(USER_ID, null)
 
+    var isInterestsInitialized: Boolean
+    set(value) = sharedPreferences.edit().putBoolean(IS_INTERESTS_INITIALIZED, value).apply()
+    get() = sharedPreferences.getBoolean(IS_INTERESTS_INITIALIZED, false)
+
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
 
         const val USER_ID = "user_id"
+        const val IS_INTERESTS_INITIALIZED = "is_interests_initialized"
     }
 }

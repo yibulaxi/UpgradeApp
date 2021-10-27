@@ -98,4 +98,7 @@
     <dimen name="productListToolbarExtHeight">1dp</dimen>
     <dimen name="cartChangeDishButtonCorners">20dp</dimen>
     <dimen name="ordersChipCorners">25dp</dimen>
+
+    <dimen name="viewpager_next_item_visible">56dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">13dp</dimen>
 </resources>
