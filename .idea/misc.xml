@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/drawable/achievments.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/add_post.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/background_bottom_sheet.xml" value="0.33611111111111114" />
+        <entry key="app/src/main/res/drawable/bg_list_metric_value.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/container_snackbar.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/diary.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.215625" />
@@ -17,16 +19,19 @@
         <entry key="app/src/main/res/drawable/tire.xml" value="0.215625" />
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/layout/fragment_achievements.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2375" />
         <entry key="app/src/main/res/layout/fragment_metric.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_list_metric.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_simple_custom_snackbar.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/radar_markerview.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/screen_progress.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/snackbar_success.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/layout/view_post_add.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_snackbar_simple.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32685185185185184" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.337037037037037" />

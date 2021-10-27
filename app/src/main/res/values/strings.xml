@@ -5,6 +5,7 @@
     <string name="default_error_message">Произошла ошибка при загрузке данных. Попробуйте позже.</string>
 
     <string name="welcome_title">Что такое Upgrade?</string>
+    <string name="welcome_short">Что такое Upgrade?</string>
     <string name="welcome_description">
         Это приложение, которое поможет тебе определить, какие сферы жизни нужно прокачать, чтобы добиться гармонии.
         \n\nДля начала давай определим твой текущий уровень.
@@ -13,27 +14,35 @@
     </string>
 
     <string name="relationship_title">Отношения</string>
+    <string name="relationship_short">Взаимоотношения с партнером, любовь</string>
     <string name="relationship_description">На сколько баллов ты бы оценил свои отношения с любимым человеком, близкими людьми внутри семьи?</string>
 
     <string name="health_title">Здоровье</string>
+    <string name="health_short">Энергия, оздоровление, самочувствие</string>
     <string name="health_description">На сколько баллов ты бы оценил своё самочувствие? Занимаешься ли спортом? Какое у тебя отношение к здоровью?</string>
 
     <string name="environment_title">Окружение</string>
+    <string name="environment_short">Дети, родители, родственники, близкие друзья</string>
     <string name="environment_description">На сколько баллов ты бы оценил свои отношения с родителями, детьми, родственниками, близкими друзьями?</string>
 
     <string name="finance_title">Финансы</string>
+    <string name="finance_short">Доходы, расходы, пассивы, активы</string>
     <string name="finance_description">На сколько баллов ты бы оценил свои доходы, активы? Насколько хорошо ты разбираешься в финансах?</string>
 
     <string name="work_title">Работа</string>
+    <string name="work_short">Место работы, профессиональные навыки, карьерный рост</string>
     <string name="work_description">На сколько баллов ты бы оценил своё место работы, профессиональные навыки, карьерный рост?</string>
 
     <string name="chill_title">Отдых</string>
+    <string name="chill_short">Яркость жизни, общение, путешествия, развлечения, сон</string>
     <string name="chill_description">На сколько баллов ты бы оценил яркость своей жизни, общение, путешествия, развлечения, качество сна?</string>
 
     <string name="creation_title">Творчество</string>
+    <string name="creation_short">Реализация потенциала, хобби, личностное развитие</string>
     <string name="creation_description">На сколько баллов ты бы оценил реализацию своего потенциала, занятия хоббби, личностное развитие?</string>
 
     <string name="spirit_title">Духовность</string>
+    <string name="spirit_short">Эмоции, душевное состояние, медитации</string>
     <string name="spirit_description">На сколько баллов ты бы оценил свои эмоции, душевное состояние? Практикуешь ли медитации?\n\nПосле всех оценок жми "Сохранить"</string>
 
     <string-array name="interest_values">

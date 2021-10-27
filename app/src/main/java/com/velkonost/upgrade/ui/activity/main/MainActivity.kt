@@ -3,12 +3,16 @@ package com.velkonost.upgrade.ui.activity.main
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -24,6 +28,7 @@ import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseActivity
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 
@@ -33,6 +38,11 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     Handler::class
 ) {
     private var navController: NavController? = null
+
+    private val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
+    }
+
 
     private lateinit var cloudFirestoreDatabase: FirebaseFirestore
     private val firebaseDatabase = Firebase.database(BuildConfig.FIREBASE_DATABASE)
@@ -56,7 +66,40 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             }
         }
 
+//        binding.navView.setOnItemSelectedListener {
+//            if (it.itemId == R.id.addPostFragment) {
+//                addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+//            }
+//            return@setOnItemSelectedListener true
+//        }
+
+
+
         subscribePushTopic()
+
+        addPostBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.backgroundImage.alpha = slideOffset
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.navView.isVisible = true
+//                    EventBus.getDefault().post(ShowHomeEvent(true))
+                    binding.backgroundImage.isVisible = false
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    binding.navView.isVisible = false
+//                    EventBus.getDefault().post(ShowHomeEvent(false))
+                }
+            }
+        })
+    }
+
+    private fun setupAddPostBottomSheet() {
+        with(binding.addPostBottomSheet) {
+
+        }
     }
 
     @Subscribe
@@ -91,6 +134,11 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     private fun setupNavMenu() {
         binding.navView.inflateMenu(R.menu.bottom_nav_menu)
         binding.navView.isVisible = true
+
+        binding.navView.menu.getItem(2).setOnMenuItemClickListener {
+            addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            return@setOnMenuItemClickListener true
+        }
     }
 
     private fun lockDeviceRotation(value: Boolean) {
@@ -198,5 +246,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             }
     }
 
-    inner class Handler
+    inner class Handler {
+    }
 }

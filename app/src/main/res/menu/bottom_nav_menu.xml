@@ -19,7 +19,7 @@
         android:icon="@drawable/add_post"/>
 
     <item
-        android:id="@+id/achievementsFragment"
+        android:id="@+id/navigation_achievements"
         android:title=""
         android:icon="@drawable/achievements"/>
 

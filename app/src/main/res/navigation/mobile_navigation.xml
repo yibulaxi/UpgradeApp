@@ -51,4 +51,11 @@
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_achievements"
+        android:name="com.velkonost.upgrade.ui.achievements.AchievementsFragment"
+        android:label="AchievementsFragment"
+        tools:layout="@layout/fragment_achievements">
+    </fragment>
 </navigation>

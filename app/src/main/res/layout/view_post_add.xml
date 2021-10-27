@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomSheetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        tools:visibility="visible">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="12dp"
+            android:background="@drawable/background_bottom_sheet"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/topGuideline">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/Text24.Medium"
+                android:gravity="center"
+                android:textColor="@color/colorText"
+                android:text="Добавить запись"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icon"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="120dp"
+                android:layout_height="120dp"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editText"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon"
+                app:layout_constraintBottom_toBottomOf="@id/icon"
+                android:background="@null"
+                android:layout_width="0dp"
+                android:maxLength="2000"
+                android:backgroundTint="@color/colorText"
+                android:gravity="start"
+                style="@style/Text14.Light"
+                android:letterSpacing="0.1"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorGray"
+                android:hint="Например, утренняя зарядка, прочитана глава книги, новое знакомство"
+                android:layout_height="0dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/date"
+                app:layout_constraintTop_toBottomOf="@id/icon"
+                android:layout_marginTop="24dp"
+                style="@style/Text14.Light"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/colorLightGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/length"
+                app:layout_constraintTop_toBottomOf="@id/icon"
+                android:layout_marginTop="24dp"
+                style="@style/Text14.Light"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/colorLightGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/date"
+                android:background="@color/colorLightGray"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

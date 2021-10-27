@@ -17,5 +17,6 @@
     <color name="colorPurpleDark">#8300c4</color>
     <color name="colorBlueLight">#A1AACA</color>
     <color name="colorBlue">#606FA6</color>
+    <color name="coloBlurBackground">#4A161616</color>
 
 </resources>

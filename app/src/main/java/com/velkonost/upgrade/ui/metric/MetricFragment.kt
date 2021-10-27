@@ -34,7 +34,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.velkonost.upgrade.ui.HomeViewModel
 
 import android.graphics.BitmapFactory
+import androidx.core.view.isVisible
 import com.velkonost.upgrade.R
+import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
 
 
 class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
@@ -42,6 +44,8 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
     HomeViewModel::class,
     Handler::class
 ) {
+
+    private lateinit var adapter: MetricListAdapter
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onLayoutReady(savedInstanceState: Bundle?) {
@@ -54,8 +58,50 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         StatusBarUtil.setLightMode(requireActivity())
 
         binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
+
         setupChart()
+        setupList()
+        setupMetricControlGroup()
     }
+
+    private fun setupList() {
+        adapter = MetricListAdapter(context!!, binding.viewModel!!.getCurrentInterests())
+        binding.recycler.adapter = adapter
+
+        var average = 0f
+
+        for (interest in binding.viewModel!!.getCurrentInterests()) {
+            average += interest.selectedValue
+        }
+
+        binding.averageAmount.text = (average / binding.viewModel!!.getCurrentInterests().size)
+            .toString().replace(".", ",")
+
+    }
+
+    private fun setupMetricControlGroup() {
+        binding.wheelState.textSize = 12f
+        binding.listState.textSize = 12f
+
+        binding.metricStateControlGroup.setOnSelectedOptionChangeCallback {
+            binding.wheelState.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    if (it == 0) R.color.colorWhite else R.color.colorText
+                )
+            )
+            binding.listState.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    if (it == 1) R.color.colorWhite else R.color.colorText
+                )
+            )
+
+            binding.list.isVisible = it == 1
+
+        }
+    }
+
 
     private fun setupRadarControlGroup() {
         binding.currentState.textSize = 12f
@@ -76,9 +122,6 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
             )
 
             binding.radarChart.data.dataSets[2].isVisible = it == 1
-//            for (rds in binding.radarChart.data.dataSets) {
-//                if (rds.label.equals("Default")) rds.isVisible = it == 1
-//            }
             binding.radarChart.invalidate()
         }
     }
