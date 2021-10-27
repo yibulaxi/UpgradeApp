@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.databinding.FragmentMetricBinding
 import com.velkonost.upgrade.ui.base.BaseFragment
-import com.velkonost.upgrade.ui.splash.SplashViewModel
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.animation.Easing
 import android.annotation.SuppressLint
@@ -23,7 +22,7 @@ import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.velkonost.upgrade.R
+
 import com.velkonost.upgrade.ui.view.RadarMarkerView
 import kotlinx.android.synthetic.main.radar_markerview.view.*
 import kotlinx.android.synthetic.main.snackbar_success.view.*
@@ -31,11 +30,16 @@ import android.graphics.Bitmap
 
 import android.graphics.drawable.BitmapDrawable
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProviders
+import com.velkonost.upgrade.ui.HomeViewModel
+
+import android.graphics.BitmapFactory
+import com.velkonost.upgrade.R
 
 
-class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
+class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
     com.velkonost.upgrade.R.layout.fragment_metric,
-    SplashViewModel::class,
+    HomeViewModel::class,
     Handler::class
 ) {
 
@@ -49,19 +53,40 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
         )
         StatusBarUtil.setLightMode(requireActivity())
 
-
-
+        binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
         setupChart()
+    }
 
+    private fun setupRadarControlGroup() {
+        binding.currentState.textSize = 12f
+        binding.startState.textSize = 12f
 
+        binding.radarStateControlGroup.setOnSelectedOptionChangeCallback {
+            binding.currentState.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    if (it == 0) R.color.colorWhite else R.color.colorText
+                )
+            )
+            binding.startState.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    if (it == 1) R.color.colorWhite else R.color.colorText
+                )
+            )
 
+            binding.radarChart.data.dataSets[2].isVisible = it == 1
+//            for (rds in binding.radarChart.data.dataSets) {
+//                if (rds.label.equals("Default")) rds.isVisible = it == 1
+//            }
+            binding.radarChart.invalidate()
+        }
     }
 
     private fun setupChart() {
         binding.radarChart.description.isEnabled = false
 
         binding.radarChart.setExtraOffsets(50f, 50f, 50f, 50f)
-
 
         binding.radarChart.webLineWidth = 0.5f
         binding.radarChart.webColor = Color.LTGRAY
@@ -74,6 +99,7 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
         binding.radarChart.animateXY(1400, 1400, Easing.EaseInOutQuad)
 
         setChartAxis()
+        setupRadarControlGroup()
     }
 
     private fun setChartAxis() {
@@ -82,7 +108,7 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
         xAxis.textSize = 9f
         xAxis.yOffset = 0f
         xAxis.xOffset = 0f
-        xAxis.isEnabled = true
+        xAxis.isEnabled = false
         xAxis.labelCount = 3
 
         xAxis.setCenterAxisLabels(true)
@@ -90,15 +116,13 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
             override fun getFormattedValue(value: Float): String { return "" }
         }
 
-        xAxis.setDrawLabels(true)
+        xAxis.setDrawLabels(false)
         xAxis.textColor = Color.WHITE
 
         val yAxis: YAxis = binding.radarChart.yAxis
         yAxis.setLabelCount(10, true)
 
         yAxis.textSize = 9f
-        yAxis.yOffset = -10f
-        yAxis.xOffset = -10f
         yAxis.axisMinimum = 0f
         yAxis.axisMaximum = 10f
         yAxis.setDrawLabels(false)
@@ -108,30 +132,34 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
     }
 
     private fun setChartData() {
-        val mul = 10f
-        val min = 0f
-        val cnt = 8
+
         val icons: ArrayList<RadarEntry> = ArrayList()
         val entries1: ArrayList<RadarEntry> = ArrayList()
         val entries2: ArrayList<RadarEntry> = ArrayList()
 
-        val val0 = mul + 2
-        val en = RadarEntry(val0)
-        val dr = ResourcesCompat.getDrawable(context!!.resources, R.drawable.logo, activity!!.theme)
-        val bitmap = (dr as BitmapDrawable).bitmap
-        val d: Drawable =
-            BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, 50, 50, true))
 
 
-        en.icon = d
-        icons.add(en)
-        icons.add(en)
-        icons.add(en)
-        icons.add(en)
-        icons.add(en)
-        icons.add(en)
-        icons.add(en)
-        icons.add(en)
+        val currentInterests = binding.viewModel!!.getCurrentInterests()
+        val startInterests = binding.viewModel!!.getStartInterests()
+
+        for (i in 0 until currentInterests.size) {
+            val val0 = 12f
+            val radarEntryIcon = RadarEntry(val0)
+
+            val bMap = BitmapFactory.decodeResource(resources, currentInterests[i].logo)
+            val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
+
+            radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
+            icons.add(radarEntryIcon)
+
+            val val1 = currentInterests[i].selectedValue
+            entries1.add(RadarEntry(val1))
+
+            val val2 = startInterests[i].selectedValue
+            entries2.add(RadarEntry(val2))
+        }
+
+
         val set0 = RadarDataSet(icons, "")
 
         set0.color = Color.TRANSPARENT
@@ -139,43 +167,38 @@ class MetricFragment : BaseFragment<SplashViewModel, FragmentMetricBinding>(
         set0.setDrawFilled(false)
         set0.lineWidth = 0f
         set0.fillAlpha = 255
+        set0.valueTextColor = Color.TRANSPARENT
         set0.isDrawHighlightCircleEnabled = false
         set0.setDrawHighlightIndicators(false)
 
-        for (i in 0 until cnt) {
-            val val1 = (Math.random() * mul).toFloat() + min
+        val rdsCurrent = RadarDataSet(entries1, "Current")
+        rdsCurrent.color = ContextCompat.getColor(context!!, R.color.colorPurpleDark)
+        rdsCurrent.fillColor = ContextCompat.getColor(context!!, R.color.colorPurple)
+        rdsCurrent.setDrawFilled(true)
+        rdsCurrent.fillAlpha = 180
+        rdsCurrent.lineWidth = 1f
+        rdsCurrent.valueTextColor = ContextCompat.getColor(context!!, R.color.colorText)
+        rdsCurrent.isDrawHighlightCircleEnabled = false
+        rdsCurrent.setDrawHighlightIndicators(false)
 
-            entries1.add(RadarEntry(val1))
-            val val2 = (Math.random() * mul).toFloat() + min
-            entries2.add(RadarEntry(val2))
-        }
-
-        val set1 = RadarDataSet(entries1, "Current")
-        set1.color = ContextCompat.getColor(context!!, R.color.colorPurpleDark)
-        set1.fillColor = ContextCompat.getColor(context!!, R.color.colorPurple)
-        set1.setDrawFilled(true)
-        set1.fillAlpha = 180
-        set1.lineWidth = 1f
-        set1.valueTextColor = ContextCompat.getColor(context!!, R.color.colorText)
-        set1.isDrawHighlightCircleEnabled = false
-        set1.setDrawHighlightIndicators(false)
-
-        val set2 = RadarDataSet(entries2, "Default")
-        set2.color = ContextCompat.getColor(context!!, R.color.colorBlue)
-        set2.fillColor = ContextCompat.getColor(context!!, R.color.colorBlueLight)
-        set2.setDrawFilled(true)
-        set2.fillAlpha = 180
-        set2.lineWidth = 1f
-        set2.valueTextColor = Color.TRANSPARENT
-        set2.isDrawHighlightCircleEnabled = false
-        set2.setDrawHighlightIndicators(false)
+        val rdsDefault = RadarDataSet(entries2, "Default")
+        rdsDefault.color = ContextCompat.getColor(context!!, R.color.colorBlue)
+        rdsDefault.fillColor = ContextCompat.getColor(context!!, R.color.colorBlueLight)
+        rdsDefault.setDrawFilled(true)
+        rdsDefault.fillAlpha = 180
+        rdsDefault.lineWidth = 1f
+        rdsDefault.valueTextColor = Color.TRANSPARENT
+        rdsDefault.isDrawHighlightCircleEnabled = false
+        rdsDefault.setDrawHighlightIndicators(false)
+        rdsDefault.isVisible = false
         val sets: ArrayList<IRadarDataSet> = ArrayList()
         sets.add(set0)
-        sets.add(set1)
-        sets.add(set2)
+        sets.add(rdsCurrent)
+        sets.add(rdsDefault)
         val data = RadarData(sets)
         data.setValueTextSize(8f)
         data.setDrawValues(true)
+
 
         binding.radarChart.data = data
         binding.radarChart.invalidate()

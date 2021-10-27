@@ -21,7 +21,6 @@
 
         android:fitsSystemWindows="true">
 
-        <!--        <com.foodzo.ui.view.ListenableBottomNavigationView-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
             android:layout_width="0dp"
@@ -29,22 +28,11 @@
             android:background="@color/colorWhite"
             android:visibility="gone"
             app:itemRippleColor="@color/colorGray"
-
-            app:labelVisibilityMode="labeled"
+            app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:visibility="visible" />
-
-        <!--        <com.foodzo.ui.view.BottomNavigationViewIndicator-->
-        <!--            android:id="@+id/bottomNavigationViewIndicator"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="4dp"-->
-        <!--            app:clipableBackground="@drawable/rect_primary"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="@id/nav_view"-->
-        <!--            app:targetBottomNavigation="@id/nav_view"/>-->
 
             <fragment
                 android:id="@+id/nav_host_fragment"

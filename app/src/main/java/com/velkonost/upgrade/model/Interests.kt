@@ -10,12 +10,16 @@ interface Interest {
 
      var selectedValue: Float
 
+     val logo: Int
+
      companion object : Interest {
          override val id = 0
          override val nameRes = R.string.welcome_title
          override val descriptionRes = R.string.welcome_description
 
          override var selectedValue: Float = 5f
+
+         override val logo = R.drawable.logo
      }
 }
 
@@ -25,6 +29,8 @@ interface Interest {
      override val descriptionRes = R.string.work_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.work_logo
 }
 
  class Spirit : Interest {
@@ -33,6 +39,8 @@ interface Interest {
      override val descriptionRes = R.string.spirit_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.spirit_logo
 }
 
  class Chill : Interest {
@@ -41,6 +49,8 @@ interface Interest {
      override val descriptionRes = R.string.chill_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.chill_logo
 }
 
  class Relationship : Interest {
@@ -49,6 +59,8 @@ interface Interest {
      override val descriptionRes = R.string.relationship_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.relationship_logo
 }
 
  class Health : Interest {
@@ -57,6 +69,8 @@ interface Interest {
      override val descriptionRes = R.string.health_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.health_logo
 }
 
  class Finance : Interest {
@@ -65,6 +79,8 @@ interface Interest {
      override val descriptionRes = R.string.finance_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.finance_logo
 }
 
  class Environment : Interest {
@@ -73,6 +89,8 @@ interface Interest {
      override val descriptionRes = R.string.environment_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.environment_logo
 }
 
  class Creation : Interest {
@@ -81,4 +99,6 @@ interface Interest {
      override val descriptionRes = R.string.creation_description
 
      override var selectedValue: Float = 5f
+
+     override val logo = R.drawable.creation_logo
 }

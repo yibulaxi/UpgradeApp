@@ -4,23 +4,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_delivery_home"
-        android:title="Колесо" />
+        android:id="@+id/navigation_metric"
+        android:title=""
+        android:icon="@drawable/tire"/>
 
     <item
-        android:id="@+id/actionsFragment"
-        android:title="Дневник" />
+        android:id="@+id/diaryFragment"
+        android:title=""
+        android:icon="@drawable/diary"/>
 
     <item
-        android:id="@+id/dispatcherFragment"
-        android:title="Новый пост" />
+        android:id="@+id/addPostFragment"
+        android:title=""
+        android:icon="@drawable/add_post"/>
 
     <item
-        android:id="@+id/deliveryCartFragment"
-        android:title="Достижения" />
+        android:id="@+id/achievementsFragment"
+        android:title=""
+        android:icon="@drawable/achievements"/>
 
     <item
-        android:id="@+id/navigation_info"
-        android:title="Настройки" />
+        android:id="@+id/navigation_settings"
+        android:title=""
+        android:icon="@drawable/settings"/>
 
 </menu>

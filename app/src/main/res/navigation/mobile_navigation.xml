@@ -44,4 +44,11 @@
             android:id="@+id/action_navigation_welcome_to_navigation_metric"
             app:destination="@id/navigation_metric" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.velkonost.upgrade.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+    </fragment>
 </navigation>

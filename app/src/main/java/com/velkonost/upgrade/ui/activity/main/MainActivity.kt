@@ -19,10 +19,7 @@ import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ActivityMainBinding
-import com.velkonost.upgrade.event.ChangeTabEvent
-import com.velkonost.upgrade.event.InitUserInterestsEvent
-import com.velkonost.upgrade.event.InitUserSettingsEvent
-import com.velkonost.upgrade.event.UpdateUserInterestEvent
+import com.velkonost.upgrade.event.*
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
@@ -62,6 +59,11 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         subscribePushTopic()
     }
 
+    @Subscribe
+    fun onLoadMainEvent(e: LoadMainEvent) {
+        getInterests { Navigator.splashToMetric(e.f)}
+
+    }
 
     private fun subscribePushTopic() {
         try {
@@ -174,6 +176,21 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .collection("users_interests").document(App.preferences.uid!!)
             .set(data)
             .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    private fun getInterests(f: () -> Unit) {
+        cloudFirestoreDatabase.collection("users_interests").document(App.preferences.uid!!)
+            .get()
+            .addOnSuccessListener {
+                viewModel.setInterests(it).run {
+                    f()
+                    setupNavMenu()
+                }
 
             }
             .addOnFailureListener {

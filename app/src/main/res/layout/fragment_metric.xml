@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.ui.splash.SplashViewModel" />
+            type="com.velkonost.upgrade.ui.HomeViewModel" />
 
         <variable
             name="handler"
@@ -33,10 +33,103 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/radarChart"
-
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
+
+            <com.alanvan.segmented_control.SegmentedControlGroup
+                android:id="@+id/metricStateControlGroup"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="32dp"
+                app:customSliderColor="@color/colorPurple"
+                app:customDividerColor="@color/colorLightGray"
+                app:customShadowColor="@color/colorLightGray"
+                android:backgroundTint="@color/colorLightGray"
+                style="@style/Text10.Light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:layout_gravity="center"
+                    android:lines="1"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    style="@style/Text10.Light"
+                    android:letterSpacing="0.2"
+                    android:id="@+id/wheelState"
+                    android:text="Колесо"/>
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:id="@+id/listState"
+                    style="@style/Text10.Light"
+                    android:letterSpacing="0.2"
+                    android:text="Список"/>
+
+            </com.alanvan.segmented_control.SegmentedControlGroup>
+
+
+            <com.alanvan.segmented_control.SegmentedControlGroup
+                android:id="@+id/radarStateControlGroup"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="72dp"
+                app:customSliderColor="@color/colorBlueLight"
+                app:customDividerColor="@color/colorWhite"
+                app:customShadowColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+                style="@style/Text10.Light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:layout_gravity="center"
+                    android:lines="1"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    style="@style/Text10.Light"
+                    android:letterSpacing="0.2"
+                    android:id="@+id/currentState"
+                    android:text="Текущее"/>
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:id="@+id/startState"
+                    style="@style/Text10.Light"
+                    android:letterSpacing="0.2"
+                    android:text="Начальное"/>
+
+            </com.alanvan.segmented_control.SegmentedControlGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -15,6 +15,7 @@ import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentSplashBinding
 import com.velkonost.upgrade.event.InitUserSettingsEvent
+import com.velkonost.upgrade.event.LoadMainEvent
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
@@ -25,6 +26,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     SplashViewModel::class,
     Handler::class
 ) {
+
+    private var allowGoNext: Boolean = true
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -57,17 +60,23 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        allowGoNext = true
+    }
+
     private fun goNext() {
-        if (binding.logoText.isAnimationLoaded) {
+        if (binding.logoText.isAnimationLoaded && allowGoNext) {
             if (App.preferences.uid.isNullOrEmpty()) {
                 createSignInIntent()
             } else {
                 if (App.preferences.isInterestsInitialized) {
-                    Navigator.splashToMetric(this@SplashFragment)
+                    EventBus.getDefault().post(LoadMainEvent(true, this@SplashFragment))
+                    allowGoNext = false
+
                 } else {
                     Navigator.splashToWelcome(this@SplashFragment)
                 }
-//                Navigator.splashToMetric(this@SplashFragment)
             }
         }
     }
