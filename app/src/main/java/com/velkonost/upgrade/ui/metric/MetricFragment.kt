@@ -1,6 +1,5 @@
 package com.velkonost.upgrade.ui.metric
 
-import android.R.attr
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.jaeger.library.StatusBarUtil
@@ -34,6 +33,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.velkonost.upgrade.ui.HomeViewModel
 
 import android.graphics.BitmapFactory
+import android.view.Gravity
+import android.view.View
 import androidx.core.view.isVisible
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.event.UpdateMetricsEvent
@@ -41,14 +42,40 @@ import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
 import org.greenrobot.eventbus.Subscribe
 
+import com.skydoves.balloon.*
+import com.skydoves.balloon.BalloonSizeSpec.WRAP
+
+import com.velkonost.upgrade.di.AppModule_ContextFactory.context
+
 
 class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
-    R.layout.fragment_metric,
+    com.velkonost.upgrade.R.layout.fragment_metric,
     HomeViewModel::class,
     Handler::class
 ) {
 
     private lateinit var adapter: MetricListAdapter
+
+    val balloon: Balloon by lazy {
+        Balloon.Builder(context!!)
+            .setArrowSize(10)
+            .setArrowOrientation(ArrowOrientation.TOP)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+            .setArrowPosition(0.5f)
+            .setTextGravity(Gravity.START)
+            .setPadding(10)
+            .setWidth(WRAP)
+            .setHeight(WRAP)
+            .setTextSize(15f)
+            .setCornerRadius(4f)
+            .setAlpha(0.9f)
+            .setText(getString(R.string.metric_info))
+            .setTextColor(ContextCompat.getColor(context!!, R.color.colorWhite))
+            .setTextIsHtml(true)
+            .setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlueLight))
+            .setBalloonAnimation(BalloonAnimation.FADE)
+            .build()
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onLayoutReady(savedInstanceState: Bundle?) {
@@ -258,5 +285,9 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         binding.radarChart.invalidate()
     }
 
-    inner class Handler
+    inner class Handler {
+        fun onInfoClicked(v: View) {
+            balloon.showAlignBottom(binding.info)
+        }
+    }
 }

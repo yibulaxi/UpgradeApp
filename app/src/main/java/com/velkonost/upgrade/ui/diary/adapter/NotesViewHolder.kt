@@ -7,9 +7,11 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.databinding.ItemListMetricBinding
 import com.velkonost.upgrade.databinding.ItemNoteBinding
+import com.velkonost.upgrade.event.ShowNoteDetailEvent
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.ui.metric.adapter.MetricListViewHolder
+import org.greenrobot.eventbus.EventBus
 
 class NotesViewHolder  (
     val binding: ItemNoteBinding,
@@ -18,13 +20,14 @@ class NotesViewHolder  (
     init {
         binding.handler = Handler()
     }
-    fun bind(note: DiaryNote) {
+    fun bind(note: DiaryNote, position: Int) {
 
         binding.title.text = note.text
         binding.description.text = note.date
 
         binding.value.setImageDrawable(AppCompatResources.getDrawable(context, Interest.getInterestById(note.interestId.toInt()).logo))
 
+        binding.container.setOnClickListener { EventBus.getDefault().post(ShowNoteDetailEvent(position)) }
     }
 
     inner class Handler

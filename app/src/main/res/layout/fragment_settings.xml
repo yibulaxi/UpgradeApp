@@ -215,6 +215,9 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{handler::onRateBlockClicked}"
                 app:layout_constraintTop_toBottomOf="@id/aboutBlock">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -243,6 +246,9 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{handler::onWriteBlockClicked}"
                 app:layout_constraintTop_toBottomOf="@id/separator4">
 
                 <androidx.appcompat.widget.AppCompatTextView

@@ -30,6 +30,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_adapter_pager_notes.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_list_metric.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_note.xml" value="0.3203125" />
         <entry key="app/src/main/res/layout/layout_simple_custom_snackbar.xml" value="0.19947916666666668" />

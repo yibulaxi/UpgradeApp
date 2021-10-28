@@ -276,7 +276,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .collection("users_interests").document(App.preferences.uid!!)
             .update(data as Map<String, Any>)
             .addOnSuccessListener {
-                getInterests { updateFragmentsData() }
+                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                getDiary()
             }
             .addOnFailureListener {
 
@@ -284,8 +285,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     }
 
     private fun updateFragmentsData() {
-        EventBus.getDefault().post(UpdateMetricsEvent(true))
-        EventBus.getDefault().post(UpdateDiaryEvent(true))
+
+
 
     }
 
@@ -311,6 +312,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .addOnSuccessListener {
 //                it.data?.map { it.key to it.value }
                 viewModel.setDiary(it)
+                EventBus.getDefault().post(UpdateDiaryEvent(true))
             }
             .addOnFailureListener {
 

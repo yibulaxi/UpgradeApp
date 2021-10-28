@@ -91,6 +91,8 @@ class HomeViewModel @Inject constructor(
     fun getStartInterests() = startInterests
 
     fun setDiary(documentSnapshot: DocumentSnapshot) {
+        diary.notes.clear()
+
         documentSnapshot.data?.map {
             diary.notes.add(
                 DiaryNote(

@@ -24,9 +24,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/chartContainer"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <com.github.mikephil.charting.charts.RadarChart
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -232,10 +232,23 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="56dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/info"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_info"
+                android:onClick="@{handler::onInfoClicked}"
+                android:tint="@color/colorGray"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
