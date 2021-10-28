@@ -58,4 +58,11 @@
         android:label="AchievementsFragment"
         tools:layout="@layout/fragment_achievements">
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_diary"
+        android:name="com.velkonost.upgrade.ui.diary.DiaryFragment"
+        android:label="DiaryFragment"
+        tools:layout="@layout/fragment_diary">
+    </fragment>
 </navigation>

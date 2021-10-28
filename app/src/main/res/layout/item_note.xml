@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.velkonost.upgrade.model.DiaryNote" />
+
+        <variable
+            name="handler"
+            type="com.velkonost.upgrade.ui.diary.adapter.NotesViewHolder.Handler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/value"
+            android:layout_marginEnd="6dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:lines="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/Text14.Medium"
+                android:textColor="@color/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                android:textColor="@color/colorGray"
+                style="@style/Text12.Light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/value"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+        <View
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/colorLightGray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

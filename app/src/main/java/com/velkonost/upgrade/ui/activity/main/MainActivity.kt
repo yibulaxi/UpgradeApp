@@ -186,6 +186,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
         binding.navView.menu.getItem(2).setOnMenuItemClickListener {
             addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.addPostBottomSheet.editText.requestFocus()
+
             return@setOnMenuItemClickListener true
         }
         setupAddPostBottomSheet()
@@ -274,11 +276,17 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .collection("users_interests").document(App.preferences.uid!!)
             .update(data as Map<String, Any>)
             .addOnSuccessListener {
-                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                getInterests { updateFragmentsData() }
             }
             .addOnFailureListener {
 
             }
+    }
+
+    private fun updateFragmentsData() {
+        EventBus.getDefault().post(UpdateMetricsEvent(true))
+        EventBus.getDefault().post(UpdateDiaryEvent(true))
+
     }
 
     private fun getInterests(f: () -> Unit) {
@@ -311,6 +319,11 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
     private fun setDiaryNote() {
         with(binding.addPostBottomSheet) {
+            if (editText.text?.length == 0) {
+                showFail("Введите текст записи")
+                return
+            }
+
             val amount: Float = when (selectedDiffPointToAddPost) {
                 0 -> 0.1f
                 1 -> 0f
@@ -330,9 +343,11 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             )
 
             cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
-                .set(megaData)
+                .update(megaData as Map<String, Any>)
                 .addOnSuccessListener {
                     showSuccess("Запись добавлена")
+                    editText.text?.clear()
+
 
                     EventBus.getDefault().post(UpdateUserInterestEvent(selectedInterestIdToAddPost, amount = amount))
 
@@ -372,9 +387,5 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     }
 
     inner class Handler {
-
-        fun onAddPostClicked(v: View) {
-            setDiaryNote()
-        }
     }
 }

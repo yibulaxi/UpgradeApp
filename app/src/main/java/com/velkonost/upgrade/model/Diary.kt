@@ -7,10 +7,10 @@ class Diary {
 }
 
 class DiaryNote(
-    private val text: String,
-    private val date: String,
-    private val amount: String,
-    private val interestId: String
+     val text: String,
+     val date: String,
+     val amount: String,
+     val interestId: String
 ) {
 
 }

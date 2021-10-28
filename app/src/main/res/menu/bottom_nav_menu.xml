@@ -9,7 +9,7 @@
         android:icon="@drawable/tire"/>
 
     <item
-        android:id="@+id/diaryFragment"
+        android:id="@+id/navigation_diary"
         android:title=""
         android:icon="@drawable/diary"/>
 

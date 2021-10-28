@@ -22,6 +22,20 @@ interface Interest {
          override var selectedValue: Float = 5f
 
          override val logo = R.drawable.logo
+
+         fun getInterestById(id: Int): Interest {
+             when(id) {
+                 1 -> return Work()
+                 2 -> return Spirit()
+                 3 -> return Chill()
+                 4 -> return Relationship()
+                 5 -> return Health()
+                 6 -> return Finance()
+                 7 -> return Environment()
+                 8 -> return Creation()
+             }
+             return this
+         }
      }
 }
 

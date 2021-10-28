@@ -43,7 +43,7 @@ import org.greenrobot.eventbus.Subscribe
 
 
 class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
-    com.velkonost.upgrade.R.layout.fragment_metric,
+    R.layout.fragment_metric,
     HomeViewModel::class,
     Handler::class
 ) {
@@ -69,9 +69,9 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
 
     @Subscribe
     fun onUpdateMetricsEvent(e: UpdateMetricsEvent) {
-        if (isAdded) {
+//        if (isAdded) {
             Navigator.refresh(this@MetricFragment)
-        }
+//        }
     }
 
     private fun setupList() {

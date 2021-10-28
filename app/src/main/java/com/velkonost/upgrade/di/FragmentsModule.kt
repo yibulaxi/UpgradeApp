@@ -2,6 +2,7 @@ package com.velkonost.upgrade.di
 
 import com.velkonost.upgrade.ui.achievements.di.AchievementsModule
 import com.velkonost.upgrade.ui.auth.di.AuthModule
+import com.velkonost.upgrade.ui.diary.di.DiaryModule
 import com.velkonost.upgrade.ui.metric.di.MetricModule
 import com.velkonost.upgrade.ui.settings.di.SettingsModule
 import com.velkonost.upgrade.ui.splash.di.SplashModule
@@ -15,7 +16,8 @@ import dagger.Module
         MetricModule::class,
         WelcomeModule::class,
         SettingsModule::class,
-        AchievementsModule::class
+        AchievementsModule::class,
+        DiaryModule::class
     ]
 )
 class FragmentsModule

@@ -107,6 +107,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
             if (user != null && user.uid.isNotEmpty()) {
                 App.preferences.uid = user.uid
+                App.preferences.userName = user.displayName
 
                 if (response!!.isNewUser) {
                     onSignUpSuccess()
