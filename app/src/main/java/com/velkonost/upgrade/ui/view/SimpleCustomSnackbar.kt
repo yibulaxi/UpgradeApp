@@ -39,6 +39,7 @@ class SimpleCustomSnackbar(
             icon: Int? = null,
             action_label: String?,
             bg_drawable: Int,
+            bg_gradient_drawable: Int? = null
         ): SimpleCustomSnackbar? {
 
             // First we find a suitable parent for our custom view
@@ -70,10 +71,10 @@ class SimpleCustomSnackbar(
                 }
                 customView.layRoot.background =
                     customView.context.resources.getDrawable(bg_drawable)
-//                bg_gradient_drawable?.let {
-//                    customView.backgroundRoot.background =
-//                        customView.context.resources.getDrawable(it)
-//                }
+                bg_gradient_drawable?.let {
+                    customView.backgroundRoot.background =
+                        customView.context.resources.getDrawable(it)
+                }
 
                 val snackbar = SimpleCustomSnackbar(
                     parent,

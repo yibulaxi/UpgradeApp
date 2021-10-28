@@ -18,5 +18,6 @@
     <color name="colorBlueLight">#A1AACA</color>
     <color name="colorBlue">#606FA6</color>
     <color name="coloBlurBackground">#4A161616</color>
+    <color name="custom_wheel_highlight_bg_color">#113700B3</color>
 
 </resources>

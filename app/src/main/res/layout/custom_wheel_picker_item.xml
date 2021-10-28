@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal">
+    <!--
+    <RelativeLayout
+    ...
+    android:layout_height="@dimen/custom_wheel_picker_item_height"
+    ...>
+    The height of the item needs to be a fixed value. It should not be `match_parent` or `wrap_content`.
+     -->
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:id="@+id/icon_image_ivew"
+        android:layout_width="80dp"
+        android:fitsSystemWindows="true"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/chill_logo"
+        tools:ignore="ContentDescription" />
+
+</RelativeLayout>

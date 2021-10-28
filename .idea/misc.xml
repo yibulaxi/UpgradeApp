@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/background_bottom_sheet.xml" value="0.33611111111111114" />
         <entry key="app/src/main/res/drawable/bg_list_metric_value.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/container_snackbar.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/custom_wheel_highlight_bg.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/diary.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/ic_launcher_notification.xml" value="0.215625" />
@@ -19,6 +20,7 @@
         <entry key="app/src/main/res/drawable/tire.xml" value="0.215625" />
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/layout/custom_wheel_picker_item.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/fragment_achievements.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2375" />

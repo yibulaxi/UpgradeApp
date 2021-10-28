@@ -29,7 +29,7 @@ object Navigator {
         val destId = f.findNavController().currentDestination!!.id
 
         f.findNavController().popBackStack()
-//        f.findNavController().navigate(destId, lastUsedFragmentArgs)
+        f.findNavController().navigate(destId, null)
     }
 
     fun splashToAuth(f: Fragment) {

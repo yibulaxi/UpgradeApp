@@ -14,6 +14,8 @@ class HomeViewModel @Inject constructor(
     private var currentInterests = mutableListOf<Interest>()
     private var startInterests = mutableListOf<Interest>()
 
+    private var diary = Diary()
+
     fun setInterests(documentSnapshot: DocumentSnapshot) {
         currentInterests.clear()
         startInterests.clear()
@@ -87,4 +89,19 @@ class HomeViewModel @Inject constructor(
 
     fun getCurrentInterests() = currentInterests
     fun getStartInterests() = startInterests
+
+    fun setDiary(documentSnapshot: DocumentSnapshot) {
+        documentSnapshot.data?.map {
+            diary.notes.add(
+                DiaryNote(
+                    (it.value as HashMap<*, *>)["text"].toString(),
+                    (it.value as HashMap<*, *>)["date"].toString(),
+                    (it.value as HashMap<*, *>)["amount"].toString(),
+                    (it.value as HashMap<*, *>)["interest"].toString(),
+                )
+            )
+        }
+    }
+
+    fun getDiary() = diary
 }

@@ -36,7 +36,10 @@ import com.velkonost.upgrade.ui.HomeViewModel
 import android.graphics.BitmapFactory
 import androidx.core.view.isVisible
 import com.velkonost.upgrade.R
+import com.velkonost.upgrade.event.UpdateMetricsEvent
+import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
+import org.greenrobot.eventbus.Subscribe
 
 
 class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
@@ -64,6 +67,13 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         setupMetricControlGroup()
     }
 
+    @Subscribe
+    fun onUpdateMetricsEvent(e: UpdateMetricsEvent) {
+        if (isAdded) {
+            Navigator.refresh(this@MetricFragment)
+        }
+    }
+
     private fun setupList() {
         adapter = MetricListAdapter(context!!, binding.viewModel!!.getCurrentInterests())
         binding.recycler.adapter = adapter
@@ -77,6 +87,7 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         binding.averageAmount.text = (average / binding.viewModel!!.getCurrentInterests().size)
             .toString().replace(".", ",")
 
+        binding.diaryAmount.text = binding.viewModel!!.getDiary().notes.size.toString()
     }
 
     private fun setupMetricControlGroup() {

@@ -3,6 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.velkonost.upgrade.ui.welcome.WelcomeViewModel" />
+
+        <variable
+            name="handler"
+            type="com.velkonost.upgrade.ui.activity.main.MainActivity.Handler" />
+    </data>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomSheetContainer"
         android:layout_width="match_parent"
@@ -30,23 +42,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/topGuideline">
 
+            <View
+                android:id="@+id/viewHeader"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/snack_neutral_gradient"
+                android:layout_width="60dp"
+                android:layout_height="4dp"/>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 app:layout_constraintTop_toTopOf="parent"
                 style="@style/Text24.Medium"
                 android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/colorText"
                 android:text="Добавить запись"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/icon"
+            <com.velkonost.upgrade.ui.view.CustomWheelPickerView
                 app:layout_constraintTop_toBottomOf="@id/title"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/icon"
                 android:layout_width="120dp"
-                android:layout_height="120dp"/>
+                android:layout_height="200dp" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/editText"
@@ -64,7 +85,7 @@
                 style="@style/Text14.Light"
                 android:letterSpacing="0.1"
                 android:textColor="@color/colorText"
-                android:textColorHint="@color/colorGray"
+                android:textColorHint="@color/colorLightGray"
                 android:hint="Например, утренняя зарядка, прочитана глава книги, новое знакомство"
                 android:layout_height="0dp"/>
 
@@ -74,7 +95,7 @@
                 android:layout_marginTop="24dp"
                 style="@style/Text14.Light"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/colorLightGray"
+                android:textColor="@color/colorGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -82,19 +103,106 @@
                 android:id="@+id/length"
                 app:layout_constraintTop_toBottomOf="@id/icon"
                 android:layout_marginTop="24dp"
+                android:text="0/2000"
                 style="@style/Text14.Light"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@color/colorLightGray"
+                android:textColor="@color/colorGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <View
+                android:id="@+id/separator"
                 android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/date"
                 android:background="@color/colorLightGray"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
+            <com.alanvan.segmented_control.SegmentedControlGroup
+                android:id="@+id/pointsStateControlGroup"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="32dp"
+                app:customSliderColor="@color/colorBlueLight"
+                app:customDividerColor="@color/colorWhite"
+                app:customShadowColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+                style="@style/Text10.Light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator">
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryGreen"
+                    android:layout_gravity="center"
+                    android:lines="1"
+                    style="@style/Text10.Medium"
+                    android:id="@+id/positivePoint"
+                    android:text="+ 0,1"/>
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:id="@+id/zeroPoint"
+                    style="@style/Text10.Medium"
+                    android:text="0"/>
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryRed"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:id="@+id/negativePoint"
+                    style="@style/Text10.Medium"
+                    android:text="- 0,1"/>
+
+            </com.alanvan.segmented_control.SegmentedControlGroup>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/addPost"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="56dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <View
+                    android:id="@+id/background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/snack_neutral_gradient"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_message"
+                    style="@style/Text18.Light"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:letterSpacing="0.2"
+                    android:text="Сохранить"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
