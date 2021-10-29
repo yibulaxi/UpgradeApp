@@ -17,8 +17,8 @@ fun <T> ViewState<T>.doOn(
     error: (com.velkonost.upgrade.rest.Error) -> Unit = {},
     success: () -> Unit = {},
     data: (T) -> Unit = {}
-){
-    when(this){
+) {
+    when (this) {
         ViewState.Idle -> idle()
         ViewState.ShowProgress -> showProgress()
         ViewState.HideProgress -> hideProgress()
@@ -34,8 +34,8 @@ fun <T> ViewState<T>.doOn(
     error: (com.velkonost.upgrade.rest.Error) -> Unit = {},
     success: () -> Unit = {},
     data: (T) -> Unit = {}
-){
-    when(this){
+) {
+    when (this) {
         ViewState.Idle -> idle()
         ViewState.ShowProgress -> progressDelegate.showProgress()
         ViewState.HideProgress -> progressDelegate.hideProgress()

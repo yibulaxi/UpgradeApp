@@ -1,14 +1,9 @@
 package com.velkonost.upgrade.ui.auth
 
-import android.app.Activity.RESULT_OK
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import com.google.firebase.auth.FirebaseAuth
 import com.jaeger.library.StatusBarUtil
-import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentSplashBinding
 import com.velkonost.upgrade.ui.base.BaseFragment
@@ -18,7 +13,6 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentSplashBinding>(
     AuthViewModel::class,
     Handler::class
 ) {
-
 
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
@@ -32,7 +26,6 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentSplashBinding>(
 
 
     }
-
 
 
 //    private fun signOut() {

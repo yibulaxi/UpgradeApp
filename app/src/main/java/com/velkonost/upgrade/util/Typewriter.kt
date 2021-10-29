@@ -9,7 +9,7 @@ class Typewriter : androidx.appcompat.widget.AppCompatTextView {
     private var mIndex = 0
     private var mDelay: Long = 150
 
-     var isAnimationLoaded: Boolean = false
+    var isAnimationLoaded: Boolean = false
 
     constructor(context: Context?) : super(context!!)
     constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs)

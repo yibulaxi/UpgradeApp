@@ -3,10 +3,9 @@ package com.velkonost.upgrade.ui.metric.adapter
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.velkonost.upgrade.model.*
-import com.velkonost.upgrade.ui.welcome.adapter.WelcomeViewHolder
+import com.velkonost.upgrade.model.Interest
 
-class MetricListAdapter  (
+class MetricListAdapter(
     private val context: Context,
     private val interests: MutableList<Interest>
 ) : RecyclerView.Adapter<MetricListViewHolder>() {

@@ -37,5 +37,5 @@ object Keyboard {
 
 val Context.inputMethodManager: InputMethodManager
     get() {
-    return getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-}
+        return getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }

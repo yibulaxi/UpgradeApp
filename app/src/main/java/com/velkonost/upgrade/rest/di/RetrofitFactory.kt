@@ -1,6 +1,5 @@
 package com.velkonost.upgrade.rest.di
 
-import android.annotation.SuppressLint
 import android.content.Context
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
@@ -10,19 +9,13 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import org.greenrobot.eventbus.EventBus
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 import timber.log.Timber
 import java.nio.charset.Charset
-import java.security.SecureRandom
-import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
 
 fun createRetrofit(baseUrl: String, context: Context): Retrofit {
     val clientBuilder = OkHttpClient.Builder().apply {
@@ -87,7 +80,8 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
 
         Timber.d("URL RESPONSE $response")
 
-        val bufferValue: String? = response.body?.source()?.buffer?.clone()?.readString(Charset.defaultCharset())
+        val bufferValue: String? =
+            response.body?.source()?.buffer?.clone()?.readString(Charset.defaultCharset())
 //        EventBus.getDefault()
 //            .post(
 //                response.body()?.source()?.buffer?.let {

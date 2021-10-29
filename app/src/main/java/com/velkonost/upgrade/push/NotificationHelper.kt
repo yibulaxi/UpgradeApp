@@ -8,7 +8,6 @@ import android.content.Intent
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.ui.activity.main.MainActivity
 import timber.log.Timber

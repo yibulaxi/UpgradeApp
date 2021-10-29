@@ -1,9 +1,9 @@
 package com.velkonost.upgrade.navigation
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.ui.NavigationResult
@@ -34,22 +34,37 @@ object Navigator {
 
     fun splashToAuth(f: Fragment) {
         f.findNavController().navigate(
-            R.id.action_navigation_splash_to_navigation_auth)
+            R.id.action_navigation_splash_to_navigation_auth
+        )
     }
 
     fun splashToMetric(f: Fragment) {
         f.findNavController().navigate(
-            R.id.action_navigation_splash_to_navigation_metric)
+            R.id.action_navigation_splash_to_navigation_metric
+        )
     }
 
     fun splashToWelcome(f: Fragment) {
         f.findNavController().navigate(
-            R.id.action_navigation_splash_to_navigation_welcome)
+            R.id.action_navigation_splash_to_navigation_welcome
+        )
     }
 
     fun welcomeToMetric(f: Fragment) {
         f.findNavController().navigate(
-            R.id.action_navigation_welcome_to_navigation_metric)
+            R.id.action_navigation_welcome_to_navigation_metric
+        )
     }
 
+    fun settingsToSplash(f: Fragment) {
+        f.findNavController().navigate(
+            R.id.action_navigation_settings_to_navigation_splash
+        )
+    }
+
+    fun toSplash(fNavController: NavController) {
+        fNavController.navigate(
+            R.id.navigation_splash
+        )
+    }
 }

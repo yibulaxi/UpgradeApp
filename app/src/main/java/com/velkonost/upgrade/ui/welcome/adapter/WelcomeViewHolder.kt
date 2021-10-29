@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieDrawable
-import com.airbnb.lottie.LottieDrawable.INFINITE
 import com.mcdev.quantitizerlibrary.AnimationStyle
 import com.mcdev.quantitizerlibrary.QuantitizerListener
 import com.velkonost.upgrade.R
@@ -18,7 +16,7 @@ import org.greenrobot.eventbus.EventBus
 class WelcomeViewHolder(
     val binding: FragmentAdapterPagerBinding,
     val context: Context
-) : RecyclerView.ViewHolder(binding.root){
+) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.handler = Handler()
@@ -68,7 +66,8 @@ class WelcomeViewHolder(
         binding.spinner.maxValue = 10
         binding.spinner.minValue = 0
         binding.spinner.value = interest.selectedValue.toInt()
-        binding.valueDescription.text = context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
+        binding.valueDescription.text =
+            context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
 
         binding.spinner.textAnimationStyle = AnimationStyle.SLIDE_IN
         binding.spinner.animationDuration = 0
@@ -77,14 +76,16 @@ class WelcomeViewHolder(
                 if (interest.selectedValue.toInt() == 0) return
 
                 interest.selectedValue -= 1
-                binding.valueDescription.text = context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
+                binding.valueDescription.text =
+                    context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
             }
 
             override fun onIncrease() {
                 if (interest.selectedValue.toInt() == 10) return
 
                 interest.selectedValue += 1
-                binding.valueDescription.text = context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
+                binding.valueDescription.text =
+                    context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
             }
 
         })

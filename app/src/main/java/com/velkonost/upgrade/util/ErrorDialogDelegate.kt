@@ -1,10 +1,6 @@
 package com.velkonost.upgrade.util
 
 import android.content.Context
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
-import com.velkonost.upgrade.App
-import com.velkonost.upgrade.R
 
 class ErrorDialogDelegate(val context: Context) {
 
@@ -34,4 +30,5 @@ class ErrorDialogDelegate(val context: Context) {
 
 }
 
-fun lazyErrorDelegate(context: () -> Context) = lazy(LazyThreadSafetyMode.NONE) { ErrorDialogDelegate(context()) }
+fun lazyErrorDelegate(context: () -> Context) =
+    lazy(LazyThreadSafetyMode.NONE) { ErrorDialogDelegate(context()) }

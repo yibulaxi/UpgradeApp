@@ -1,60 +1,56 @@
 package com.velkonost.upgrade.ui.metric
 
-import android.os.Bundle
-import androidx.core.content.ContextCompat
-import com.jaeger.library.StatusBarUtil
-import com.velkonost.upgrade.databinding.FragmentMetricBinding
-import com.velkonost.upgrade.ui.base.BaseFragment
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.animation.Easing
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import com.github.mikephil.charting.components.*
-
-import com.github.mikephil.charting.data.RadarData
-
-import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
-
-import com.github.mikephil.charting.data.RadarDataSet
-
-import com.github.mikephil.charting.data.RadarEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
-
-import com.velkonost.upgrade.ui.view.RadarMarkerView
-import kotlinx.android.synthetic.main.radar_markerview.view.*
-import kotlinx.android.synthetic.main.snackbar_success.view.*
 import android.graphics.Bitmap
-
-import android.graphics.drawable.BitmapDrawable
-import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModelProviders
-import com.velkonost.upgrade.ui.HomeViewModel
-
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.velkonost.upgrade.R
-import com.velkonost.upgrade.event.UpdateMetricsEvent
-import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
-import org.greenrobot.eventbus.Subscribe
-
+import androidx.lifecycle.ViewModelProviders
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.*
+import com.github.mikephil.charting.data.RadarData
+import com.github.mikephil.charting.data.RadarDataSet
+import com.github.mikephil.charting.data.RadarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.jaeger.library.StatusBarUtil
 import com.skydoves.balloon.*
 import com.skydoves.balloon.BalloonSizeSpec.WRAP
-
-import com.velkonost.upgrade.di.AppModule_ContextFactory.context
+import com.velkonost.upgrade.R
+import com.velkonost.upgrade.databinding.FragmentMetricBinding
+import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
+import com.velkonost.upgrade.event.ShowDetailInterest
+import com.velkonost.upgrade.event.UpdateMetricsEvent
+import com.velkonost.upgrade.model.Interest
+import com.velkonost.upgrade.navigation.Navigator
+import com.velkonost.upgrade.ui.HomeViewModel
+import com.velkonost.upgrade.ui.base.BaseFragment
+import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
+import kotlinx.android.synthetic.main.radar_markerview.view.*
+import kotlinx.android.synthetic.main.snackbar_success.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 
 class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
-    com.velkonost.upgrade.R.layout.fragment_metric,
+    R.layout.fragment_metric,
     HomeViewModel::class,
     Handler::class
 ) {
 
     private lateinit var adapter: MetricListAdapter
+
+    private val interestDetailBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.interestDetailBottomSheet.bottomSheetContainer)
+    }
+
 
     val balloon: Balloon by lazy {
         Balloon.Builder(context!!)
@@ -92,12 +88,40 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         setupChart()
         setupList()
         setupMetricControlGroup()
+
+        interestDetailBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.backgroundImage.alpha = slideOffset
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+                    binding.backgroundImage.isVisible = false
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
+                }
+            }
+        })
+    }
+
+    @Subscribe
+    fun onShowDetailInterest(e: ShowDetailInterest) {
+        interestDetailBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        setupDetailInterestBottomSheet(e.interest)
+    }
+
+    private fun setupDetailInterestBottomSheet(interest: Interest) {
+        with(binding.interestDetailBottomSheet) {
+
+        }
     }
 
     @Subscribe
     fun onUpdateMetricsEvent(e: UpdateMetricsEvent) {
 //        if (isAdded) {
-            Navigator.refresh(this@MetricFragment)
+        Navigator.refresh(this@MetricFragment)
 //        }
     }
 
@@ -111,8 +135,8 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
             average += interest.selectedValue
         }
 
-        binding.averageAmount.text = (average / binding.viewModel!!.getCurrentInterests().size)
-            .toString().replace(".", ",")
+        binding.averageAmount.text = String.format("%.1f", (average / 8))
+            .replace(".", ",")
 
         binding.diaryAmount.text = binding.viewModel!!.getDiary().notes.size.toString()
     }
@@ -194,7 +218,9 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
 
         xAxis.setCenterAxisLabels(true)
         xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String { return "" }
+            override fun getFormattedValue(value: Float): String {
+                return ""
+            }
         }
 
         xAxis.setDrawLabels(false)
@@ -217,8 +243,6 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         val icons: ArrayList<RadarEntry> = ArrayList()
         val entries1: ArrayList<RadarEntry> = ArrayList()
         val entries2: ArrayList<RadarEntry> = ArrayList()
-
-
 
         val currentInterests = binding.viewModel!!.getCurrentInterests()
         val startInterests = binding.viewModel!!.getStartInterests()

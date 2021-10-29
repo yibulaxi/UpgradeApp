@@ -32,9 +32,9 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/im_action_left"
-            android:visibility="gone"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/space"
             app:layout_constraintTop_toTopOf="parent"

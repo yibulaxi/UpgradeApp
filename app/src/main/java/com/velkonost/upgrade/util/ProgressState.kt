@@ -1,6 +1,6 @@
 package com.velkonost.upgrade.util
 
-sealed class ProgressState{
+sealed class ProgressState {
     object Idle : ProgressState()
     object ShowProgress : ProgressState()
     object HideProgress : ProgressState()
@@ -11,7 +11,7 @@ fun ProgressState.doOn(
     showProgress: () -> Unit,
     hideProgress: () -> Unit
 ) {
-    when(this) {
+    when (this) {
         ProgressState.ShowProgress -> showProgress()
         ProgressState.HideProgress -> hideProgress()
         else -> hideProgress()
@@ -19,7 +19,7 @@ fun ProgressState.doOn(
 }
 
 fun ProgressState.manageBy(progressDelegate: ProgressDelegate) {
-    when(this) {
+    when (this) {
         ProgressState.ShowProgress -> progressDelegate.showProgress()
         ProgressState.HideProgress -> progressDelegate.hideProgress()
         else -> progressDelegate.hideProgress()

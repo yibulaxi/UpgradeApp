@@ -3,7 +3,6 @@ package com.velkonost.upgrade.ui.splash
 import android.animation.Animator
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -53,6 +52,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             override fun onAnimationRepeat(animation: Animator?) {
                 goNext()
             }
+
             override fun onAnimationCancel(animation: Animator?) {}
             override fun onAnimationStart(animation: Animator?) {
                 binding.logoText.animateText("UPGRADE")
@@ -80,7 +80,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             }
         }
     }
-
 
     private fun createSignInIntent() {
         val providers = arrayListOf(
@@ -118,7 +117,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                     goNext()
                 }
             } else {
-              onAuthFailed()
+                onAuthFailed()
             }
         } else {
             onAuthFailed()
@@ -162,6 +161,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             null,
             null,
             R.drawable.snack_success_gradient,
+            R.drawable.snack_success_gradient,
         )?.show()
     }
 
@@ -174,6 +174,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             null,
             null,
             null,
+            R.drawable.snack_warning_gradient,
             R.drawable.snack_warning_gradient,
         )?.show()
     }

@@ -12,7 +12,7 @@ import dagger.android.DaggerApplication
 import timber.log.Timber
 
 
-class App : DaggerApplication(){
+class App : DaggerApplication() {
 
     private val appComponent = DaggerAppComponent.builder()
         .appModule(AppModule(this))

@@ -17,16 +17,16 @@ class Preferences(context: Context) {
     }
 
     var uid: String?
-    set(value) = sharedPreferences.edit().putString(USER_ID, value).apply()
-    get() = sharedPreferences.getString(USER_ID, null)
+        set(value) = sharedPreferences.edit().putString(USER_ID, value).apply()
+        get() = sharedPreferences.getString(USER_ID, null)
 
     var isInterestsInitialized: Boolean
-    set(value) = sharedPreferences.edit().putBoolean(IS_INTERESTS_INITIALIZED, value).apply()
-    get() = sharedPreferences.getBoolean(IS_INTERESTS_INITIALIZED, false)
+        set(value) = sharedPreferences.edit().putBoolean(IS_INTERESTS_INITIALIZED, value).apply()
+        get() = sharedPreferences.getBoolean(IS_INTERESTS_INITIALIZED, false)
 
     var userName: String?
-    set(value) = sharedPreferences.edit().putString(USER_NAME, value).apply()
-    get() = sharedPreferences.getString(USER_NAME, null)
+        set(value) = sharedPreferences.edit().putString(USER_NAME, value).apply()
+        get() = sharedPreferences.getString(USER_NAME, null)
 
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"

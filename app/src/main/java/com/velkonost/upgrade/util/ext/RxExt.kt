@@ -60,13 +60,16 @@ fun Disposable.addTo(disposable: CompositeDisposable) {
 }
 
 fun <T> Single<T>.doBeforeTerminate(doBefore: () -> Unit) =
-    doOnSuccess { doBefore.invoke() }.doOnError { doBefore.invoke() }.doOnDispose { doBefore.invoke() }
+    doOnSuccess { doBefore.invoke() }.doOnError { doBefore.invoke() }
+        .doOnDispose { doBefore.invoke() }
 
 fun <T> Observable<T>.doBeforeTerminate(doBefore: () -> Unit) =
-    doOnComplete { doBefore.invoke() }.doOnError { doBefore.invoke() }.doOnDispose { doBefore.invoke() }!!
+    doOnComplete { doBefore.invoke() }.doOnError { doBefore.invoke() }
+        .doOnDispose { doBefore.invoke() }!!
 
 fun Completable.doBeforeTerminate(doBefore: () -> Unit) =
-    doOnComplete { doBefore.invoke() }.doOnError { doBefore.invoke() }.doOnDispose { doBefore.invoke() }!!
+    doOnComplete { doBefore.invoke() }.doOnError { doBefore.invoke() }
+        .doOnDispose { doBefore.invoke() }!!
 
 
 fun Disposable.disposeWhen(lifecycleOwner: LifecycleOwner, disposeEvent: Lifecycle.Event) {
@@ -112,7 +115,10 @@ interface DisposeObserver : LifecycleObserver {
     fun checkDispose(currentEvent: Lifecycle.Event)
 }
 
-fun <T> Observable<T>.disposeWhen(targetFragment: Fragment, disposeEvent: LifecycleEvent): Observable<T> {
+fun <T> Observable<T>.disposeWhen(
+    targetFragment: Fragment,
+    disposeEvent: LifecycleEvent
+): Observable<T> {
     val composite = CompositeDisposable()
 
     targetFragment.fragmentManager?.registerFragmentLifecycleCallbacks(object :

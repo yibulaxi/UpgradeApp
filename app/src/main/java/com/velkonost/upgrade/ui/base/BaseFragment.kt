@@ -13,9 +13,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.velkonost.upgrade.BR
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.velkonost.upgrade.BR
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.glide.GlideApp
 import com.velkonost.upgrade.navigation.Navigator

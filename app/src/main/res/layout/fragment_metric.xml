@@ -27,118 +27,118 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <com.github.mikephil.charting.charts.RadarChart
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/radarChart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <com.github.mikephil.charting.charts.RadarChart
+                android:id="@+id/radarChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.alanvan.segmented_control.SegmentedControlGroup
                 android:id="@+id/metricStateControlGroup"
+                style="@style/Text10.Light"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
-                app:customSliderColor="@color/colorPurple"
+                android:backgroundTint="@color/colorLightGray"
                 app:customDividerColor="@color/colorLightGray"
                 app:customShadowColor="@color/colorLightGray"
-                android:backgroundTint="@color/colorLightGray"
-                style="@style/Text10.Light"
+                app:customSliderColor="@color/colorPurple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/wheelState"
+                    style="@style/Text10.Light"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
                     android:layout_gravity="center"
+                    android:letterSpacing="0.2"
                     android:lines="1"
                     android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
                     android:paddingTop="2dp"
+                    android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
-                    style="@style/Text10.Light"
-                    android:letterSpacing="0.2"
-                    android:id="@+id/wheelState"
-                    android:text="Колесо"/>
+                    android:text="Колесо"
+                    android:textColor="@color/colorWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/listState"
+                    style="@style/Text10.Light"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
+                    android:letterSpacing="0.2"
                     android:lines="1"
                     android:maxLines="1"
                     android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
                     android:paddingTop="2dp"
+                    android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
-                    android:id="@+id/listState"
-                    style="@style/Text10.Light"
-                    android:letterSpacing="0.2"
-                    android:text="Список"/>
+                    android:text="Список"
+                    android:textColor="@color/colorText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
 
             <com.alanvan.segmented_control.SegmentedControlGroup
                 android:id="@+id/radarStateControlGroup"
+                style="@style/Text10.Light"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="72dp"
-                app:customSliderColor="@color/colorBlueLight"
+                android:backgroundTint="@color/colorWhite"
                 app:customDividerColor="@color/colorWhite"
                 app:customShadowColor="@color/colorWhite"
-                android:backgroundTint="@color/colorWhite"
-                style="@style/Text10.Light"
+                app:customSliderColor="@color/colorBlueLight"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/currentState"
+                    style="@style/Text10.Light"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
                     android:layout_gravity="center"
+                    android:letterSpacing="0.2"
                     android:lines="1"
                     android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
                     android:paddingTop="2dp"
+                    android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
-                    style="@style/Text10.Light"
-                    android:letterSpacing="0.2"
-                    android:id="@+id/currentState"
-                    android:text="Текущее"/>
+                    android:text="Текущее"
+                    android:textColor="@color/colorWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/startState"
+                    style="@style/Text10.Light"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
+                    android:letterSpacing="0.2"
                     android:lines="1"
                     android:maxLines="1"
                     android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
                     android:paddingTop="2dp"
+                    android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
-                    android:id="@+id/startState"
-                    style="@style/Text10.Light"
-                    android:letterSpacing="0.2"
-                    android:text="Начальное"/>
+                    android:text="Начальное"
+                    android:textColor="@color/colorText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/list"
-                android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="100dp"
                 android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/metricStateControlGroup">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -151,104 +151,104 @@
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/diaryBlock"
-                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="10dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/diaryAmount"
                             style="@style/Text20.Medium"
-                            android:text="0"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="0" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
-                            android:textColor="@color/colorGray"
-                            android:text="записей"
-                            android:letterSpacing="0.1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:text="записей"
+                            android:textColor="@color/colorGray" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/averageBlock"
-                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="10dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/averageAmount"
                             style="@style/Text20.Medium"
-                            android:text="0"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="0" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
-                            android:textColor="@color/colorGray"
-                            android:text="средний балл"
-                            android:letterSpacing="0.1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:text="средний балл"
+                            android:textColor="@color/colorGray" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/daysBlock"
-                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="10dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/daysAmount"
                             style="@style/Text20.Medium"
-                            android:text="0"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="27" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
-                            android:textColor="@color/colorGray"
-                            android:text="дней"
-                            android:letterSpacing="0.1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:text="дней"
+                            android:textColor="@color/colorGray" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="56dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="56dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/info"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_info"
                 android:onClick="@{handler::onInfoClicked}"
+                android:src="@drawable/ic_info"
                 android:tint="@color/colorGray"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -260,6 +260,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backgroundImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/coloBlurBackground"
+                android:visibility="invisible" />
+
+            <include
+                android:id="@+id/interestDetailBottomSheet"
+                layout="@layout/view_post_add" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

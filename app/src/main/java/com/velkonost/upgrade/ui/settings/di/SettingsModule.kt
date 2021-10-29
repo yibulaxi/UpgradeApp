@@ -1,6 +1,5 @@
 package com.velkonost.upgrade.ui.settings.di
 
-import com.velkonost.upgrade.ui.metric.MetricFragment
 import com.velkonost.upgrade.ui.settings.SettingsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

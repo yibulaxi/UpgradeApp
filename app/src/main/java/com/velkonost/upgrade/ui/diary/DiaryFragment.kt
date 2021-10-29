@@ -5,24 +5,19 @@ import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import com.jaeger.library.StatusBarUtil
 import com.skydoves.balloon.*
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentDiaryBinding
-import com.velkonost.upgrade.databinding.FragmentMetricBinding
 import com.velkonost.upgrade.event.ShowNoteDetailEvent
 import com.velkonost.upgrade.event.UpdateDiaryEvent
-import com.velkonost.upgrade.event.UpdateMetricsEvent
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.diary.adapter.NotesAdapter
 import com.velkonost.upgrade.ui.diary.adapter.viewpager.NotesPagerAdapter
-import com.velkonost.upgrade.ui.metric.MetricFragment
 import com.velkonost.upgrade.ui.welcome.WelcomeFragment
 import org.greenrobot.eventbus.Subscribe
 
@@ -85,8 +80,10 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
             binding.viewPager.adapter = pagerAdapter
             binding.viewPager.offscreenPageLimit = 1
 
-            val nextItemVisiblePx = resources.getDimension(R.dimen.diary_viewpager_next_item_visible)
-            val currentItemHorizontalMarginPx = resources.getDimension(R.dimen.diary_viewpager_current_item_horizontal_margin)
+            val nextItemVisiblePx =
+                resources.getDimension(R.dimen.diary_viewpager_next_item_visible)
+            val currentItemHorizontalMarginPx =
+                resources.getDimension(R.dimen.diary_viewpager_current_item_horizontal_margin)
             val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
             val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
                 page.translationX = -pageTranslationX * position

@@ -21,15 +21,15 @@
         tools:context=".ui.activity.main.MainActivity">
 
         <androidx.appcompat.widget.AppCompatTextView
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             style="@style/Text24.Light"
-            android:textColor="@color/colorText"
-            android:text="Скоро"
-            android:letterSpacing="0.3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.3"
+            android:text="Скоро"
+            android:textColor="@color/colorText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

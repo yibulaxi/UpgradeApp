@@ -6,19 +6,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import com.firebase.ui.auth.AuthUI
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentSettingsBinding
+import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
+import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
-import com.velkonost.upgrade.ui.activity.main.MainActivity
 import com.velkonost.upgrade.ui.base.BaseFragment
-import com.velkonost.upgrade.ui.metric.MetricFragment
+import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
 
 class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
-    com.velkonost.upgrade.R.layout.fragment_settings,
+    R.layout.fragment_settings,
     HomeViewModel::class,
     Handler::class
 ) {
@@ -33,6 +36,8 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
 
         binding.name.text = App.preferences.userName
         binding.version.text = "Версия " + BuildConfig.VERSION_NAME
+
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
     }
 
     inner class Handler {
@@ -49,17 +54,43 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
         fun onRateBlockClicked(v: View) {
             val uri: Uri = Uri.parse("market://details?id=com.velkonost.upgrade")
             val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-            // To count with Play market backstack, After pressing back button,
-            // to taken back to our application, we need to add following flags to intent.
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+
+            goToMarket.addFlags(
+                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+            )
             try {
                 startActivity(goToMarket)
             } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=com.velkonost.upgrade")))
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=com.velkonost.upgrade")
+                    )
+                )
             }
+        }
+
+        fun onAboutClicked(v: View) {
+            binding.blur.isVisible = true
+            binding.aboutText.isVisible = true
+        }
+
+        fun onBlurClicked(v: View) {
+            binding.blur.isVisible = false
+            binding.aboutText.isVisible = false
+        }
+
+        fun onLogoutClicked(v: View) {
+            AuthUI.getInstance()
+                .signOut(requireContext())
+                .addOnCompleteListener {
+                    App.preferences.uid = ""
+                    App.preferences.userName = ""
+
+                    Navigator.settingsToSplash(this@SettingsFragment)
+                }
         }
     }
 }

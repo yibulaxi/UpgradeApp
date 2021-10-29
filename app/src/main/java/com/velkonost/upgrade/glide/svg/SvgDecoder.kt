@@ -15,7 +15,12 @@ class SvgDecoder : ResourceDecoder<InputStream, SVG> {
     override fun handles(source: InputStream, options: Options): Boolean = true
 
     @Throws(IOException::class)
-    override fun decode(source: InputStream, width: Int, height: Int, options: Options): Resource<SVG>? {
+    override fun decode(
+        source: InputStream,
+        width: Int,
+        height: Int,
+        options: Options
+    ): Resource<SVG>? {
         return try {
             SimpleResource(SVG.getFromInputStream(source))
         } catch (ex: SVGParseException) {

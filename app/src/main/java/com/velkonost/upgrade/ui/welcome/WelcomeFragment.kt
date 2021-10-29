@@ -11,17 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.R
-import com.velkonost.upgrade.databinding.FragmentSplashBinding
 import com.velkonost.upgrade.databinding.FragmentWelcomeBinding
 import com.velkonost.upgrade.event.InitUserInterestsEvent
 import com.velkonost.upgrade.event.SaveInterestsChangeVisibilityEvent
 import com.velkonost.upgrade.ui.base.BaseFragment
-import com.velkonost.upgrade.ui.splash.SplashFragment
-import com.velkonost.upgrade.ui.splash.SplashViewModel
 import com.velkonost.upgrade.ui.welcome.adapter.WelcomePagerAdapter
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import java.lang.Math.abs
 
 class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
     R.layout.fragment_welcome,
@@ -45,14 +41,15 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
         binding.viewPager.offscreenPageLimit = 1
 
         val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
-        val currentItemHorizontalMarginPx = resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
+        val currentItemHorizontalMarginPx =
+            resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
         val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
         val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
             page.translationX = -pageTranslationX * position
             // Next line scales the item's height. You can remove it if you don't want this effect
             page.scaleY = 1 - (0.5f * kotlin.math.abs(position))
             // If you want a fading effect uncomment the next line:
-             page.alpha = 0.15f + (1 - kotlin.math.abs(position))
+            page.alpha = 0.15f + (1 - kotlin.math.abs(position))
         }
         binding.viewPager.setPageTransformer(pageTransformer)
 

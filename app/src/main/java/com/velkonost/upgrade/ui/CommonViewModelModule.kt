@@ -15,21 +15,21 @@ interface CommonViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
-    fun splashViewModel(m: SplashViewModel) : ViewModel
+    fun splashViewModel(m: SplashViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(WelcomeViewModel::class)
-    fun welcomeViewModel(m: WelcomeViewModel) : ViewModel
+    fun welcomeViewModel(m: WelcomeViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(AuthViewModel::class)
-    fun authViewModel(m: AuthViewModel) : ViewModel
+    fun authViewModel(m: AuthViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
-    fun homeViewModel(m: HomeViewModel) : ViewModel
+    fun homeViewModel(m: HomeViewModel): ViewModel
 
 }

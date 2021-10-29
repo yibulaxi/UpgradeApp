@@ -3,7 +3,7 @@ package com.velkonost.upgrade.util
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 
-class ProgressDelegate (
+class ProgressDelegate(
     private val fragmentManager: FragmentManager
 ) {
 

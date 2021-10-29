@@ -4,7 +4,7 @@ import com.velkonost.upgrade.ui.CommonViewModelModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-@Module(includes = [CommonViewModelModule::class, MainProvidersModule::class, /*SpecificReposModule::class*/])
+@Module(includes = [CommonViewModelModule::class, MainProvidersModule::class /*SpecificReposModule::class*/])
 interface ViewModelModule {
     @ContributesAndroidInjector
     fun inject(): MainActivity

@@ -3,8 +3,7 @@ package com.velkonost.upgrade.ui.diary.adapter.viewpager
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.velkonost.upgrade.model.*
-import com.velkonost.upgrade.ui.welcome.adapter.WelcomeViewHolder
+import com.velkonost.upgrade.model.DiaryNote
 
 class NotesPagerAdapter(
     private val context: Context,

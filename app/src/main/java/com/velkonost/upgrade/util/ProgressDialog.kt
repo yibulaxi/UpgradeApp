@@ -9,13 +9,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.velkonost.upgrade.R
 
-class ProgressDialog: DialogFragment() {
+class ProgressDialog : DialogFragment() {
 
     companion object {
-        @JvmStatic fun newInstance(): ProgressDialog = ProgressDialog()
+        @JvmStatic
+        fun newInstance(): ProgressDialog = ProgressDialog()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(R.layout.screen_progress, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

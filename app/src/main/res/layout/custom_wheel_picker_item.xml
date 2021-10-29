@@ -13,14 +13,14 @@
      -->
 
     <ImageView
-        android:layout_centerInParent="true"
         android:id="@+id/icon_image_ivew"
         android:layout_width="80dp"
-        android:fitsSystemWindows="true"
-        android:cropToPadding="true"
-        android:scaleType="centerCrop"
         android:layout_height="80dp"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
+        android:cropToPadding="true"
+        android:fitsSystemWindows="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/chill_logo"
         tools:ignore="ContentDescription" />
 

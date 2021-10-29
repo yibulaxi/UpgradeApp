@@ -3,7 +3,6 @@ package com.velkonost.upgrade.rest
 import androidx.annotation.StringRes
 import com.velkonost.upgrade.R
 import retrofit2.HttpException
-import java.lang.Exception
 
 class Error(
     val message: String = "",

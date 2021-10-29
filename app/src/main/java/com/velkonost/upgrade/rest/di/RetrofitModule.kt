@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.PropertyAccessor
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.di.scope.AppScope
 import dagger.Module
 import dagger.Provides
@@ -36,5 +35,6 @@ class JsonModule {
 
     @Provides
     @AppScope
-    fun converterFactory(mapper: ObjectMapper): Converter.Factory = JacksonConverterFactory.create(mapper)
+    fun converterFactory(mapper: ObjectMapper): Converter.Factory =
+        JacksonConverterFactory.create(mapper)
 }

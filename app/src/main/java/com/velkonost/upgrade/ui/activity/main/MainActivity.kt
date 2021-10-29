@@ -4,23 +4,19 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -31,13 +27,11 @@ import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.*
-import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
-import com.velkonost.upgrade.util.ext.toast
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import org.greenrobot.eventbus.EventBus
@@ -90,7 +84,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 //        }
 
 
-
         subscribePushTopic()
 
         addPostBehavior.addBottomSheetCallback(object :
@@ -105,6 +98,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                     binding.backgroundImage.isVisible = false
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     binding.navView.isVisible = false
+                    binding.backgroundImage.isVisible = true
                     binding.addPostBottomSheet.editText.requestFocus()
                 }
             }
@@ -113,7 +107,13 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
     private fun setupAddPostBottomSheet() {
         with(binding.addPostBottomSheet) {
-            icon.adapter.values = (0 until binding.viewModel!!.getCurrentInterests().size).map {
+
+            val itemCount = binding.viewModel!!.getCurrentInterests().size
+            if (itemCount == 0) {
+                EventBus.getDefault().post(GoAuthEvent(true))
+                return@with
+            }
+            icon.adapter.values = (0 until itemCount).map {
                 CustomWheelPickerView.Item(
                     binding.viewModel!!.getCurrentInterests()[it].id.toString(),
 
@@ -128,7 +128,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
             icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
                 override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-                    selectedInterestIdToAddPost = icon.adapter.values.getOrNull(index)?.id.toString()
+                    selectedInterestIdToAddPost =
+                        icon.adapter.values.getOrNull(index)?.id.toString()
                 }
             })
 
@@ -152,9 +153,27 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     }
 
     @Subscribe
+    fun onGoAuthEvent(e: GoAuthEvent) {
+        showFail("Сперва авторизуйтесь")
+        AuthUI.getInstance()
+            .signOut(this@MainActivity)
+            .addOnCompleteListener {
+                App.preferences.uid = ""
+                App.preferences.userName = ""
+
+                Navigator.toSplash(navController!!)
+            }
+    }
+
+    @Subscribe
     fun onLoadMainEvent(e: LoadMainEvent) {
         getDiary()
-        getInterests { Navigator.splashToMetric(e.f)}
+        getInterests { Navigator.splashToMetric(e.f) }
+    }
+
+    @Subscribe
+    fun onChangeNavViewVisibilityEvent(e: ChangeNavViewVisibilityEvent) {
+        binding.navView.isVisible = e.isVisible
     }
 
     private fun subscribePushTopic() {
@@ -259,7 +278,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                     .collection("users_settings").document(App.preferences.uid!!)
                     .update(mapOf("is_interests_initialized" to true))
                     .addOnSuccessListener {
-                        Navigator.welcomeToMetric(e.f)
+                        getDiary()
+                        getInterests { Navigator.welcomeToMetric(e.f) }
+//                        Navigator.welcomeToMetric(e.f)
                     }
             }
             .addOnFailureListener {
@@ -287,13 +308,14 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     private fun updateFragmentsData() {
 
 
-
     }
 
     private fun getInterests(f: () -> Unit) {
         cloudFirestoreDatabase.collection("users_interests").document(App.preferences.uid!!)
             .get()
             .addOnSuccessListener {
+
+
                 viewModel.setInterests(it).run {
                     f()
 
@@ -351,7 +373,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                     editText.text?.clear()
 
 
-                    EventBus.getDefault().post(UpdateUserInterestEvent(selectedInterestIdToAddPost, amount = amount))
+                    EventBus.getDefault()
+                        .post(UpdateUserInterestEvent(selectedInterestIdToAddPost, amount = amount))
 
                     addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 }
@@ -388,6 +411,5 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         )?.show()
     }
 
-    inner class Handler {
-    }
+    inner class Handler
 }

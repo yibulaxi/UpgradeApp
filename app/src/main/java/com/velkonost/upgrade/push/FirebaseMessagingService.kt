@@ -1,13 +1,9 @@
 package com.velkonost.upgrade.push
 
-import android.annotation.SuppressLint
-import android.provider.Settings
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.velkonost.upgrade.App
 import dagger.android.AndroidInjection
 import timber.log.Timber
-import javax.inject.Inject
 
 class FirebaseMessagingService : FirebaseMessagingService() {
 

@@ -17,8 +17,7 @@
         <item name="colorAccent">@color/colorBlack</item>
 
 
-
-<!--        <item name="android:buttonStyle">@style/buttonStyle</item>-->
+        <!--        <item name="android:buttonStyle">@style/buttonStyle</item>-->
 
     </style>
 
@@ -469,7 +468,6 @@
         <item name="cornerSizeBottomRight">15dp</item>
         <item name="cornerSizeBottomLeft">15dp</item>
     </style>
-
 
 
 </resources>
