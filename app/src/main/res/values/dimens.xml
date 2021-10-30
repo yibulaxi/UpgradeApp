@@ -54,7 +54,7 @@
     <dimen name="icon_size_large">48dp</dimen>
     <dimen name="icon_size_medium">32dp</dimen>
     <dimen name="icon_size_small">16dp</dimen>
-    <dimen name="icon_size_remove">40dp</dimen>
+    <dimen name="icon_size_remove">30dp</dimen>
     <dimen name="icon_home_delivery">41dp</dimen>
 
     <!-- Text size -->
@@ -104,6 +104,6 @@
     <dimen name="custom_wheel_picker_item_height">44dp</dimen>
     <dimen name="card_padding">60dp</dimen>
 
-    <dimen name="diary_viewpager_next_item_visible">34dp</dimen>
-    <dimen name="diary_viewpager_current_item_horizontal_margin">26dp</dimen>
+    <dimen name="diary_viewpager_next_item_visible">24dp</dimen>
+    <dimen name="diary_viewpager_current_item_horizontal_margin">10dp</dimen>
 </resources>

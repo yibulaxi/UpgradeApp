@@ -106,6 +106,7 @@ class HomeViewModel @Inject constructor(
             documentSnapshot.data?.map {
                 diary.notes.add(
                     DiaryNote(
+                        (it.value as HashMap<*, *>)["id"].toString(),
                         (it.value as HashMap<*, *>)["text"].toString(),
                         (it.value as HashMap<*, *>)["date"].toString(),
                         (it.value as HashMap<*, *>)["amount"].toString(),
@@ -119,4 +120,20 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getDiary() = diary
+
+    fun getNotesByInterestId(interestId: String): MutableList<DiaryNote> {
+        val notes = mutableListOf<DiaryNote>()
+        for (note in diary.notes) {
+            if (note.interestId == interestId) notes.add(note)
+        }
+
+        return notes
+    }
+
+    fun getStartInterestByInterestId(interestId: String): Interest? {
+        for (startInterest in startInterests) {
+            if (startInterest.id.toString() == interestId) return startInterest
+        }
+        return null
+    }
 }

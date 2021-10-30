@@ -54,4 +54,6 @@ class CustomWheelPickerView @JvmOverloads constructor(
             gravity = Gravity.CENTER_VERTICAL
         }
     }
+
+    fun getRecycler() = recyclerView
 }

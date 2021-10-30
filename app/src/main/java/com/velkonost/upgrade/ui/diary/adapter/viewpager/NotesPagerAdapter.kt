@@ -1,6 +1,7 @@
 package com.velkonost.upgrade.ui.diary.adapter.viewpager
 
 import android.content.Context
+import android.provider.ContactsContract
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.model.DiaryNote
@@ -20,5 +21,13 @@ class NotesPagerAdapter(
 
     override fun getItemCount(): Int {
         return notes.size
+    }
+
+    fun removeNote(deleteNote: DiaryNote) {
+        for (note in notes) {
+            if (note.id == deleteNote.id) notes.remove(note)
+        }
+
+        notifyDataSetChanged()
     }
 }

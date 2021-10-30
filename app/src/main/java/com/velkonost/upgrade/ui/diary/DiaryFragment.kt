@@ -1,24 +1,28 @@
 package com.velkonost.upgrade.ui.diary
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.jaeger.library.StatusBarUtil
 import com.skydoves.balloon.*
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentDiaryBinding
-import com.velkonost.upgrade.event.ShowNoteDetailEvent
-import com.velkonost.upgrade.event.UpdateDiaryEvent
+import com.velkonost.upgrade.event.*
+import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.diary.adapter.NotesAdapter
 import com.velkonost.upgrade.ui.diary.adapter.viewpager.NotesPagerAdapter
 import com.velkonost.upgrade.ui.welcome.WelcomeFragment
+import com.velkonost.upgrade.util.ext.setUpRemoveItemTouchHelper
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
@@ -28,6 +32,10 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
 ) {
     private lateinit var adapter: NotesAdapter
     private lateinit var pagerAdapter: NotesPagerAdapter
+
+    private var onSwiped: ((DiaryNote) -> Unit)? = {
+        EventBus.getDefault().post(DeleteDiaryNoteEvent(it.id))
+    }
 
     val balloon: Balloon by lazy {
         Balloon.Builder(context!!)
@@ -63,6 +71,16 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
         binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
 
         setupDiary()
+
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+    }
+
+    private fun onItemInListSwiped(vh: RecyclerView.ViewHolder, swipeDirection: Int) {
+        val swipedPosition = vh.absoluteAdapterPosition
+        onSwiped?.invoke(adapter.getNoteAt(swipedPosition))
+        adapter.removeNoteAt(swipedPosition)
+//        pagerAdapter.removeNote(it)
+        pagerAdapter.notifyDataSetChanged()
     }
 
     private fun setupDiary() {
@@ -75,6 +93,11 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
 
             adapter = NotesAdapter(context!!, binding.viewModel!!.getDiary().notes)
             binding.recycler.adapter = adapter
+            binding.recycler.setUpRemoveItemTouchHelper(
+                R.string.delete,
+                R.dimen.text_size_12,
+                ::onItemInListSwiped
+            )
 
             pagerAdapter = NotesPagerAdapter(context!!, binding.viewModel!!.getDiary().notes)
             binding.viewPager.adapter = pagerAdapter
@@ -87,12 +110,6 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
             val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
             val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
                 page.translationX = -pageTranslationX * position
-
-
-                // Next line scales the item's height. You can remove it if you don't want this effect
-//                page.scaleY = 1 - (0.25f * kotlin.math.abs(position))
-                // If you want a fading effect uncomment the next line:
-//                page.alpha = 0.15f + (1 - kotlin.math.abs(position))
             }
             binding.viewPager.setPageTransformer(pageTransformer)
 
@@ -106,10 +123,18 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
     }
 
     @Subscribe
+    fun onEditDiaryNoteEvent(e: EditDiaryNoteEvent) {
+        binding.viewPager.isVisible = false
+        binding.blur.isVisible = false
+    }
+
+    @Subscribe
     fun onShowNoteDetailEvent(e: ShowNoteDetailEvent) {
         binding.viewPager.isVisible = true
         binding.blur.isVisible = true
-        binding.viewPager.setCurrentItem(e.position, true)
+        binding.viewPager.post { binding.viewPager.setCurrentItem(e.position, true) }
+
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
     }
 
     @Subscribe
@@ -127,6 +152,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
         fun onBlurClicked(v: View) {
             binding.viewPager.isVisible = false
             binding.blur.isVisible = false
+            EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
         }
     }
 }

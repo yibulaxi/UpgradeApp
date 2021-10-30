@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.database.core.view.Change
 import com.jaeger.library.StatusBarUtil
 import com.skydoves.balloon.*
 import com.skydoves.balloon.BalloonSizeSpec.WRAP
@@ -104,17 +105,28 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
                 }
             }
         })
+
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
     }
 
     @Subscribe
     fun onShowDetailInterest(e: ShowDetailInterest) {
-        interestDetailBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         setupDetailInterestBottomSheet(e.interest)
+        interestDetailBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private fun setupDetailInterestBottomSheet(interest: Interest) {
         with(binding.interestDetailBottomSheet) {
+            title.text = getString(interest.nameRes)
+            amount.text = interest.selectedValue.toString()
 
+            amountMax.isVisible = interest.selectedValue == 10f
+
+            notesAmount.isVisible = binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size != 0
+            notesAmount.text = "Написано постов - " + binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size
+
+            startValue.text = "Начальное значение - " + binding.viewModel!!.getStartInterestByInterestId(interest.id.toString())?.selectedValue
+            currentValue.text = "Текущее значение - " + interest.selectedValue
         }
     }
 

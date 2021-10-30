@@ -36,8 +36,6 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
 
         binding.name.text = App.preferences.userName
         binding.version.text = "Версия " + BuildConfig.VERSION_NAME
-
-        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
     }
 
     inner class Handler {

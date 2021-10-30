@@ -271,7 +271,7 @@
 
             <include
                 android:id="@+id/interestDetailBottomSheet"
-                layout="@layout/view_post_add" />
+                layout="@layout/view_detail_interest" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

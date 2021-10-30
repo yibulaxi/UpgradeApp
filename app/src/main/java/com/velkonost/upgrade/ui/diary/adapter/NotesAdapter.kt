@@ -21,4 +21,13 @@ class NotesAdapter(
     override fun getItemCount(): Int {
         return notes.size
     }
+
+    fun getNoteAt(position: Int): DiaryNote {
+        return notes[position]
+    }
+
+    fun removeNoteAt(position: Int) {
+        notes.removeAt(position)
+        notifyDataSetChanged()
+    }
 }

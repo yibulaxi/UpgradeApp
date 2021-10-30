@@ -8,8 +8,10 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ItemAdapterPagerNotesBinding
+import com.velkonost.upgrade.event.EditDiaryNoteEvent
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.Interest
+import org.greenrobot.eventbus.EventBus
 
 class NotesPagerViewHolder(
     val binding: ItemAdapterPagerNotesBinding,
@@ -17,7 +19,6 @@ class NotesPagerViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var MAX_ELEVATION_FACTOR = 8
-
 
     init {
         binding.handler = Handler()
@@ -49,6 +50,7 @@ class NotesPagerViewHolder(
         binding.cardView.maxCardElevation = (binding.cardView.cardElevation
                 * MAX_ELEVATION_FACTOR)
 
+        binding.edit.setOnClickListener { EventBus.getDefault().post(EditDiaryNoteEvent(note)) }
     }
 
     inner class Handler

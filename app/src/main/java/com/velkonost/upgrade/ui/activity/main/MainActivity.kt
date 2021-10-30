@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
@@ -17,16 +18,19 @@ import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jaeger.library.StatusBarUtil
+import com.skydoves.balloon.iconForm
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.*
+import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseActivity
@@ -34,12 +38,16 @@ import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     R.layout.activity_main,
@@ -76,14 +84,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             }
         }
 
-//        binding.navView.setOnItemSelectedListener {
-//            if (it.itemId == R.id.addPostFragment) {
-//                addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//            }
-//            return@setOnItemSelectedListener true
-//        }
-
-
         subscribePushTopic()
 
         addPostBehavior.addBottomSheetCallback(object :
@@ -113,17 +113,22 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 EventBus.getDefault().post(GoAuthEvent(true))
                 return@with
             }
+
+            icon.getRecycler().setItemViewCacheSize(binding.viewModel!!.getCurrentInterests().size)
             icon.adapter.values = (0 until itemCount).map {
                 CustomWheelPickerView.Item(
                     binding.viewModel!!.getCurrentInterests()[it].id.toString(),
-
                     ContextCompat.getDrawable(
                         this@MainActivity,
                         binding.viewModel!!.getCurrentInterests()[it].logo
                     )
                 )
             }
-            icon.isCircular = true
+
+            icon.getRecycler().post { icon.getRecycler().scrollToPosition(5) }
+
+            icon.adapter.notifyDataSetChanged()
+//            icon.isCircular = true
             icon.isHapticFeedbackEnabled = true
 
             icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
@@ -132,7 +137,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                         icon.adapter.values.getOrNull(index)?.id.toString()
                 }
             })
-
 
             val currentDate = SimpleDateFormat(
                 "dd MMMM, EEEE",
@@ -148,7 +152,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 selectedDiffPointToAddPost = it
             }
 
-            addPost.setOnClickListener { setDiaryNote() }
+            addPost.setOnClickListener { setDiaryNote(noteId) }
         }
     }
 
@@ -205,6 +209,10 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
         binding.navView.menu.getItem(2).setOnMenuItemClickListener {
             addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+            binding.addPostBottomSheet.noteId = null
+
+            binding.addPostBottomSheet.editText.setText("")
             binding.addPostBottomSheet.editText.requestFocus()
 
             return@setOnMenuItemClickListener true
@@ -288,6 +296,50 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             }
     }
 
+    @Subscribe
+    fun onEditDiaryNoteEvent(e: EditDiaryNoteEvent) {
+        addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        binding.addPostBottomSheet.editText.requestFocus()
+
+
+        with(binding.addPostBottomSheet) {
+            noteId = e.note.id
+
+            editText.setText(e.note.text)
+            editText.setSelection(editText.length())
+
+
+            var selectedIndex = 0
+            for (i in icon.adapter.values.indices) {
+                if (icon.adapter.values[i].id == e.note.interestId) {
+                    selectedIndex = i
+                    break
+                }
+            }
+
+            icon.getRecycler().scrollToPosition(5)
+            icon.getRecycler().post { icon.setSelectedIndex(selectedIndex , animated = true) }
+
+            date.text = e.note.date
+
+            when {
+                e.note.amount.toFloat() < 0f -> {
+                    pointsStateControlGroup.setSelectedIndex(2, true)
+                }
+                e.note.amount.toFloat() > 0f -> {
+                    pointsStateControlGroup.setSelectedIndex(0, true)
+                }
+                else -> pointsStateControlGroup.setSelectedIndex(1, true)
+            }
+
+        }
+    }
+
+    @Subscribe
+    fun onDeleteDiaryNoteEvent(e: DeleteDiaryNoteEvent) {
+        deleteDiaryNote(e.noteId)
+    }
+
     private fun setInterestAmount(interestId: String, amount: String) {
         val data = mutableMapOf(
             interestId to amount
@@ -303,11 +355,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .addOnFailureListener {
 
             }
-    }
-
-    private fun updateFragmentsData() {
-
-
     }
 
     private fun getInterests(f: () -> Unit) {
@@ -341,7 +388,18 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             }
     }
 
-    private fun setDiaryNote() {
+    private fun deleteDiaryNote(noteId: String) {
+        val deleteNote = hashMapOf(
+            noteId to FieldValue.delete()
+        )
+
+        cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
+            .update(deleteNote as Map<String, Any>)
+            .addOnSuccessListener { }
+            .addOnFailureListener {  }
+    }
+
+    private fun setDiaryNote(noteId: String? = null) {
         with(binding.addPostBottomSheet) {
             if (editText.text?.length == 0) {
                 showFail("Введите текст записи")
@@ -354,16 +412,17 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 else -> -0.1f
             }
 
+            val diaryId = noteId?: System.currentTimeMillis()
             val data = hashMapOf(
+                "id" to diaryId,
                 "text" to editText.text.toString(),
                 "date" to date.text.toString(),
                 "interest" to selectedInterestIdToAddPost,
                 "amount" to String.format("%.1f", amount)
-
             )
 
             val megaData = hashMapOf(
-                System.currentTimeMillis().toString() to data
+                diaryId.toString() to data
             )
 
             cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)

@@ -12,6 +12,11 @@
         <variable
             name="handler"
             type="com.velkonost.upgrade.ui.activity.main.MainActivity.Handler" />
+
+        <variable
+            name="noteId"
+            type="String"
+            android:value="null"/>
     </data>
 
 
