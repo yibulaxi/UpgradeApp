@@ -17,9 +17,16 @@
         <item name="colorAccent">@color/colorBlack</item>
 
 
+
         <!--        <item name="android:buttonStyle">@style/buttonStyle</item>-->
 
     </style>
+
+    <style name="roundedCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">6dp</item>
+    </style>
+
 
     <style name="buttonStyle" parent="MaterialTextButton">
         <item name="android:textColor">@color/colorPrimaryRed</item>

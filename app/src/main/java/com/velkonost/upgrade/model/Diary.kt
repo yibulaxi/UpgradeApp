@@ -11,5 +11,6 @@ class DiaryNote(
     val text: String,
     val date: String,
     val amount: String,
-    val interestId: String
+    val interestId: String,
+    val mediaUrls: ArrayList<String>
 )

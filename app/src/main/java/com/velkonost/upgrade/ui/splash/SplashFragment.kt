@@ -91,6 +91,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
+            .setIsSmartLockEnabled(false)
             .setLogo(R.drawable.logo) // Set logo drawable
             .setTheme(R.style.AuthUITheme) // Set theme
             .build()

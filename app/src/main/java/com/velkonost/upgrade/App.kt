@@ -6,9 +6,11 @@ import android.content.Context
 import com.velkonost.upgrade.di.AppModule
 import com.velkonost.upgrade.di.DaggerAppComponent
 import com.velkonost.upgrade.rest.di.RetrofitModule
+import com.velkonost.upgrade.util.GlideImageLoader
 import com.velkonost.upgrade.util.Preferences
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import lv.chi.photopicker.ChiliPhotoPicker
 import timber.log.Timber
 
 
@@ -28,6 +30,11 @@ class App : DaggerApplication() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+
+        ChiliPhotoPicker.init(
+            loader = GlideImageLoader(),
+            authority = "com.velkonost.upgrade.fileprovider"
+        )
 
         createNotificationChannel()
     }

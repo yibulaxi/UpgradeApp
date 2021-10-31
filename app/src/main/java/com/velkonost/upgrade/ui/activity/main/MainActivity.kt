@@ -1,7 +1,10 @@
 package com.velkonost.upgrade.ui.activity.main
 
+import android.Manifest
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Rect
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -48,12 +51,32 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.coroutines.suspendCoroutine
+import android.view.MotionEvent
+import com.velkonost.upgrade.model.Media
+import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
+import lv.chi.photopicker.PhotoPickerFragment
+import android.content.pm.PackageManager
+
+import com.velkonost.upgrade.di.AppModule_ContextFactory.context
+import com.velkonost.upgrade.di.AppModule_ContextFactory.context
+
+import android.app.Activity
+import android.util.Log
+
+import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
+import java.lang.Exception
+import kotlin.collections.ArrayList
+
 
 class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     R.layout.activity_main,
     HomeViewModel::class,
     Handler::class
-) {
+), PhotoPickerFragment.Callback {
     private var navController: NavController? = null
 
     private val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
@@ -64,7 +87,10 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     private var selectedDiffPointToAddPost: Int = 0
 
     private lateinit var cloudFirestoreDatabase: FirebaseFirestore
+    private lateinit var cloudStorage: FirebaseStorage
     private var isFirebaseAvailable: Boolean = false
+
+    private lateinit var mediaAdapter: AddPostMediaAdapter
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -94,15 +120,94 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.backgroundImage.alpha = 0f
                     binding.navView.isVisible = true
-                    binding.backgroundImage.isVisible = false
+//                    binding.backgroundImage.isVisible = false
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     binding.navView.isVisible = false
-                    binding.backgroundImage.isVisible = true
+                    binding.backgroundImage.alpha = 1f
+//                    binding.backgroundImage.isVisible = true
                     binding.addPostBottomSheet.editText.requestFocus()
                 }
             }
         })
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                val outRect = Rect()
+
+                binding.addPostBottomSheet.container.getGlobalVisibleRect(outRect)
+
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    binding.addPostBottomSheet.container.post { addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }
+                    return false
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
+    override fun onImagesPicked(photos: ArrayList<Uri>) {
+        val media = arrayListOf<Media>()
+        photos.map { media.add(Media(it)) }
+
+        mediaAdapter = AddPostMediaAdapter(this, media)
+        (binding.addPostBottomSheet.mediaRecycler.layoutManager as LinearLayoutManager).orientation = LinearLayoutManager.HORIZONTAL
+        binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
+    }
+
+    private fun uploadMedia(noteId: String? = null) {
+        val storageRef = cloudStorage.reference
+        val uploadedUrls = arrayListOf<String>()
+
+
+        for (media in mediaAdapter.getMedia()) {
+            if (media.uri == null) {
+                uploadedUrls.add(media.url!!)
+
+                if (uploadedUrls.size == mediaAdapter.getMedia().size) {
+                    setDiaryNote(noteId, uploadedUrls)
+                } else continue
+            } else {
+
+                val ext = media.uri.toString().substring(media.uri.toString().lastIndexOf(".") + 1);
+                val mediaRef = storageRef.child(
+                    "notes_media/" + App.preferences.uid!!.toString() + System.currentTimeMillis()
+                        .toString() + "." + ext
+                )
+
+                var file = media.uri
+                val uploadTask = mediaRef.putFile(file!!)
+
+                val urlTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    mediaRef.downloadUrl
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+//                    val downloadUri = task.result
+                        uploadedUrls.add(task.result.toString())
+
+                        if (uploadedUrls.size == mediaAdapter.getMedia().size) {
+                            setDiaryNote(noteId, uploadedUrls)
+                        }
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
+                }
+            }
+        }
+    }
+
+    private fun checkPermissionForReadExternalStorage(): Boolean {
+        val result = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        return result == PackageManager.PERMISSION_GRANTED
     }
 
     private fun setupAddPostBottomSheet() {
@@ -128,6 +233,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             icon.getRecycler().post { icon.getRecycler().scrollToPosition(5) }
 
             icon.adapter.notifyDataSetChanged()
+
 //            icon.isCircular = true
             icon.isHapticFeedbackEnabled = true
 
@@ -152,7 +258,24 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 selectedDiffPointToAddPost = it
             }
 
-            addPost.setOnClickListener { setDiaryNote(noteId) }
+            addPost.setOnClickListener {
+                if (editText.text?.length == 0) {
+                    showFail("Введите текст записи")
+                } else if (!::mediaAdapter.isInitialized || mediaAdapter.getMedia().size == 0)
+                    setDiaryNote(noteId, binding.viewModel!!.getNoteMediaUrlsById(noteId))
+                else uploadMedia(noteId)
+            }
+
+            addMedia.setOnClickListener {
+                if (checkPermissionForReadExternalStorage()) {
+                    PhotoPickerFragment.newInstance(
+                        multiple = true,
+                        allowCamera = true,
+                        maxSelection = 5,
+                        theme = R.style.ChiliPhotoPicker_Light
+                    ).show(supportFragmentManager, "picker")
+                }
+            }
         }
     }
 
@@ -192,13 +315,14 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                         Timber.d("Subscribe to topic completed.")
                     }
                 }
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             isFirebaseAvailable = false
         }
 
         try {
             cloudFirestoreDatabase = Firebase.firestore
-        } catch (e: java.lang.Exception) {
+            cloudStorage = FirebaseStorage.getInstance()
+        } catch (e: Exception) {
             isFirebaseAvailable = false
         }
     }
@@ -214,6 +338,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
             binding.addPostBottomSheet.editText.setText("")
             binding.addPostBottomSheet.editText.requestFocus()
+
+            mediaAdapter = AddPostMediaAdapter(this, arrayListOf())
+            binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
 
             return@setOnMenuItemClickListener true
         }
@@ -332,6 +459,12 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 else -> pointsStateControlGroup.setSelectedIndex(1, true)
             }
 
+            val urls = arrayListOf<Media>()
+            for (url in e.note.mediaUrls) {
+                urls.add(Media(url = url))
+            }
+            mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls)
+            mediaRecycler.adapter = mediaAdapter
         }
     }
 
@@ -399,12 +532,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .addOnFailureListener {  }
     }
 
-    private fun setDiaryNote(noteId: String? = null) {
+    private fun setDiaryNote(noteId: String? = null, mediaUrls: ArrayList<String>? = arrayListOf()) {
         with(binding.addPostBottomSheet) {
-            if (editText.text?.length == 0) {
-                showFail("Введите текст записи")
-                return
-            }
+
 
             val amount: Float = when (selectedDiffPointToAddPost) {
                 0 -> 0.1f
@@ -418,7 +548,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 "text" to editText.text.toString(),
                 "date" to date.text.toString(),
                 "interest" to selectedInterestIdToAddPost,
-                "amount" to String.format("%.1f", amount)
+                "amount" to String.format("%.1f", amount),
+                "media" to mediaUrls
             )
 
             val megaData = hashMapOf(
@@ -431,14 +562,28 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                     showSuccess("Запись добавлена")
                     editText.text?.clear()
 
-
                     EventBus.getDefault()
                         .post(UpdateUserInterestEvent(selectedInterestIdToAddPost, amount = amount))
 
                     addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 }
                 .addOnFailureListener {
-                    showFail("Произошла ошибка")
+                    if (it is FirebaseFirestoreException && it.code.value() == 5) {
+                        cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
+                            .set(megaData as Map<String, Any>)
+                            .addOnSuccessListener {
+                                showSuccess("Запись добавлена")
+                                editText.text?.clear()
+
+                                EventBus.getDefault()
+                                    .post(UpdateUserInterestEvent(selectedInterestIdToAddPost, amount = amount))
+
+                                addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                            }
+                            .addOnFailureListener {
+                                showFail("Произошла ошибка")
+                            }
+                    } else showFail("Произошла ошибка")
                 }
         }
     }

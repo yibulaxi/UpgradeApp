@@ -6,7 +6,10 @@ import com.velkonost.upgrade.event.GoAuthEvent
 import com.velkonost.upgrade.model.*
 import com.velkonost.upgrade.util.RxViewModel
 import org.greenrobot.eventbus.EventBus
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 @SuppressLint("CheckResult")
 class HomeViewModel @Inject constructor(
@@ -111,6 +114,7 @@ class HomeViewModel @Inject constructor(
                         (it.value as HashMap<*, *>)["date"].toString(),
                         (it.value as HashMap<*, *>)["amount"].toString(),
                         (it.value as HashMap<*, *>)["interest"].toString(),
+                        (it.value as HashMap<*, *>)["media"] as ArrayList<String>
                     )
                 )
             }
@@ -135,5 +139,13 @@ class HomeViewModel @Inject constructor(
             if (startInterest.id.toString() == interestId) return startInterest
         }
         return null
+    }
+
+    fun getNoteMediaUrlsById(noteId: String? = null): ArrayList<String> {
+        if (noteId == null) return arrayListOf()
+        for (note in diary.notes) {
+            if (note.id == noteId) return note.mediaUrls
+        }
+        return arrayListOf()
     }
 }

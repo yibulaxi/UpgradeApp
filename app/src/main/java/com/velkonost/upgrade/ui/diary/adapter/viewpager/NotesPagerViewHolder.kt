@@ -5,12 +5,17 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ItemAdapterPagerNotesBinding
 import com.velkonost.upgrade.event.EditDiaryNoteEvent
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.Interest
+import com.velkonost.upgrade.model.Media
+import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
+import com.velkonost.upgrade.ui.diary.adapter.NotesMediaAdapter
 import org.greenrobot.eventbus.EventBus
 
 class NotesPagerViewHolder(
@@ -46,11 +51,17 @@ class NotesPagerViewHolder(
                 AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value)
         }
 
-
         binding.cardView.maxCardElevation = (binding.cardView.cardElevation
                 * MAX_ELEVATION_FACTOR)
 
         binding.edit.setOnClickListener { EventBus.getDefault().post(EditDiaryNoteEvent(note)) }
+
+        binding.recycler.isVisible = note.mediaUrls.isNotEmpty()
+        (binding.recycler.layoutManager as LinearLayoutManager).orientation = LinearLayoutManager.HORIZONTAL
+        val media = arrayListOf<Media>()
+        note.mediaUrls.map { media.add(Media(url = it)) }
+
+        binding.recycler.adapter = NotesMediaAdapter(context, media)
     }
 
     inner class Handler
