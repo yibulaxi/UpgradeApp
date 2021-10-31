@@ -61,12 +61,16 @@ import com.velkonost.upgrade.di.AppModule_ContextFactory.context
 import com.velkonost.upgrade.di.AppModule_ContextFactory.context
 
 import android.app.Activity
+import android.media.Image
 import android.util.Log
 
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
+import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
 import java.lang.Exception
 import kotlin.collections.ArrayList
@@ -485,40 +489,29 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
                 getDiary()
             }
-            .addOnFailureListener {
-
-            }
+            .addOnFailureListener {}
     }
 
     private fun getInterests(f: () -> Unit) {
         cloudFirestoreDatabase.collection("users_interests").document(App.preferences.uid!!)
             .get()
             .addOnSuccessListener {
-
-
                 viewModel.setInterests(it).run {
                     f()
-
                     if (binding.navView.menu.size() == 0) setupNavMenu()
                 }
-
             }
-            .addOnFailureListener {
-
-            }
+            .addOnFailureListener {}
     }
 
     private fun getDiary() {
         cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
             .get()
             .addOnSuccessListener {
-//                it.data?.map { it.key to it.value }
                 viewModel.setDiary(it)
                 EventBus.getDefault().post(UpdateDiaryEvent(true))
             }
-            .addOnFailureListener {
-
-            }
+            .addOnFailureListener {}
     }
 
     private fun deleteDiaryNote(noteId: String) {
@@ -534,7 +527,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
     private fun setDiaryNote(noteId: String? = null, mediaUrls: ArrayList<String>? = arrayListOf()) {
         with(binding.addPostBottomSheet) {
-
 
             val amount: Float = when (selectedDiffPointToAddPost) {
                 0 -> 0.1f
@@ -586,6 +578,15 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                     } else showFail("Произошла ошибка")
                 }
         }
+    }
+
+    @Subscribe
+    fun onOpenFullScreenMediaEvent(e: OpenFullScreenMediaEvent) {
+        StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
+            if (image?.url != null)
+                Picasso.with(this@MainActivity).load(image.url).into(view)
+        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite)).withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
+
     }
 
     private fun showSuccess(msg: String) {

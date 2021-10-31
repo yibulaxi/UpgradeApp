@@ -76,6 +76,23 @@
         <item>Хорошо</item>
         <item>Отлично</item>
         <item>Идеально</item>
-
     </string-array>
+
+    <string name="picker_app_name">Picker</string>
+    <string name="picker_gallery">Галерея</string>
+    <string name="picker_camera">Камера</string>
+    <string name="picker_select">Выбрать</string>
+    <string name="picker_media_permissions_hint">Предоставьте разрешение для\nдоступа к галерее</string>
+    <string name="picker_empty_media">Галерея пуста</string>
+    <string name="picker_allow">Разрешить</string>
+    <string name="picker_select_photo">Выбрать фото</string>
+    <string name="picker_no_camera">Камера недоступна</string>
+    <plurals name="picker_selected_count">
+        <item quantity="one">%d фото выбрано</item>
+        <item quantity="other">%d фото выбрано</item>
+    </plurals>
+    <plurals name="picker_max_selection_reached">
+        <item quantity="one">Вы можете выбрать только %d фото</item>
+        <item quantity="other">Вы можете выбрать только %d фото</item>
+    </plurals>
 </resources>
