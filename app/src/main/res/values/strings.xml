@@ -78,6 +78,13 @@
         <item>Идеально</item>
     </string-array>
 
+    <string-array name="difficulty_values">
+        <item>Низкий</item>
+        <item>Нормальный</item>
+        <item>Высокий</item>
+        <item>Hardcore</item>
+    </string-array>
+
     <string name="picker_app_name">Picker</string>
     <string name="picker_gallery">Галерея</string>
     <string name="picker_camera">Камера</string>

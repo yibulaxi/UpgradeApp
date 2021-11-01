@@ -18,7 +18,18 @@ class HomeViewModel @Inject constructor(
     private var currentInterests = mutableListOf<Interest>()
     private var startInterests = mutableListOf<Interest>()
 
+    private var userSettings: UserSettings = UserSettings()
     private var diary = Diary()
+
+    fun setUserSettings(documentSnapshot: DocumentSnapshot) {
+        userSettings = UserSettings(
+            difficulty = documentSnapshot.get("difficulty").toString().toInt(),
+            is_interests_initialized = documentSnapshot.getBoolean("is_interests_initialized"),
+            is_push_available = documentSnapshot.getBoolean("is_push_available")
+        )
+    }
+
+    fun getUserSettings() = userSettings
 
     fun setInterests(documentSnapshot: DocumentSnapshot) {
 

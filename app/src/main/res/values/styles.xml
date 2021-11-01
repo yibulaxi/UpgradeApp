@@ -330,6 +330,12 @@
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
 
+    <style name="Text12.Light.Spinner" parent="Text12.Light">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:layout_marginTop"> 8dip </item>
+        <item name="android:layout_marginBottom"> 8dip </item>
+    </style>
+
 
     <style name="Text12.Light.Gray" parent="TextView.Light">
         <item name="android:textColor">@color/colorGray</item>

@@ -223,6 +223,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 return@with
             }
 
+//            positivePoint.text = "+" + (binding.viewModel!!.getUserSettings().getDifficultyValue()).toString()
+//            negativePoint.text = (-binding.viewModel!!.getUserSettings().getDifficultyValue()).toString()
+
             icon.getRecycler().setItemViewCacheSize(binding.viewModel!!.getCurrentInterests().size)
             icon.adapter.values = (0 until itemCount).map {
                 CustomWheelPickerView.Item(
@@ -298,6 +301,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onLoadMainEvent(e: LoadMainEvent) {
+        getUserSettings()
         getDiary()
         getInterests { Navigator.splashToMetric(e.f) }
     }
@@ -397,9 +401,12 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .get()
             .addOnSuccessListener {
                 val interestPrevAmount = (it.get(e.interestId)).toString().toFloat()
-                val interestNewAmount = String.format("%.1f", interestPrevAmount + e.amount)
+                var interestNewAmount = interestPrevAmount + e.amount
 
-                setInterestAmount(e.interestId, interestNewAmount)
+                if (interestNewAmount > 10f) interestNewAmount = 10f
+                if (interestNewAmount < 0f) interestNewAmount = 0f
+
+                setInterestAmount(e.interestId, String.format("%.1f", interestNewAmount))
             }
             .addOnFailureListener {
 
@@ -477,6 +484,20 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         deleteDiaryNote(e.noteId)
     }
 
+    @Subscribe
+    fun onUpdateDifficultyEvent(e: UpdateDifficultyEvent) {
+        updateDifficulty(e.difficulty)
+    }
+
+    private fun getUserSettings() {
+        cloudFirestoreDatabase.collection("users_settings").document(App.preferences.uid!!)
+            .get()
+            .addOnSuccessListener {
+                viewModel.setUserSettings(it)
+            }
+            .addOnFailureListener {  }
+    }
+
     private fun setInterestAmount(interestId: String, amount: String) {
         val data = mutableMapOf(
             interestId to amount
@@ -514,6 +535,19 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .addOnFailureListener {}
     }
 
+    private fun updateDifficulty(difficulty: Int) {
+        val data = hashMapOf(
+            "difficulty" to difficulty
+        )
+
+        cloudFirestoreDatabase.collection("users_settings").document(App.preferences.uid!!)
+            .update(data as Map<String, Any>)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {  }
+    }
+
     private fun deleteDiaryNote(noteId: String) {
         val deleteNote = hashMapOf(
             noteId to FieldValue.delete()
@@ -529,9 +563,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         with(binding.addPostBottomSheet) {
 
             val amount: Float = when (selectedDiffPointToAddPost) {
-                0 -> 0.1f
+                0 -> binding.viewModel!!.getUserSettings().getDifficultyValue()
                 1 -> 0f
-                else -> -0.1f
+                else -> -binding.viewModel!!.getUserSettings().getDifficultyValue()
             }
 
             val diaryId = noteId?: System.currentTimeMillis()
