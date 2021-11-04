@@ -27,18 +27,6 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentSplashBinding>(
 
     }
 
-
-//    private fun signOut() {
-//        // [START auth_fui_signout]
-//        AuthUI.getInstance()
-//            .signOut(this)
-//            .addOnCompleteListener {
-//                // ...
-//            }
-//        // [END auth_fui_signout]
-//    }
-
-
     // delete account
     private fun delete() {
         // [START auth_fui_delete]

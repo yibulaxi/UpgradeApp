@@ -6,10 +6,7 @@ import com.velkonost.upgrade.event.GoAuthEvent
 import com.velkonost.upgrade.model.*
 import com.velkonost.upgrade.util.RxViewModel
 import org.greenrobot.eventbus.EventBus
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 @SuppressLint("CheckResult")
 class HomeViewModel @Inject constructor(
@@ -25,7 +22,8 @@ class HomeViewModel @Inject constructor(
         userSettings = UserSettings(
             difficulty = documentSnapshot.get("difficulty").toString().toInt(),
             is_interests_initialized = documentSnapshot.getBoolean("is_interests_initialized"),
-            is_push_available = documentSnapshot.getBoolean("is_push_available")
+            is_push_available = documentSnapshot.getBoolean("is_push_available"),
+            reg_time = documentSnapshot.getLong("reg_time")
         )
     }
 

@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.velkonost.upgrade.R
-import com.velkonost.upgrade.databinding.ItemMediaAddPostBinding
 import com.velkonost.upgrade.databinding.ItemNotesMediaBinding
 import com.velkonost.upgrade.model.Media
-import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaViewHolder
 
 class NotesMediaViewHolder(
     val binding: ItemNotesMediaBinding,

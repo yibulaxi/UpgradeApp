@@ -3,19 +3,11 @@ package com.velkonost.upgrade.ui.activity.main.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.velkonost.upgrade.R
-import com.velkonost.upgrade.databinding.ItemListMetricBinding
 import com.velkonost.upgrade.databinding.ItemMediaAddPostBinding
-import com.velkonost.upgrade.event.ShowDetailInterest
-import com.velkonost.upgrade.model.Creation
-import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.model.Media
-import com.velkonost.upgrade.ui.metric.adapter.MetricListViewHolder
-import org.greenrobot.eventbus.EventBus
 
 class AddPostMediaViewHolder(
     val binding: ItemMediaAddPostBinding,

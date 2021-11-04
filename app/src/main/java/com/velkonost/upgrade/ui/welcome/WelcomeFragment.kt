@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentWelcomeBinding
+import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
 import com.velkonost.upgrade.event.InitUserInterestsEvent
 import com.velkonost.upgrade.event.SaveInterestsChangeVisibilityEvent
 import com.velkonost.upgrade.ui.base.BaseFragment
@@ -35,6 +36,7 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
             0
         )
         StatusBarUtil.setLightMode(requireActivity())
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
 
         binding.viewPager.adapter = adapter
 

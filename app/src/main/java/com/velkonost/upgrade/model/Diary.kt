@@ -2,8 +2,6 @@ package com.velkonost.upgrade.model
 
 class Diary {
     val notes: ArrayList<DiaryNote> = ArrayList()
-
-
 }
 
 class DiaryNote(

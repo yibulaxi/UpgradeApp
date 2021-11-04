@@ -3,7 +3,8 @@ package com.velkonost.upgrade.model
 class UserSettings(
     val difficulty: Int? = 1,
     val is_interests_initialized: Boolean? = true,
-    val is_push_available: Boolean? = true
+    val is_push_available: Boolean? = true,
+    val reg_time: Long? = System.currentTimeMillis()
 ) {
     fun getDifficultyValue(): Float {
         return when (difficulty) {

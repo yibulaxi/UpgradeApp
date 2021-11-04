@@ -65,13 +65,13 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/amount"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title"
                 style="@style/Text24.Medium"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -87,31 +87,31 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/notesAmount"
-                android:textColor="@color/colorText"
                 style="@style/Text14.Light"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/amountMax"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/colorText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/amountMax" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/startValue"
                 style="@style/Text14.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/notesAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toBottomOf="@id/notesAmount" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/currentValue"
                 style="@style/Text14.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/startValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toBottomOf="@id/startValue" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

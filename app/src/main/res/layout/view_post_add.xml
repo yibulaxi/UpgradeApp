@@ -16,7 +16,7 @@
         <variable
             name="noteId"
             type="String"
-            android:value="null"/>
+            android:value="null" />
     </data>
 
 
@@ -99,22 +99,22 @@
                 android:id="@+id/addMedia"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:innerRadius="0dp"
-                android:dividerHeight="0.0px"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                app:cardPreventCornerOverlap="false"
-                app:cardCornerRadius="80dp"
                 android:layout_margin="6dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:dividerHeight="0.0px"
+                android:innerRadius="0dp"
+                app:cardCornerRadius="80dp"
+                app:cardPreventCornerOverlap="false"
                 app:layout_constraintBottom_toBottomOf="@id/editText"
                 app:layout_constraintEnd_toEndOf="@id/editText">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:src="@drawable/ic_add_media"
-                    android:tint="@color/colorGray"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add_media"
+                    android:tint="@color/colorGray" />
 
             </androidx.cardview.widget.CardView>
 
@@ -196,12 +196,12 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mediaRecycler"
-                app:layout_constraintTop_toBottomOf="@id/pointsStateControlGroup"
-                android:orientation="horizontal"
-                android:layout_marginTop="24dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="100dp"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/pointsStateControlGroup" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addPost"

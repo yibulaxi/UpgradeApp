@@ -66,6 +66,7 @@ class WelcomeViewHolder(
         binding.spinner.maxValue = 10
         binding.spinner.minValue = 0
         binding.spinner.value = interest.selectedValue.toInt()
+
         binding.valueDescription.text =
             context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
 

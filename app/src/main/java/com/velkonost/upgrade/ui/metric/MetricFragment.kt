@@ -1,5 +1,7 @@
 package com.velkonost.upgrade.ui.metric
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -20,7 +22,6 @@ import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.database.core.view.Change
 import com.jaeger.library.StatusBarUtil
 import com.skydoves.balloon.*
 import com.skydoves.balloon.BalloonSizeSpec.WRAP
@@ -99,7 +100,6 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
-                    binding.backgroundImage.isVisible = false
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
                 }
@@ -122,10 +122,13 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
 
             amountMax.isVisible = interest.selectedValue == 10f
 
-            notesAmount.isVisible = binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size != 0
-            notesAmount.text = "Написано постов - " + binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size
+            notesAmount.isVisible =
+                binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size != 0
+            notesAmount.text =
+                "Написано постов - " + binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size
 
-            startValue.text = "Начальное значение - " + binding.viewModel!!.getStartInterestByInterestId(interest.id.toString())?.selectedValue
+            startValue.text =
+                "Начальное значение - " + binding.viewModel!!.getStartInterestByInterestId(interest.id.toString())?.selectedValue
             currentValue.text = "Текущее значение - " + interest.selectedValue
         }
     }
@@ -151,6 +154,18 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
             .replace(".", ",")
 
         binding.diaryAmount.text = binding.viewModel!!.getDiary().notes.size.toString()
+        binding.daysAmount.text =
+            ((System.currentTimeMillis() - binding.viewModel!!.getUserSettings().reg_time!!) / 1000 / 60 / 60 / 24).toInt()
+                .toString()
+
+        binding.list.animate()
+            .translationY(binding.list.height.toFloat())
+            .setDuration(300)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                }
+            })
     }
 
     private fun setupMetricControlGroup() {
@@ -164,6 +179,7 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
                     if (it == 0) R.color.colorWhite else R.color.colorText
                 )
             )
+
             binding.listState.setTextColor(
                 ContextCompat.getColor(
                     context!!,
@@ -171,11 +187,32 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
                 )
             )
 
-            binding.list.isVisible = it == 1
+            if (it == 1) {
+                binding.list.visibility = View.VISIBLE
+                binding.list.animate()
+                    .translationY(0f)
+                    .alpha(1.0f)
+                    .setDuration(500)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
 
+                        }
+                    })
+            } else {
+                binding.list.animate()
+                    .translationY(binding.list.height.toFloat())
+                    .alpha(0.0f)
+                    .setDuration(500)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            super.onAnimationEnd(animation)
+                            binding.list.visibility = View.GONE
+                        }
+                    })
+            }
         }
     }
-
 
     private fun setupRadarControlGroup() {
         binding.currentState.textSize = 12f
@@ -188,6 +225,7 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
                     if (it == 0) R.color.colorWhite else R.color.colorText
                 )
             )
+
             binding.startState.setTextColor(
                 ContextCompat.getColor(
                     context!!,
@@ -276,7 +314,6 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
             entries2.add(RadarEntry(val2))
         }
 
-
         val set0 = RadarDataSet(icons, "")
 
         set0.color = Color.TRANSPARENT
@@ -315,7 +352,6 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         val data = RadarData(sets)
         data.setValueTextSize(8f)
         data.setDrawValues(true)
-
 
         binding.radarChart.data = data
         binding.radarChart.invalidate()

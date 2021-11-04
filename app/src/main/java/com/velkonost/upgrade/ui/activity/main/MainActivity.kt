@@ -2,78 +2,58 @@ package com.velkonost.upgrade.ui.activity.main
 
 import android.Manifest
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.storage.FirebaseStorage
 import com.jaeger.library.StatusBarUtil
-import com.skydoves.balloon.iconForm
+import com.squareup.picasso.Picasso
+import com.stfalcon.imageviewer.StfalconImageViewer
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.*
-import com.velkonost.upgrade.model.Interest
+import com.velkonost.upgrade.model.Media
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
+import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
+import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
-import kotlin.coroutines.suspendCoroutine
-import android.view.MotionEvent
-import com.velkonost.upgrade.model.Media
-import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
-import lv.chi.photopicker.PhotoPickerFragment
-import android.content.pm.PackageManager
-
-import com.velkonost.upgrade.di.AppModule_ContextFactory.context
-import com.velkonost.upgrade.di.AppModule_ContextFactory.context
-
-import android.app.Activity
-import android.media.Image
-import android.util.Log
-
-import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
-import com.stfalcon.imageviewer.StfalconImageViewer
-import java.io.File
-import java.lang.Exception
-import kotlin.collections.ArrayList
 
 
 class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
@@ -126,11 +106,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     binding.backgroundImage.alpha = 0f
                     binding.navView.isVisible = true
-//                    binding.backgroundImage.isVisible = false
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     binding.navView.isVisible = false
                     binding.backgroundImage.alpha = 1f
-//                    binding.backgroundImage.isVisible = true
                     binding.addPostBottomSheet.editText.requestFocus()
                 }
             }
@@ -145,7 +123,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 binding.addPostBottomSheet.container.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                    binding.addPostBottomSheet.container.post { addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }
+                    binding.addPostBottomSheet.container.post {
+                        addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
                     return false
                 }
             }
@@ -158,7 +138,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         photos.map { media.add(Media(it)) }
 
         mediaAdapter = AddPostMediaAdapter(this, media)
-        (binding.addPostBottomSheet.mediaRecycler.layoutManager as LinearLayoutManager).orientation = LinearLayoutManager.HORIZONTAL
+        (binding.addPostBottomSheet.mediaRecycler.layoutManager as LinearLayoutManager).orientation =
+            LinearLayoutManager.HORIZONTAL
         binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
     }
 
@@ -176,14 +157,14 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 } else continue
             } else {
 
-                val ext = media.uri.toString().substring(media.uri.toString().lastIndexOf(".") + 1);
+                val ext = media.uri.toString().substring(media.uri.toString().lastIndexOf(".") + 1)
                 val mediaRef = storageRef.child(
                     "notes_media/" + App.preferences.uid!!.toString() + System.currentTimeMillis()
                         .toString() + "." + ext
                 )
 
-                var file = media.uri
-                val uploadTask = mediaRef.putFile(file!!)
+                val file = media.uri
+                val uploadTask = mediaRef.putFile(file)
 
                 val urlTask = uploadTask.continueWithTask { task ->
                     if (!task.isSuccessful) {
@@ -194,16 +175,12 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                     mediaRef.downloadUrl
                 }.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-//                    val downloadUri = task.result
                         uploadedUrls.add(task.result.toString())
 
                         if (uploadedUrls.size == mediaAdapter.getMedia().size) {
                             setDiaryNote(noteId, uploadedUrls)
                         }
-                    } else {
-                        // Handle failures
-                        // ...
-                    }
+                    } else { /* Handle failures .. */ }
                 }
             }
         }
@@ -223,9 +200,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 return@with
             }
 
-//            positivePoint.text = "+" + (binding.viewModel!!.getUserSettings().getDifficultyValue()).toString()
-//            negativePoint.text = (-binding.viewModel!!.getUserSettings().getDifficultyValue()).toString()
-
             icon.getRecycler().setItemViewCacheSize(binding.viewModel!!.getCurrentInterests().size)
             icon.adapter.values = (0 until itemCount).map {
                 CustomWheelPickerView.Item(
@@ -241,7 +215,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
             icon.adapter.notifyDataSetChanged()
 
-//            icon.isCircular = true
             icon.isHapticFeedbackEnabled = true
 
             icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
@@ -267,7 +240,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
             addPost.setOnClickListener {
                 if (editText.text?.length == 0) {
-                    showFail("Введите текст записи")
+                    showFail(getString(R.string.enter_note_text))
                 } else if (!::mediaAdapter.isInitialized || mediaAdapter.getMedia().size == 0)
                     setDiaryNote(noteId, binding.viewModel!!.getNoteMediaUrlsById(noteId))
                 else uploadMedia(noteId)
@@ -288,7 +261,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onGoAuthEvent(e: GoAuthEvent) {
-        showFail("Сперва авторизуйтесь")
+        showFail(getString(R.string.go_auth))
         AuthUI.getInstance()
             .signOut(this@MainActivity)
             .addOnCompleteListener {
@@ -313,16 +286,16 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
     private fun subscribePushTopic() {
         try {
-            val topic =
-                if (BuildConfig.DEBUG) "general_dev" else "general_prom"
-            FirebaseMessaging.getInstance().subscribeToTopic(topic)
-                .addOnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        Timber.d("Subscribe to topic failed.")
-                    } else {
-                        Timber.d("Subscribe to topic completed.")
-                    }
-                }
+//            val topic =
+//                if (BuildConfig.DEBUG) "general_dev" else "general_prom"
+//            FirebaseMessaging.getInstance().subscribeToTopic(topic)
+//                .addOnCompleteListener { task ->
+//                    if (!task.isSuccessful) {
+//                        Timber.d("Subscribe to topic failed.")
+//                    } else {
+//                        Timber.d("Subscribe to topic completed.")
+//                    }
+//                }
         } catch (e: Exception) {
             isFirebaseAvailable = false
         }
@@ -380,18 +353,15 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         val userSettings = hashMapOf(
             "is_push_available" to true,
             "difficulty" to 1,
-            "is_interests_initialized" to false
+            "is_interests_initialized" to false,
+            "reg_time" to System.currentTimeMillis()
         )
 
         cloudFirestoreDatabase
             .collection("users_settings").document(e.userId)
             .set(userSettings)
-            .addOnSuccessListener {
-
-            }
-            .addOnFailureListener {
-
-            }
+            .addOnSuccessListener { }
+            .addOnFailureListener { }
     }
 
     @Subscribe
@@ -426,12 +396,9 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                     .addOnSuccessListener {
                         getDiary()
                         getInterests { Navigator.welcomeToMetric(e.f) }
-//                        Navigator.welcomeToMetric(e.f)
                     }
             }
-            .addOnFailureListener {
-
-            }
+            .addOnFailureListener { }
     }
 
     @Subscribe
@@ -456,7 +423,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             }
 
             icon.getRecycler().scrollToPosition(5)
-            icon.getRecycler().post { icon.setSelectedIndex(selectedIndex , animated = true) }
+            icon.getRecycler().post { icon.setSelectedIndex(selectedIndex, animated = true) }
 
             date.text = e.note.date
 
@@ -495,7 +462,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .addOnSuccessListener {
                 viewModel.setUserSettings(it)
             }
-            .addOnFailureListener {  }
+            .addOnFailureListener { }
     }
 
     private fun setInterestAmount(interestId: String, amount: String) {
@@ -545,7 +512,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             .addOnSuccessListener {
 
             }
-            .addOnFailureListener {  }
+            .addOnFailureListener { }
     }
 
     private fun deleteDiaryNote(noteId: String) {
@@ -556,10 +523,13 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
             .update(deleteNote as Map<String, Any>)
             .addOnSuccessListener { }
-            .addOnFailureListener {  }
+            .addOnFailureListener { }
     }
 
-    private fun setDiaryNote(noteId: String? = null, mediaUrls: ArrayList<String>? = arrayListOf()) {
+    private fun setDiaryNote(
+        noteId: String? = null,
+        mediaUrls: ArrayList<String>? = arrayListOf()
+    ) {
         with(binding.addPostBottomSheet) {
 
             val amount: Float = when (selectedDiffPointToAddPost) {
@@ -568,7 +538,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 else -> -binding.viewModel!!.getUserSettings().getDifficultyValue()
             }
 
-            val diaryId = noteId?: System.currentTimeMillis()
+            val diaryId = noteId ?: System.currentTimeMillis()
             val data = hashMapOf(
                 "id" to diaryId,
                 "text" to editText.text.toString(),
@@ -585,7 +555,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
                 .update(megaData as Map<String, Any>)
                 .addOnSuccessListener {
-                    showSuccess("Запись добавлена")
+                    showSuccess(getString(R.string.note_created))
                     editText.text?.clear()
 
                     EventBus.getDefault()
@@ -595,21 +565,27 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 }
                 .addOnFailureListener {
                     if (it is FirebaseFirestoreException && it.code.value() == 5) {
-                        cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
+                        cloudFirestoreDatabase.collection("users_diary")
+                            .document(App.preferences.uid!!)
                             .set(megaData as Map<String, Any>)
                             .addOnSuccessListener {
-                                showSuccess("Запись добавлена")
+                                showSuccess(getString(R.string.note_created))
                                 editText.text?.clear()
 
                                 EventBus.getDefault()
-                                    .post(UpdateUserInterestEvent(selectedInterestIdToAddPost, amount = amount))
+                                    .post(
+                                        UpdateUserInterestEvent(
+                                            selectedInterestIdToAddPost,
+                                            amount = amount
+                                        )
+                                    )
 
                                 addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                             }
                             .addOnFailureListener {
-                                showFail("Произошла ошибка")
+                                showFail(getString(R.string.error_happened))
                             }
-                    } else showFail("Произошла ошибка")
+                    } else showFail(getString(R.string.error_happened))
                 }
         }
     }
@@ -619,7 +595,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
             if (image?.url != null)
                 Picasso.with(this@MainActivity).load(image.url).into(view)
-        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite)).withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
+        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite))
+            .withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
 
     }
 

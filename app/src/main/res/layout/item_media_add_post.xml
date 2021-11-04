@@ -10,31 +10,31 @@
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaViewHolder.Handler"/>
+            type="com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaViewHolder.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_margin="2dp"
         android:clipChildren="true"
-        android:clipToPadding="true"
-        android:layout_margin="2dp">
+        android:clipToPadding="true">
 
         <com.google.android.material.imageview.ShapeableImageView
-            app:shapeAppearanceOverlay="@style/roundedCorners"
             android:id="@+id/icon"
-            android:maxWidth="200dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:background="@drawable/bg_media_add_post"
             android:fitsSystemWindows="true"
+            android:maxWidth="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundedCorners"
             app:strokeColor="@color/colorBlueLight"
-            app:strokeWidth="1dp"
-            android:background="@drawable/bg_media_add_post"/>
+            app:strokeWidth="1dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

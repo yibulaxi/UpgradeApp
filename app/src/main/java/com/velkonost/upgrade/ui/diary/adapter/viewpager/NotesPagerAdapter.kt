@@ -1,7 +1,6 @@
 package com.velkonost.upgrade.ui.diary.adapter.viewpager
 
 import android.content.Context
-import android.provider.ContactsContract
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.model.DiaryNote

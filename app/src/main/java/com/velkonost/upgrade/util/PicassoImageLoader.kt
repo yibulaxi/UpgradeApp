@@ -7,7 +7,7 @@ import com.squareup.picasso.Picasso
 import com.velkonost.upgrade.R
 import lv.chi.photopicker.loader.ImageLoader
 
-class PicassoImageLoader: ImageLoader {
+class PicassoImageLoader : ImageLoader {
 
     override fun loadImage(context: Context, view: ImageView, uri: Uri) {
         Picasso.with(context)

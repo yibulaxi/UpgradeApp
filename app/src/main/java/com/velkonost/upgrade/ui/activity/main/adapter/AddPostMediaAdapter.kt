@@ -3,9 +3,7 @@ package com.velkonost.upgrade.ui.activity.main.adapter
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.model.Media
-import com.velkonost.upgrade.ui.metric.adapter.MetricListViewHolder
 
 class AddPostMediaAdapter(
     private val context: Context,

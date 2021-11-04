@@ -13,6 +13,7 @@ import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentSplashBinding
+import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
 import com.velkonost.upgrade.event.InitUserSettingsEvent
 import com.velkonost.upgrade.event.LoadMainEvent
 import com.velkonost.upgrade.navigation.Navigator
@@ -42,6 +43,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             0
         )
         StatusBarUtil.setLightMode(requireActivity())
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
 
         binding.animationView.imageAssetsFolder = "images"
         binding.animationView.addAnimatorListener(object : Animator.AnimatorListener {
@@ -92,12 +94,12 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setIsSmartLockEnabled(false)
-            .setLogo(R.drawable.logo) // Set logo drawable
-            .setTheme(R.style.AuthUITheme) // Set theme
+            .setLogo(R.drawable.logo)
+            .setTheme(R.style.AuthUITheme)
             .build()
+
         signInLauncher.launch(signInIntent)
     }
-
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
@@ -117,6 +119,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                     onSignInSuccess()
                     goNext()
                 }
+
             } else {
                 onAuthFailed()
             }
@@ -126,9 +129,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     }
 
     private fun initNewUserData(userId: String) {
-// interests // diary // got achievments // settings
-// select interests
-
         EventBus.getDefault()
             .post(
                 InitUserSettingsEvent(
@@ -142,7 +142,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     private fun onSignUpSuccess() {
         SimpleCustomSnackbar.make(
             binding.coordinator,
-            "Вы успешно зарегистрировались",
+            getString(R.string.signup_success),
             Snackbar.LENGTH_SHORT,
             null,
             null,
@@ -155,7 +155,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     private fun onSignInSuccess() {
         SimpleCustomSnackbar.make(
             binding.coordinator,
-            "Вы успешно авторизовались",
+            getString(R.string.signin_success),
             Snackbar.LENGTH_SHORT,
             null,
             null,
@@ -169,7 +169,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     private fun onAuthFailed() {
         SimpleCustomSnackbar.make(
             binding.coordinator,
-            "Ошибка авторизации",
+            getString(R.string.signin_error),
             Snackbar.LENGTH_SHORT,
             null,
             null,

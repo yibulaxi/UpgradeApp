@@ -1,7 +1,6 @@
 package com.velkonost.upgrade.ui.diary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -79,16 +78,20 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
         val swipedPosition = vh.absoluteAdapterPosition
         onSwiped?.invoke(adapter.getNoteAt(swipedPosition))
         adapter.removeNoteAt(swipedPosition)
-//        pagerAdapter.removeNote(it)
+
         pagerAdapter.notifyDataSetChanged()
     }
 
     private fun setupDiary() {
         if (binding.viewModel!!.getDiary().notes.size == 0) {
             binding.emptyText.isVisible = true
+            binding.emptyAnim.isVisible = true
+
             binding.recycler.isVisible = false
         } else {
             binding.emptyText.isVisible = false
+            binding.emptyAnim.isVisible = false
+
             binding.recycler.isVisible = true
 
             adapter = NotesAdapter(context!!, binding.viewModel!!.getDiary().notes)
@@ -139,9 +142,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
 
     @Subscribe
     fun onUpdateDiaryEvent(e: UpdateDiaryEvent) {
-//        if (isAdded) {
         Navigator.refresh(this@DiaryFragment)
-//        }
     }
 
     inner class Handler {

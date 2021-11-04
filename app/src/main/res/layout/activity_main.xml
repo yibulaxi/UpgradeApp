@@ -75,8 +75,8 @@
             android:id="@+id/backgroundImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/coloBlurBackground"
-            android:alpha="0"/>
+            android:alpha="0"
+            android:background="@color/coloBlurBackground" />
 
         <include
             android:id="@+id/addPostBottomSheet"

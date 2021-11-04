@@ -68,9 +68,7 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
     val originalRequest = chain.request()
     with(originalRequest.newBuilder()) {
 
-        if (App.preferences.authToken != null) {
-            addHeader("Authorization", "Bearer ${App.preferences.authToken}")
-        }
+//        addHeader("Authorization", "Bearer ${App.preferences.authToken}")
 
         originalRequest.headers.names().map {
             header(it, originalRequest.headers[it]!!)
@@ -82,14 +80,6 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
 
         val bufferValue: String? =
             response.body?.source()?.buffer?.clone()?.readString(Charset.defaultCharset())
-//        EventBus.getDefault()
-//            .post(
-//                response.body()?.source()?.buffer?.let {
-//                    RestResponseErrorHandlerEvent(response,
-//                        it, bufferValue
-//                    )
-//                }
-//            )
 
         response
     }

@@ -7,26 +7,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProviders
 import com.firebase.ui.auth.AuthUI
 import com.jaeger.library.StatusBarUtil
-import com.skydoves.powerspinner.IconSpinnerAdapter
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
-import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentSettingsBinding
-import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
+import com.velkonost.upgrade.event.UpdateDifficultyEvent
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseFragment
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
-
-import android.widget.ArrayAdapter
-
-import android.widget.Spinner
-import androidx.lifecycle.ViewModelProviders
-import com.skydoves.powerspinner.IconSpinnerItem
-import com.velkonost.upgrade.event.UpdateDifficultyEvent
 
 
 class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
@@ -51,7 +43,9 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
         binding.difficultySpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
         }
-        binding.difficultySpinner.selectItemByIndex(binding.viewModel!!.getUserSettings().difficulty?: 1)
+        binding.difficultySpinner.selectItemByIndex(
+            binding.viewModel!!.getUserSettings().difficulty ?: 1
+        )
     }
 
     inner class Handler {
@@ -59,9 +53,8 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
         fun onWriteBlockClicked(v: View) {
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/velkonost")))
-            } catch (e: Exception) { // show error message
+            } catch (e: Exception) {
                 Timber.e(e)
-
             }
         }
 
@@ -74,6 +67,7 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
                         Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
                         Intent.FLAG_ACTIVITY_MULTIPLE_TASK
             )
+
             try {
                 startActivity(goToMarket)
             } catch (e: ActivityNotFoundException) {

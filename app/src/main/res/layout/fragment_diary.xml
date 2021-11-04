@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:letterSpacing="0.2"
-                android:text="Дневник"
+                android:text="@string/diary"
                 android:textColor="@color/colorText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,10 +43,22 @@
                 style="@style/Text14.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:letterSpacing="0.1"
-                android:text="Здесь будут посты твоего дневника. Каждый из них будет прокачивать твое колесо жизни. Попробуй добавить первую запись"
+                android:text="@string/diary_empty_text"
                 android:textColor="@color/colorText"
                 app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/emptyAnim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/empty_anim"
+                app:lottie_repeatMode="reverse" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"

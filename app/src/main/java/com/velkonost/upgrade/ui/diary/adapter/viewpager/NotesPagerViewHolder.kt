@@ -14,7 +14,6 @@ import com.velkonost.upgrade.event.EditDiaryNoteEvent
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.model.Media
-import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.diary.adapter.NotesMediaAdapter
 import org.greenrobot.eventbus.EventBus
 
@@ -57,7 +56,8 @@ class NotesPagerViewHolder(
         binding.edit.setOnClickListener { EventBus.getDefault().post(EditDiaryNoteEvent(note)) }
 
         binding.recycler.isVisible = note.mediaUrls.isNotEmpty()
-        (binding.recycler.layoutManager as LinearLayoutManager).orientation = LinearLayoutManager.HORIZONTAL
+        (binding.recycler.layoutManager as LinearLayoutManager).orientation =
+            LinearLayoutManager.HORIZONTAL
         val media = arrayListOf<Media>()
         note.mediaUrls.map { media.add(Media(url = it)) }
 
