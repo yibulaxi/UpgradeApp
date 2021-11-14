@@ -44,7 +44,7 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
             EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
         }
         binding.difficultySpinner.selectItemByIndex(
-            binding.viewModel!!.getUserSettings().difficulty ?: 1
+            binding.viewModel!!.userSettings.difficulty ?: 1
         )
     }
 

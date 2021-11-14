@@ -1,7 +1,6 @@
 package com.velkonost.upgrade.rest.di
 
 import android.content.Context
-import com.velkonost.upgrade.App
 import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.rest.Json
 import io.reactivex.schedulers.Schedulers

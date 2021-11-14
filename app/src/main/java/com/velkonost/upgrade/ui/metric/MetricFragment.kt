@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -22,9 +21,7 @@ import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.jaeger.library.StatusBarUtil
 import com.skydoves.balloon.*
-import com.skydoves.balloon.BalloonSizeSpec.WRAP
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentMetricBinding
 import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
@@ -35,6 +32,7 @@ import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
+import com.velkonost.upgrade.util.ext.getBalloon
 import kotlinx.android.synthetic.main.radar_markerview.view.*
 import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
@@ -53,37 +51,9 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         BottomSheetBehavior.from(binding.interestDetailBottomSheet.bottomSheetContainer)
     }
 
-
-    val balloon: Balloon by lazy {
-        Balloon.Builder(context!!)
-            .setArrowSize(10)
-            .setArrowOrientation(ArrowOrientation.TOP)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-            .setArrowPosition(0.5f)
-            .setTextGravity(Gravity.START)
-            .setPadding(10)
-            .setWidth(WRAP)
-            .setHeight(WRAP)
-            .setTextSize(15f)
-            .setCornerRadius(4f)
-            .setAlpha(0.9f)
-            .setText(getString(R.string.metric_info))
-            .setTextColor(ContextCompat.getColor(context!!, R.color.colorWhite))
-            .setTextIsHtml(true)
-            .setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlueLight))
-            .setBalloonAnimation(BalloonAnimation.FADE)
-            .build()
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        StatusBarUtil.setColor(
-            requireActivity(),
-            ContextCompat.getColor(requireContext(), com.velkonost.upgrade.R.color.colorWhite),
-            0
-        )
-        StatusBarUtil.setLightMode(requireActivity())
 
         binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
 
@@ -135,9 +105,7 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
 
     @Subscribe
     fun onUpdateMetricsEvent(e: UpdateMetricsEvent) {
-//        if (isAdded) {
         Navigator.refresh(this@MetricFragment)
-//        }
     }
 
     private fun setupList() {
@@ -153,9 +121,9 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         binding.averageAmount.text = String.format("%.1f", (average / 8))
             .replace(".", ",")
 
-        binding.diaryAmount.text = binding.viewModel!!.getDiary().notes.size.toString()
+        binding.diaryAmount.text = binding.viewModel!!.diary.notes.size.toString()
         binding.daysAmount.text =
-            ((System.currentTimeMillis() - binding.viewModel!!.getUserSettings().reg_time!!) / 1000 / 60 / 60 / 24).toInt()
+            ((System.currentTimeMillis() - binding.viewModel!!.userSettings.reg_time!!) / 1000 / 60 / 60 / 24).toInt()
                 .toString()
 
         binding.list.animate()
@@ -169,47 +137,49 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
     }
 
     private fun setupMetricControlGroup() {
-        binding.wheelState.textSize = 12f
-        binding.listState.textSize = 12f
+        with(binding) {
+            wheelState.textSize = 12f
+            listState.textSize = 12f
 
-        binding.metricStateControlGroup.setOnSelectedOptionChangeCallback {
-            binding.wheelState.setTextColor(
-                ContextCompat.getColor(
-                    context!!,
-                    if (it == 0) R.color.colorWhite else R.color.colorText
+            metricStateControlGroup.setOnSelectedOptionChangeCallback {
+                wheelState.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        if (it == 0) R.color.colorWhite else R.color.colorText
+                    )
                 )
-            )
 
-            binding.listState.setTextColor(
-                ContextCompat.getColor(
-                    context!!,
-                    if (it == 1) R.color.colorWhite else R.color.colorText
+                listState.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        if (it == 1) R.color.colorWhite else R.color.colorText
+                    )
                 )
-            )
 
-            if (it == 1) {
-                binding.list.visibility = View.VISIBLE
-                binding.list.animate()
-                    .translationY(0f)
-                    .alpha(1.0f)
-                    .setDuration(500)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            super.onAnimationEnd(animation)
+                if (it == 1) {
+                    list.visibility = View.VISIBLE
+                    list.animate()
+                        .translationY(0f)
+                        .alpha(1.0f)
+                        .setDuration(500)
+                        .setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
 
-                        }
-                    })
-            } else {
-                binding.list.animate()
-                    .translationY(binding.list.height.toFloat())
-                    .alpha(0.0f)
-                    .setDuration(500)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            super.onAnimationEnd(animation)
-                            binding.list.visibility = View.GONE
-                        }
-                    })
+                            }
+                        })
+                } else {
+                    list.animate()
+                        .translationY(binding.list.height.toFloat())
+                        .alpha(0.0f)
+                        .setDuration(500)
+                        .setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator) {
+                                super.onAnimationEnd(animation)
+                                binding.list.visibility = View.GONE
+                            }
+                        })
+                }
             }
         }
     }
@@ -359,7 +329,7 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
 
     inner class Handler {
         fun onInfoClicked(v: View) {
-            balloon.showAlignBottom(binding.info)
+            getBalloon(getString(R.string.metric_info)).showAlignBottom(binding.info)
         }
     }
 }

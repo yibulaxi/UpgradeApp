@@ -1,14 +1,11 @@
 package com.velkonost.upgrade.ui.diary
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.jaeger.library.StatusBarUtil
 import com.skydoves.balloon.*
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentDiaryBinding
@@ -20,6 +17,7 @@ import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.diary.adapter.NotesAdapter
 import com.velkonost.upgrade.ui.diary.adapter.viewpager.NotesPagerAdapter
 import com.velkonost.upgrade.ui.welcome.WelcomeFragment
+import com.velkonost.upgrade.util.ext.getBalloon
 import com.velkonost.upgrade.util.ext.setUpRemoveItemTouchHelper
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,6 +27,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
     HomeViewModel::class,
     Handler::class
 ) {
+
     private lateinit var adapter: NotesAdapter
     private lateinit var pagerAdapter: NotesPagerAdapter
 
@@ -36,36 +35,9 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
         EventBus.getDefault().post(DeleteDiaryNoteEvent(it.id))
     }
 
-    val balloon: Balloon by lazy {
-        Balloon.Builder(context!!)
-            .setArrowSize(10)
-            .setArrowOrientation(ArrowOrientation.TOP)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-            .setArrowPosition(0.5f)
-            .setTextGravity(Gravity.START)
-            .setPadding(10)
-            .setWidth(BalloonSizeSpec.WRAP)
-            .setHeight(BalloonSizeSpec.WRAP)
-            .setTextSize(15f)
-            .setCornerRadius(4f)
-            .setAlpha(0.9f)
-            .setText(getString(R.string.diary_info))
-            .setTextColor(ContextCompat.getColor(context!!, R.color.colorWhite))
-            .setTextIsHtml(true)
-            .setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorBlueLight))
-            .setBalloonAnimation(BalloonAnimation.FADE)
-            .build()
-    }
-
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        StatusBarUtil.setColor(
-            requireActivity(),
-            ContextCompat.getColor(requireContext(), R.color.colorWhite),
-            0
-        )
-        StatusBarUtil.setLightMode(requireActivity())
 
         binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
 
@@ -83,7 +55,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
     }
 
     private fun setupDiary() {
-        if (binding.viewModel!!.getDiary().notes.size == 0) {
+        if (binding.viewModel!!.diary.notes.size == 0) {
             binding.emptyText.isVisible = true
             binding.emptyAnim.isVisible = true
 
@@ -94,7 +66,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
 
             binding.recycler.isVisible = true
 
-            adapter = NotesAdapter(context!!, binding.viewModel!!.getDiary().notes)
+            adapter = NotesAdapter(context!!, binding.viewModel!!.diary.notes)
             binding.recycler.adapter = adapter
             binding.recycler.setUpRemoveItemTouchHelper(
                 R.string.delete,
@@ -102,7 +74,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
                 ::onItemInListSwiped
             )
 
-            pagerAdapter = NotesPagerAdapter(context!!, binding.viewModel!!.getDiary().notes)
+            pagerAdapter = NotesPagerAdapter(context!!, binding.viewModel!!.diary.notes)
             binding.viewPager.adapter = pagerAdapter
             binding.viewPager.offscreenPageLimit = 1
 
@@ -121,7 +93,6 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
                 R.dimen.diary_viewpager_current_item_horizontal_margin
             )
             binding.viewPager.addItemDecoration(itemDecoration)
-
         }
     }
 
@@ -147,7 +118,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
 
     inner class Handler {
         fun onInfoClicked(v: View) {
-            balloon.showAlignBottom(binding.info)
+            getBalloon(getString(R.string.diary_info)).showAlignBottom(binding.info)
         }
 
         fun onBlurClicked(v: View) {

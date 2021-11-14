@@ -43,7 +43,11 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             0
         )
         StatusBarUtil.setLightMode(requireActivity())
-        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
+        EventBus.getDefault().post(
+            ChangeNavViewVisibilityEvent(
+                isVisible = false
+            )
+        )
 
         binding.animationView.imageAssetsFolder = "images"
         binding.animationView.addAnimatorListener(object : Animator.AnimatorListener {
@@ -73,7 +77,12 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 createSignInIntent()
             } else {
                 if (App.preferences.isInterestsInitialized) {
-                    EventBus.getDefault().post(LoadMainEvent(true, this@SplashFragment))
+                    EventBus.getDefault().post(
+                        LoadMainEvent(
+                            isAuthSuccess = true,
+                            this@SplashFragment
+                        )
+                    )
                     allowGoNext = false
 
                 } else {
@@ -132,7 +141,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         EventBus.getDefault()
             .post(
                 InitUserSettingsEvent(
-                    userId
+                    userId = userId
                 )
             )
 

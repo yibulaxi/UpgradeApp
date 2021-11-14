@@ -1,16 +1,13 @@
 package com.velkonost.upgrade.ui.activity.main
 
 import android.Manifest
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -23,18 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.jaeger.library.StatusBarUtil
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.velkonost.upgrade.App
-import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.*
@@ -45,13 +35,13 @@ import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
+import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -70,7 +60,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     private var selectedInterestIdToAddPost: String = ""
     private var selectedDiffPointToAddPost: Int = 0
 
-    private lateinit var cloudFirestoreDatabase: FirebaseFirestore
+    //    private lateinit var cloudFirestoreDatabase: FirebaseFirestore
     private lateinit var cloudStorage: FirebaseStorage
     private var isFirebaseAvailable: Boolean = false
 
@@ -83,8 +73,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
         navController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController!!)
-
-        lockDeviceRotation(true)
 
         binding.navView.setOnNavigationItemReselectedListener {
             if (binding.navView.selectedItemId == it.itemId) {
@@ -113,6 +101,17 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 }
             }
         })
+
+    }
+
+    override fun onViewModelReady(viewModel: HomeViewModel) {
+        super.onViewModelReady(viewModel)
+
+        viewModel.errorEvent.observe(this, ::showFail)
+        viewModel.successEvent.observe(this, ::showSuccess)
+        viewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
+        viewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
+
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -147,7 +146,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         val storageRef = cloudStorage.reference
         val uploadedUrls = arrayListOf<String>()
 
-
         for (media in mediaAdapter.getMedia()) {
             if (media.uri == null) {
                 uploadedUrls.add(media.url!!)
@@ -180,7 +178,8 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                         if (uploadedUrls.size == mediaAdapter.getMedia().size) {
                             setDiaryNote(noteId, uploadedUrls)
                         }
-                    } else { /* Handle failures .. */ }
+                    } else { /* Handle failures .. */
+                    }
                 }
             }
         }
@@ -273,13 +272,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     }
 
     @Subscribe
-    fun onLoadMainEvent(e: LoadMainEvent) {
-        getUserSettings()
-        getDiary()
-        getInterests { Navigator.splashToMetric(e.f) }
-    }
-
-    @Subscribe
     fun onChangeNavViewVisibilityEvent(e: ChangeNavViewVisibilityEvent) {
         binding.navView.isVisible = e.isVisible
     }
@@ -301,14 +293,16 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         }
 
         try {
-            cloudFirestoreDatabase = Firebase.firestore
+//            cloudFirestoreDatabase = Firebase.firestore
             cloudStorage = FirebaseStorage.getInstance()
         } catch (e: Exception) {
             isFirebaseAvailable = false
         }
     }
 
-    private fun setupNavMenu() {
+    private fun setupNavMenu(msg: String) {
+        if (binding.navView.menu.size() != 0) return
+
         binding.navView.inflateMenu(R.menu.bottom_nav_menu)
         binding.navView.isVisible = true
 
@@ -328,84 +322,15 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         setupAddPostBottomSheet()
     }
 
-    private fun lockDeviceRotation(value: Boolean) {
-        requestedOrientation = if (value) {
-            val currentOrientation = resources.configuration.orientation
-            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
-            } else {
-                ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
-            }
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            ActivityInfo.SCREEN_ORIENTATION_FULL_USER
-        }
-    }
-
     @Subscribe
     fun onChangeTabEvent(e: ChangeTabEvent) {
         binding.navView.selectedItemId = e.itemId
     }
 
     @Subscribe
-    fun onInitUserSettingsEvent(e: InitUserSettingsEvent) {
-
-        val userSettings = hashMapOf(
-            "is_push_available" to true,
-            "difficulty" to 1,
-            "is_interests_initialized" to false,
-            "reg_time" to System.currentTimeMillis()
-        )
-
-        cloudFirestoreDatabase
-            .collection("users_settings").document(e.userId)
-            .set(userSettings)
-            .addOnSuccessListener { }
-            .addOnFailureListener { }
-    }
-
-    @Subscribe
-    fun onUpdateUserInterestEvent(e: UpdateUserInterestEvent) {
-        cloudFirestoreDatabase
-            .collection("users_interests").document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
-                val interestPrevAmount = (it.get(e.interestId)).toString().toFloat()
-                var interestNewAmount = interestPrevAmount + e.amount
-
-                if (interestNewAmount > 10f) interestNewAmount = 10f
-                if (interestNewAmount < 0f) interestNewAmount = 0f
-
-                setInterestAmount(e.interestId, String.format("%.1f", interestNewAmount))
-            }
-            .addOnFailureListener {
-
-            }
-    }
-
-    @Subscribe
-    fun onInitUserInterestsEvent(e: InitUserInterestsEvent) {
-        cloudFirestoreDatabase
-            .collection("users_interests").document(App.preferences.uid!!)
-            .set(e.data)
-            .addOnSuccessListener {
-                App.preferences.isInterestsInitialized = true
-                cloudFirestoreDatabase
-                    .collection("users_settings").document(App.preferences.uid!!)
-                    .update(mapOf("is_interests_initialized" to true))
-                    .addOnSuccessListener {
-                        getDiary()
-                        getInterests { Navigator.welcomeToMetric(e.f) }
-                    }
-            }
-            .addOnFailureListener { }
-    }
-
-    @Subscribe
     fun onEditDiaryNoteEvent(e: EditDiaryNoteEvent) {
         addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         binding.addPostBottomSheet.editText.requestFocus()
-
 
         with(binding.addPostBottomSheet) {
             noteId = e.note.id
@@ -422,8 +347,13 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 }
             }
 
-            icon.getRecycler().scrollToPosition(5)
-            icon.getRecycler().post { icon.setSelectedIndex(selectedIndex, animated = true) }
+            icon.getRecycler().scrollToPosition(position = 5)
+            icon.getRecycler().post {
+                icon.setSelectedIndex(
+                    index = selectedIndex,
+                    animated = true
+                )
+            }
 
             date.text = e.note.date
 
@@ -446,148 +376,28 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         }
     }
 
-    @Subscribe
-    fun onDeleteDiaryNoteEvent(e: DeleteDiaryNoteEvent) {
-        deleteDiaryNote(e.noteId)
-    }
-
-    @Subscribe
-    fun onUpdateDifficultyEvent(e: UpdateDifficultyEvent) {
-        updateDifficulty(e.difficulty)
-    }
-
-    private fun getUserSettings() {
-        cloudFirestoreDatabase.collection("users_settings").document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
-                viewModel.setUserSettings(it)
-            }
-            .addOnFailureListener { }
-    }
-
-    private fun setInterestAmount(interestId: String, amount: String) {
-        val data = mutableMapOf(
-            interestId to amount
-        )
-
-        cloudFirestoreDatabase
-            .collection("users_interests").document(App.preferences.uid!!)
-            .update(data as Map<String, Any>)
-            .addOnSuccessListener {
-                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                getDiary()
-            }
-            .addOnFailureListener {}
-    }
-
-    private fun getInterests(f: () -> Unit) {
-        cloudFirestoreDatabase.collection("users_interests").document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
-                viewModel.setInterests(it).run {
-                    f()
-                    if (binding.navView.menu.size() == 0) setupNavMenu()
-                }
-            }
-            .addOnFailureListener {}
-    }
-
-    private fun getDiary() {
-        cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
-                viewModel.setDiary(it)
-                EventBus.getDefault().post(UpdateDiaryEvent(true))
-            }
-            .addOnFailureListener {}
-    }
-
-    private fun updateDifficulty(difficulty: Int) {
-        val data = hashMapOf(
-            "difficulty" to difficulty
-        )
-
-        cloudFirestoreDatabase.collection("users_settings").document(App.preferences.uid!!)
-            .update(data as Map<String, Any>)
-            .addOnSuccessListener {
-
-            }
-            .addOnFailureListener { }
-    }
-
-    private fun deleteDiaryNote(noteId: String) {
-        val deleteNote = hashMapOf(
-            noteId to FieldValue.delete()
-        )
-
-        cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
-            .update(deleteNote as Map<String, Any>)
-            .addOnSuccessListener { }
-            .addOnFailureListener { }
-    }
-
     private fun setDiaryNote(
         noteId: String? = null,
         mediaUrls: ArrayList<String>? = arrayListOf()
     ) {
         with(binding.addPostBottomSheet) {
-
-            val amount: Float = when (selectedDiffPointToAddPost) {
-                0 -> binding.viewModel!!.getUserSettings().getDifficultyValue()
-                1 -> 0f
-                else -> -binding.viewModel!!.getUserSettings().getDifficultyValue()
-            }
-
-            val diaryId = noteId ?: System.currentTimeMillis()
-            val data = hashMapOf(
-                "id" to diaryId,
-                "text" to editText.text.toString(),
-                "date" to date.text.toString(),
-                "interest" to selectedInterestIdToAddPost,
-                "amount" to String.format("%.1f", amount),
-                "media" to mediaUrls
+            binding.viewModel!!.setDiaryNote(
+                noteId = noteId,
+                text = editText.text.toString(),
+                date = date.text.toString(),
+                selectedInterestIdToAddPost = selectedInterestIdToAddPost,
+                selectedDiffPointToAddPost = selectedDiffPointToAddPost,
+                mediaUrls = mediaUrls
             )
-
-            val megaData = hashMapOf(
-                diaryId.toString() to data
-            )
-
-            cloudFirestoreDatabase.collection("users_diary").document(App.preferences.uid!!)
-                .update(megaData as Map<String, Any>)
-                .addOnSuccessListener {
-                    showSuccess(getString(R.string.note_created))
-                    editText.text?.clear()
-
-                    EventBus.getDefault()
-                        .post(UpdateUserInterestEvent(selectedInterestIdToAddPost, amount = amount))
-
-                    addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                }
-                .addOnFailureListener {
-                    if (it is FirebaseFirestoreException && it.code.value() == 5) {
-                        cloudFirestoreDatabase.collection("users_diary")
-                            .document(App.preferences.uid!!)
-                            .set(megaData as Map<String, Any>)
-                            .addOnSuccessListener {
-                                showSuccess(getString(R.string.note_created))
-                                editText.text?.clear()
-
-                                EventBus.getDefault()
-                                    .post(
-                                        UpdateUserInterestEvent(
-                                            selectedInterestIdToAddPost,
-                                            amount = amount
-                                        )
-                                    )
-
-                                addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                            }
-                            .addOnFailureListener {
-                                showFail(getString(R.string.error_happened))
-                            }
-                    } else showFail(getString(R.string.error_happened))
-                }
         }
+    }
+
+    private fun observeSetDiaryNote(isSuccess: Boolean) {
+        if (isSuccess) {
+            showSuccess(getString(R.string.note_created))
+            binding.addPostBottomSheet.editText.text?.clear()
+            addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        } else showFail(getString(com.velkonost.upgrade.R.string.error_happened))
     }
 
     @Subscribe
@@ -597,7 +407,6 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 Picasso.with(this@MainActivity).load(image.url).into(view)
         }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite))
             .withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
-
     }
 
     private fun showSuccess(msg: String) {

@@ -13,6 +13,7 @@ class AddPostMediaViewHolder(
     val binding: ItemMediaAddPostBinding,
     val context: Context
 ) : RecyclerView.ViewHolder(binding.root) {
+
     init {
         binding.handler = Handler()
     }
