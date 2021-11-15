@@ -12,6 +12,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.*
@@ -29,21 +30,31 @@ import com.velkonost.upgrade.event.ShowDetailInterest
 import com.velkonost.upgrade.event.UpdateMetricsEvent
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.ui.HomeViewModel
+import com.velkonost.upgrade.ui.activity.main.MainActivity
+import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
 import com.velkonost.upgrade.util.ext.getBalloon
+import com.velkonost.upgrade.util.ext.getViewModel
+import com.velkonost.upgrade.vm.BaseViewModel
+import com.velkonost.upgrade.vm.UserDiaryViewModel
+import com.velkonost.upgrade.vm.UserInterestsViewModel
+import com.velkonost.upgrade.vm.UserSettingsViewModel
 import kotlinx.android.synthetic.main.radar_markerview.view.*
 import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 
-class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
+class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     R.layout.fragment_metric,
-    HomeViewModel::class,
+    BaseViewModel::class,
     Handler::class
 ) {
+
+    private val userInterestsViewModel: UserInterestsViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserInterestsViewModel::class.java) }
+    private val userDiaryViewModel: UserDiaryViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserDiaryViewModel::class.java) }
+    private val userSettingsViewModel: UserSettingsViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserSettingsViewModel::class.java) }
 
     private lateinit var adapter: MetricListAdapter
 
@@ -55,7 +66,7 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
+//        binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
 
         setupChart()
         setupList()
@@ -87,19 +98,19 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
 
     private fun setupDetailInterestBottomSheet(interest: Interest) {
         with(binding.interestDetailBottomSheet) {
-            title.text = getString(interest.nameRes)
-            amount.text = interest.selectedValue.toString()
+            title.text = interest.name?: getString(interest.nameRes!!)
+            amount.text = interest.toString()
 
-            amountMax.isVisible = interest.selectedValue == 10f
+            amountMax.isVisible = interest.currentValue == 10f
 
             notesAmount.isVisible =
-                binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size != 0
+                userDiaryViewModel.getNotesByInterestId(interest.id.toString()).size != 0
             notesAmount.text =
-                "Написано постов - " + binding.viewModel!!.getNotesByInterestId(interest.id.toString()).size
+                "Написано постов - " + userDiaryViewModel.getNotesByInterestId(interest.id.toString()).size
 
             startValue.text =
-                "Начальное значение - " + binding.viewModel!!.getStartInterestByInterestId(interest.id.toString())?.selectedValue
-            currentValue.text = "Текущее значение - " + interest.selectedValue
+                "Начальное значение - " + userInterestsViewModel.getStartInterestByInterestId(interest.id.toString())?.currentValue
+            currentValue.text = "Текущее значение - " + interest.currentValue
         }
     }
 
@@ -109,21 +120,21 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
     }
 
     private fun setupList() {
-        adapter = MetricListAdapter(context!!, binding.viewModel!!.getCurrentInterests())
+        adapter = MetricListAdapter(context!!, userInterestsViewModel.getCurrentInterests())
         binding.recycler.adapter = adapter
 
         var average = 0f
 
-        for (interest in binding.viewModel!!.getCurrentInterests()) {
-            average += interest.selectedValue
+        for (interest in userInterestsViewModel.getCurrentInterests()) {
+            average += interest.currentValue!!
         }
 
         binding.averageAmount.text = String.format("%.1f", (average / 8))
             .replace(".", ",")
 
-        binding.diaryAmount.text = binding.viewModel!!.diary.notes.size.toString()
+        binding.diaryAmount.text = userDiaryViewModel.diary.notes.size.toString()
         binding.daysAmount.text =
-            ((System.currentTimeMillis() - binding.viewModel!!.userSettings.reg_time!!) / 1000 / 60 / 60 / 24).toInt()
+            ((System.currentTimeMillis() - userSettingsViewModel.userSettings.dateRegistration!!) / 1000 / 60 / 60 / 24).toInt()
                 .toString()
 
         binding.list.animate()
@@ -264,24 +275,24 @@ class MetricFragment : BaseFragment<HomeViewModel, FragmentMetricBinding>(
         val entries1: ArrayList<RadarEntry> = ArrayList()
         val entries2: ArrayList<RadarEntry> = ArrayList()
 
-        val currentInterests = binding.viewModel!!.getCurrentInterests()
-        val startInterests = binding.viewModel!!.getStartInterests()
+        val currentInterests = userInterestsViewModel.getCurrentInterests()
+        val startInterests = userInterestsViewModel.getStartInterests()
 
         for (i in 0 until currentInterests.size) {
             val val0 = 12f
             val radarEntryIcon = RadarEntry(val0)
 
-            val bMap = BitmapFactory.decodeResource(resources, currentInterests[i].logo)
-            val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
+//            val bMap = BitmapFactory.decodeResource(resources, currentInterests[i].logo)
+//            val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
 
-            radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
+//            radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
             icons.add(radarEntryIcon)
 
-            val val1 = currentInterests[i].selectedValue
-            entries1.add(RadarEntry(val1))
+            val val1 = currentInterests[i].currentValue
+            entries1.add(RadarEntry(val1!!))
 
-            val val2 = startInterests[i].selectedValue
-            entries2.add(RadarEntry(val2))
+            val val2 = startInterests[i].currentValue
+            entries2.add(RadarEntry(val2!!))
         }
 
         val set0 = RadarDataSet(icons, "")

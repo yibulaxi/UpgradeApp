@@ -17,17 +17,18 @@ class MetricListViewHolder(
     val binding: ItemListMetricBinding,
     val context: Context
 ) : RecyclerView.ViewHolder(binding.root) {
+
     init {
         binding.handler = Handler()
     }
 
     fun bind(interest: Interest) {
-        binding.icon.setImageDrawable(AppCompatResources.getDrawable(context, interest.logo))
-        binding.title.text = context.getString(interest.nameRes)
-        binding.description.text = context.getString(interest.shortDescriptionRes)
-        binding.value.text = interest.selectedValue.toString().replace(".", ",")
+        binding.icon.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.logo))
+        binding.title.text = interest.name?: context.getString(interest.nameRes!!)
+//        binding.description.text = context.getString(interest.shortDescriptionRes)
+        binding.value.text = interest.currentValue.toString().replace(".", ",")
 
-        binding.value.background = when (interest.selectedValue) {
+        binding.value.background = when (interest.currentValue) {
             0f -> AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient)
             10f -> AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value)
             else -> AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient)

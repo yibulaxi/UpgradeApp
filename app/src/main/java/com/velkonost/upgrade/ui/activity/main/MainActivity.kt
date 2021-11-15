@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -30,11 +31,14 @@ import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.*
 import com.velkonost.upgrade.model.Media
 import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
+import com.velkonost.upgrade.vm.BaseViewModel
+import com.velkonost.upgrade.vm.UserDiaryViewModel
+import com.velkonost.upgrade.vm.UserInterestsViewModel
+import com.velkonost.upgrade.vm.UserSettingsViewModel
 import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
@@ -45,12 +49,16 @@ import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
+class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     R.layout.activity_main,
-    HomeViewModel::class,
+    BaseViewModel::class,
     Handler::class
 ), PhotoPickerFragment.Callback {
+
+    private val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
+    private val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory}
+    private val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
+
     private var navController: NavController? = null
 
     private val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
@@ -104,13 +112,14 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
     }
 
-    override fun onViewModelReady(viewModel: HomeViewModel) {
+    override fun onViewModelReady(viewModel: BaseViewModel) {
         super.onViewModelReady(viewModel)
 
         viewModel.errorEvent.observe(this, ::showFail)
         viewModel.successEvent.observe(this, ::showSuccess)
-        viewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
-        viewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
+        userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
+
+        userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
 
     }
 
@@ -193,19 +202,20 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
     private fun setupAddPostBottomSheet() {
         with(binding.addPostBottomSheet) {
 
-            val itemCount = binding.viewModel!!.getCurrentInterests().size
+            val itemCount = userInterestsViewModel.getCurrentInterests().size
             if (itemCount == 0) {
                 EventBus.getDefault().post(GoAuthEvent(true))
                 return@with
             }
 
-            icon.getRecycler().setItemViewCacheSize(binding.viewModel!!.getCurrentInterests().size)
+            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getCurrentInterests().size)
             icon.adapter.values = (0 until itemCount).map {
                 CustomWheelPickerView.Item(
-                    binding.viewModel!!.getCurrentInterests()[it].id.toString(),
+                    userInterestsViewModel.getCurrentInterests()[it].id.toString(),
                     ContextCompat.getDrawable(
                         this@MainActivity,
-                        binding.viewModel!!.getCurrentInterests()[it].logo
+                        R.drawable.environment_logo
+//                        binding.viewModel!!.getCurrentInterests()[it].logo
                     )
                 )
             }
@@ -241,7 +251,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 if (editText.text?.length == 0) {
                     showFail(getString(R.string.enter_note_text))
                 } else if (!::mediaAdapter.isInitialized || mediaAdapter.getMedia().size == 0)
-                    setDiaryNote(noteId, binding.viewModel!!.getNoteMediaUrlsById(noteId))
+                    setDiaryNote(noteId, userDiaryViewModel.getNoteMediaUrlsById(noteId))
                 else uploadMedia(noteId)
             }
 
@@ -256,6 +266,13 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
                 }
             }
         }
+    }
+
+    @Subscribe
+    fun onLoadMainEvent(e: LoadMainEvent) {
+        userDiaryViewModel.getDiary()
+        userSettingsViewModel.getUserSettings()
+        userInterestsViewModel.getInterests { Navigator.splashToMetric(e.f) }
     }
 
     @Subscribe
@@ -341,7 +358,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
 
             var selectedIndex = 0
             for (i in icon.adapter.values.indices) {
-                if (icon.adapter.values[i].id == e.note.interestId) {
+                if (icon.adapter.values[i].id == e.note.interest.interestId) {
                     selectedIndex = i
                     break
                 }
@@ -358,17 +375,17 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
             date.text = e.note.date
 
             when {
-                e.note.amount.toFloat() < 0f -> {
+                e.note.changeOfPoints.toFloat() < 0f -> {
                     pointsStateControlGroup.setSelectedIndex(2, true)
                 }
-                e.note.amount.toFloat() > 0f -> {
+                e.note.changeOfPoints.toFloat() > 0f -> {
                     pointsStateControlGroup.setSelectedIndex(0, true)
                 }
                 else -> pointsStateControlGroup.setSelectedIndex(1, true)
             }
 
             val urls = arrayListOf<Media>()
-            for (url in e.note.mediaUrls) {
+            for (url in e.note.media?: arrayListOf()) {
                 urls.add(Media(url = url))
             }
             mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls)
@@ -381,7 +398,7 @@ class MainActivity : BaseActivity<HomeViewModel, ActivityMainBinding>(
         mediaUrls: ArrayList<String>? = arrayListOf()
     ) {
         with(binding.addPostBottomSheet) {
-            binding.viewModel!!.setDiaryNote(
+            userDiaryViewModel.setDiaryNote(
                 noteId = noteId,
                 text = editText.text.toString(),
                 date = date.text.toString(),

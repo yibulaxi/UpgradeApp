@@ -70,12 +70,12 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
     inner class Handler {
         fun onSaveInterestsClicked(v: View) {
             val map = adapter.getInterests().map {
-                it.id.toString() to it.selectedValue
+                it.id.toString() to it.currentValue
             }.toMap()
 
             map.plus(adapter.getInterests().map {
-                it.id.toString() + "_start" to it.selectedValue
-            }).let { EventBus.getDefault().post(InitUserInterestsEvent(it, this@WelcomeFragment)) }
+                it.id.toString() + "_start" to it.currentValue
+            }).let { EventBus.getDefault().post(InitUserInterestsEvent(it as Map<String, Float>, this@WelcomeFragment)) }
 
         }
     }

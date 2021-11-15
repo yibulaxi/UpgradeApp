@@ -60,33 +60,33 @@ class WelcomeViewHolder(
             }
         }
 
-        binding.title.text = context.getString(interest.nameRes)
-        binding.description.text = context.getString(interest.descriptionRes)
+        binding.title.text = interest.name?: context.getString(interest.nameRes!!)
+//        binding.description.text = context.getString(interest.descriptionRes)
 
         binding.spinner.maxValue = 10
         binding.spinner.minValue = 0
-        binding.spinner.value = interest.selectedValue.toInt()
+        binding.spinner.value = interest.currentValue!!.toInt()
 
         binding.valueDescription.text =
-            context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
+            context.resources.getStringArray(R.array.interest_values)[interest.currentValue!!.toInt()]
 
         binding.spinner.textAnimationStyle = AnimationStyle.SLIDE_IN
         binding.spinner.animationDuration = 0
         binding.spinner.setQuantitizerListener(object : QuantitizerListener {
             override fun onDecrease() {
-                if (interest.selectedValue.toInt() == 0) return
+                if (interest.currentValue?.toInt() == 0) return
 
-                interest.selectedValue -= 1
+                interest.currentValue = interest.currentValue?.minus(1)
                 binding.valueDescription.text =
-                    context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
+                    context.resources.getStringArray(R.array.interest_values)[interest.currentValue!!.toInt()]
             }
 
             override fun onIncrease() {
-                if (interest.selectedValue.toInt() == 10) return
+                if (interest.currentValue?.toInt() == 10) return
 
-                interest.selectedValue += 1
+                interest.currentValue = interest.currentValue?.plus(1)
                 binding.valueDescription.text =
-                    context.resources.getStringArray(R.array.interest_values)[interest.selectedValue.toInt()]
+                    context.resources.getStringArray(R.array.interest_values)[interest.currentValue!!.toInt()]
             }
 
         })

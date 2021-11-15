@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ItemAdapterPagerNotesBinding
 import com.velkonost.upgrade.event.EditDiaryNoteEvent
+import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.model.Media
@@ -35,16 +36,16 @@ class NotesPagerViewHolder(
         binding.icon.setImageDrawable(
             AppCompatResources.getDrawable(
                 context,
-                Interest.getInterestById(note.interestId.toInt()).logo
+                DefaultInterest.getInterestById(note.interest.interestId.toInt()).logo
             )
         )
 
-        binding.amount.text = note.amount.replace(".", ",")
+        binding.amount.text = note.changeOfPoints.toString().replace(".", ",")
 
         when {
-            note.amount.toFloat() > 0 -> binding.amount.background =
+            note.changeOfPoints.toFloat() > 0 -> binding.amount.background =
                 AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient)
-            note.amount.toFloat() < 0 -> binding.amount.background =
+            note.changeOfPoints.toFloat() < 0 -> binding.amount.background =
                 AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient)
             else -> binding.amount.background =
                 AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value)
@@ -55,11 +56,11 @@ class NotesPagerViewHolder(
 
         binding.edit.setOnClickListener { EventBus.getDefault().post(EditDiaryNoteEvent(note)) }
 
-        binding.recycler.isVisible = note.mediaUrls.isNotEmpty()
+        binding.recycler.isVisible = !note.media.isNullOrEmpty()
         (binding.recycler.layoutManager as LinearLayoutManager).orientation =
             LinearLayoutManager.HORIZONTAL
         val media = arrayListOf<Media>()
-        note.mediaUrls.map { media.add(Media(url = it)) }
+        note.media?.map { media.add(Media(url = it)) }
 
         binding.recycler.adapter = NotesMediaAdapter(context, media)
     }

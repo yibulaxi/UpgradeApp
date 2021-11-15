@@ -12,21 +12,25 @@ import com.velkonost.upgrade.databinding.FragmentDiaryBinding
 import com.velkonost.upgrade.event.*
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.diary.adapter.NotesAdapter
 import com.velkonost.upgrade.ui.diary.adapter.viewpager.NotesPagerAdapter
 import com.velkonost.upgrade.ui.welcome.WelcomeFragment
 import com.velkonost.upgrade.util.ext.getBalloon
 import com.velkonost.upgrade.util.ext.setUpRemoveItemTouchHelper
+import com.velkonost.upgrade.vm.BaseViewModel
+import com.velkonost.upgrade.vm.UserDiaryViewModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
+class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     R.layout.fragment_diary,
-    HomeViewModel::class,
+    BaseViewModel::class,
     Handler::class
 ) {
+
+    private val userDiaryViewModel: UserDiaryViewModel by lazy { ViewModelProviders.of(requireActivity()).get(
+        UserDiaryViewModel::class.java) }
 
     private lateinit var adapter: NotesAdapter
     private lateinit var pagerAdapter: NotesPagerAdapter
@@ -38,8 +42,6 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-
-        binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
 
         setupDiary()
 
@@ -55,7 +57,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
     }
 
     private fun setupDiary() {
-        if (binding.viewModel!!.diary.notes.size == 0) {
+        if (userDiaryViewModel.diary.notes.size == 0) {
             binding.emptyText.isVisible = true
             binding.emptyAnim.isVisible = true
 
@@ -66,7 +68,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
 
             binding.recycler.isVisible = true
 
-            adapter = NotesAdapter(context!!, binding.viewModel!!.diary.notes)
+            adapter = NotesAdapter(context!!, userDiaryViewModel.diary.notes)
             binding.recycler.adapter = adapter
             binding.recycler.setUpRemoveItemTouchHelper(
                 R.string.delete,
@@ -74,7 +76,7 @@ class DiaryFragment : BaseFragment<HomeViewModel, FragmentDiaryBinding>(
                 ::onItemInListSwiped
             )
 
-            pagerAdapter = NotesPagerAdapter(context!!, binding.viewModel!!.diary.notes)
+            pagerAdapter = NotesPagerAdapter(context!!, userDiaryViewModel.diary.notes)
             binding.viewPager.adapter = pagerAdapter
             binding.viewPager.offscreenPageLimit = 1
 

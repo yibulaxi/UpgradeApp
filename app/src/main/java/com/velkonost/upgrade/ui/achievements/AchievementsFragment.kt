@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.databinding.FragmentAchievementsBinding
-import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseFragment
+import com.velkonost.upgrade.vm.BaseViewModel
 
-class AchievementsFragment : BaseFragment<HomeViewModel, FragmentAchievementsBinding>(
+class AchievementsFragment : BaseFragment<BaseViewModel, FragmentAchievementsBinding>(
     com.velkonost.upgrade.R.layout.fragment_achievements,
-    HomeViewModel::class,
+    BaseViewModel::class,
     Handler::class
 ) {
 

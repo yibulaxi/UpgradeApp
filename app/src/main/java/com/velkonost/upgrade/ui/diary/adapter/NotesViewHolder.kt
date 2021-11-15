@@ -7,6 +7,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.databinding.ItemNoteBinding
 import com.velkonost.upgrade.event.ShowNoteDetailEvent
+import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.Interest
 import org.greenrobot.eventbus.EventBus
@@ -27,7 +28,7 @@ class NotesViewHolder(
         binding.value.setImageDrawable(
             AppCompatResources.getDrawable(
                 context,
-                Interest.getInterestById(note.interestId.toInt()).logo
+                DefaultInterest.getInterestById(note.interest.interestId.toInt()).logo
             )
         )
 

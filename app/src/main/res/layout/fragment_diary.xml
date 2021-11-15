@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.ui.HomeViewModel" />
+            type="com.velkonost.upgrade.vm.BaseViewModel" />
 
         <variable
             name="handler"

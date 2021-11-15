@@ -5,6 +5,10 @@ import com.velkonost.upgrade.di.scope.ViewModelKey
 import com.velkonost.upgrade.ui.auth.AuthViewModel
 import com.velkonost.upgrade.ui.splash.SplashViewModel
 import com.velkonost.upgrade.ui.welcome.WelcomeViewModel
+import com.velkonost.upgrade.vm.BaseViewModel
+import com.velkonost.upgrade.vm.UserDiaryViewModel
+import com.velkonost.upgrade.vm.UserInterestsViewModel
+import com.velkonost.upgrade.vm.UserSettingsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -29,7 +33,22 @@ interface CommonViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    fun homeViewModel(m: HomeViewModel): ViewModel
+    @ViewModelKey(BaseViewModel::class)
+    fun baseViewModel(m: BaseViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserSettingsViewModel::class)
+    fun userSettingsViewModel(m: UserSettingsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserDiaryViewModel::class)
+    fun userDiaryViewModel(m: UserDiaryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserInterestsViewModel::class)
+    fun userInterestsViewModel(m: UserInterestsViewModel): ViewModel
 
 }

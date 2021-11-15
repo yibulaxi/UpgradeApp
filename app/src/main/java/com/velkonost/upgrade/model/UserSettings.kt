@@ -1,10 +1,17 @@
 package com.velkonost.upgrade.model
 
 class UserSettings(
+    val authType: Int = 1,
+    val login: String? = null,
+    val password: String? = null,
     val difficulty: Int? = 1,
-    val is_interests_initialized: Boolean? = true,
-    val is_push_available: Boolean? = true,
-    val reg_time: Long? = System.currentTimeMillis()
+    val isPushAvailable: Boolean? = true,
+    val greeting: String? = null,
+    val dateRegistration: Long? = null,
+    val dateLastLogin: Long? = null,
+    val avatar: String? = null,
+    val locale: String? = null,
+    val isInterestsInitialized: Boolean? = true,
 ) {
     fun getDifficultyValue(): Float {
         return when (difficulty) {

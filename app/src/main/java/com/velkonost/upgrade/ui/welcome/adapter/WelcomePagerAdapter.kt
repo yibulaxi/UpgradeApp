@@ -10,7 +10,7 @@ class WelcomePagerAdapter(
 ) : RecyclerView.Adapter<WelcomeViewHolder>() {
 
     private val interests = arrayListOf(
-        Interest,
+        DefaultInterest,
         Relationship(),
         Health(),
         Environment(),

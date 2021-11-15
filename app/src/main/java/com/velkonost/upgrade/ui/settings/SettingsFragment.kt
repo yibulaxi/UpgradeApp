@@ -15,17 +15,23 @@ import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.databinding.FragmentSettingsBinding
 import com.velkonost.upgrade.event.UpdateDifficultyEvent
 import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.ui.HomeViewModel
 import com.velkonost.upgrade.ui.base.BaseFragment
+import com.velkonost.upgrade.vm.BaseViewModel
+import com.velkonost.upgrade.vm.UserDiaryViewModel
+import com.velkonost.upgrade.vm.UserSettingsViewModel
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
 
 
-class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
+class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
     com.velkonost.upgrade.R.layout.fragment_settings,
-    HomeViewModel::class,
+    BaseViewModel::class,
     Handler::class
 ) {
+
+    private val userSettingsViewModel: UserSettingsViewModel by lazy { ViewModelProviders.of(requireActivity()).get(
+        UserSettingsViewModel::class.java) }
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
         StatusBarUtil.setColor(
@@ -35,7 +41,6 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
         )
         StatusBarUtil.setLightMode(requireActivity())
 
-        binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
 
         binding.name.text = App.preferences.userName
         binding.version.text = "Версия " + BuildConfig.VERSION_NAME
@@ -44,7 +49,7 @@ class SettingsFragment : BaseFragment<HomeViewModel, FragmentSettingsBinding>(
             EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
         }
         binding.difficultySpinner.selectItemByIndex(
-            binding.viewModel!!.userSettings.difficulty ?: 1
+            userSettingsViewModel.userSettings.difficulty ?: 1
         )
     }
 
