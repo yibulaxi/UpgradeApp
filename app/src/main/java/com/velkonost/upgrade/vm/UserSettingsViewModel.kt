@@ -6,6 +6,7 @@ import com.velkonost.upgrade.App
 import com.velkonost.upgrade.event.InitUserSettingsEvent
 import com.velkonost.upgrade.event.UpdateDifficultyEvent
 import com.velkonost.upgrade.model.UserSettings
+import com.velkonost.upgrade.repo.UserSettingsRepository
 import com.velkonost.upgrade.repo.databases.UserSettingsDatabase
 import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.rest.UserSettingsTable
@@ -18,7 +19,7 @@ import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 class UserSettingsViewModel @Inject constructor(
-    private val database: UserSettingsDatabase
+    private val userSettingsRepository: UserSettingsRepository
 ) : BaseViewModel() {
 
     init {
@@ -47,7 +48,7 @@ class UserSettingsViewModel @Inject constructor(
                     ?: "",
                 password = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Password]!!)
                     ?: "",
-                difficulty = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Difficulty]!!)
+                difficulty = documentSnapshot.get(UserSettingsTable().tableFields[UserSettingsFields.Difficulty]!!).toString()
                     ?: "",
                 isPushAvailable = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable]!!)
                     ?: false,
@@ -67,36 +68,18 @@ class UserSettingsViewModel @Inject constructor(
 
     private fun updateUserSettings(
         userSettings: UserSettings
-    ) {
-        database.userSettingsDao.getById(
-            id = userSettings.userId
-        ).observeForever {
-            if (it == null) {
-                viewModelScope.launch {
-                    database.userSettingsDao.insert(
-                        userSettings = userSettings
-                    )
-                }
-            } else {
-                viewModelScope.launch {
-                    database.userSettingsDao.update(
-                        userSettings = userSettings
-                    )
-                }
-            }
-
+    ) = viewModelScope.launch {
+            userSettingsRepository.insertOrUpdate(userSettings)
             setUserSettingsEvent.postValue(true)
         }
 
-    }
-
     fun getUserSettingsById(id: String) =
-        database.userSettingsDao.getById(id)
+        userSettingsRepository.getById(id)
 
     suspend fun getDifficultyValue(): Float {
         return withContext(Dispatchers.IO) {
             var value = 0f
-            database.userSettingsDao.getById(App.preferences.uid!!)
+            userSettingsRepository.getById(App.preferences.uid!!)
                 .observeForever {
                     value = it?.getDifficultyValue() ?: 0f
                 }
@@ -104,8 +87,7 @@ class UserSettingsViewModel @Inject constructor(
         }
     }
 
-
-    fun resetUserSettings() = database.userSettingsDao.clear()
+    fun resetUserSettings() = userSettingsRepository.clear()
 
     internal fun getUserSettings() {
         cloudFirestoreDatabase.collection(UserSettingsTable().tableName)

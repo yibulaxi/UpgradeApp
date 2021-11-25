@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.di.scope.AppScope
+import com.velkonost.upgrade.repo.UserSettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -23,5 +24,8 @@ abstract class ViewModelFactoryModule {
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+//
+//    @Binds
+//    abstract fun bindUserSettingsRepository(context: Context): UserSettingsRepository
 
 }
