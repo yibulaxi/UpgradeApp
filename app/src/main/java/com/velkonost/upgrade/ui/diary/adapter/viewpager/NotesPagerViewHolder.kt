@@ -13,7 +13,6 @@ import com.velkonost.upgrade.databinding.ItemAdapterPagerNotesBinding
 import com.velkonost.upgrade.event.EditDiaryNoteEvent
 import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.model.DiaryNote
-import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.model.Media
 import com.velkonost.upgrade.ui.diary.adapter.NotesMediaAdapter
 import org.greenrobot.eventbus.EventBus

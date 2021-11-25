@@ -60,8 +60,9 @@ class WelcomeViewHolder(
             }
         }
 
-        binding.title.text = interest.name?: context.getString(interest.nameRes!!)
-        binding.description.text = interest.description?: context.getString(interest.descriptionRes!!)
+        binding.title.text = interest.name ?: context.getString(interest.nameRes!!)
+        binding.description.text =
+            interest.description ?: context.getString(interest.descriptionRes!!)
 
         binding.spinner.maxValue = 10
         binding.spinner.minValue = 0

@@ -10,8 +10,6 @@ import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ItemListMetricBinding
 import com.velkonost.upgrade.event.ShowAddInterestDialogEvent
 import com.velkonost.upgrade.event.ShowDetailInterest
-import com.velkonost.upgrade.model.Creation
-import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.model.EmptyInterest
 import com.velkonost.upgrade.model.Interest
 import org.greenrobot.eventbus.EventBus

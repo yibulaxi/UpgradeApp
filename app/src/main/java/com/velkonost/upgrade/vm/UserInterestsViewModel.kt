@@ -5,13 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.velkonost.upgrade.App
-import com.velkonost.upgrade.event.*
-import com.velkonost.upgrade.model.*
+import com.velkonost.upgrade.event.GoAuthEvent
+import com.velkonost.upgrade.event.InitUserInterestsEvent
+import com.velkonost.upgrade.event.UpdateMetricsEvent
+import com.velkonost.upgrade.event.UpdateUserInterestEvent
+import com.velkonost.upgrade.model.EmptyInterest
+import com.velkonost.upgrade.model.Interest
+import com.velkonost.upgrade.model.UserCustomInterest
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.rest.UserInterestsFields
 import com.velkonost.upgrade.rest.UserInterestsTable
 import com.velkonost.upgrade.rest.UserSettingsTable
-import com.velkonost.upgrade.util.ResourcesProvider
 import com.velkonost.upgrade.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +32,7 @@ class UserInterestsViewModel @Inject constructor(
     init {
         EventBus.getDefault().register(this)
     }
+
     private var interests = mutableListOf<Interest>()
 
     private val getDiaryEvent = SingleLiveEvent<Boolean>()
@@ -40,14 +45,16 @@ class UserInterestsViewModel @Inject constructor(
 
         try {
 
-            documentSnapshot.data?.map{
+            documentSnapshot.data?.map {
                 interests.add(
                     UserCustomInterest(
                         id = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Id]].toString(),
                         name = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Name]].toString(),
                         description = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Description]].toString(),
-                        startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString().toFloat(),
-                        currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString().toFloat(),
+                        startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString()
+                            .toFloat(),
+                        currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString()
+                            .toFloat(),
                         dateLastUpdate = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]].toString(),
                         logoId = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Icon]].toString()
                     )
@@ -104,11 +111,14 @@ class UserInterestsViewModel @Inject constructor(
             /*System.currentTimeMillis().toString() + java.util.UUID.randomUUID().toString()*/
             id to hashMapOf<String, String>(
                 UserInterestsTable().tableFields[UserInterestsFields.Id]!! to id,
-                UserInterestsTable().tableFields[UserInterestsFields.Name]!! to (name?: App.resourcesProvider.getString(nameRes!!)),
-                UserInterestsTable().tableFields[UserInterestsFields.Description]!! to (description?: App.resourcesProvider.getString(descriptionRes!!)),
+                UserInterestsTable().tableFields[UserInterestsFields.Name]!! to (name
+                    ?: App.resourcesProvider.getString(nameRes!!)),
+                UserInterestsTable().tableFields[UserInterestsFields.Description]!! to (description
+                    ?: App.resourcesProvider.getString(descriptionRes!!)),
                 UserInterestsTable().tableFields[UserInterestsFields.StartValue]!! to startValue.toString(),
                 UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]!! to currentValue.toString(),
-                UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]!! to System.currentTimeMillis().toString(),
+                UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]!! to System.currentTimeMillis()
+                    .toString(),
                 UserInterestsTable().tableFields[UserInterestsFields.Icon]!! to logoId.toString()
             )
         )
@@ -126,7 +136,7 @@ class UserInterestsViewModel @Inject constructor(
             .addOnFailureListener {}
     }
 
-     fun updateInterest(interest: Interest) {
+    fun updateInterest(interest: Interest) {
         cloudFirestoreDatabase
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
             .update(interest.toFirestore() as Map<String, Any>)
@@ -148,7 +158,7 @@ class UserInterestsViewModel @Inject constructor(
             .addOnFailureListener { }
     }
 
-     fun deleteInterest(interest: Interest) {
+    fun deleteInterest(interest: Interest) {
         cloudFirestoreDatabase
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
             .update(
@@ -169,7 +179,7 @@ class UserInterestsViewModel @Inject constructor(
 
         var average = 0f
         list.forEach {
-            average += it.currentValue?: 0f
+            average += it.currentValue ?: 0f
         }
 
         average /= list.size

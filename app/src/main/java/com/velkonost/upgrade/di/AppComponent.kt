@@ -6,7 +6,6 @@ import com.velkonost.upgrade.push.di.ServiceBuilderModule
 import com.velkonost.upgrade.repo.databases.UserSettingsDatabase
 import com.velkonost.upgrade.rest.di.RetrofitModule
 import com.velkonost.upgrade.ui.activity.main.ViewModelModule
-import com.velkonost.upgrade.util.ResourcesProvider
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule

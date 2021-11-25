@@ -29,11 +29,11 @@ class EmptyInterest(
     override var currentValue: Float? = null,
     override var logoId: String? = null
 
-): Interest {
+) : Interest {
     override fun getLogo(): Int =
         AllLogo().logoList.lastOrNull {
             it.id == id
-        }?.resId?: -1
+        }?.resId ?: -1
 
 }
 
@@ -48,17 +48,17 @@ class UserCustomInterest(
     val dateLastUpdate: String? = null,
     override var logoId: String?,
     val order: Int? = null
-): Interest {
-    override fun getLogo(): Int = AllLogo().getLogoById(logoId!!)?: getLogoResId(logoId!!)
+) : Interest {
+    override fun getLogo(): Int = AllLogo().getLogoById(logoId!!)
 
     private fun getLogoResId(id: String): Int =
         AllLogo().logoList.lastOrNull {
             it.id == id
-        }?.resId?: -1
+        }?.resId ?: -1
 
 }
 
-interface DefaultInterest: Interest {
+interface DefaultInterest : Interest {
     override val id: String
 
     override val nameRes: Int
@@ -248,7 +248,7 @@ class AllLogo(
         Logo("7", R.drawable.environment_logo),
         Logo("8", R.drawable.creation_logo),
 
-    )
+        )
 ) {
     fun getIndexById(id: String): Int {
         var index = 0

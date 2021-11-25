@@ -3,8 +3,6 @@ package com.velkonost.upgrade.vm
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.velkonost.upgrade.event.LoadMainEvent
-import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.util.RxViewModel
 import com.velkonost.upgrade.util.SingleLiveEvent
 import org.greenrobot.eventbus.EventBus

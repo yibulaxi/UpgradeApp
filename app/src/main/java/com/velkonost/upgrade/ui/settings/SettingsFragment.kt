@@ -8,7 +8,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import com.firebase.ui.auth.AuthUI
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.App
@@ -16,14 +15,9 @@ import com.velkonost.upgrade.BuildConfig
 import com.velkonost.upgrade.databinding.FragmentSettingsBinding
 import com.velkonost.upgrade.event.UpdateDifficultyEvent
 import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.rest.UserSettingsFields
-import com.velkonost.upgrade.rest.UserSettingsTable
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.vm.BaseViewModel
-import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserSettingsViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
 
@@ -34,8 +28,11 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
     Handler::class
 ) {
 
-    private val userSettingsViewModel: UserSettingsViewModel by lazy { ViewModelProviders.of(requireActivity()).get(
-        UserSettingsViewModel::class.java) }
+    private val userSettingsViewModel: UserSettingsViewModel by lazy {
+        ViewModelProviders.of(requireActivity()).get(
+            UserSettingsViewModel::class.java
+        )
+    }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)

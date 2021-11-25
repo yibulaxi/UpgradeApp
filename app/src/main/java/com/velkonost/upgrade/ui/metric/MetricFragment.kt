@@ -3,7 +3,6 @@ package com.velkonost.upgrade.ui.metric
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -11,7 +10,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -26,39 +25,29 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.skydoves.balloon.*
+import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentMetricBinding
+import com.velkonost.upgrade.event.*
+import com.velkonost.upgrade.model.AllLogo
+import com.velkonost.upgrade.model.EmptyInterest
 import com.velkonost.upgrade.model.Interest
+import com.velkonost.upgrade.model.UserCustomInterest
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.activity.main.MainActivity
-import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
+import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.util.ext.getBalloon
-import com.velkonost.upgrade.util.ext.getViewModel
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserInterestsViewModel
 import com.velkonost.upgrade.vm.UserSettingsViewModel
+import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.*
 import kotlinx.android.synthetic.main.radar_markerview.view.*
 import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.lifecycleScope
-import com.velkonost.upgrade.App
-import com.velkonost.upgrade.event.*
-import com.velkonost.upgrade.model.AllLogo
-import com.velkonost.upgrade.model.EmptyInterest
-import com.velkonost.upgrade.model.UserCustomInterest
-import com.velkonost.upgrade.rest.UserSettingsFields
-import com.velkonost.upgrade.rest.UserSettingsTable
-import com.velkonost.upgrade.ui.activity.main.ViewModelModule
-import com.velkonost.upgrade.ui.view.CustomWheelPickerView
-import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 
 
@@ -71,9 +60,21 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     private val userSettingsViewModel2: UserSettingsViewModel by viewModels { (requireActivity() as MainActivity).viewModelFactory }
 
 
-    private val userInterestsViewModel: UserInterestsViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserInterestsViewModel::class.java) }
-    private val userDiaryViewModel: UserDiaryViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserDiaryViewModel::class.java) }
-    private val userSettingsViewModel: UserSettingsViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserSettingsViewModel::class.java) }
+    private val userInterestsViewModel: UserInterestsViewModel by lazy {
+        ViewModelProviders.of(
+            requireActivity()
+        ).get(UserInterestsViewModel::class.java)
+    }
+    private val userDiaryViewModel: UserDiaryViewModel by lazy {
+        ViewModelProviders.of(
+            requireActivity()
+        ).get(UserDiaryViewModel::class.java)
+    }
+    private val userSettingsViewModel: UserSettingsViewModel by lazy {
+        ViewModelProviders.of(
+            requireActivity()
+        ).get(UserSettingsViewModel::class.java)
+    }
 
     private lateinit var adapter: MetricListAdapter
 
@@ -106,9 +107,12 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                     BottomSheetBehavior.STATE_SETTLING -> {
                         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
                     }
-                    BottomSheetBehavior.STATE_DRAGGING -> {}
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
-                    BottomSheetBehavior.STATE_HIDDEN -> {}
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                    }
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                    }
                 }
             }
         })
@@ -141,7 +145,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun setupDetailInterestBottomSheet(interest: Interest) {
         with(binding.interestDetailBottomSheet) {
-            title.text = interest.name?: getString(interest.nameRes!!)
+            title.text = interest.name ?: getString(interest.nameRes!!)
             amount.text = interest.currentValue.toString()
 
             amountMax.isVisible = interest.currentValue == 10f
@@ -227,8 +231,10 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         alertDialog.setTitle("Редактирование сферы")
         alertDialog.setCancelable(false)
 
-        view.interestName.setText(interest.name?: getString(interest.nameRes!!))
-        view.interestDescription.setText(interest.description?: getString(interest.descriptionRes!!))
+        view.interestName.setText(interest.name ?: getString(interest.nameRes!!))
+        view.interestDescription.setText(
+            interest.description ?: getString(interest.descriptionRes!!)
+        )
 
         val iconValues = arrayListOf(
             CustomWheelPickerView.Item(
@@ -315,7 +321,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         adapter = MetricListAdapter(context!!, list)
         binding.recycler.adapter = adapter
 
-       setAverageAmount()
+        setAverageAmount()
 
         binding.diaryAmount.text = userDiaryViewModel.diary.notes.size.toString()
 
@@ -323,7 +329,8 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             App.preferences.uid!!
         ).observeForever {
             binding.daysAmount.text =
-                ((System.currentTimeMillis() - (it?.dateRegistration?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
+                ((System.currentTimeMillis() - (it?.dateRegistration
+                    ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
                     .toString()
         }
 

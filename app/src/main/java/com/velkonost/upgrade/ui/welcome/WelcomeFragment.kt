@@ -84,7 +84,10 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
      * Adapted from https://stackoverflow.com/a/27664023/4034572
      * @param horizontalMarginInDp the margin resource, in dp.
      */
-    internal class HorizontalMarginItemDecoration(context: Context, @DimenRes horizontalMarginInDp: Int) :
+    internal class HorizontalMarginItemDecoration(
+        context: Context,
+        @DimenRes horizontalMarginInDp: Int
+    ) :
         RecyclerView.ItemDecoration() {
 
         private val horizontalMarginInPx: Int =

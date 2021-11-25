@@ -6,11 +6,13 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.velkonost.upgrade.App
-import com.velkonost.upgrade.event.*
+import com.velkonost.upgrade.event.DeleteDiaryNoteEvent
+import com.velkonost.upgrade.event.GoAuthEvent
+import com.velkonost.upgrade.event.UpdateDiaryEvent
+import com.velkonost.upgrade.event.UpdateUserInterestEvent
 import com.velkonost.upgrade.model.Diary
 import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.DiaryNoteInterest
-import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.rest.UserDiaryFields
 import com.velkonost.upgrade.rest.UserDiaryTable
 import com.velkonost.upgrade.util.SingleLiveEvent
@@ -76,7 +78,7 @@ class UserDiaryViewModel @Inject constructor(
     ): ArrayList<String> {
         if (noteId == null) return arrayListOf()
         for (note in diary.notes) {
-            if (note.id == noteId) return note.media?: arrayListOf()
+            if (note.id == noteId) return note.media ?: arrayListOf()
         }
         return arrayListOf()
     }
@@ -105,7 +107,7 @@ class UserDiaryViewModel @Inject constructor(
             .addOnFailureListener {}
     }
 
-    public fun setDiaryNote(
+    fun setDiaryNote(
         noteId: String? = null,
         text: String? = null,
         date: String? = null,

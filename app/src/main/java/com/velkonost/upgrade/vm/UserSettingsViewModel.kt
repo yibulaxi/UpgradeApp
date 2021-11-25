@@ -1,5 +1,6 @@
 package com.velkonost.upgrade.vm
 
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.event.InitUserSettingsEvent
@@ -10,6 +11,7 @@ import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.rest.UserSettingsTable
 import com.velkonost.upgrade.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -60,21 +62,32 @@ class UserSettingsViewModel @Inject constructor(
                 isInterestsInitialized = documentSnapshot.getBoolean("is_interests_initialized")!!,
             )
 
+        updateUserSettings(firestoreUserSettings)
+    }
+
+    private fun updateUserSettings(
+        userSettings: UserSettings
+    ) {
         database.userSettingsDao.getById(
-            id = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Id]!!)!!
+            id = userSettings.userId
         ).observeForever {
             if (it == null) {
-                database.userSettingsDao.insert(
-                    userSettings = firestoreUserSettings
-                )
+                viewModelScope.launch {
+                    database.userSettingsDao.insert(
+                        userSettings = userSettings
+                    )
+                }
             } else {
-                database.userSettingsDao.update(
-                    userSettings = firestoreUserSettings
-                )
+                viewModelScope.launch {
+                    database.userSettingsDao.update(
+                        userSettings = userSettings
+                    )
+                }
             }
 
             setUserSettingsEvent.postValue(true)
         }
+
     }
 
     fun getUserSettingsById(id: String) =

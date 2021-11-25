@@ -9,7 +9,6 @@ import com.velkonost.upgrade.databinding.ItemNoteBinding
 import com.velkonost.upgrade.event.ShowNoteDetailEvent
 import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.model.DiaryNote
-import com.velkonost.upgrade.model.Interest
 import org.greenrobot.eventbus.EventBus
 
 class NotesViewHolder(

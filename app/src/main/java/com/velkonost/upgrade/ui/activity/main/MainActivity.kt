@@ -35,7 +35,6 @@ import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
-import com.velkonost.upgrade.util.ResourcesProvider
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserInterestsViewModel
@@ -391,7 +390,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
 
             val urls = arrayListOf<Media>()
-            for (url in e.note.media?: arrayListOf()) {
+            for (url in e.note.media ?: arrayListOf()) {
                 urls.add(Media(url = url))
             }
             mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls)

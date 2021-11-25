@@ -122,5 +122,5 @@ class UserDiaryTable : FirestoreDatabaseTable {
             UserDiaryFields.DatesCompletionDatetime to UserDiaryFields.DatesCompletionDatetime.fieldName,
             UserDiaryFields.DatesCompletionIsCompleted to UserDiaryFields.DatesCompletionIsCompleted.fieldName,
             UserDiaryFields.Tags to UserDiaryFields.Tags.fieldName,
-            )
+        )
 }

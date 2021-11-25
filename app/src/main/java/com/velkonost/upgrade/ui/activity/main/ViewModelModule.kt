@@ -18,5 +18,4 @@ interface MainProvidersModule {
 //    fun mainViewModel(m: MainViewModel): ViewModel
 
 
-
 }

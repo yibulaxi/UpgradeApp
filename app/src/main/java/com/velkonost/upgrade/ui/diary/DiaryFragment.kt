@@ -29,8 +29,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     Handler::class
 ) {
 
-    private val userDiaryViewModel: UserDiaryViewModel by lazy { ViewModelProviders.of(requireActivity()).get(
-        UserDiaryViewModel::class.java) }
+    private val userDiaryViewModel: UserDiaryViewModel by lazy {
+        ViewModelProviders.of(requireActivity()).get(
+            UserDiaryViewModel::class.java
+        )
+    }
 
     private lateinit var adapter: NotesAdapter
     private lateinit var pagerAdapter: NotesPagerAdapter

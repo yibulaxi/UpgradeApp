@@ -20,8 +20,8 @@ interface UserSettingsDao {
     fun clear()
 
     @Insert
-    fun insert(userSettings: UserSettings): Long
+    suspend fun insert(userSettings: UserSettings)
 
     @Update
-    fun update(userSettings: UserSettings): Int
+    suspend fun update(userSettings: UserSettings)
 }
