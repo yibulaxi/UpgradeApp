@@ -1,27 +1,34 @@
 package com.velkonost.upgrade.vm
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.event.*
 import com.velkonost.upgrade.model.*
 import com.velkonost.upgrade.navigation.Navigator
+import com.velkonost.upgrade.rest.UserInterestsFields
 import com.velkonost.upgrade.rest.UserInterestsTable
 import com.velkonost.upgrade.rest.UserSettingsTable
+import com.velkonost.upgrade.util.ResourcesProvider
 import com.velkonost.upgrade.util.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 class UserInterestsViewModel @Inject constructor(
-    private val userDiaryViewModel: UserDiaryViewModel
+    private val userDiaryViewModel: UserDiaryViewModel,
+    private val userSettingsViewModel: UserSettingsViewModel,
+//    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
 
     init {
         EventBus.getDefault().register(this)
     }
-
-    private var currentInterests = mutableListOf<Interest>()
-    private var startInterests = mutableListOf<Interest>()
+    private var interests = mutableListOf<Interest>()
 
     private val getDiaryEvent = SingleLiveEvent<Boolean>()
 
@@ -29,114 +36,82 @@ class UserInterestsViewModel @Inject constructor(
         documentSnapshot: DocumentSnapshot
     ) {
 
-        currentInterests.clear()
-        startInterests.clear()
+        interests.clear()
 
         try {
-            val workInterest = Work()
-            workInterest.currentValue = documentSnapshot.get("1").toString().toFloat()
 
-            val workInterestStart = Work()
-            workInterestStart.currentValue = documentSnapshot.get("1_start").toString().toFloat()
+            documentSnapshot.data?.map{
+                interests.add(
+                    UserCustomInterest(
+                        id = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Id]].toString(),
+                        name = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Name]].toString(),
+                        description = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Description]].toString(),
+                        startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString().toFloat(),
+                        currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString().toFloat(),
+                        dateLastUpdate = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]].toString(),
+                        logoId = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Icon]].toString()
+                    )
+                )
+            }
 
-            val spiritInterest = Spirit()
-            spiritInterest.currentValue = documentSnapshot.get("2").toString().toFloat()
-
-            val spiritInterestStart = Spirit()
-            spiritInterestStart.currentValue = documentSnapshot.get("2_start").toString().toFloat()
-
-            val chillInterest = Chill()
-            chillInterest.currentValue = documentSnapshot.get("3").toString().toFloat()
-
-            val chillInterestStart = Chill()
-            chillInterestStart.currentValue = documentSnapshot.get("3_start").toString().toFloat()
-
-            val relationshipInterest = Relationship()
-            relationshipInterest.currentValue = documentSnapshot.get("4").toString().toFloat()
-
-            val relationshipInterestStart = Relationship()
-            relationshipInterestStart.currentValue =
-                documentSnapshot.get("4_start").toString().toFloat()
-
-            val healthInterest = Health()
-            healthInterest.currentValue = documentSnapshot.get("5").toString().toFloat()
-
-            val healthInterestStart = Health()
-            healthInterestStart.currentValue = documentSnapshot.get("5_start").toString().toFloat()
-
-            val financeInterest = Finance()
-            financeInterest.currentValue = documentSnapshot.get("6").toString().toFloat()
-
-            val financeInterestStart = Finance()
-            financeInterestStart.currentValue =
-                documentSnapshot.get("6_start").toString().toFloat()
-
-            val environmentInterest = Environment()
-            environmentInterest.currentValue = documentSnapshot.get("7").toString().toFloat()
-
-            val environmentInterestStart = Environment()
-            environmentInterestStart.currentValue =
-                documentSnapshot.get("7_start").toString().toFloat()
-
-            val creationInterest = Creation()
-            creationInterest.currentValue = documentSnapshot.get("8").toString().toFloat()
-
-            val creationInterestStart = Creation()
-            creationInterestStart.currentValue =
-                documentSnapshot.get("8_start").toString().toFloat()
-
-            currentInterests.add(workInterest)
-            currentInterests.add(spiritInterest)
-            currentInterests.add(chillInterest)
-            currentInterests.add(relationshipInterest)
-            currentInterests.add(healthInterest)
-            currentInterests.add(financeInterest)
-            currentInterests.add(environmentInterest)
-            currentInterests.add(creationInterest)
-
-            startInterests.add(workInterestStart)
-            startInterests.add(spiritInterestStart)
-            startInterests.add(chillInterestStart)
-            startInterests.add(relationshipInterestStart)
-            startInterests.add(healthInterestStart)
-            startInterests.add(financeInterestStart)
-            startInterests.add(environmentInterestStart)
-            startInterests.add(creationInterestStart)
         } catch (e: Exception) {
             EventBus.getDefault().post(GoAuthEvent(true))
         }
     }
 
-    fun getCurrentInterests() = currentInterests
-    fun getStartInterests() = startInterests
+    fun getInterests() = interests
 
-    fun getStartInterestByInterestId(
-        interestId: String
-    ): Interest? {
-        for (startInterest in startInterests) {
-            if (startInterest.id.toString() == interestId) return startInterest
-        }
-        return null
-    }
+    fun getInterestById(id: String): Interest =
+        interests.first { it.id == id }
 
     @Subscribe
     fun onInitUserInterestsEvent(e: InitUserInterestsEvent) {
+        val map = hashMapOf<String, HashMap<String, String>>()
+        val list = e.data.map { it.toFirestore() }
+
+        list.forEach {
+            map.plusAssign(it)
+        }
+
         cloudFirestoreDatabase
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .set(e.data)
+            .set(map)
             .addOnSuccessListener {
                 App.preferences.isInterestsInitialized = true
+
                 cloudFirestoreDatabase
                     .collection(UserSettingsTable().tableName).document(App.preferences.uid!!)
                     .update(mapOf("is_interests_initialized" to true))
                     .addOnSuccessListener {
-                        userDiaryViewModel.getDiary()
 
-                        getInterests { Navigator.welcomeToMetric(e.f) }
+                        viewModelScope.launch(Dispatchers.IO) {
+
+                            userSettingsViewModel.getUserSettings()
+                            Log.d("keke", "1")
+                            userDiaryViewModel.getDiary()
+                            Log.d("keke", "2")
+
+                            getInterests { Navigator.welcomeToMetric(e.f) }
+                            Log.d("keke", "3")
+                        }
                     }
             }
             .addOnFailureListener { }
     }
+
+    private fun Interest.toFirestore() =
+        hashMapOf<String, HashMap<String, String>>(
+            /*System.currentTimeMillis().toString() + java.util.UUID.randomUUID().toString()*/
+            id to hashMapOf<String, String>(
+                UserInterestsTable().tableFields[UserInterestsFields.Id]!! to id,
+                UserInterestsTable().tableFields[UserInterestsFields.Name]!! to (name?: App.resourcesProvider.getString(nameRes!!)),
+                UserInterestsTable().tableFields[UserInterestsFields.Description]!! to (description?: App.resourcesProvider.getString(descriptionRes!!)),
+                UserInterestsTable().tableFields[UserInterestsFields.StartValue]!! to startValue.toString(),
+                UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]!! to currentValue.toString(),
+                UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]!! to System.currentTimeMillis().toString(),
+                UserInterestsTable().tableFields[UserInterestsFields.Icon]!! to logoId.toString()
+            )
+        )
 
     internal fun getInterests(onSuccess: () -> Unit) {
         cloudFirestoreDatabase.collection(UserInterestsTable().tableName)
@@ -146,10 +121,60 @@ class UserInterestsViewModel @Inject constructor(
                 setInterests(it).run {
                     onSuccess.invoke()
                     setupNavMenuEvent.postValue("success")
-//                    if (binding.navView.menu.size() == 0) setupNavMenu()
                 }
             }
             .addOnFailureListener {}
+    }
+
+     fun updateInterest(interest: Interest) {
+        cloudFirestoreDatabase
+            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+            .update(interest.toFirestore() as Map<String, Any>)
+            .addOnSuccessListener {
+                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                userDiaryViewModel.getDiary()
+            }
+            .addOnFailureListener {}
+    }
+
+    fun addInterest(interest: Interest) {
+        cloudFirestoreDatabase
+            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+            .update(interest.toFirestore() as Map<String, Any>)
+            .addOnSuccessListener {
+                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                userDiaryViewModel.getDiary()
+            }
+            .addOnFailureListener { }
+    }
+
+     fun deleteInterest(interest: Interest) {
+        cloudFirestoreDatabase
+            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+            .update(
+                hashMapOf(
+                    interest.id to FieldValue.delete()
+                ) as Map<String, Any>
+            )
+            .addOnSuccessListener {
+                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                userDiaryViewModel.getDiary()
+            }
+            .addOnFailureListener {}
+    }
+
+    fun calculateCurrentValueAverage(): Float {
+        val list = getInterests().toMutableList()
+        list.remove(EmptyInterest())
+
+        var average = 0f
+        list.forEach {
+            average += it.currentValue?: 0f
+        }
+
+        average /= list.size
+
+        return average
     }
 
     private fun setInterestAmount(

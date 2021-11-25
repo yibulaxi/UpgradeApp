@@ -5,14 +5,16 @@ interface TableFields {
 }
 
 enum class UserSettingsFields(override val fieldName: String) : TableFields {
-    AuthType("auth_type"),
+    Id("id"),
+    UserId("userId"),
+    AuthType("authType"),
     Login("login"),
     Password("password"),
     Difficulty("difficulty"),
-    IsPushAvailable("is_push_available"),
+    IsPushAvailable("isPushAvailable"),
     Greeting("greeting"),
-    DateRegistration("date_registration"),
-    DateLastLogin("date_last_login"),
+    DateRegistration("dateRegistration"),
+    DateLastLogin("dateLastLogin"),
     Avatar("avatar"),
     Locale("locale")
 }
@@ -21,36 +23,36 @@ enum class UserInterestsFields(override val fieldName: String) : TableFields {
     Id("id"),
     Name("name"),
     Description("description"),
-    StartValue("start_value"),
-    CurrentValue("current_value"),
-    DateLastUpdate("date_last_update"),
+    StartValue("startValue"),
+    CurrentValue("currentValue"),
+    DateLastUpdate("dateLastUpdate"),
     Icon("icon"),
     Order("order")
 }
 
 enum class UserDiaryFields(override val fieldName: String) : TableFields {
     Id("id"),
-    NoteType("note_type"),
+    NoteType("noteType"),
     Date("date"),
     Title("title"),
     Text("text"),
     Media("media"),
-    ChangeOfPoints("change_of_points"),
-    DatetimeStart("datetime_start"),
-    DatetimeEnd("datetime_end"),
-    IsActiveNow("is_active_now"),
+    ChangeOfPoints("changeOfPoints"),
+    DatetimeStart("datetimeStart"),
+    DatetimeEnd("datetimeEnd"),
+    IsActiveNow("isActiveNow"),
     Interest("interest"),
-    InterestId("interest_id"),
-    InterestName("interest_name"),
-    InterestIcon("interest_icon"),
-    InitialAmount("initial_amount"),
+    InterestId("interestId"),
+    InterestName("interestName"),
+    InterestIcon("interestIcon"),
+    InitialAmount("initialAmount"),
     Regularity("regularity"),
-    IsPushAvailable("is_push_available"),
+    IsPushAvailable("isPushAvailable"),
     Color("color"),
-    CurrentAmount("current_amount"),
-    DatesCompletion("dates_completion"),
-    DatesCompletionDatetime("dates_completion_datetime"),
-    DatesCompletionIsCompleted("dates_completion_is_completed"),
+    CurrentAmount("currentAmount"),
+    DatesCompletion("datesCompletion"),
+    DatesCompletionDatetime("datesCompletionDatetime"),
+    DatesCompletionIsCompleted("datesCompletionIsCompleted"),
     Tags("tags")
 }
 
@@ -64,6 +66,7 @@ class UserSettingsTable : FirestoreDatabaseTable {
 
     override val tableFields: HashMap<TableFields, String> =
         hashMapOf(
+            UserSettingsFields.Id to UserSettingsFields.Id.fieldName,
             UserSettingsFields.AuthType to UserSettingsFields.AuthType.fieldName,
             UserSettingsFields.Login to UserSettingsFields.Login.fieldName,
             UserSettingsFields.Password to UserSettingsFields.Password.fieldName,
@@ -112,7 +115,7 @@ class UserDiaryTable : FirestoreDatabaseTable {
             UserDiaryFields.InterestIcon to UserDiaryFields.InterestIcon.fieldName,
             UserDiaryFields.InitialAmount to UserDiaryFields.InitialAmount.fieldName,
             UserDiaryFields.Regularity to UserDiaryFields.Regularity.fieldName,
-            UserSettingsFields.IsPushAvailable to UserSettingsFields.IsPushAvailable.fieldName,
+            UserDiaryFields.IsPushAvailable to UserDiaryFields.IsPushAvailable.fieldName,
             UserDiaryFields.Color to UserDiaryFields.Color.fieldName,
             UserDiaryFields.CurrentAmount to UserDiaryFields.CurrentAmount.fieldName,
             UserDiaryFields.DatesCompletion to UserDiaryFields.DatesCompletion.fieldName,

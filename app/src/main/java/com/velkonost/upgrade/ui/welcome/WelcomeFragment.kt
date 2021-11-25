@@ -15,6 +15,7 @@ import com.velkonost.upgrade.databinding.FragmentWelcomeBinding
 import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
 import com.velkonost.upgrade.event.InitUserInterestsEvent
 import com.velkonost.upgrade.event.SaveInterestsChangeVisibilityEvent
+import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.welcome.adapter.WelcomePagerAdapter
 import org.greenrobot.eventbus.EventBus
@@ -69,14 +70,12 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
 
     inner class Handler {
         fun onSaveInterestsClicked(v: View) {
-            val map = adapter.getInterests().map {
-                it.id.toString() to it.currentValue
-            }.toMap()
-
-            map.plus(adapter.getInterests().map {
-                it.id.toString() + "_start" to it.currentValue
-            }).let { EventBus.getDefault().post(InitUserInterestsEvent(it as Map<String, Float>, this@WelcomeFragment)) }
-
+            EventBus.getDefault().post(
+                InitUserInterestsEvent(
+                    adapter.getInterests().filter { it !is DefaultInterest.Companion },
+                    this@WelcomeFragment
+                )
+            )
         }
     }
 
@@ -85,7 +84,7 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
      * Adapted from https://stackoverflow.com/a/27664023/4034572
      * @param horizontalMarginInDp the margin resource, in dp.
      */
-    class HorizontalMarginItemDecoration(context: Context, @DimenRes horizontalMarginInDp: Int) :
+    internal class HorizontalMarginItemDecoration(context: Context, @DimenRes horizontalMarginInDp: Int) :
         RecyclerView.ItemDecoration() {
 
         private val horizontalMarginInPx: Int =

@@ -21,4 +21,29 @@ class MetricListAdapter(
     override fun getItemCount(): Int {
         return interests.size
     }
+
+    fun updateInterestById(interest: Interest) {
+        for (i in 0 until interests.size) {
+            if (interests[i].id == interest.id) {
+                interests[i] = interest
+                notifyItemChanged(i)
+            }
+
+        }
+    }
+
+    fun addInterest(interest: Interest) {
+        interests.add(interests.size - 1, interest)
+        notifyItemInserted(interests.size - 2)
+    }
+
+    fun deleteInterestById(id: String) {
+        for (i in 0 until interests.size) {
+            if (interests[i].id == id) {
+                interests.removeAt(i)
+                notifyItemRemoved(i)
+                break
+            }
+        }
+    }
 }

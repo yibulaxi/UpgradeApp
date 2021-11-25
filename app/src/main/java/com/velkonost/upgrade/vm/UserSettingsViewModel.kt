@@ -1,42 +1,98 @@
 package com.velkonost.upgrade.vm
 
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.event.InitUserSettingsEvent
-import com.velkonost.upgrade.event.LoadMainEvent
 import com.velkonost.upgrade.event.UpdateDifficultyEvent
 import com.velkonost.upgrade.model.UserSettings
-import com.velkonost.upgrade.navigation.Navigator
+import com.velkonost.upgrade.repo.databases.UserSettingsDatabase
 import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.rest.UserSettingsTable
-import com.velkonost.upgrade.util.RxViewModel
 import com.velkonost.upgrade.util.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 class UserSettingsViewModel @Inject constructor(
+    private val database: UserSettingsDatabase
 ) : BaseViewModel() {
 
     init {
         EventBus.getDefault().register(this)
     }
 
-    var userSettings: UserSettings = UserSettings()
+//    @SuppressLint("SimpleDateFormat")
+//    fun convertLongToDateString(systemTime: Long): String {
+//        return SimpleDateFormat("EEEE MMM-dd-yyyy' Time: 'HH:mm")
+//            .format(systemTime).toString()
+//    }
+
+
+    val setUserSettingsEvent = SingleLiveEvent<Boolean>()
 
     private fun setUserSettings(
         documentSnapshot: DocumentSnapshot
     ) {
-        userSettings = UserSettings(
-            difficulty = documentSnapshot.get(UserSettingsTable().tableFields[UserSettingsFields.Difficulty]!!)
-                .toString().toInt(),
-            isInterestsInitialized = documentSnapshot.getBoolean("is_interests_initialized"),
-            isPushAvailable = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable]!!),
-            dateRegistration = documentSnapshot.getLong(UserSettingsTable().tableFields[UserSettingsFields.DateRegistration]!!)
-        )
+
+        val firestoreUserSettings =
+            UserSettings(
+                userId = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Id]!!)!!,
+                authType = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.AuthType]!!)
+                    ?: "",
+                login = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Login]!!)
+                    ?: "",
+                password = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Password]!!)
+                    ?: "",
+                difficulty = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Difficulty]!!)
+                    ?: "",
+                isPushAvailable = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable]!!)
+                    ?: false,
+                greeting = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Greeting]!!)
+                    ?: "",
+                dateRegistration = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.DateRegistration]!!)
+                    ?: "",
+                dateLastLogin = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.DateLastLogin]!!)
+                    ?: "",
+                avatar = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Avatar]!!)!!,
+                locale = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Locale]!!)!!,
+                isInterestsInitialized = documentSnapshot.getBoolean("is_interests_initialized")!!,
+            )
+
+        database.userSettingsDao.getById(
+            id = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Id]!!)!!
+        ).observeForever {
+            if (it == null) {
+                database.userSettingsDao.insert(
+                    userSettings = firestoreUserSettings
+                )
+            } else {
+                database.userSettingsDao.update(
+                    userSettings = firestoreUserSettings
+                )
+            }
+
+            setUserSettingsEvent.postValue(true)
+        }
     }
+
+    fun getUserSettingsById(id: String) =
+        database.userSettingsDao.getById(id)
+
+    suspend fun getDifficultyValue(): Float {
+        return withContext(Dispatchers.IO) {
+            var value = 0f
+            database.userSettingsDao.getById(App.preferences.uid!!)
+                .observeForever {
+                    value = it?.getDifficultyValue() ?: 0f
+                }
+            value
+        }
+    }
+
+
+    fun resetUserSettings() = database.userSettingsDao.clear()
 
     internal fun getUserSettings() {
         cloudFirestoreDatabase.collection(UserSettingsTable().tableName)
@@ -69,13 +125,38 @@ class UserSettingsViewModel @Inject constructor(
 
     @Subscribe
     fun onInitUserSettingsEvent(e: InitUserSettingsEvent) {
-
+//
         val userSettings = hashMapOf(
+            UserSettingsTable().tableFields[UserSettingsFields.Id] to e.userId,
+            UserSettingsTable().tableFields[UserSettingsFields.AuthType] to 1.toString(),
+            UserSettingsTable().tableFields[UserSettingsFields.Login] to "",
+            UserSettingsTable().tableFields[UserSettingsFields.Password] to "",
+            UserSettingsTable().tableFields[UserSettingsFields.Difficulty] to 1.toString(),
             UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable] to true,
-            UserSettingsTable().tableFields[UserSettingsFields.Difficulty] to 1,
-            "is_interests_initialized" to false,
+            UserSettingsTable().tableFields[UserSettingsFields.Greeting] to "",
             UserSettingsTable().tableFields[UserSettingsFields.DateRegistration] to System.currentTimeMillis()
+                .toString(),
+            UserSettingsTable().tableFields[UserSettingsFields.DateLastLogin] to System.currentTimeMillis()
+                .toString(),
+            UserSettingsTable().tableFields[UserSettingsFields.Avatar] to "",
+            UserSettingsTable().tableFields[UserSettingsFields.Locale] to "",
+            "is_interests_initialized" to false
         )
+
+//        val userSettings = UserSettings(
+//            id = e.userId,
+//            authType = 1.toString(),
+//            login = "",
+//            password = "",
+//            difficulty = 1.toString(),
+//            isPushAvailable = true,
+//            greeting = "",
+//            dateRegistration = System.currentTimeMillis().toString(),
+//            dateLastLogin = System.currentTimeMillis().toString(),
+//            avatar = "",
+//            locale = "",
+//            isInterestsInitialized = false
+//        )
 
         cloudFirestoreDatabase
             .collection(UserSettingsTable().tableName).document(e.userId)

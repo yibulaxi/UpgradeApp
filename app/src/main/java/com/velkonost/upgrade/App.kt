@@ -8,6 +8,7 @@ import com.velkonost.upgrade.di.DaggerAppComponent
 import com.velkonost.upgrade.rest.di.RetrofitModule
 import com.velkonost.upgrade.util.GlideImageLoader
 import com.velkonost.upgrade.util.Preferences
+import com.velkonost.upgrade.util.ResourcesProvider
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import lv.chi.photopicker.ChiliPhotoPicker
@@ -26,6 +27,7 @@ class App : DaggerApplication() {
 
         instance = this
         preferences = Preferences(this)
+        resourcesProvider = ResourcesProvider(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -60,5 +62,6 @@ class App : DaggerApplication() {
     companion object {
         lateinit var instance: App
         lateinit var preferences: Preferences
+        lateinit var resourcesProvider: ResourcesProvider
     }
 }

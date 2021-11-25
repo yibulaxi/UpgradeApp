@@ -3,12 +3,15 @@ package com.velkonost.upgrade.ui.metric
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -25,9 +28,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.skydoves.balloon.*
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentMetricBinding
-import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
-import com.velkonost.upgrade.event.ShowDetailInterest
-import com.velkonost.upgrade.event.UpdateMetricsEvent
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.activity.main.MainActivity
@@ -45,12 +45,31 @@ import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import com.velkonost.upgrade.App
+import com.velkonost.upgrade.event.*
+import com.velkonost.upgrade.model.AllLogo
+import com.velkonost.upgrade.model.EmptyInterest
+import com.velkonost.upgrade.model.UserCustomInterest
+import com.velkonost.upgrade.rest.UserSettingsFields
+import com.velkonost.upgrade.rest.UserSettingsTable
+import com.velkonost.upgrade.ui.activity.main.ViewModelModule
+import com.velkonost.upgrade.ui.view.CustomWheelPickerView
+import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import sh.tyy.wheelpicker.core.BaseWheelPickerView
+
 
 class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     R.layout.fragment_metric,
     BaseViewModel::class,
     Handler::class
 ) {
+
+    private val userSettingsViewModel2: UserSettingsViewModel by viewModels { (requireActivity() as MainActivity).viewModelFactory }
+
 
     private val userInterestsViewModel: UserInterestsViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserInterestsViewModel::class.java) }
     private val userDiaryViewModel: UserDiaryViewModel by lazy { ViewModelProviders.of(requireActivity()).get(UserDiaryViewModel::class.java) }
@@ -66,8 +85,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-//        binding.viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel::class.java)
-
         setupChart()
         setupList()
         setupMetricControlGroup()
@@ -79,10 +96,19 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
-                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
+                    }
+                    BottomSheetBehavior.STATE_SETTLING -> {
+                        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
+                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> {}
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
+                    BottomSheetBehavior.STATE_HIDDEN -> {}
                 }
             }
         })
@@ -91,15 +117,32 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     }
 
     @Subscribe
+    fun onUserSettingsReadyEvent(e: UserSettingsReadyEvent) {
+        Log.d("keke", "kekekekeekeke")
+//
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            binding.daysAmount.text =
+//                ((System.currentTimeMillis() - userSettingsViewModel.getFieldValue(UserSettingsTable().tableFields[UserSettingsFields.DateRegistration]!!)
+//                    .toLong()) / 1000 / 60 / 60 / 24).toInt()
+//                    .toString()
+//        }
+    }
+
+    @Subscribe
     fun onShowDetailInterest(e: ShowDetailInterest) {
         setupDetailInterestBottomSheet(e.interest)
         interestDetailBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
+    @Subscribe
+    fun onShowAddInterestDialogEvent(e: ShowAddInterestDialogEvent) {
+        showAddInterestDialog()
+    }
+
     private fun setupDetailInterestBottomSheet(interest: Interest) {
         with(binding.interestDetailBottomSheet) {
             title.text = interest.name?: getString(interest.nameRes!!)
-            amount.text = interest.toString()
+            amount.text = interest.currentValue.toString()
 
             amountMax.isVisible = interest.currentValue == 10f
 
@@ -109,34 +152,185 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 "Написано постов - " + userDiaryViewModel.getNotesByInterestId(interest.id.toString()).size
 
             startValue.text =
-                "Начальное значение - " + userInterestsViewModel.getStartInterestByInterestId(interest.id.toString())?.currentValue
+                "Начальное значение - " + interest.startValue
             currentValue.text = "Текущее значение - " + interest.currentValue
+
+            edit.setOnClickListener {
+                interestDetailBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                showEditInterestDialog(interest)
+            }
         }
     }
+
+    private fun showAddInterestDialog() {
+        val view: View = layoutInflater.inflate(R.layout.dialog_alert_add_interest, null)
+        val alertDialog: AlertDialog = AlertDialog.Builder(requireContext()).create()
+        alertDialog.setTitle("Редактирование сферы")
+        alertDialog.setCancelable(false)
+
+        val iconValues = mutableListOf<CustomWheelPickerView.Item>()
+
+        AllLogo().logoList.forEach {
+            iconValues.add(
+                CustomWheelPickerView.Item(
+                    id = it.id,
+                    icon = ContextCompat.getDrawable(
+                        requireContext(),
+                        AllLogo().getLogoById(it.id)
+                    )
+                )
+            )
+        }
+
+        view.icon.getRecycler().setItemViewCacheSize(AllLogo().logoList.size)
+        view.icon.adapter.values = iconValues
+
+        view.icon.adapter.notifyDataSetChanged()
+
+        view.icon.isHapticFeedbackEnabled = true
+
+        view.icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
+            override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+//                selectedInterestIdToAddPost =
+//                    icon.adapter.values.getOrNull(index)?.id.toString()
+            }
+        })
+
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Создать") { dialogInterface, j ->
+            val interest = UserCustomInterest(
+                id = System.currentTimeMillis().toString() + java.util.UUID.randomUUID().toString(),
+                name = view.interestName.text.toString(),
+                description = view.interestDescription.text.toString(),
+                startValue = 5f,
+                currentValue = 5f,
+                logoId = iconValues[view.icon.selectedIndex].id,
+                dateLastUpdate = System.currentTimeMillis().toString()
+            )
+
+            userInterestsViewModel.addInterest(interest)
+
+            adapter.addInterest(interest)
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Отменить") { dialogInterface, j ->
+            dialogInterface.dismiss()
+        }
+
+        alertDialog.setView(view)
+        alertDialog.show()
+    }
+
+    private fun showEditInterestDialog(interest: Interest) {
+        val view: View = layoutInflater.inflate(R.layout.dialog_alert_edit_interest, null)
+        val alertDialog: AlertDialog = AlertDialog.Builder(requireContext()).create()
+        alertDialog.setTitle("Редактирование сферы")
+        alertDialog.setCancelable(false)
+
+        view.interestName.setText(interest.name?: getString(interest.nameRes!!))
+        view.interestDescription.setText(interest.description?: getString(interest.descriptionRes!!))
+
+        val iconValues = arrayListOf(
+            CustomWheelPickerView.Item(
+                id = interest.logoId!!,
+                icon = ContextCompat.getDrawable(
+                    requireContext(),
+                    AllLogo().getLogoById(interest.logoId!!)
+                )
+            )
+        )
+
+        AllLogo().logoList.filter { it.id != interest.logoId }.forEach {
+            iconValues.add(
+                CustomWheelPickerView.Item(
+                    id = it.id,
+                    icon = ContextCompat.getDrawable(
+                        requireContext(),
+                        AllLogo().getLogoById(it.id)
+                    )
+                )
+            )
+        }
+
+        view.icon.getRecycler().setItemViewCacheSize(AllLogo().logoList.size)
+        view.icon.adapter.values = iconValues
+
+        view.icon.adapter.notifyDataSetChanged()
+
+        view.icon.isHapticFeedbackEnabled = true
+
+        view.icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
+            override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+                interest.logoId = iconValues[index].id
+//                selectedInterestIdToAddPost =
+//                    icon.adapter.values.getOrNull(index)?.id.toString()
+            }
+        })
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Сохранить") { dialogInterface, j ->
+            interest.name = view.interestName.text.toString()
+            interest.description = view.interestDescription.text.toString()
+
+            userInterestsViewModel.updateInterest(interest)
+
+            adapter.updateInterestById(interest)
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Удалить") { dialogInterface, j ->
+            userInterestsViewModel.deleteInterest(interest)
+
+            adapter.deleteInterestById(interest.id)
+        }
+
+        alertDialog.setView(view)
+        alertDialog.show()
+    }
+
+    private var needUpdateScreen: Boolean = false
 
     @Subscribe
     fun onUpdateMetricsEvent(e: UpdateMetricsEvent) {
-        Navigator.refresh(this@MetricFragment)
+        setAverageAmount()
+
+        needUpdateScreen = true
+        updateMetric()
+    }
+
+    private fun updateMetric() {
+        if (binding.list.alpha == 0f && needUpdateScreen)
+            Navigator.refresh(this@MetricFragment)
+    }
+
+    private fun setAverageAmount() {
+        binding.averageAmount.text =
+            if (userInterestsViewModel.getInterests().size != 0)
+                String.format("%.1f", (userInterestsViewModel.calculateCurrentValueAverage()))
+                    .replace(".", ",")
+            else "0"
     }
 
     private fun setupList() {
-        adapter = MetricListAdapter(context!!, userInterestsViewModel.getCurrentInterests())
+        val list = userInterestsViewModel.getInterests().toMutableList()
+        list.add(EmptyInterest())
+        adapter = MetricListAdapter(context!!, list)
         binding.recycler.adapter = adapter
 
-        var average = 0f
-
-        for (interest in userInterestsViewModel.getCurrentInterests()) {
-            average += interest.currentValue!!
-        }
-
-        binding.averageAmount.text = String.format("%.1f", (average / 8))
-            .replace(".", ",")
+       setAverageAmount()
 
         binding.diaryAmount.text = userDiaryViewModel.diary.notes.size.toString()
-        binding.daysAmount.text =
-            ((System.currentTimeMillis() - userSettingsViewModel.userSettings.dateRegistration!!) / 1000 / 60 / 60 / 24).toInt()
-                .toString()
 
+        userSettingsViewModel.getUserSettingsById(
+            App.preferences.uid!!
+        ).observeForever {
+            binding.daysAmount.text =
+                ((System.currentTimeMillis() - (it?.dateRegistration?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
+                    .toString()
+        }
+
+
+//        (viewLifecycleOwner, {
+
+//        })
         binding.list.animate()
             .translationY(binding.list.height.toFloat())
             .setDuration(300)
@@ -188,6 +382,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                             override fun onAnimationEnd(animation: Animator) {
                                 super.onAnimationEnd(animation)
                                 binding.list.visibility = View.GONE
+                                updateMetric()
                             }
                         })
                 }
@@ -275,23 +470,22 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         val entries1: ArrayList<RadarEntry> = ArrayList()
         val entries2: ArrayList<RadarEntry> = ArrayList()
 
-        val currentInterests = userInterestsViewModel.getCurrentInterests()
-        val startInterests = userInterestsViewModel.getStartInterests()
+        val interests = userInterestsViewModel.getInterests()
 
-        for (i in 0 until currentInterests.size) {
+        for (i in 0 until interests.size) {
             val val0 = 12f
             val radarEntryIcon = RadarEntry(val0)
 
-//            val bMap = BitmapFactory.decodeResource(resources, currentInterests[i].logo)
-//            val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
-
-//            radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
+            val bMap = BitmapFactory.decodeResource(resources, interests[i].getLogo())
+            val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
+//
+            radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
             icons.add(radarEntryIcon)
 
-            val val1 = currentInterests[i].currentValue
+            val val1 = interests[i].currentValue
             entries1.add(RadarEntry(val1!!))
 
-            val val2 = startInterests[i].currentValue
+            val val2 = interests[i].startValue
             entries2.add(RadarEntry(val2!!))
         }
 

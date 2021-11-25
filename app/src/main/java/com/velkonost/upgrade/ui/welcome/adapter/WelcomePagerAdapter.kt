@@ -9,7 +9,7 @@ class WelcomePagerAdapter(
     private val context: Context,
 ) : RecyclerView.Adapter<WelcomeViewHolder>() {
 
-    private val interests = arrayListOf(
+    private val interests = arrayListOf<Interest>(
         DefaultInterest,
         Relationship(),
         Health(),
@@ -21,7 +21,11 @@ class WelcomePagerAdapter(
         Spirit()
     )
 
-    fun getInterests() = interests
+    fun getInterests(): List<Interest> {
+        interests.forEach { it.startValue = it.currentValue }
+
+        return interests
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WelcomeViewHolder.newInstance(parent, context)

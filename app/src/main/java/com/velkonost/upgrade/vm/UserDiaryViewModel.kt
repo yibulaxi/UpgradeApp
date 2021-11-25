@@ -1,5 +1,7 @@
 package com.velkonost.upgrade.vm
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -12,6 +14,7 @@ import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.rest.UserDiaryFields
 import com.velkonost.upgrade.rest.UserDiaryTable
 import com.velkonost.upgrade.util.SingleLiveEvent
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
@@ -91,6 +94,7 @@ class UserDiaryViewModel @Inject constructor(
     }
 
     fun getDiary() {
+        Log.d("keke", "22")
         cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
             .document(App.preferences.uid!!)
             .get()
@@ -110,64 +114,66 @@ class UserDiaryViewModel @Inject constructor(
         mediaUrls: java.util.ArrayList<String>? = arrayListOf()
     ) {
 
-        val amount: Float = when (selectedDiffPointToAddPost) {
-            0 -> userSettingsViewModel.userSettings.getDifficultyValue()
-            1 -> 0f
-            else -> -userSettingsViewModel.userSettings.getDifficultyValue()
-        }
+        viewModelScope.launch {
+            val amount: Float = when (selectedDiffPointToAddPost) {
+                0 -> userSettingsViewModel.getDifficultyValue()
+                1 -> 0f
+                else -> -userSettingsViewModel.getDifficultyValue()
+            }
 
-        val diaryId = noteId ?: System.currentTimeMillis()
-        val data = hashMapOf(
-            UserDiaryTable().tableFields[UserDiaryFields.Id] to diaryId,
-            UserDiaryTable().tableFields[UserDiaryFields.Text] to text,
-            "date" to date,
-            "interest" to selectedInterestIdToAddPost,
-            "amount" to String.format("%.1f", amount),
-            UserDiaryTable().tableFields[UserDiaryFields.Media] to mediaUrls
-        )
+            val diaryId = noteId ?: System.currentTimeMillis()
+            val data = hashMapOf(
+                UserDiaryTable().tableFields[UserDiaryFields.Id] to diaryId,
+                UserDiaryTable().tableFields[UserDiaryFields.Text] to text,
+                "date" to date,
+                "interest" to selectedInterestIdToAddPost,
+                "amount" to String.format("%.1f", amount),
+                UserDiaryTable().tableFields[UserDiaryFields.Media] to mediaUrls
+            )
 
-        val megaData = hashMapOf(
-            diaryId.toString() to data
-        )
+            val megaData = hashMapOf(
+                diaryId.toString() to data
+            )
 
-        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-            .document(App.preferences.uid!!)
-            .update(megaData as Map<String, Any>)
-            .addOnSuccessListener {
+            cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+                .document(App.preferences.uid!!)
+                .update(megaData as Map<String, Any>)
+                .addOnSuccessListener {
 
-                setDiaryNoteEvent.postValue(true)
+                    setDiaryNoteEvent.postValue(true)
 
-                EventBus.getDefault()
-                    .post(
-                        UpdateUserInterestEvent(
-                            interestId = selectedInterestIdToAddPost!!,
-                            amount = amount
+                    EventBus.getDefault()
+                        .post(
+                            UpdateUserInterestEvent(
+                                interestId = selectedInterestIdToAddPost!!,
+                                amount = amount
+                            )
                         )
-                    )
-            }
-            .addOnFailureListener {
-                if (it is FirebaseFirestoreException && it.code.value() == 5) {
-                    cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-                        .document(com.velkonost.upgrade.App.preferences.uid!!)
-                        .set(megaData as Map<String, Any>)
-                        .addOnSuccessListener {
-                            setDiaryNoteEvent.postValue(true)
-
-                            EventBus.getDefault()
-                                .post(
-                                    UpdateUserInterestEvent(
-                                        interestId = selectedInterestIdToAddPost!!,
-                                        amount = amount
-                                    )
-                                )
-                        }
-                        .addOnFailureListener {
-                            setDiaryNoteEvent.postValue(false)
-                        }
-                } else {
-                    setDiaryNoteEvent.postValue(false)
                 }
-            }
+                .addOnFailureListener {
+                    if (it is FirebaseFirestoreException && it.code.value() == 5) {
+                        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+                            .document(com.velkonost.upgrade.App.preferences.uid!!)
+                            .set(megaData as Map<String, Any>)
+                            .addOnSuccessListener {
+                                setDiaryNoteEvent.postValue(true)
+
+                                EventBus.getDefault()
+                                    .post(
+                                        UpdateUserInterestEvent(
+                                            interestId = selectedInterestIdToAddPost!!,
+                                            amount = amount
+                                        )
+                                    )
+                            }
+                            .addOnFailureListener {
+                                setDiaryNoteEvent.postValue(false)
+                            }
+                    } else {
+                        setDiaryNoteEvent.postValue(false)
+                    }
+                }
+        }
     }
 
     @Subscribe

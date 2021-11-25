@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/ic_plus_small.xml" value="0.2234375" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/plus_icon_bg.xml" value="0.2234375" />
         <entry key="app/src/main/res/drawable/achievments.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/add_post.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/background_bottom_sheet.xml" value="0.33611111111111114" />
@@ -27,6 +29,8 @@
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/custom_wheel_picker_item.xml" value="0.25416666666666665" />
+        <entry key="app/src/main/res/layout/dialog_alert_add_interest.xml" value="0.35833333333333334" />
+        <entry key="app/src/main/res/layout/dialog_alert_edit_interest.xml" value="0.2598958333333333" />
         <entry key="app/src/main/res/layout/fragment_achievements.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2375" />

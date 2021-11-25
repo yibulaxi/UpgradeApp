@@ -19,11 +19,10 @@ open class BaseViewModel @Inject constructor(
     val successEvent = SingleLiveEvent<String>()
     val setupNavMenuEvent = SingleLiveEvent<String>()
 
-    var cloudFirestoreDatabase: FirebaseFirestore
+    var cloudFirestoreDatabase: FirebaseFirestore = Firebase.firestore
 
     init {
 //        EventBus.getDefault().register(this)
-        cloudFirestoreDatabase = Firebase.firestore
     }
 
     override fun onCleared() {

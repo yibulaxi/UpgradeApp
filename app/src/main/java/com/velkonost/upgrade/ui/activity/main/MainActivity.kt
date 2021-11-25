@@ -35,6 +35,7 @@ import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
+import com.velkonost.upgrade.util.ResourcesProvider
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserInterestsViewModel
@@ -56,7 +57,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 ), PhotoPickerFragment.Callback {
 
     private val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
-    private val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory}
+    private val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory }
     private val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
 
     private var navController: NavController? = null
@@ -120,6 +121,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
 
         userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
+
+        userSettingsViewModel.setUserSettingsEvent.observe(this, ::observeUserSettings)
 
     }
 
@@ -199,23 +202,26 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         return result == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun observeUserSettings(isUserSettingsReady: Boolean) {
+        EventBus.getDefault().post(UserSettingsReadyEvent(isUserSettingsReady))
+    }
+
     private fun setupAddPostBottomSheet() {
         with(binding.addPostBottomSheet) {
 
-            val itemCount = userInterestsViewModel.getCurrentInterests().size
+            val itemCount = userInterestsViewModel.getInterests().size
             if (itemCount == 0) {
                 EventBus.getDefault().post(GoAuthEvent(true))
                 return@with
             }
 
-            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getCurrentInterests().size)
+            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
             icon.adapter.values = (0 until itemCount).map {
                 CustomWheelPickerView.Item(
-                    userInterestsViewModel.getCurrentInterests()[it].id.toString(),
+                    userInterestsViewModel.getInterests()[it].id,
                     ContextCompat.getDrawable(
                         this@MainActivity,
-                        R.drawable.environment_logo
-//                        binding.viewModel!!.getCurrentInterests()[it].logo
+                        userInterestsViewModel.getInterests()[it].getLogo()
                     )
                 )
             }

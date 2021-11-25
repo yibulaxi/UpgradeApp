@@ -28,7 +28,7 @@ class NotesViewHolder(
         binding.value.setImageDrawable(
             AppCompatResources.getDrawable(
                 context,
-                DefaultInterest.getInterestById(note.interest.interestId.toInt()).logo
+                DefaultInterest.getInterestById(note.interest.interestId.toInt()).getLogo()
             )
         )
 
