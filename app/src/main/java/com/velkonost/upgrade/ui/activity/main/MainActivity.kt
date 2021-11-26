@@ -431,6 +431,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             .withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
     }
 
+    @Subscribe
+    fun onShowSuccessEvent(e: ShowSuccessEvent) {
+        showSuccess(e.msg)
+    }
+
+    @Subscribe
+    fun onShowFailEvent(e: ShowFailEvent) {
+        showFail(e.msg)
+    }
+
     private fun showSuccess(msg: String) {
         SimpleCustomSnackbar.make(
             binding.coordinator,

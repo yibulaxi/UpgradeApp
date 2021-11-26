@@ -136,13 +136,14 @@ class UserInterestsViewModel @Inject constructor(
             .addOnFailureListener {}
     }
 
-    fun updateInterest(interest: Interest) {
+    fun updateInterest(interest: Interest, onSuccess: () -> Unit) {
         cloudFirestoreDatabase
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
             .update(interest.toFirestore() as Map<String, Any>)
             .addOnSuccessListener {
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
                 userDiaryViewModel.getDiary()
+                onSuccess.invoke()
             }
             .addOnFailureListener {}
     }
@@ -158,7 +159,7 @@ class UserInterestsViewModel @Inject constructor(
             .addOnFailureListener { }
     }
 
-    fun deleteInterest(interest: Interest) {
+    fun deleteInterest(interest: Interest, onSuccess: () -> Unit) {
         cloudFirestoreDatabase
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
             .update(
@@ -169,6 +170,7 @@ class UserInterestsViewModel @Inject constructor(
             .addOnSuccessListener {
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
                 userDiaryViewModel.getDiary()
+                onSuccess.invoke()
             }
             .addOnFailureListener {}
     }

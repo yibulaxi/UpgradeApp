@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
+import com.github.mikephil.charting.listener.PieRadarChartTouchListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.skydoves.balloon.*
 import com.velkonost.upgrade.App
@@ -57,19 +59,18 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     Handler::class
 ) {
 
-    private val userSettingsViewModel2: UserSettingsViewModel by viewModels { (requireActivity() as MainActivity).viewModelFactory }
-
-
     private val userInterestsViewModel: UserInterestsViewModel by lazy {
         ViewModelProviders.of(
             requireActivity()
         ).get(UserInterestsViewModel::class.java)
     }
+
     private val userDiaryViewModel: UserDiaryViewModel by lazy {
         ViewModelProviders.of(
             requireActivity()
         ).get(UserDiaryViewModel::class.java)
     }
+
     private val userSettingsViewModel: UserSettingsViewModel by lazy {
         ViewModelProviders.of(
             requireActivity()
@@ -122,7 +123,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     @Subscribe
     fun onUserSettingsReadyEvent(e: UserSettingsReadyEvent) {
-        Log.d("keke", "kekekekeekeke")
 //
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            binding.daysAmount.text =
@@ -168,12 +168,15 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun showAddInterestDialog() {
         val view: View = layoutInflater.inflate(R.layout.dialog_alert_add_interest, null)
-        val alertDialog: AlertDialog = AlertDialog.Builder(requireContext()).create()
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setPositiveButton("Создать", null)
+        alertDialogBuilder.setNegativeButton("Отменить", null)
+
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
         alertDialog.setTitle("Редактирование сферы")
         alertDialog.setCancelable(false)
 
         val iconValues = mutableListOf<CustomWheelPickerView.Item>()
-
         AllLogo().logoList.forEach {
             iconValues.add(
                 CustomWheelPickerView.Item(
@@ -185,7 +188,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 )
             )
         }
-
         view.icon.getRecycler().setItemViewCacheSize(AllLogo().logoList.size)
         view.icon.adapter.values = iconValues
 
@@ -193,32 +195,35 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
         view.icon.isHapticFeedbackEnabled = true
 
-        view.icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
-            override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-//                selectedInterestIdToAddPost =
-//                    icon.adapter.values.getOrNull(index)?.id.toString()
+        alertDialog.setOnShowListener {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                when {
+                    view.interestName.text.isNullOrEmpty() -> EventBus.getDefault().post(ShowFailEvent("Введите название"))
+                    view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault().post(ShowFailEvent("Введите описание"))
+                    else -> {
+                        val interest = UserCustomInterest(
+                            id = System.currentTimeMillis().toString() + java.util.UUID.randomUUID()
+                                .toString(),
+                            name = view.interestName.text.toString(),
+                            description = view.interestDescription.text.toString(),
+                            startValue = 5f,
+                            currentValue = 5f,
+                            logoId = iconValues[view.icon.selectedIndex].id,
+                            dateLastUpdate = System.currentTimeMillis().toString()
+                        )
+
+                        userInterestsViewModel.addInterest(interest)
+
+                        adapter.addInterest(interest)
+
+                        alertDialog.dismiss()
+                    }
+                }
             }
-        })
 
-
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Создать") { dialogInterface, j ->
-            val interest = UserCustomInterest(
-                id = System.currentTimeMillis().toString() + java.util.UUID.randomUUID().toString(),
-                name = view.interestName.text.toString(),
-                description = view.interestDescription.text.toString(),
-                startValue = 5f,
-                currentValue = 5f,
-                logoId = iconValues[view.icon.selectedIndex].id,
-                dateLastUpdate = System.currentTimeMillis().toString()
-            )
-
-            userInterestsViewModel.addInterest(interest)
-
-            adapter.addInterest(interest)
-        }
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Отменить") { dialogInterface, j ->
-            dialogInterface.dismiss()
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                alertDialog.dismiss()
+            }
         }
 
         alertDialog.setView(view)
@@ -227,7 +232,11 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun showEditInterestDialog(interest: Interest) {
         val view: View = layoutInflater.inflate(R.layout.dialog_alert_edit_interest, null)
-        val alertDialog: AlertDialog = AlertDialog.Builder(requireContext()).create()
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setPositiveButton("Сохранить", null)
+        alertDialogBuilder.setNegativeButton("Удалить", null)
+
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
         alertDialog.setTitle("Редактирование сферы")
         alertDialog.setCancelable(false)
 
@@ -245,7 +254,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 )
             )
         )
-
         AllLogo().logoList.filter { it.id != interest.logoId }.forEach {
             iconValues.add(
                 CustomWheelPickerView.Item(
@@ -268,24 +276,40 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         view.icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
             override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
                 interest.logoId = iconValues[index].id
-//                selectedInterestIdToAddPost =
-//                    icon.adapter.values.getOrNull(index)?.id.toString()
             }
         })
 
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Сохранить") { dialogInterface, j ->
-            interest.name = view.interestName.text.toString()
-            interest.description = view.interestDescription.text.toString()
+        alertDialog.setOnShowListener {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                when {
+                    view.interestName.text.isNullOrEmpty() -> EventBus.getDefault()
+                        .post(ShowFailEvent("Введите название"))
+                    view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault()
+                        .post(ShowFailEvent("Введите описание"))
+                    else -> {
+                        interest.name = view.interestName.text.toString()
+                        interest.description = view.interestDescription.text.toString()
 
-            userInterestsViewModel.updateInterest(interest)
+                        userInterestsViewModel.updateInterest(interest) {
+                            EventBus.getDefault().post(ShowSuccessEvent("Сохранено!"))
+                        }
 
-            adapter.updateInterestById(interest)
-        }
+                        adapter.updateInterestById(interest)
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Удалить") { dialogInterface, j ->
-            userInterestsViewModel.deleteInterest(interest)
+                        alertDialog.dismiss()
+                    }
+                }
+            }
 
-            adapter.deleteInterestById(interest.id)
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                userInterestsViewModel.deleteInterest(interest) {
+                    EventBus.getDefault().post(ShowSuccessEvent("Удалено!"))
+                }
+
+                adapter.deleteInterestById(interest.id)
+
+                alertDialog.dismiss()
+            }
         }
 
         alertDialog.setView(view)
@@ -334,10 +358,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                     .toString()
         }
 
-
-//        (viewLifecycleOwner, {
-
-//        })
         binding.list.animate()
             .translationY(binding.list.height.toFloat())
             .setDuration(300)
@@ -368,32 +388,36 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                     )
                 )
 
-                if (it == 1) {
-                    list.visibility = View.VISIBLE
-                    list.animate()
-                        .translationY(0f)
-                        .alpha(1.0f)
-                        .setDuration(500)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                super.onAnimationEnd(animation)
-
-                            }
-                        })
-                } else {
-                    list.animate()
-                        .translationY(binding.list.height.toFloat())
-                        .alpha(0.0f)
-                        .setDuration(500)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                super.onAnimationEnd(animation)
-                                binding.list.visibility = View.GONE
-                                updateMetric()
-                            }
-                        })
-                }
+                changeMetricListVisibility(it == 1)
             }
+        }
+    }
+
+    private fun changeMetricListVisibility(isVisible: Boolean) {
+        if (isVisible) {
+            binding.list.visibility = View.VISIBLE
+            binding.list.animate()
+                .translationY(0f)
+                .alpha(1.0f)
+                .setDuration(500)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+
+                    }
+                })
+        } else {
+            binding.list.animate()
+                .translationY(binding.list.height.toFloat())
+                .alpha(0.0f)
+                .setDuration(500)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        super.onAnimationEnd(animation)
+                        binding.list.visibility = View.GONE
+                        updateMetric()
+                    }
+                })
         }
     }
 
@@ -438,6 +462,32 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
         setChartAxis()
         setupRadarControlGroup()
+
+        binding.radarChart.onTouchListener = object : PieRadarChartTouchListener(binding.radarChart) {
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+
+                binding.metricStateControlGroup.setSelectedIndex(1, true)
+
+                binding.wheelState.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        R.color.colorText
+                    )
+                )
+
+                binding.listState.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        R.color.colorWhite
+                    )
+                )
+
+
+                changeMetricListVisibility(true)
+                return super.onSingleTapConfirmed(e)
+            }
+        }
+
     }
 
     private fun setChartAxis() {
