@@ -36,7 +36,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundedCorners"
             app:strokeColor="@color/colorBlueLight"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

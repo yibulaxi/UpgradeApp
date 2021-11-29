@@ -10,9 +10,11 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -26,15 +28,18 @@ import com.jaeger.library.StatusBarUtil
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.velkonost.upgrade.App
+import com.velkonost.upgrade.App.Companion.READ_EXTERNAL_STORAGE_REQUEST_CODE
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.*
-import com.velkonost.upgrade.model.Media
+import com.velkonost.upgrade.model.*
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
+import com.velkonost.upgrade.ui.activity.main.ext.*
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
+import com.velkonost.upgrade.util.ext.observeOnce
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserInterestsViewModel
@@ -42,12 +47,15 @@ import com.velkonost.upgrade.vm.UserSettingsViewModel
 import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
+import kotlinx.android.synthetic.main.view_select_note_type.*
+import kotlinx.coroutines.launch
 import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     R.layout.activity_main,
@@ -55,24 +63,32 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     Handler::class
 ), PhotoPickerFragment.Callback {
 
-    private val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
-    private val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory }
-    private val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
+     val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
+     val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory }
+     val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
 
     private var navController: NavController? = null
 
-    private val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+    val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
     }
 
-    private var selectedInterestIdToAddPost: String = ""
-    private var selectedDiffPointToAddPost: Int = 0
+     val addGoalBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
+    }
 
-    //    private lateinit var cloudFirestoreDatabase: FirebaseFirestore
+    val selectNoteTypeBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.selectNoteTypeBottomSheet.bottomSheetContainer)
+    }
+
+    var selectedInterestIdToAddPost: String = ""
+     var selectedDiffPointToAddPost: Int = 0
+
     private lateinit var cloudStorage: FirebaseStorage
     private var isFirebaseAvailable: Boolean = false
 
-    private lateinit var mediaAdapter: AddPostMediaAdapter
+    lateinit var mediaAdapter: AddPostMediaAdapter
+    fun isMediaAdapterInitialized() = ::mediaAdapter.isInitialized
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -91,25 +107,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         subscribePushTopic()
-
-        addPostBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.backgroundImage.alpha = slideOffset
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    binding.backgroundImage.alpha = 0f
-                    binding.navView.isVisible = true
-                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    binding.navView.isVisible = false
-                    binding.backgroundImage.alpha = 1f
-                    binding.addPostBottomSheet.editText.requestFocus()
-                }
-            }
-        })
-
+        setupBottomSheets()
     }
 
     override fun onViewModelReady(viewModel: BaseViewModel) {
@@ -138,6 +136,28 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     }
                     return false
                 }
+            } else if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                val outRect = Rect()
+
+                binding.selectNoteTypeBottomSheet.container.getGlobalVisibleRect(outRect)
+
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    binding.selectNoteTypeBottomSheet.container.post {
+                        selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                    return false
+                }
+            } else if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                val outRect = Rect()
+
+                binding.addGoalBottomSheet.container.getGlobalVisibleRect(outRect)
+
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    binding.addGoalBottomSheet.container.post {
+                        addGoalBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                    return false
+                }
             }
         }
         return super.dispatchTouchEvent(event)
@@ -153,7 +173,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
     }
 
-    private fun uploadMedia(noteId: String? = null) {
+     fun uploadMedia(
+        noteId: String? = null,
+        text: String,
+        date: String
+    ) {
         val storageRef = cloudStorage.reference
         val uploadedUrls = arrayListOf<String>()
 
@@ -162,7 +186,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 uploadedUrls.add(media.url!!)
 
                 if (uploadedUrls.size == mediaAdapter.getMedia().size) {
-                    setDiaryNote(noteId, uploadedUrls)
+                    setDiaryNote(
+                        noteId = noteId,
+                        noteType = NoteType.Note.id,
+                        mediaUrls = uploadedUrls,
+                        text = text,
+                        date = date
+                    )
                 } else continue
             } else {
 
@@ -187,7 +217,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         uploadedUrls.add(task.result.toString())
 
                         if (uploadedUrls.size == mediaAdapter.getMedia().size) {
-                            setDiaryNote(noteId, uploadedUrls)
+                            setDiaryNote(
+                                noteId = noteId,
+                                noteType = NoteType.Note.id,
+                                mediaUrls = uploadedUrls,
+                                text = text,
+                                date = date
+                            )
                         }
                     } else { /* Handle failures .. */
                     }
@@ -196,81 +232,42 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
     }
 
-    private fun checkPermissionForReadExternalStorage(): Boolean {
+     fun checkPermissionForReadExternalStorage(): Boolean {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                READ_EXTERNAL_STORAGE_REQUEST_CODE
+            )
+        }
+
         val result = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
         return result == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun observeUserSettings(isUserSettingsReady: Boolean) {
-        EventBus.getDefault().post(UserSettingsReadyEvent(isUserSettingsReady))
-    }
-
-    private fun setupAddPostBottomSheet() {
-        with(binding.addPostBottomSheet) {
-
-            val itemCount = userInterestsViewModel.getInterests().size
-            if (itemCount == 0) {
-                EventBus.getDefault().post(GoAuthEvent(true))
-                return@with
-            }
-
-            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
-            icon.adapter.values = (0 until itemCount).map {
-                CustomWheelPickerView.Item(
-                    userInterestsViewModel.getInterests()[it].id,
-                    ContextCompat.getDrawable(
-                        this@MainActivity,
-                        userInterestsViewModel.getInterests()[it].getLogo()
-                    )
-                )
-            }
-
-            icon.getRecycler().post { icon.getRecycler().scrollToPosition(5) }
-
-            icon.adapter.notifyDataSetChanged()
-
-            icon.isHapticFeedbackEnabled = true
-
-            icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
-                override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-                    selectedInterestIdToAddPost =
-                        icon.adapter.values.getOrNull(index)?.id.toString()
-                }
-            })
-
-            val currentDate = SimpleDateFormat(
-                "dd MMMM, EEEE",
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) resources.configuration.locales[0] else resources.configuration.locale
-            ).format(Calendar.getInstance().timeInMillis)
-            date.text = currentDate
-
-            editText.addTextChangedListener {
-                length.text = editText.text?.toString()?.length.toString() + "/2000"
-            }
-
-            pointsStateControlGroup.setOnSelectedOptionChangeCallback {
-                selectedDiffPointToAddPost = it
-            }
-
-            addPost.setOnClickListener {
-                if (editText.text?.length == 0) {
-                    showFail(getString(R.string.enter_note_text))
-                } else if (!::mediaAdapter.isInitialized || mediaAdapter.getMedia().size == 0)
-                    setDiaryNote(noteId, userDiaryViewModel.getNoteMediaUrlsById(noteId))
-                else uploadMedia(noteId)
-            }
-
-            addMedia.setOnClickListener {
-                if (checkPermissionForReadExternalStorage()) {
-                    PhotoPickerFragment.newInstance(
-                        multiple = true,
-                        allowCamera = true,
-                        maxSelection = 5,
-                        theme = R.style.ChiliPhotoPicker_Light
-                    ).show(supportFragmentManager, "picker")
-                }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == READ_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery()
+            } else {
+                showFail("Нет доступа к галерее")
             }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+
+     fun openGallery() {
+        PhotoPickerFragment.newInstance(
+            multiple = true,
+            allowCamera = true,
+            maxSelection = 5,
+            theme = R.style.ChiliPhotoPicker_Light
+        ).show(supportFragmentManager, "picker")
     }
 
     @Subscribe
@@ -329,19 +326,14 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.isVisible = true
 
         binding.navView.menu.getItem(2).setOnMenuItemClickListener {
-            addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-            binding.addPostBottomSheet.noteId = null
-
-            binding.addPostBottomSheet.editText.setText("")
-            binding.addPostBottomSheet.editText.requestFocus()
-
-            mediaAdapter = AddPostMediaAdapter(this, arrayListOf())
-            binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
+            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
             return@setOnMenuItemClickListener true
         }
+
+        setupSelectNoteTypeBottomSheet()
         setupAddPostBottomSheet()
+        setupAddGoalBottomSheet()
     }
 
     @Subscribe
@@ -351,76 +343,140 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onEditDiaryNoteEvent(e: EditDiaryNoteEvent) {
-        addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        binding.addPostBottomSheet.editText.requestFocus()
+        if (e.note.noteType == NoteType.Note.id) {
+            addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.addPostBottomSheet.editText.requestFocus()
 
-        with(binding.addPostBottomSheet) {
-            noteId = e.note.id
+            with(binding.addPostBottomSheet) {
+                noteId = e.note.diaryNoteId
 
-            editText.setText(e.note.text)
-            editText.setSelection(editText.length())
+                editText.setText(e.note.text)
+                editText.setSelection(editText.length())
 
 
-            var selectedIndex = 0
-            for (i in icon.adapter.values.indices) {
-                if (icon.adapter.values[i].id == e.note.interest.interestId) {
-                    selectedIndex = i
-                    break
+                var selectedIndex = 0
+                for (i in icon.adapter.values.indices) {
+                    if (icon.adapter.values[i].id == e.note.interest!!.interestId) {
+                        selectedIndex = i
+                        break
+                    }
+                }
+
+                icon.getRecycler().scrollToPosition(position = 5)
+                icon.getRecycler().post {
+                    icon.setSelectedIndex(
+                        index = selectedIndex,
+                        animated = true
+                    )
+                }
+
+                date.text = e.note.date
+
+                when {
+                    e.note.changeOfPoints.toFloat() < 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(2, true)
+                    }
+                    e.note.changeOfPoints.toFloat() > 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(0, true)
+                    }
+                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
+                }
+
+                val urls = arrayListOf<Media>()
+                for (url in e.note.media ?: arrayListOf()) {
+                    urls.add(Media(url = url))
+                }
+                mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls)
+                mediaRecycler.adapter = mediaAdapter
+            }
+        } else if (e.note.noteType == NoteType.Goal.id) {
+            addGoalBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.addGoalBottomSheet.editText.requestFocus()
+
+            with(binding.addGoalBottomSheet) {
+                noteId = e.note.diaryNoteId
+
+                editText.setText(e.note.text)
+                editText.setSelection(editText.length())
+
+                var selectedIndex = 0
+                for (i in icon.adapter.values.indices) {
+                    if (icon.adapter.values[i].id == e.note.interest!!.interestId) {
+                        selectedIndex = i
+                        break
+                    }
+                }
+
+                icon.getRecycler().scrollToPosition(position = 5)
+                icon.getRecycler().post {
+                    icon.setSelectedIndex(
+                        index = selectedIndex,
+                        animated = true
+                    )
+                }
+
+                date.text = e.note.date
+
+                when {
+                    e.note.changeOfPoints.toFloat() < 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(2, true)
+                    }
+                    e.note.changeOfPoints.toFloat() > 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(0, true)
+                    }
+                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
                 }
             }
-
-            icon.getRecycler().scrollToPosition(position = 5)
-            icon.getRecycler().post {
-                icon.setSelectedIndex(
-                    index = selectedIndex,
-                    animated = true
-                )
-            }
-
-            date.text = e.note.date
-
-            when {
-                e.note.changeOfPoints.toFloat() < 0f -> {
-                    pointsStateControlGroup.setSelectedIndex(2, true)
-                }
-                e.note.changeOfPoints.toFloat() > 0f -> {
-                    pointsStateControlGroup.setSelectedIndex(0, true)
-                }
-                else -> pointsStateControlGroup.setSelectedIndex(1, true)
-            }
-
-            val urls = arrayListOf<Media>()
-            for (url in e.note.media ?: arrayListOf()) {
-                urls.add(Media(url = url))
-            }
-            mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls)
-            mediaRecycler.adapter = mediaAdapter
         }
     }
 
-    private fun setDiaryNote(
+     fun setDiaryNote(
         noteId: String? = null,
-        mediaUrls: ArrayList<String>? = arrayListOf()
+        noteType: Int,
+        mediaUrls: ArrayList<String>? = arrayListOf(),
+        text: String,
+        date: String,
+        datetimeStart: String? = null,
+        datetimeEnd: String? = null,
+        isActiveNow: Boolean? = null,
+        initialAmount: Int? = null,
+        currentAmount: Int? = null,
+        regularity: Int? = null,
+        isPushAvailable: Boolean = false,
+        color: String? = null,
+        datesCompletion: ArrayList<DiaryNoteDatesCompletion>? = arrayListOf(),
+        tags: ArrayList<String>? = arrayListOf()
     ) {
-        with(binding.addPostBottomSheet) {
-            userDiaryViewModel.setDiaryNote(
-                noteId = noteId,
-                text = editText.text.toString(),
-                date = date.text.toString(),
-                selectedInterestIdToAddPost = selectedInterestIdToAddPost,
-                selectedDiffPointToAddPost = selectedDiffPointToAddPost,
-                mediaUrls = mediaUrls
+
+            val noteInterest =
+                userInterestsViewModel.getInterestById(selectedInterestIdToAddPost)
+            userDiaryViewModel.setNote(
+                DiaryNote(
+                    diaryNoteId = (noteId ?: System.currentTimeMillis()).toString(),
+                    noteType = noteType,
+                    text = text,
+                    date = date,
+                    media = mediaUrls,
+                    changeOfPoints = selectedDiffPointToAddPost,
+                    interest = DiaryNoteInterest(
+                        interestId = noteInterest.id,
+                        interestName = noteInterest.name!!,
+                        interestIcon = noteInterest.logoId!!
+                    ),
+                    datetimeStart = datetimeStart,
+                    datetimeEnd = datetimeEnd,
+                    isActiveNow = isActiveNow,
+                    isPushAvailable = isPushAvailable,
+                    initialAmount = initialAmount,
+                    currentAmount = currentAmount,
+                    regularity = regularity,
+                    color = color,
+                    datesCompletion = datesCompletion,
+                    tags = tags
+                ),
             )
-        }
     }
 
-    private fun observeSetDiaryNote(isSuccess: Boolean) {
-        if (isSuccess) {
-            showSuccess(getString(R.string.note_created))
-            binding.addPostBottomSheet.editText.text?.clear()
-            addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        } else showFail(getString(com.velkonost.upgrade.R.string.error_happened))
-    }
 
     @Subscribe
     fun onOpenFullScreenMediaEvent(e: OpenFullScreenMediaEvent) {
@@ -441,7 +497,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         showFail(e.msg)
     }
 
-    private fun showSuccess(msg: String) {
+     fun showSuccess(msg: String) {
         SimpleCustomSnackbar.make(
             binding.coordinator,
             msg,
@@ -455,7 +511,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )?.show()
     }
 
-    private fun showFail(msg: String) {
+     fun showFail(msg: String) {
         SimpleCustomSnackbar.make(
             binding.coordinator,
             msg,

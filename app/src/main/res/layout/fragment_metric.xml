@@ -66,6 +66,9 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/wheel"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
@@ -81,6 +84,9 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/list"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
@@ -114,6 +120,9 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/current_wheel"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
@@ -129,6 +138,9 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/start_wheel"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
@@ -251,6 +263,9 @@
                 android:onClick="@{handler::onInfoClicked}"
                 android:src="@drawable/ic_info"
                 android:tint="@color/colorGray"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -13,7 +13,10 @@
             name="handler"
             type="com.velkonost.upgrade.ui.diary.DiaryFragment.Handler" />
     </data>
-
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -75,11 +78,16 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="5dp"
                 android:onClick="@{handler::onInfoClicked}"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:src="@drawable/ic_info"
                 android:tint="@color/colorGray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/blur"
@@ -88,22 +96,9 @@
             android:background="@color/coloBlurBackground"
             android:onClick="@{handler::onBlurClicked}"
             android:visibility="gone" />
+        <include
+            android:id="@+id/viewPagerBottomSheet"
+            layout="@layout/view_notes_viewpager" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent="0.9"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

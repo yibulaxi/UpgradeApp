@@ -43,7 +43,7 @@ class UserInterestsViewModel @Inject constructor(
 
         interests.clear()
 
-        try {
+//        try {
 
             documentSnapshot.data?.map {
                 interests.add(
@@ -61,9 +61,9 @@ class UserInterestsViewModel @Inject constructor(
                 )
             }
 
-        } catch (e: Exception) {
-            EventBus.getDefault().post(GoAuthEvent(true))
-        }
+//        } catch (e: Exception) {
+//            EventBus.getDefault().post(GoAuthEvent(true))
+//        }
     }
 
     fun getInterests() = interests
@@ -94,12 +94,8 @@ class UserInterestsViewModel @Inject constructor(
                         viewModelScope.launch(Dispatchers.IO) {
 
                             userSettingsViewModel.getUserSettings()
-                            Log.d("keke", "1")
                             userDiaryViewModel.getDiary()
-                            Log.d("keke", "2")
-
                             getInterests { Navigator.welcomeToMetric(e.f) }
-                            Log.d("keke", "3")
                         }
                     }
             }
@@ -107,7 +103,7 @@ class UserInterestsViewModel @Inject constructor(
     }
 
     private fun Interest.toFirestore() =
-        hashMapOf<String, HashMap<String, String>>(
+        hashMapOf(
             /*System.currentTimeMillis().toString() + java.util.UUID.randomUUID().toString()*/
             id to hashMapOf<String, String>(
                 UserInterestsTable().tableFields[UserInterestsFields.Id]!! to id,
@@ -190,16 +186,11 @@ class UserInterestsViewModel @Inject constructor(
     }
 
     private fun setInterestAmount(
-        interestId: String,
-        amount: String
+        interest: Interest
     ) {
-        val data = mutableMapOf(
-            interestId to amount
-        )
-
         cloudFirestoreDatabase
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .update(data as Map<String, Any>)
+            .update(interest.toFirestore() as Map<String, Any>)
             .addOnSuccessListener {
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
                 userDiaryViewModel.getDiary()
@@ -207,19 +198,30 @@ class UserInterestsViewModel @Inject constructor(
             .addOnFailureListener {}
     }
 
+    private fun HashMap<*, *>.toUserCustomInterest() =
+        UserCustomInterest(
+            id = get(UserInterestsTable().tableFields[UserInterestsFields.Id]).toString(),
+            name = get(UserInterestsTable().tableFields[UserInterestsFields.Name]).toString(),
+            description = get(UserInterestsTable().tableFields[UserInterestsFields.Description]).toString(),
+            startValue = get(UserInterestsTable().tableFields[UserInterestsFields.StartValue]).toString().toFloat(),
+            currentValue = get(UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]).toString().toFloat(),
+            logoId = get(UserInterestsTable().tableFields[UserInterestsFields.Icon]).toString()
+        )
+
     @Subscribe
     fun onUpdateUserInterestEvent(e: UpdateUserInterestEvent) {
         cloudFirestoreDatabase
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
             .get()
             .addOnSuccessListener {
-                val interestPrevAmount = (it.get(e.interestId)).toString().toFloat()
-                var interestNewAmount = interestPrevAmount + e.amount
 
-                if (interestNewAmount > 10f) interestNewAmount = 10f
-                if (interestNewAmount < 0f) interestNewAmount = 0f
+                val interestToUpdate = (it.get(e.interestId) as HashMap<*, *>).toUserCustomInterest()
+                interestToUpdate.currentValue = interestToUpdate.currentValue?.plus(e.amount)
 
-                setInterestAmount(e.interestId, String.format("%.1f", interestNewAmount))
+                if (interestToUpdate.currentValue!! > 10f) interestToUpdate.currentValue = 10f
+                if (interestToUpdate.currentValue!! < 0f) interestToUpdate.currentValue = 0f
+
+                setInterestAmount(interestToUpdate)
             }
             .addOnFailureListener {}
     }

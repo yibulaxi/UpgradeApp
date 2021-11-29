@@ -1,5 +1,6 @@
 package com.velkonost.upgrade
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -62,6 +63,10 @@ class App : DaggerApplication() {
     companion object {
         lateinit var instance: App
         lateinit var preferences: Preferences
+
+        @SuppressLint("StaticFieldLeak")
         lateinit var resourcesProvider: ResourcesProvider
+
+        val READ_EXTERNAL_STORAGE_REQUEST_CODE = 123
     }
 }

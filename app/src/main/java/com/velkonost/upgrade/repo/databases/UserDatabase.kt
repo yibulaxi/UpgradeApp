@@ -4,33 +4,43 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.velkonost.upgrade.model.UserSettings
+import androidx.room.TypeConverters
+import com.velkonost.upgrade.model.*
+import com.velkonost.upgrade.repo.dao.UserDiaryDao
 import com.velkonost.upgrade.repo.dao.UserSettingsDao
 import dagger.Module
 import dagger.Provides
 
 @Module
-@Database(entities = [UserSettings::class], version = 1)
-abstract class UserSettingsDatabase : RoomDatabase() {
+@Database(entities = [UserSettings::class, DiaryNote::class], version = 16)
+@TypeConverters(
+    MediaConverters::class,
+    DiaryNoteInterestConverters::class,
+    DatesCompletionConverters::class,
+//    TagsConverters::class
+)
+abstract class UserDatabase : RoomDatabase() {
 
     abstract val userSettingsDao: UserSettingsDao
+    abstract val userDiaryDao: UserDiaryDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: UserSettingsDatabase? = null
+        private var INSTANCE: UserDatabase? = null
 
         @Provides
-        fun getInstance(context: Context): UserSettingsDatabase {
+        fun getInstance(context: Context): UserDatabase {
             synchronized(this) {
                 var instance = INSTANCE
 
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        UserSettingsDatabase::class.java,
+                        UserDatabase::class.java,
                         "user_database"
                     )
+                        .fallbackToDestructiveMigration()
                         .build()
 
                     INSTANCE = instance

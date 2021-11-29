@@ -32,6 +32,7 @@ enum class UserInterestsFields(override val fieldName: String) : TableFields {
 
 enum class UserDiaryFields(override val fieldName: String) : TableFields {
     Id("id"),
+    DiaryNoteId("diaryNoteId"),
     NoteType("noteType"),
     Date("date"),
     Title("title"),
@@ -100,6 +101,7 @@ class UserDiaryTable : FirestoreDatabaseTable {
     override val tableFields: HashMap<TableFields, String> =
         hashMapOf(
             UserDiaryFields.Id to UserDiaryFields.Id.fieldName,
+            UserDiaryFields.DiaryNoteId to UserDiaryFields.DiaryNoteId.fieldName,
             UserDiaryFields.NoteType to UserDiaryFields.NoteType.fieldName,
             UserDiaryFields.Date to UserDiaryFields.Date.fieldName,
             UserDiaryFields.Title to UserDiaryFields.Title.fieldName,

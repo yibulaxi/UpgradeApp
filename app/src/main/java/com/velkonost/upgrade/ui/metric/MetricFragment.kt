@@ -145,23 +145,26 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun setupDetailInterestBottomSheet(interest: Interest) {
         with(binding.interestDetailBottomSheet) {
-            title.text = interest.name ?: getString(interest.nameRes!!)
-            amount.text = interest.currentValue.toString()
+            userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
+                title.text = interest.name ?: getString(interest.nameRes!!)
+                amount.text = interest.currentValue.toString()
 
-            amountMax.isVisible = interest.currentValue == 10f
+                amountMax.isVisible = interest.currentValue == 10f
 
-            notesAmount.isVisible =
-                userDiaryViewModel.getNotesByInterestId(interest.id.toString()).size != 0
-            notesAmount.text =
-                "Написано постов - " + userDiaryViewModel.getNotesByInterestId(interest.id.toString()).size
+                notesAmount.isVisible =
+                    notes.any { it.interest!!.interestId == interest.id }
+                notesAmount.text =
+                    "Написано постов - " +
+                            notes.filter { it.interest!!.interestId == interest.id }.size
 
-            startValue.text =
-                "Начальное значение - " + interest.startValue
-            currentValue.text = "Текущее значение - " + interest.currentValue
+                startValue.text =
+                    "Начальное значение - " + interest.startValue
+                currentValue.text = "Текущее значение - " + interest.currentValue
 
-            edit.setOnClickListener {
-                interestDetailBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                showEditInterestDialog(interest)
+                edit.setOnClickListener {
+                    interestDetailBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    showEditInterestDialog(interest)
+                }
             }
         }
     }
@@ -347,11 +350,14 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
         setAverageAmount()
 
-        binding.diaryAmount.text = userDiaryViewModel.diary.notes.size.toString()
+        userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
+            binding.diaryAmount.text = notes.size.toString()
+        }
+
 
         userSettingsViewModel.getUserSettingsById(
             App.preferences.uid!!
-        ).observeForever {
+        ).observe(this@MetricFragment) {
             binding.daysAmount.text =
                 ((System.currentTimeMillis() - (it?.dateRegistration
                     ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()

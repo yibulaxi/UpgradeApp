@@ -3,7 +3,7 @@ package com.velkonost.upgrade.repo
 import androidx.lifecycle.LiveData
 import com.velkonost.upgrade.model.UserSettings
 import com.velkonost.upgrade.repo.dao.UserSettingsDao
-import com.velkonost.upgrade.repo.databases.UserSettingsDatabase
+import com.velkonost.upgrade.repo.databases.UserDatabase
 import dagger.Module
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @Module
 class UserSettingsRepository @Inject constructor(
-    private val database: UserSettingsDatabase
+    private val database: UserDatabase
 ) {
 
     private val userSettingsDao: UserSettingsDao = database.userSettingsDao

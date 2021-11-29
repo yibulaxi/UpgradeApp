@@ -48,14 +48,16 @@ class UserSettings(
     @ColumnInfo(name = "isInterestsInitialized")
     val isInterestsInitialized: Boolean? = true,
 ) {
-    @Ignore
-    fun getDifficultyValue(): Float {
-        return when (difficulty?.toInt()) {
-            0 -> 0.3f
-            1 -> 0.1f
-            2 -> 0.05f
-            else -> 0.01f
-        }
-    }
 
+
+}
+
+
+public fun UserSettings.getDifficultyValue(): Float {
+    return when (difficulty?.toInt()) {
+        0 -> 0.3f
+        1 -> 0.1f
+        2 -> 0.05f
+        else -> 0.01f
+    }
 }

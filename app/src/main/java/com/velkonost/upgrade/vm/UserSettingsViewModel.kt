@@ -7,13 +7,10 @@ import com.velkonost.upgrade.event.InitUserSettingsEvent
 import com.velkonost.upgrade.event.UpdateDifficultyEvent
 import com.velkonost.upgrade.model.UserSettings
 import com.velkonost.upgrade.repo.UserSettingsRepository
-import com.velkonost.upgrade.repo.databases.UserSettingsDatabase
 import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.rest.UserSettingsTable
 import com.velkonost.upgrade.util.SingleLiveEvent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
@@ -76,17 +73,6 @@ class UserSettingsViewModel @Inject constructor(
     fun getUserSettingsById(id: String) =
         userSettingsRepository.getById(id)
 
-    suspend fun getDifficultyValue(): Float {
-        return withContext(Dispatchers.IO) {
-            var value = 0f
-            userSettingsRepository.getById(App.preferences.uid!!)
-                .observeForever {
-                    value = it?.getDifficultyValue() ?: 0f
-                }
-            value
-        }
-    }
-
     fun resetUserSettings() = userSettingsRepository.clear()
 
     internal fun getUserSettings() {
@@ -138,25 +124,29 @@ class UserSettingsViewModel @Inject constructor(
             "is_interests_initialized" to false
         )
 
-//        val userSettings = UserSettings(
-//            id = e.userId,
-//            authType = 1.toString(),
-//            login = "",
-//            password = "",
-//            difficulty = 1.toString(),
-//            isPushAvailable = true,
-//            greeting = "",
-//            dateRegistration = System.currentTimeMillis().toString(),
-//            dateLastLogin = System.currentTimeMillis().toString(),
-//            avatar = "",
-//            locale = "",
-//            isInterestsInitialized = false
-//        )
-
         cloudFirestoreDatabase
             .collection(UserSettingsTable().tableName).document(e.userId)
             .set(userSettings)
             .addOnSuccessListener { }
             .addOnFailureListener { }
     }
+
+//    private fun UserSettings.toFirestore() =
+//        hashMapOf(
+//            UserSettingsTable().tableFields[UserSettingsFields.Id] to e.userId,
+//            UserSettingsTable().tableFields[UserSettingsFields.AuthType] to 1.toString(),
+//            UserSettingsTable().tableFields[UserSettingsFields.Login] to "",
+//            UserSettingsTable().tableFields[UserSettingsFields.Password] to "",
+//            UserSettingsTable().tableFields[UserSettingsFields.Difficulty] to 1.toString(),
+//            UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable] to true,
+//            UserSettingsTable().tableFields[UserSettingsFields.Greeting] to "",
+//            UserSettingsTable().tableFields[UserSettingsFields.DateRegistration] to System.currentTimeMillis()
+//                .toString(),
+//            UserSettingsTable().tableFields[UserSettingsFields.DateLastLogin] to System.currentTimeMillis()
+//                .toString(),
+//            UserSettingsTable().tableFields[UserSettingsFields.Avatar] to "",
+//            UserSettingsTable().tableFields[UserSettingsFields.Locale] to "",
+//            "is_interests_initialized" to false
+//        )
+
 }
