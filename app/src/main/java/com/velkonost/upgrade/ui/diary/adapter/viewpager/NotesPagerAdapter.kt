@@ -46,7 +46,7 @@ class NotesPagerAdapter(
         val notesToUpdateIndexes = arrayListOf<Int>()
 
         for (i in 0 until notes.size) {
-            val foundNote = newNotes.findLast { it.diaryNoteId == notes[i].diaryNoteId}
+            val foundNote = newNotes.findLast { it.diaryNoteId == notes[i].diaryNoteId }
 
             if (foundNote == null) {
                 notesToDeleteIndexes.add(i)
@@ -63,7 +63,7 @@ class NotesPagerAdapter(
         }
 
         for (i in 0 until newNotes.size) {
-            val foundNote = notes.findLast { it.diaryNoteId == newNotes[i].diaryNoteId}
+            val foundNote = notes.findLast { it.diaryNoteId == newNotes[i].diaryNoteId }
 
             if (foundNote == null) {
                 notesToAddIndexes.add(i)
@@ -88,8 +88,8 @@ class NotesPagerAdapter(
                 notes[it].text = foundNote.text
                 notes[it].media = foundNote.media
                 notes[it].interest?.interestId = foundNote.interest?.interestId!!
-                notes[it].interest?.interestName = foundNote.interest?.interestName!!
-                notes[it].interest?.interestIcon = foundNote.interest?.interestIcon!!
+                notes[it].interest?.interestName = foundNote.interest.interestName
+                notes[it].interest?.interestIcon = foundNote.interest.interestIcon
                 notes[it].changeOfPoints = foundNote.changeOfPoints
 
                 notifyItemChanged(it)

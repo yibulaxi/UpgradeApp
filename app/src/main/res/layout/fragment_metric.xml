@@ -29,10 +29,10 @@
 
             <com.github.mikephil.charting.charts.RadarChart
                 android:id="@+id/radarChart"
-                android:layout_marginTop="150dp"
-                android:layout_marginBottom="150dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="150dp"
+                android:layout_marginBottom="150dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +59,9 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:letterSpacing="0.2"
                     android:lines="1"
                     android:paddingStart="5dp"
@@ -66,9 +69,6 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/wheel"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
@@ -76,6 +76,9 @@
                     style="@style/Text10.Light"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:letterSpacing="0.2"
                     android:lines="1"
                     android:maxLines="1"
@@ -84,9 +87,6 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/list"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
@@ -113,6 +113,9 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:letterSpacing="0.2"
                     android:lines="1"
                     android:paddingStart="5dp"
@@ -120,9 +123,6 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/current_wheel"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
@@ -130,6 +130,9 @@
                     style="@style/Text10.Light"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     android:letterSpacing="0.2"
                     android:lines="1"
                     android:maxLines="1"
@@ -138,9 +141,6 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/start_wheel"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
                     android:textColor="@color/colorText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
@@ -260,12 +260,12 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="36dp"
                 android:layout_marginEnd="16dp"
-                android:onClick="@{handler::onInfoClicked}"
-                android:src="@drawable/ic_info"
-                android:tint="@color/colorGray"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{handler::onInfoClicked}"
+                android:src="@drawable/ic_info"
+                android:tint="@color/colorGray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

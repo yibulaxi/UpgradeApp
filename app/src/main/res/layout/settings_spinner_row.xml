@@ -3,12 +3,12 @@
     android:id="@+id/cust_view"
     android:layout_width="match_parent"
     android:layout_height="48dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     android:gravity="start|center_vertical"
     android:minWidth="246dp"
     android:paddingLeft="4dp"
     android:textColor="@android:color/black"
     android:textIsSelectable="false"
-    android:textSize="20sp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"/>
+    android:textSize="20sp" />

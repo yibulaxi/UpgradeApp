@@ -2,7 +2,6 @@ package com.velkonost.upgrade.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "user_settings_table")
@@ -47,13 +46,10 @@ class UserSettings(
 
     @ColumnInfo(name = "isInterestsInitialized")
     val isInterestsInitialized: Boolean? = true,
-) {
+)
 
 
-}
-
-
-public fun UserSettings.getDifficultyValue(): Float {
+fun UserSettings.getDifficultyValue(): Float {
     return when (difficulty?.toInt()) {
         0 -> 0.3f
         1 -> 0.1f

@@ -19,7 +19,6 @@ import com.velkonost.upgrade.BR
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.glide.GlideApp
 import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
 import com.velkonost.upgrade.util.ext.getViewModel
 import com.velkonost.upgrade.util.lazyErrorDelegate
 import dagger.android.support.DaggerFragment

@@ -27,17 +27,17 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:background="@drawable/bg_media_add_post"
+            android:clickable="true"
             android:fitsSystemWindows="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:maxWidth="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundedCorners"
             app:strokeColor="@color/colorBlueLight"
-            app:strokeWidth="1dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"/>
+            app:strokeWidth="1dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

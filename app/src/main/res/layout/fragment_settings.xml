@@ -35,13 +35,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:letterSpacing="0.2"
             android:onClick="@{handler::onLogoutClicked}"
             android:text="Выйти"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
             android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,11 +53,11 @@
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
             android:background="@color/colorBlueLight"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="6dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
             app:layout_constraintTop_toBottomOf="@id/title">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -97,11 +97,11 @@
                 android:id="@+id/pushBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -139,11 +139,11 @@
                 android:id="@+id/difficultyBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
                 app:layout_constraintTop_toBottomOf="@id/pushBlock">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -215,11 +215,11 @@
                 android:id="@+id/versionBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -246,12 +246,12 @@
                 android:id="@+id/aboutBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{handler::onAboutClicked}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{handler::onAboutClicked}"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
                 app:layout_constraintTop_toBottomOf="@id/versionBlock">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -278,12 +278,12 @@
                 android:id="@+id/rateBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{handler::onRateBlockClicked}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{handler::onRateBlockClicked}"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
                 app:layout_constraintTop_toBottomOf="@id/aboutBlock">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -310,12 +310,12 @@
                 android:id="@+id/writeBlock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{handler::onWriteBlockClicked}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
+                android:onClick="@{handler::onWriteBlockClicked}"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
                 app:layout_constraintTop_toBottomOf="@id/separator4">
 
                 <androidx.appcompat.widget.AppCompatTextView

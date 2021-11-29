@@ -4,17 +4,13 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.View
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -37,9 +33,7 @@ import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.activity.main.ext.*
 import com.velkonost.upgrade.ui.base.BaseActivity
-import com.velkonost.upgrade.ui.view.CustomWheelPickerView
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
-import com.velkonost.upgrade.util.ext.observeOnce
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserInterestsViewModel
@@ -48,14 +42,9 @@ import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import kotlinx.android.synthetic.main.view_select_note_type.*
-import kotlinx.coroutines.launch
 import lv.chi.photopicker.PhotoPickerFragment
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import sh.tyy.wheelpicker.core.BaseWheelPickerView
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     R.layout.activity_main,
@@ -63,9 +52,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     Handler::class
 ), PhotoPickerFragment.Callback {
 
-     val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
-     val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory }
-     val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
+    val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
+    val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory }
+    val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
 
     private var navController: NavController? = null
 
@@ -73,7 +62,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
     }
 
-     val addGoalBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+    val addGoalBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
     }
 
@@ -82,7 +71,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     var selectedInterestIdToAddPost: String = ""
-     var selectedDiffPointToAddPost: Int = 0
+    var selectedDiffPointToAddPost: Int = 0
 
     private lateinit var cloudStorage: FirebaseStorage
     private var isFirebaseAvailable: Boolean = false
@@ -173,7 +162,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
     }
 
-     fun uploadMedia(
+    fun uploadMedia(
         noteId: String? = null,
         text: String,
         date: String
@@ -232,8 +221,12 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
     }
 
-     fun checkPermissionForReadExternalStorage(): Boolean {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+    fun checkPermissionForReadExternalStorage(): Boolean {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -261,7 +254,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
 
-     fun openGallery() {
+    fun openGallery() {
         PhotoPickerFragment.newInstance(
             multiple = true,
             allowCamera = true,
@@ -430,7 +423,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
     }
 
-     fun setDiaryNote(
+    fun setDiaryNote(
         noteId: String? = null,
         noteType: Int,
         mediaUrls: ArrayList<String>? = arrayListOf(),
@@ -448,33 +441,33 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         tags: ArrayList<String>? = arrayListOf()
     ) {
 
-            val noteInterest =
-                userInterestsViewModel.getInterestById(selectedInterestIdToAddPost)
-            userDiaryViewModel.setNote(
-                DiaryNote(
-                    diaryNoteId = (noteId ?: System.currentTimeMillis()).toString(),
-                    noteType = noteType,
-                    text = text,
-                    date = date,
-                    media = mediaUrls,
-                    changeOfPoints = selectedDiffPointToAddPost,
-                    interest = DiaryNoteInterest(
-                        interestId = noteInterest.id,
-                        interestName = noteInterest.name!!,
-                        interestIcon = noteInterest.logoId!!
-                    ),
-                    datetimeStart = datetimeStart,
-                    datetimeEnd = datetimeEnd,
-                    isActiveNow = isActiveNow,
-                    isPushAvailable = isPushAvailable,
-                    initialAmount = initialAmount,
-                    currentAmount = currentAmount,
-                    regularity = regularity,
-                    color = color,
-                    datesCompletion = datesCompletion,
-                    tags = tags
+        val noteInterest =
+            userInterestsViewModel.getInterestById(selectedInterestIdToAddPost)
+        userDiaryViewModel.setNote(
+            DiaryNote(
+                diaryNoteId = (noteId ?: System.currentTimeMillis()).toString(),
+                noteType = noteType,
+                text = text,
+                date = date,
+                media = mediaUrls,
+                changeOfPoints = selectedDiffPointToAddPost,
+                interest = DiaryNoteInterest(
+                    interestId = noteInterest.id,
+                    interestName = noteInterest.name!!,
+                    interestIcon = noteInterest.logoId!!
                 ),
-            )
+                datetimeStart = datetimeStart,
+                datetimeEnd = datetimeEnd,
+                isActiveNow = isActiveNow,
+                isPushAvailable = isPushAvailable,
+                initialAmount = initialAmount,
+                currentAmount = currentAmount,
+                regularity = regularity,
+                color = color,
+                datesCompletion = datesCompletion,
+                tags = tags
+            ),
+        )
     }
 
 
@@ -497,7 +490,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         showFail(e.msg)
     }
 
-     fun showSuccess(msg: String) {
+    fun showSuccess(msg: String) {
         SimpleCustomSnackbar.make(
             binding.coordinator,
             msg,
@@ -511,7 +504,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )?.show()
     }
 
-     fun showFail(msg: String) {
+    fun showFail(msg: String) {
         SimpleCustomSnackbar.make(
             binding.coordinator,
             msg,

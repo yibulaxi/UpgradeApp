@@ -3,7 +3,6 @@ package com.velkonost.upgrade.repo.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.velkonost.upgrade.model.DiaryNote
-import com.velkonost.upgrade.model.UserSettings
 
 @Dao
 interface UserDiaryDao {

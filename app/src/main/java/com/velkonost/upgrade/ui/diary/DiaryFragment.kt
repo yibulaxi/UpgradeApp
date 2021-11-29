@@ -1,7 +1,6 @@
 package com.velkonost.upgrade.ui.diary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -9,18 +8,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.skydoves.balloon.*
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentDiaryBinding
 import com.velkonost.upgrade.event.*
 import com.velkonost.upgrade.model.DiaryNote
-import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.diary.adapter.NotesAdapter
 import com.velkonost.upgrade.ui.diary.adapter.viewpager.NotesPagerAdapter
 import com.velkonost.upgrade.ui.welcome.WelcomeFragment
 import com.velkonost.upgrade.util.ext.getBalloon
-import com.velkonost.upgrade.util.ext.observeOnce
 import com.velkonost.upgrade.util.ext.setUpRemoveItemTouchHelper
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
@@ -108,9 +104,9 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 } else adapter.updateNotes(notes.toMutableList())
 
 //                if (!::pagerAdapter.isInitialized) {
-                    pagerAdapter = NotesPagerAdapter(context!!, notes.toMutableList())
-                    binding.viewPagerBottomSheet.viewPager.adapter = pagerAdapter
-                    binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
+                pagerAdapter = NotesPagerAdapter(context!!, notes.toMutableList())
+                binding.viewPagerBottomSheet.viewPager.adapter = pagerAdapter
+                binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
 //                } else pagerAdapter.updateNotes(notes.toMutableList())
 
                 val nextItemVisiblePx =
@@ -145,7 +141,12 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     fun onShowNoteDetailEvent(e: ShowNoteDetailEvent) {
         viewPagerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         binding.blur.isVisible = true
-        binding.viewPagerBottomSheet.viewPager.post { binding.viewPagerBottomSheet.viewPager.setCurrentItem(e.position, true) }
+        binding.viewPagerBottomSheet.viewPager.post {
+            binding.viewPagerBottomSheet.viewPager.setCurrentItem(
+                e.position,
+                true
+            )
+        }
 
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
     }

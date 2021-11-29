@@ -9,13 +9,13 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@drawable/container_snackbar"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground">
+        tools:background="@drawable/container_snackbar">
 
         <ImageView
             android:id="@+id/imageView"

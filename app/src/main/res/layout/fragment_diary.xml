@@ -13,81 +13,83 @@
             name="handler"
             type="com.velkonost.upgrade.ui.diary.DiaryFragment.Handler" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:fitsSystemWindows="true"
-
-        tools:context=".ui.activity.main.MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16dp">
+            android:background="@color/colorWhite"
+            android:fitsSystemWindows="true"
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/title"
-                style="@style/Text24.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="0.2"
-                android:text="@string/diary"
-                android:textColor="@color/colorText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            tools:context=".ui.activity.main.MainActivity">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/emptyText"
-                style="@style/Text14.Light"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:letterSpacing="0.1"
-                android:text="@string/diary_empty_text"
-                android:textColor="@color/colorText"
-                app:layout_constraintTop_toBottomOf="@id/title" />
+                android:layout_height="match_parent"
+                android:layout_margin="16dp">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/emptyAnim"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/empty_anim"
-                app:lottie_repeatMode="reverse" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title"
+                    style="@style/Text24.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.2"
+                    android:text="@string/diary"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="56dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/emptyText"
+                    style="@style/Text14.Light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:letterSpacing="0.1"
+                    android:text="@string/diary_empty_text"
+                    android:textColor="@color/colorText"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/info"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="5dp"
-                android:onClick="@{handler::onInfoClicked}"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/ic_info"
-                android:tint="@color/colorGray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/emptyAnim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/empty_anim"
+                    app:lottie_repeatMode="reverse" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="56dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/info"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{handler::onInfoClicked}"
+                    android:src="@drawable/ic_info"
+                    android:tint="@color/colorGray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/blur"
@@ -96,6 +98,7 @@
             android:background="@color/coloBlurBackground"
             android:onClick="@{handler::onBlurClicked}"
             android:visibility="gone" />
+
         <include
             android:id="@+id/viewPagerBottomSheet"
             layout="@layout/view_notes_viewpager" />

@@ -8,14 +8,12 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.*
@@ -36,7 +34,6 @@ import com.velkonost.upgrade.model.EmptyInterest
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.model.UserCustomInterest
 import com.velkonost.upgrade.navigation.Navigator
-import com.velkonost.upgrade.ui.activity.main.MainActivity
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
@@ -201,8 +198,10 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 when {
-                    view.interestName.text.isNullOrEmpty() -> EventBus.getDefault().post(ShowFailEvent("Введите название"))
-                    view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault().post(ShowFailEvent("Введите описание"))
+                    view.interestName.text.isNullOrEmpty() -> EventBus.getDefault()
+                        .post(ShowFailEvent("Введите название"))
+                    view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault()
+                        .post(ShowFailEvent("Введите описание"))
                     else -> {
                         val interest = UserCustomInterest(
                             id = System.currentTimeMillis().toString() + java.util.UUID.randomUUID()
@@ -469,30 +468,31 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         setChartAxis()
         setupRadarControlGroup()
 
-        binding.radarChart.onTouchListener = object : PieRadarChartTouchListener(binding.radarChart) {
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+        binding.radarChart.onTouchListener =
+            object : PieRadarChartTouchListener(binding.radarChart) {
+                override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
 
-                binding.metricStateControlGroup.setSelectedIndex(1, true)
+                    binding.metricStateControlGroup.setSelectedIndex(1, true)
 
-                binding.wheelState.setTextColor(
-                    ContextCompat.getColor(
-                        context!!,
-                        R.color.colorText
+                    binding.wheelState.setTextColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            R.color.colorText
+                        )
                     )
-                )
 
-                binding.listState.setTextColor(
-                    ContextCompat.getColor(
-                        context!!,
-                        R.color.colorWhite
+                    binding.listState.setTextColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            R.color.colorWhite
+                        )
                     )
-                )
 
 
-                changeMetricListVisibility(true)
-                return super.onSingleTapConfirmed(e)
+                    changeMetricListVisibility(true)
+                    return super.onSingleTapConfirmed(e)
+                }
             }
-        }
 
     }
 

@@ -87,8 +87,8 @@
                 android:gravity="start"
                 android:hint="Название цели"
                 android:letterSpacing="0.1"
-                android:maxLength="30"
                 android:lines="1"
+                android:maxLength="30"
                 android:maxLines="1"
                 android:textColor="@color/colorText"
                 android:textColorHint="@color/colorLightGray"
@@ -147,11 +147,11 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:lines="1"
-                    android:text="+"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:text="+"
                     android:textColor="@color/colorPrimaryGreen" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
@@ -159,12 +159,12 @@
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="0"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="0"
                     android:textColor="@color/colorText" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
@@ -172,12 +172,12 @@
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="-"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="-"
                     android:textColor="@color/colorPrimaryRed" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>

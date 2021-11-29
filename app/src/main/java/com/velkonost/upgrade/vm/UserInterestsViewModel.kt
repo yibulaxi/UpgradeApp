@@ -1,11 +1,9 @@
 package com.velkonost.upgrade.vm
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.velkonost.upgrade.App
-import com.velkonost.upgrade.event.GoAuthEvent
 import com.velkonost.upgrade.event.InitUserInterestsEvent
 import com.velkonost.upgrade.event.UpdateMetricsEvent
 import com.velkonost.upgrade.event.UpdateUserInterestEvent
@@ -45,21 +43,21 @@ class UserInterestsViewModel @Inject constructor(
 
 //        try {
 
-            documentSnapshot.data?.map {
-                interests.add(
-                    UserCustomInterest(
-                        id = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Id]].toString(),
-                        name = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Name]].toString(),
-                        description = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Description]].toString(),
-                        startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString()
-                            .toFloat(),
-                        currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString()
-                            .toFloat(),
-                        dateLastUpdate = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]].toString(),
-                        logoId = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Icon]].toString()
-                    )
+        documentSnapshot.data?.map {
+            interests.add(
+                UserCustomInterest(
+                    id = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Id]].toString(),
+                    name = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Name]].toString(),
+                    description = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Description]].toString(),
+                    startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString()
+                        .toFloat(),
+                    currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString()
+                        .toFloat(),
+                    dateLastUpdate = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]].toString(),
+                    logoId = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Icon]].toString()
                 )
-            }
+            )
+        }
 
 //        } catch (e: Exception) {
 //            EventBus.getDefault().post(GoAuthEvent(true))
@@ -203,8 +201,10 @@ class UserInterestsViewModel @Inject constructor(
             id = get(UserInterestsTable().tableFields[UserInterestsFields.Id]).toString(),
             name = get(UserInterestsTable().tableFields[UserInterestsFields.Name]).toString(),
             description = get(UserInterestsTable().tableFields[UserInterestsFields.Description]).toString(),
-            startValue = get(UserInterestsTable().tableFields[UserInterestsFields.StartValue]).toString().toFloat(),
-            currentValue = get(UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]).toString().toFloat(),
+            startValue = get(UserInterestsTable().tableFields[UserInterestsFields.StartValue]).toString()
+                .toFloat(),
+            currentValue = get(UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]).toString()
+                .toFloat(),
             logoId = get(UserInterestsTable().tableFields[UserInterestsFields.Icon]).toString()
         )
 
@@ -215,7 +215,8 @@ class UserInterestsViewModel @Inject constructor(
             .get()
             .addOnSuccessListener {
 
-                val interestToUpdate = (it.get(e.interestId) as HashMap<*, *>).toUserCustomInterest()
+                val interestToUpdate =
+                    (it.get(e.interestId) as HashMap<*, *>).toUserCustomInterest()
                 interestToUpdate.currentValue = interestToUpdate.currentValue?.plus(e.amount)
 
                 if (interestToUpdate.currentValue!! > 10f) interestToUpdate.currentValue = 10f

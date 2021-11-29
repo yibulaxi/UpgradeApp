@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.databinding.ItemNoteBinding
 import com.velkonost.upgrade.event.ShowNoteDetailEvent
 import com.velkonost.upgrade.model.AllLogo
-import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.model.DiaryNote
 import org.greenrobot.eventbus.EventBus
 

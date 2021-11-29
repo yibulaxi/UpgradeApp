@@ -8,7 +8,10 @@ import com.velkonost.upgrade.App
 import com.velkonost.upgrade.event.DeleteDiaryNoteEvent
 import com.velkonost.upgrade.event.UpdateDiaryEvent
 import com.velkonost.upgrade.event.UpdateUserInterestEvent
-import com.velkonost.upgrade.model.*
+import com.velkonost.upgrade.model.DiaryNote
+import com.velkonost.upgrade.model.DiaryNoteDatesCompletion
+import com.velkonost.upgrade.model.DiaryNoteInterest
+import com.velkonost.upgrade.model.getDifficultyValue
 import com.velkonost.upgrade.repo.UserDiaryRepository
 import com.velkonost.upgrade.rest.UserDiaryFields
 import com.velkonost.upgrade.rest.UserDiaryTable

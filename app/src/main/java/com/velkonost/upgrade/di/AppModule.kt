@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.di.scope.AppScope
-import com.velkonost.upgrade.repo.UserSettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

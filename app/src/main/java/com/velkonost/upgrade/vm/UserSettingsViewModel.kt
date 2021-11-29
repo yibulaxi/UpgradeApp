@@ -45,8 +45,8 @@ class UserSettingsViewModel @Inject constructor(
                     ?: "",
                 password = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Password]!!)
                     ?: "",
-                difficulty = documentSnapshot.get(UserSettingsTable().tableFields[UserSettingsFields.Difficulty]!!).toString()
-                    ?: "",
+                difficulty = documentSnapshot.get(UserSettingsTable().tableFields[UserSettingsFields.Difficulty]!!)
+                    .toString(),
                 isPushAvailable = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable]!!)
                     ?: false,
                 greeting = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Greeting]!!)
@@ -66,9 +66,9 @@ class UserSettingsViewModel @Inject constructor(
     private fun updateUserSettings(
         userSettings: UserSettings
     ) = viewModelScope.launch {
-            userSettingsRepository.insertOrUpdate(userSettings)
-            setUserSettingsEvent.postValue(true)
-        }
+        userSettingsRepository.insertOrUpdate(userSettings)
+        setUserSettingsEvent.postValue(true)
+    }
 
     fun getUserSettingsById(id: String) =
         userSettingsRepository.getById(id)
