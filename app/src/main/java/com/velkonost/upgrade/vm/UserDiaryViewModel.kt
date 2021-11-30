@@ -76,10 +76,10 @@ class UserDiaryViewModel @Inject constructor(
                     else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Regularity]]
                         .toString().toInt(),
                     color = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Color]].toString(),
-                    datesCompletion =
-                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] == null) arrayListOf()
-                    else ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] as HashMap<*, *>)
-                        .toDiaryNoteDatesCompletion()
+//                    datesCompletion =
+//                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] == null) arrayListOf()
+//                    else ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] as ArrayList<DiaryNoteDatesCompletion>)
+//                        .toDiaryNoteDatesCompletion()
                 )
             )
         }.run {
@@ -106,6 +106,8 @@ class UserDiaryViewModel @Inject constructor(
     fun getNotes() = userDiaryRepository.getAll()
 
     fun getNoteMediaById(id: String) = userDiaryRepository.getByIdLiveData(id)
+
+    fun getActiveTracker() = userDiaryRepository.getActiveTracker()
 
     private fun deleteDiaryNote(noteId: String) {
         val deleteNote = hashMapOf(
@@ -135,13 +137,32 @@ class UserDiaryViewModel @Inject constructor(
             .addOnFailureListener {}
     }
 
+    fun changeTrackerState(
+        tracker: DiaryNote,
+        isActiveNow: Boolean
+    ) {
+
+        tracker.isActiveNow = isActiveNow
+        if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis().toString()
+
+        val data = hashMapOf(
+            tracker.diaryNoteId to tracker.toFirestore()
+        )
+
+        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+            .document(App.preferences.uid!!)
+            .update(data as Map<String, Any>)
+            .addOnSuccessListener {
+                getDiary()
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
     fun setNote(
         note: DiaryNote
     ) {
-
-//        userSettingsViewModel.getUserSettingsById(App.preferences.uid!!).asFlow().collect {
-//
-//        }
 
         userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
             .observeForever { userSettings ->
@@ -151,14 +172,13 @@ class UserDiaryViewModel @Inject constructor(
                     else -> -userSettings!!.getDifficultyValue()
                 }
 
-//        val amount = 0f
-                val megaData = hashMapOf(
-                    note.diaryNoteId to note.noteToFirestore()
+                val data = hashMapOf(
+                    note.diaryNoteId to note.toFirestore()
                 )
 
                 cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
                     .document(App.preferences.uid!!)
-                    .update(megaData as Map<String, Any>)
+                    .update(data as Map<String, Any>)
                     .addOnSuccessListener {
 
                         setDiaryNoteEvent.postValue(true)
@@ -175,7 +195,7 @@ class UserDiaryViewModel @Inject constructor(
                         if (it is FirebaseFirestoreException && it.code.value() == 5) {
                             cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
                                 .document(App.preferences.uid!!)
-                                .set(megaData as Map<String, Any>)
+                                .set(data as Map<String, Any>)
                                 .addOnSuccessListener {
                                     setDiaryNoteEvent.postValue(true)
 
@@ -197,7 +217,7 @@ class UserDiaryViewModel @Inject constructor(
             }
     }
 
-    private fun DiaryNote.noteToFirestore() =
+    private fun DiaryNote.toFirestore() =
         hashMapOf(
             UserDiaryTable().tableFields[UserDiaryFields.Id] to diaryNoteId,
             UserDiaryTable().tableFields[UserDiaryFields.DiaryNoteId] to diaryNoteId,
@@ -207,7 +227,16 @@ class UserDiaryViewModel @Inject constructor(
             UserDiaryTable().tableFields[UserDiaryFields.Media] to media,
             UserDiaryTable().tableFields[UserDiaryFields.ChangeOfPoints] to changeOfPoints,
             UserDiaryTable().tableFields[UserDiaryFields.Tags] to tags,
-            UserDiaryTable().tableFields[UserDiaryFields.Interest] to interest!!.toFirestore()
+            UserDiaryTable().tableFields[UserDiaryFields.Interest] to interest!!.toFirestore(),
+            UserDiaryTable().tableFields[UserDiaryFields.DatetimeStart] to datetimeStart,
+            UserDiaryTable().tableFields[UserDiaryFields.DatetimeEnd] to datetimeEnd,
+            UserDiaryTable().tableFields[UserDiaryFields.IsActiveNow] to isActiveNow,
+            UserDiaryTable().tableFields[UserDiaryFields.InitialAmount] to initialAmount,
+            UserDiaryTable().tableFields[UserDiaryFields.CurrentAmount] to currentAmount,
+            UserDiaryTable().tableFields[UserDiaryFields.Regularity] to regularity,
+            UserDiaryTable().tableFields[UserDiaryFields.IsPushAvailable] to isPushAvailable,
+            UserDiaryTable().tableFields[UserDiaryFields.Color] to color,
+            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion] to datesCompletion?.map { it.toFirestore() },
         )
 
     private fun DiaryNoteInterest.toFirestore() =
@@ -215,6 +244,12 @@ class UserDiaryViewModel @Inject constructor(
             UserDiaryTable().tableFields[UserDiaryFields.InterestId] to interestId,
             UserDiaryTable().tableFields[UserDiaryFields.InterestName] to interestName,
             UserDiaryTable().tableFields[UserDiaryFields.InterestIcon] to interestIcon
+        )
+
+    private fun DiaryNoteDatesCompletion.toFirestore() =
+        hashMapOf(
+            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionDatetime] to dates_completion_datetime,
+            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionIsCompleted] to dates_completion_is_completed
         )
 
     private fun HashMap<*, *>.toDiaryNoteInterest() =

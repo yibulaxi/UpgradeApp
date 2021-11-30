@@ -15,10 +15,16 @@
         <item name="colorPrimary">#A1AACA</item>
         <item name="colorPrimaryDark">@color/colorWhite</item>
         <item name="colorAccent">@color/colorBlack</item>
-
-
         <!--        <item name="android:buttonStyle">@style/buttonStyle</item>-->
+    </style>
 
+    <style name="ToolBarStyle" parent="">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="roundedCorners" parent="">

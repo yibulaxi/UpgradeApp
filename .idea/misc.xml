@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/drawable/snack_warning_gradient.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/tire.xml" value="0.215625" />
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/activity_detail_tracker.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/custom_wheel_picker_item.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/dialog_alert_add_interest.xml" value="0.25" />
@@ -52,11 +53,14 @@
         <entry key="app/src/main/res/layout/snackbar_success.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.27384615384615385" />
+        <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_post_add.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.2921875" />
         <entry key="app/src/main/res/layout/view_snackbar_simple.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/layout/view_tracker_add.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32685185185185184" />
+        <entry key="app/src/main/res/menu/menu_tracker_detail.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.337037037037037" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/xml/xml.xml" value="0.35833333333333334" />

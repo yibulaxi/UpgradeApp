@@ -38,10 +38,10 @@ class DiaryNote(
     val datetimeStart: String? = null,
 
     @ColumnInfo(name = "datetimeEnd")
-    val datetimeEnd: String? = null,
+    var datetimeEnd: String? = null,
 
     @ColumnInfo(name = "isActiveNow")
-    val isActiveNow: Boolean? = false,
+    var isActiveNow: Boolean? = false,
 
     @ColumnInfo(name = "interest")
     @TypeConverters(DiaryNoteInterestConverters::class)

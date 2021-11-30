@@ -20,5 +20,12 @@ fun MainActivity.observeSetDiaryNote(isSuccess: Boolean) {
 
         if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
             addGoalBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (addTrackerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            addTrackerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            addHabitBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
     } else showFail(getString(com.velkonost.upgrade.R.string.error_happened))
 }

@@ -1,10 +1,13 @@
 package com.velkonost.upgrade.ui.activity.main
 
 import android.Manifest
+import android.R.attr
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +48,12 @@ import kotlinx.android.synthetic.main.view_select_note_type.*
 import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
+import android.R.attr.x
+import android.os.Build
+import android.util.Log
+import kotlinx.android.synthetic.main.activity_main.view.*
+import java.text.SimpleDateFormat
+
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     R.layout.activity_main,
@@ -62,13 +71,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
     }
 
+    val addTrackerBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
+    }
+
     val addGoalBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
+    }
+
+    val addHabitBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
     }
 
     val selectNoteTypeBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.selectNoteTypeBottomSheet.bottomSheetContainer)
     }
+
 
     var selectedInterestIdToAddPost: String = ""
     var selectedDiffPointToAddPost: Int = 0
@@ -78,6 +96,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     lateinit var mediaAdapter: AddPostMediaAdapter
     fun isMediaAdapterInitialized() = ::mediaAdapter.isInitialized
+
+    lateinit var activeTrackerTimer: CountDownTimer
+    fun isActiveTrackerTimerInitialized() = ::activeTrackerTimer.isInitialized
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -99,6 +120,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         setupBottomSheets()
     }
 
+    var isTrackerTimerRunning = false
+
     override fun onViewModelReady(viewModel: BaseViewModel) {
         super.onViewModelReady(viewModel)
 
@@ -109,7 +132,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
 
         userSettingsViewModel.setUserSettingsEvent.observe(this, ::observeUserSettings)
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (isTrackerTimerRunning)
+            activeTrackerTimer.cancel()
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -147,8 +176,42 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     }
                     return false
                 }
+            } else if (addTrackerBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                val outRect = Rect()
+
+                binding.addTrackerBottomSheet.container.getGlobalVisibleRect(outRect)
+
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    binding.addTrackerBottomSheet.container.post {
+                        addTrackerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                    return false
+                }
+            } else if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                val outRect = Rect()
+
+                binding.addHabitBottomSheet.container.getGlobalVisibleRect(outRect)
+
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    binding.addHabitBottomSheet.container.post {
+                        addHabitBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                    return false
+                }
+            }
+
+            if (binding.trackerSheet.isFabExpanded) {
+                val outRect = Rect()
+
+                binding.trackerContainer.getGlobalVisibleRect(outRect)
+
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    binding.trackerSheet.contractFab()
+                    return false
+                }
             }
         }
+
         return super.dispatchTouchEvent(event)
     }
 
@@ -214,8 +277,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                                 date = date
                             )
                         }
-                    } else { /* Handle failures .. */
-                    }
+                    } else { /* Handle failures .. */ }
                 }
             }
         }
@@ -327,6 +389,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         setupSelectNoteTypeBottomSheet()
         setupAddPostBottomSheet()
         setupAddGoalBottomSheet()
+        setupAddTrackerBottomSheet()
+        setupTrackerSheet()
+        setupTrackerSheet()
     }
 
     @Subscribe
@@ -420,6 +485,46 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     else -> pointsStateControlGroup.setSelectedIndex(1, true)
                 }
             }
+        } else if (e.note.noteType == NoteType.Tracker.id) {
+            addTrackerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.addTrackerBottomSheet.editText.requestFocus()
+
+            with(binding.addTrackerBottomSheet) {
+                noteId = e.note.diaryNoteId
+
+                editText.setText(e.note.text)
+                editText.setSelection(editText.length())
+
+                var selectedIndex = 0
+                for (i in icon.adapter.values.indices) {
+                    if (icon.adapter.values[i].id == e.note.interest!!.interestId) {
+                        selectedIndex = i
+                        break
+                    }
+                }
+
+                icon.getRecycler().scrollToPosition(position = 5)
+                icon.getRecycler().post {
+                    icon.setSelectedIndex(
+                        index = selectedIndex,
+                        animated = true
+                    )
+                }
+
+                date.text = e.note.date
+
+                when {
+                    e.note.changeOfPoints.toFloat() < 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(2, true)
+                    }
+                    e.note.changeOfPoints.toFloat() > 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(0, true)
+                    }
+                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
+                }
+            }
+        } else if (e.note.noteType == NoteType.Habit.id) {
+
         }
     }
 
@@ -469,7 +574,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             ),
         )
     }
-
 
     @Subscribe
     fun onOpenFullScreenMediaEvent(e: OpenFullScreenMediaEvent) {
