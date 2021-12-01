@@ -15,12 +15,6 @@ class AchievementsFragment : BaseFragment<BaseViewModel, FragmentAchievementsBin
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        StatusBarUtil.setColor(
-            requireActivity(),
-            ContextCompat.getColor(requireContext(), com.velkonost.upgrade.R.color.colorWhite),
-            0
-        )
-        StatusBarUtil.setLightMode(requireActivity())
     }
 
     inner class Handler

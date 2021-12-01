@@ -32,7 +32,7 @@ class DiaryNote(
     var media: ArrayList<String>? = arrayListOf(),
 
     @ColumnInfo(name = "changeOfPoints")
-    var changeOfPoints: Int = 0,
+    var changeOfPoints: Int = ChangeOfPoints.Neutral.id,
 
     @ColumnInfo(name = "datetimeStart")
     val datetimeStart: String? = null,
@@ -89,6 +89,12 @@ enum class NoteType(val id: Int) {
     Tracker(4)
 }
 
+enum class ChangeOfPoints(val id: Int) {
+    Positive(0),
+    Neutral(1),
+    Negative(2)
+}
+
 class MediaConverters {
 
     @TypeConverter
@@ -124,14 +130,3 @@ class DatesCompletionConverters {
     fun fromJsonToDatesCompletion(json: String): ArrayList<DiaryNoteDatesCompletion> =
         Gson().fromJson(json, object : TypeToken<ArrayList<DiaryNoteDatesCompletion>>() {}.type)
 }
-
-//class TagsConverters {
-//
-//    @TypeConverter
-//    fun fromTagsToJson(tags: ArrayList<String>): String =
-//        Gson().toJson(tags)
-//
-//    @TypeConverter
-//    fun fromJsonToTags(json: String): ArrayList<String> =
-//        Gson().fromJson(json, object : TypeToken<ArrayList<String>>() {}.type)
-//}

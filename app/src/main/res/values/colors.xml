@@ -13,11 +13,20 @@
     <color name="colorPrimaryGreen">#00FF00</color>
     <color name="colorLightGray">#DFE6F1</color>
     <color name="colorGray">#767D88</color>
-    <color name="colorPurple">#B69BD8</color>
-    <color name="colorPurpleDark">#8300c4</color>
+    <color name="colorPurple">#4b2751</color>
+    <color name="colorPurpleDark">#301934</color>
     <color name="colorBlueLight">#A1AACA</color>
     <color name="colorBlue">#606FA6</color>
-    <color name="coloBlurBackground">#4A161616</color>
+    <color name="coloBlurBackground">#4D8092A0</color>
     <color name="custom_wheel_highlight_bg_color">#113700B3</color>
+
+    <color name="colorTgPrimary">#1f2f3f</color>
+    <color name="colorTgPrimaryDark">#1a2430</color>
+    <color name="colorTgGray">#8092a0</color>
+    <color name="colorTgGrayDark">#233543</color>
+    <color name="colorTgBlue">#30678d</color>
+    <color name="colorTgWhite">#f6fcff</color>
+    <color name="colorTgText">#717a8a</color>
+    <color name="colorTgRed">#de6d63</color>
 
 </resources>

@@ -1,10 +1,13 @@
 package com.velkonost.upgrade.ui.metric.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.ItemListMetricBinding
@@ -28,7 +31,13 @@ class MetricListViewHolder(
             binding.icon.setImageDrawable(
                 AppCompatResources.getDrawable(
                     context,
-                    R.drawable.add_post
+                    R.drawable.ic_plus_box
+                )
+            )
+            ImageViewCompat.setImageTintList(
+                binding.icon,
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.colorTgWhite)
                 )
             )
 
@@ -48,11 +57,15 @@ class MetricListViewHolder(
                     interest.getLogo()
                 )
             )
+            ImageViewCompat.setImageTintList(binding.icon, null)
+
             binding.title.text = interest.name ?: context.getString(interest.nameRes!!)
 
             binding.description.text = interest.description
 
-            binding.value.text = interest.currentValue.toString().replace(".", ",")
+
+            binding.value.text = String.format("%.2f", interest.currentValue)
+                .replace(".", ",")
 
             binding.value.background = when (interest.currentValue) {
                 0f -> AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient)

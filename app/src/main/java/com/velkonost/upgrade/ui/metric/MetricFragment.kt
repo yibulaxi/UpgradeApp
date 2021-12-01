@@ -168,12 +168,13 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun showAddInterestDialog() {
         val view: View = layoutInflater.inflate(R.layout.dialog_alert_add_interest, null)
-        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
         alertDialogBuilder.setPositiveButton("Создать", null)
         alertDialogBuilder.setNegativeButton("Отменить", null)
 
         val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.setTitle("Редактирование сферы")
+        alertDialog.setTitle("Создание сферы")
+
         alertDialog.setCancelable(false)
 
         val iconValues = mutableListOf<CustomWheelPickerView.Item>()
@@ -234,13 +235,13 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun showEditInterestDialog(interest: Interest) {
         val view: View = layoutInflater.inflate(R.layout.dialog_alert_edit_interest, null)
-        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
         alertDialogBuilder.setPositiveButton("Сохранить", null)
         alertDialogBuilder.setNegativeButton("Удалить", null)
 
         val alertDialog: AlertDialog = alertDialogBuilder.create()
         alertDialog.setTitle("Редактирование сферы")
-        alertDialog.setCancelable(false)
+        alertDialog.setCancelable(true)
 
         view.interestName.setText(interest.name ?: getString(interest.nameRes!!))
         view.interestDescription.setText(
@@ -382,14 +383,14 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 wheelState.setTextColor(
                     ContextCompat.getColor(
                         context!!,
-                        if (it == 0) R.color.colorWhite else R.color.colorText
+                        if (it == 0) R.color.colorTgWhite else R.color.colorTgText
                     )
                 )
 
                 listState.setTextColor(
                     ContextCompat.getColor(
                         context!!,
-                        if (it == 1) R.color.colorWhite else R.color.colorText
+                        if (it == 1) R.color.colorTgWhite else R.color.colorTgText
                     )
                 )
 
@@ -434,14 +435,14 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             binding.currentState.setTextColor(
                 ContextCompat.getColor(
                     context!!,
-                    if (it == 0) R.color.colorWhite else R.color.colorText
+                    if (it == 0) R.color.colorTgWhite else R.color.colorTgText
                 )
             )
 
             binding.startState.setTextColor(
                 ContextCompat.getColor(
                     context!!,
-                    if (it == 1) R.color.colorWhite else R.color.colorText
+                    if (it == 1) R.color.colorTgWhite else R.color.colorTgText
                 )
             )
 
@@ -456,9 +457,9 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         binding.radarChart.setExtraOffsets(50f, 50f, 50f, 50f)
 
         binding.radarChart.webLineWidth = 0.5f
-        binding.radarChart.webColor = Color.LTGRAY
+        binding.radarChart.webColor = ContextCompat.getColor(requireContext(), R.color.colorTgText)
         binding.radarChart.webLineWidthInner = 0.5f
-        binding.radarChart.webColorInner = Color.LTGRAY
+        binding.radarChart.webColorInner = ContextCompat.getColor(requireContext(), R.color.colorTgText)
         binding.radarChart.webAlpha = 100
 
         setChartData()
@@ -477,14 +478,14 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                     binding.wheelState.setTextColor(
                         ContextCompat.getColor(
                             context!!,
-                            R.color.colorText
+                            R.color.colorTgText
                         )
                     )
 
                     binding.listState.setTextColor(
                         ContextCompat.getColor(
                             context!!,
-                            R.color.colorWhite
+                            R.color.colorTgWhite
                         )
                     )
 
@@ -564,18 +565,18 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         set0.setDrawHighlightIndicators(false)
 
         val rdsCurrent = RadarDataSet(entries1, "Current")
-        rdsCurrent.color = ContextCompat.getColor(context!!, R.color.colorPurpleDark)
-        rdsCurrent.fillColor = ContextCompat.getColor(context!!, R.color.colorPurple)
+        rdsCurrent.color = ContextCompat.getColor(context!!, R.color.colorBlue)
+        rdsCurrent.fillColor = ContextCompat.getColor(context!!, R.color.colorBlueLight)
         rdsCurrent.setDrawFilled(true)
         rdsCurrent.fillAlpha = 180
         rdsCurrent.lineWidth = 1f
-        rdsCurrent.valueTextColor = ContextCompat.getColor(context!!, R.color.colorText)
+        rdsCurrent.valueTextColor = ContextCompat.getColor(context!!, R.color.colorTgWhite)
         rdsCurrent.isDrawHighlightCircleEnabled = false
         rdsCurrent.setDrawHighlightIndicators(false)
 
         val rdsDefault = RadarDataSet(entries2, "Default")
-        rdsDefault.color = ContextCompat.getColor(context!!, R.color.colorBlue)
-        rdsDefault.fillColor = ContextCompat.getColor(context!!, R.color.colorBlueLight)
+        rdsDefault.color = ContextCompat.getColor(context!!, R.color.colorPurpleDark)
+        rdsDefault.fillColor = ContextCompat.getColor(context!!, R.color.colorPurple)
         rdsDefault.setDrawFilled(true)
         rdsDefault.fillAlpha = 180
         rdsDefault.lineWidth = 1f
@@ -588,7 +589,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         sets.add(rdsCurrent)
         sets.add(rdsDefault)
         val data = RadarData(sets)
-        data.setValueTextSize(8f)
+        data.setValueTextSize(10f)
         data.setDrawValues(true)
 
         binding.radarChart.data = data

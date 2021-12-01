@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="navigation_metric" type="id" />
+    <item name="navigation_diary" type="id" />
+    <item name="navigation_add_post" type="id" />
+    <item name="navigation_achievements" type="id" />
+    <item name="navigation_settings" type="id" />
+</resources>

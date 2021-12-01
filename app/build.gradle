@@ -167,7 +167,12 @@ dependencies {
 
     implementation "com.github.ChiliLabs:ChiliPhotoPicker:0.3.1"
 
+//    fab
     implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
+
+//    sticky headers
+    implementation 'com.github.shuhart:stickyheader:1.1.0'
+
 //    room
     def roomVersion = "2.3.0"
 

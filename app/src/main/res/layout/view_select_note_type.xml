@@ -38,15 +38,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/topGuideline">
 
-
-            <com.google.android.material.card.MaterialCardView
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimaryRed"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorTgPrimary"
+                    android:layout_marginBottom="20dp"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Text24.Light"
+                        android:layout_margin="30dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Что добавить в \nдневник?"
+                        android:textColor="@color/colorTgWhite"/>
+                </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/selectTypeContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorTgPrimary"
+                >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
@@ -60,6 +85,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
+                        android:backgroundTint="@color/colorTgGray"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -73,14 +99,15 @@
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="@drawable/diary" />
+                                android:src="@drawable/diary"
+                                app:tint="@color/colorTgWhite" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 style="@style/Text14.Light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Запись"
-                                android:textColor="@color/colorText" />
+                                android:textColor="@color/colorTgWhite" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -94,6 +121,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
+                        android:backgroundTint="@color/colorTgGray"
                         app:layout_constraintStart_toEndOf="@id/noteType"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -107,14 +135,15 @@
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="@drawable/diary" />
+                                android:src="@drawable/ic_tracker"
+                                app:tint="@color/colorTgWhite"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 style="@style/Text14.Light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Трекер"
-                                android:textColor="@color/colorText" />
+                                android:textColor="@color/colorTgWhite" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -128,6 +157,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
+                        android:backgroundTint="@color/colorTgGray"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/noteType">
 
@@ -141,14 +171,15 @@
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="@drawable/diary" />
+                                android:src="@drawable/ic_goal"
+                                app:tint="@color/colorTgWhite"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 style="@style/Text14.Light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Цель"
-                                android:textColor="@color/colorText" />
+                                android:textColor="@color/colorTgWhite" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -163,6 +194,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
+                        android:backgroundTint="@color/colorTgGray"
                         app:layout_constraintStart_toEndOf="@id/goalType"
                         app:layout_constraintTop_toBottomOf="@id/trackerType">
 
@@ -176,14 +208,15 @@
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="@drawable/diary" />
+                                android:src="@drawable/ic_habit"
+                                app:tint="@color/colorTgWhite"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 style="@style/Text14.Light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Привычка"
-                                android:textColor="@color/colorText" />
+                                android:textColor="@color/colorTgWhite" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -194,6 +227,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

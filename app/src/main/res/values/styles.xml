@@ -9,6 +9,7 @@
 
         <item name="colorControlNormal">@color/colorLightGray</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
+
     </style>
 
     <style name="AuthUITheme" parent="AppTheme">
@@ -45,10 +46,14 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/colorTgPrimary</item>
+        <item name="android:textColor">@color/colorTgWhite</item>
+    </style>
 
     <style name="DialogStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
@@ -475,6 +480,10 @@
     <style name="Text8.Medium.Gray" parent="Text10.Medium">
         <item name="android:textSize">@dimen/text_size_10</item>
         <item name="android:textColor">@color/colorGray</item>
+    </style>
+
+    <style name="Text8.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_8</item>
     </style>
     <!--  9 ends -->
 

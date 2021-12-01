@@ -22,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorWhite"
+            android:background="@color/colorTgPrimaryDark"
             android:fitsSystemWindows="true"
 
             tools:context=".ui.activity.main.MainActivity">
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:letterSpacing="0.2"
                     android:text="@string/diary"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/colorTgWhite"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +51,7 @@
                     android:layout_marginTop="24dp"
                     android:letterSpacing="0.1"
                     android:text="@string/diary_empty_text"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/colorTgText"
                     app:layout_constraintTop_toBottomOf="@id/title" />
 
                 <com.airbnb.lottie.LottieAnimationView
@@ -84,7 +84,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{handler::onInfoClicked}"
                     android:src="@drawable/ic_info"
-                    android:tint="@color/colorGray"
+                    android:tint="@color/colorTgGrayDark"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

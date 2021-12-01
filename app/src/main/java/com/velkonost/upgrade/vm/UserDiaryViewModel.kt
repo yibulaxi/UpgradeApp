@@ -18,7 +18,12 @@ import com.velkonost.upgrade.rest.UserDiaryTable
 import com.velkonost.upgrade.util.SingleLiveEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.Comparator
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class UserDiaryViewModel @Inject constructor(
     private val userSettingsViewModel: UserSettingsViewModel,
@@ -104,6 +109,8 @@ class UserDiaryViewModel @Inject constructor(
 //        }
 
     fun getNotes() = userDiaryRepository.getAll()
+
+
 
     fun getNoteMediaById(id: String) = userDiaryRepository.getByIdLiveData(id)
 
@@ -267,5 +274,18 @@ class UserDiaryViewModel @Inject constructor(
     @Subscribe
     fun onDeleteDiaryNoteEvent(e: DeleteDiaryNoteEvent) {
         deleteDiaryNote(e.noteId)
+    }
+}
+
+class DateComparator : Comparator<DiaryNote> {
+    override fun compare(o1: DiaryNote, o2: DiaryNote): Int {
+        return o1.date.toLong().compareTo(o2.date.toLong())
+    }
+}
+
+internal class StringDateComparator : Comparator<String?> {
+    var dateFormat: SimpleDateFormat = SimpleDateFormat("MMMM, yyyy")
+    override fun compare(lhs: String?, rhs: String?): Int {
+        return dateFormat.parse(lhs).compareTo(dateFormat.parse(rhs))
     }
 }

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.MotionEvent
+import android.view.View
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -48,9 +49,6 @@ import kotlinx.android.synthetic.main.view_select_note_type.*
 import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
-import android.R.attr.x
-import android.os.Build
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.view.*
 import java.text.SimpleDateFormat
 
@@ -103,7 +101,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        StatusBarUtil.setTransparent(this)
+        StatusBarUtil.setColor(this, resources.getColor(R.color.colorTgPrimary))
+        StatusBarUtil.setDarkMode(this)
+
+        window.navigationBarColor = resources.getColor(R.color.colorTgPrimaryDark)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 
         navController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController!!)
@@ -315,7 +317,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-
     fun openGallery() {
         PhotoPickerFragment.newInstance(
             multiple = true,
@@ -367,7 +368,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         try {
-//            cloudFirestoreDatabase = Firebase.firestore
             cloudStorage = FirebaseStorage.getInstance()
         } catch (e: Exception) {
             isFirebaseAvailable = false
@@ -378,6 +378,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         if (binding.navView.menu.size() != 0) return
 
         binding.navView.inflateMenu(R.menu.bottom_nav_menu)
+
+        binding.navViewContainer.isVisible = true
         binding.navView.isVisible = true
 
         binding.navView.menu.getItem(2).setOnMenuItemClickListener {
@@ -390,7 +392,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         setupAddPostBottomSheet()
         setupAddGoalBottomSheet()
         setupAddTrackerBottomSheet()
-        setupTrackerSheet()
         setupTrackerSheet()
     }
 
@@ -580,7 +581,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
             if (image?.url != null)
                 Picasso.with(this@MainActivity).load(image.url).into(view)
-        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorWhite))
+        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorTgPrimary))
             .withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
     }
 

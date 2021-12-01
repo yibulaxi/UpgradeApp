@@ -1,5 +1,6 @@
 package com.velkonost.upgrade.ui.activity.main.ext
 
+import android.animation.ArgbEvaluator
 import android.os.Build
 import android.os.CountDownTimer
 import android.util.Log
@@ -13,6 +14,20 @@ import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.util.ext.observeOnce
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
+import android.animation.ValueAnimator
+
+import android.animation.ValueAnimator.AnimatorUpdateListener
+import android.content.res.ColorStateList
+import android.view.animation.DecelerateInterpolator
+import androidx.core.animation.doOnEnd
+import androidx.core.view.ViewCompat.setBackgroundTintList
+import android.animation.ObjectAnimator
+import android.graphics.Color
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.ViewCompat
+import com.velkonost.upgrade.model.AllLogo
+import java.util.*
+
 
 fun MainActivity.setupBottomSheets() {
     addPostBehavior.addBottomSheetCallback(object :
@@ -231,7 +246,7 @@ fun MainActivity.setupAddPostBottomSheet() {
             "dd MMMM, EEEE",
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) resources.configuration.locales[0]
             else resources.configuration.locale
-        ).format(java.util.Calendar.getInstance().timeInMillis)
+        ).format(System.currentTimeMillis())
         date.text = currentDate
 
         editText.addTextChangedListener {
@@ -246,19 +261,23 @@ fun MainActivity.setupAddPostBottomSheet() {
             if (editText.text?.length == 0) {
                 showFail(getString(R.string.enter_note_text))
             } else if (!isMediaAdapterInitialized() || mediaAdapter.getMedia().size == 0)
-                userDiaryViewModel.getNoteMediaById(noteId ?: "").observeOnce(context) {
+                userDiaryViewModel.getNoteMediaById(noteId ?: "").observeOnce(context) { diaryNote ->
                     setDiaryNote(
                         noteId = noteId,
                         noteType = com.velkonost.upgrade.model.NoteType.Note.id,
-                        mediaUrls = it?.media,
+                        mediaUrls = diaryNote?.media,
                         text = editText.text.toString(),
-                        date = date.text.toString()
+                        date =
+                        if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
+                        else diaryNote?.date!!
                     )
                 }
             else uploadMedia(
                 noteId = noteId,
                 text = editText.text.toString(),
-                date = date.text.toString()
+                date =
+                System.currentTimeMillis().toString()
+
             )
         }
 
@@ -268,7 +287,6 @@ fun MainActivity.setupAddPostBottomSheet() {
             }
         }
     }
-
 }
 
 fun MainActivity.setupAddGoalBottomSheet() {
@@ -303,9 +321,9 @@ fun MainActivity.setupAddGoalBottomSheet() {
 
         val currentDate = SimpleDateFormat(
             "dd MMMM, EEEE",
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) resources.configuration.locales[0]
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) resources.configuration.locales[0]
             else resources.configuration.locale
-        ).format(java.util.Calendar.getInstance().timeInMillis)
+        ).format(System.currentTimeMillis())
         date.text = currentDate
 
         editText.addTextChangedListener {
@@ -318,13 +336,13 @@ fun MainActivity.setupAddGoalBottomSheet() {
 
         addPost.setOnClickListener {
             if (editText.text?.length == 0) {
-                showFail(getString(com.velkonost.upgrade.R.string.enter_note_text))
+                showFail(getString(R.string.enter_note_text))
             } else
                 setDiaryNote(
                     noteId = noteId,
                     noteType = com.velkonost.upgrade.model.NoteType.Goal.id,
                     text = editText.text.toString(),
-                    date = date.text.toString()
+                    date = System.currentTimeMillis().toString()
                 )
         }
     }
@@ -362,9 +380,9 @@ fun MainActivity.setupAddTrackerBottomSheet() {
 
         val currentDate = SimpleDateFormat(
             "dd MMMM, EEEE",
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) resources.configuration.locales[0]
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) resources.configuration.locales[0]
             else resources.configuration.locale
-        ).format(java.util.Calendar.getInstance().timeInMillis)
+        ).format(System.currentTimeMillis())
         date.text = currentDate
 
         editText.addTextChangedListener {
@@ -385,7 +403,9 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                             noteId = noteId,
                             noteType = com.velkonost.upgrade.model.NoteType.Tracker.id,
                             text = editText.text.toString(),
-                            date = date.text.toString(),
+                            date =
+                            if (it?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
+                            else it?.date!!,
                             datetimeStart = System.currentTimeMillis().toString(),
                             isActiveNow = true
                         )
@@ -402,7 +422,6 @@ fun MainActivity.setupAddTrackerBottomSheet() {
 fun MainActivity.setupTrackerSheet() {
     binding.trackerSheet.setFab(binding.trackerFab)
 
-
     binding.trackerFab.setOnClickListener {
         binding.trackerSheet.expandFab()
         binding.trackerFab.isVisible = false
@@ -418,10 +437,45 @@ fun MainActivity.setupTrackerSheet() {
 
         if (activeTracker == null && binding.trackerSheet.isFabExpanded) {
             binding.trackerSheet.contractFab()
-
         }
 
         if (activeTracker != null) {
+            val firstColor = resources.getColor(R.color.colorTgGray)
+            val secondColor = resources.getColor(R.color.colorTgPrimary)
+
+            val colorAnimationFromFirstToSecond = ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
+            val colorAnimationFromSecondToFirst = ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
+
+            colorAnimationFromFirstToSecond.duration = 3000
+            colorAnimationFromSecondToFirst.duration = 3000
+
+            colorAnimationFromSecondToFirst.startDelay = 1000
+            colorAnimationFromFirstToSecond.startDelay = 1000
+
+            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
+                setBackgroundTintList(
+                    binding.trackerFab,
+                    ColorStateList.valueOf(animator.animatedValue as Int)
+                )
+            }
+
+            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
+                setBackgroundTintList(
+                    binding.trackerFab,
+                    ColorStateList.valueOf(animator.animatedValue as Int)
+                )
+            }
+
+            colorAnimationFromFirstToSecond.doOnEnd {
+                colorAnimationFromSecondToFirst.start()
+            }
+
+            colorAnimationFromSecondToFirst.doOnEnd {
+                colorAnimationFromFirstToSecond.start()
+            }
+
+            colorAnimationFromSecondToFirst.start()
+
             binding.stopTracker.setOnClickListener {
                 userDiaryViewModel.changeTrackerState(
                     activeTracker,
@@ -430,6 +484,18 @@ fun MainActivity.setupTrackerSheet() {
 
                 activeTrackerTimer.cancel()
             }
+
+            binding.trackerTitle.text = activeTracker.text
+            binding.trackerDate.text = SimpleDateFormat("dd MMM, HH:mm", Locale("ru")).format(activeTracker.date.toLong())
+            binding.trackerInterestName.text = activeTracker.interest!!.interestName
+
+            binding.trackerIcon.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    this,
+                    AllLogo().getLogoById(activeTracker.interest.interestIcon)
+                )
+            )
+
 
             activeTrackerTimer = object : CountDownTimer(20000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -441,21 +507,14 @@ fun MainActivity.setupTrackerSheet() {
                     val minutes = ((trackerTime / (1000 * 60)) % 60).toInt()
                     val seconds = (trackerTime / 1000 ) % 60
 
-
-                    Log.d("keke", trackerTime.toString())
-                    val currentDate = SimpleDateFormat(
-                        "hh:mm:ss",
-                        resources.configuration.locale
-                    ).format(trackerTime)
-
                     binding.timer.text = String.format(
-                        "%01d:%02d:%02d",
+                        "%02d:%02d:%02d",
                         hours, minutes, seconds
                     )
                 }
 
                 override fun onFinish() {
-                    start() // here, when your CountDownTimer has finished , we start it again :)
+                    start()
                 }
             }
 

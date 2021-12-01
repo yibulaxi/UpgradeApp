@@ -17,6 +17,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="@color/colorTgPrimary"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,25 +28,35 @@
 
             <androidx.constraintlayout.utils.widget.ImageFilterView
                 android:id="@+id/icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/chill_logo"
-                app:layout_constraintBottom_toBottomOf="@id/amount"
+                app:layout_constraintBottom_toBottomOf="@id/noteType"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/noteType"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_goal"
+                android:tint="@color/colorTgGray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/date"
-                style="@style/Text12.Light"
+                android:id="@+id/interestName"
+                style="@style/Text16.Light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="12dp"
                 android:gravity="end"
                 android:letterSpacing="0.1"
-                android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="name interest"
+                android:textColor="@color/colorTgWhite"
+                app:layout_constraintBottom_toBottomOf="@id/noteType"
                 app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintTop_toTopOf="@id/icon" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/amount"
@@ -57,41 +68,76 @@
                 android:paddingVertical="2dp"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorTgWhite"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date" />
+                app:layout_constraintTop_toTopOf="@id/icon" />
 
-            <View
-                android:id="@+id/separator"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorBlueLight"
-                app:layout_constraintTop_toBottomOf="@id/amount" />
+            <!--            <View-->
+            <!--                android:id="@+id/separator"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="1dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:background="@color/colorTgGray"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/date" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/separator" />
+                app:layout_constraintTop_toBottomOf="@id/icon" />
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycler">
 
-                <TextView
-                    android:id="@+id/text"
-                    style="@style/Text16.Light"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:paddingTop="24dp"
-                    android:textColor="@color/colorText" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text"
+                        style="@style/Text14.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:textColor="@color/colorTgWhite" />
+
+                    <TextView
+                        android:id="@+id/wasteTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Text12.Light"
+                        android:visibility="gone"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="6dp"
+                        android:gravity="end"
+                        android:letterSpacing="0.1"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="8dp"
+                        android:background="@drawable/bg_waste_time"
+                        android:textColor="@color/colorTgWhite"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/date"
+                        style="@style/Text12.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="end"
+                        android:letterSpacing="0.1"
+                        android:textColor="@color/colorTgText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/amount" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
 
             <androidx.cardview.widget.CardView
@@ -99,6 +145,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="6dp"
+                android:backgroundTint="@color/colorTgPrimaryDark"
                 android:clickable="true"
                 android:clipChildren="false"
                 android:clipToPadding="false"
@@ -116,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_edit"
-                    android:tint="@color/colorGray" />
+                    android:tint="@color/colorTgWhite" />
 
             </androidx.cardview.widget.CardView>
 

@@ -1,6 +1,8 @@
 package com.velkonost.upgrade.ui.diary
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -18,10 +20,22 @@ import com.velkonost.upgrade.ui.diary.adapter.viewpager.NotesPagerAdapter
 import com.velkonost.upgrade.ui.welcome.WelcomeFragment
 import com.velkonost.upgrade.util.ext.getBalloon
 import com.velkonost.upgrade.util.ext.setUpRemoveItemTouchHelper
+import com.velkonost.upgrade.util.stickyheader.Section
+import com.velkonost.upgrade.util.stickyheader.SectionHeader
+import com.velkonost.upgrade.util.stickyheader.SectionItem
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import androidx.recyclerview.widget.DividerItemDecoration
+import com.shuhart.stickyheader.StickyHeaderItemDecorator
+import com.velkonost.upgrade.vm.DateComparator
+import com.velkonost.upgrade.vm.StringDateComparator
+import kotlinx.android.synthetic.main.view_goal_add.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashSet
+
 
 class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     R.layout.fragment_diary,
@@ -75,6 +89,12 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         })
     }
 
+    @Subscribe
+    fun onChangeViewPagerSwipingState(e: ChangeViewPagerSwipingState) {
+        Log.d("keke", e.isEnable.toString())
+        binding.viewPagerBottomSheet.viewPager.isUserInputEnabled = e.isEnable
+    }
+
     private fun onItemInListSwiped(vh: RecyclerView.ViewHolder, swipeDirection: Int) {
         val swipedPosition = vh.absoluteAdapterPosition
         onSwiped?.invoke(adapter.getNoteAt(swipedPosition))
@@ -94,13 +114,56 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 binding.recycler.isVisible = true
 
                 if (!::adapter.isInitialized) {
-                    adapter = NotesAdapter(context!!, notes.toMutableList())
+
+                    Collections.sort(notes, DateComparator())
+                    val datesSet = linkedSetOf<String>()
+                    val formatter = SimpleDateFormat("MMMM, yyyy")
+
+                    notes.forEach {
+                        val calendar = Calendar.getInstance()
+                        calendar.timeInMillis = it.date.toLong()
+                        datesSet.add(
+                            formatter.format(calendar.time)
+                        )
+                    }
+
+                    Collections.sort(datesSet.toList(), StringDateComparator())
+
+                    adapter = NotesAdapter(
+                        context = requireContext(),
+                        datesSet = datesSet
+                    )
                     binding.recycler.adapter = adapter
+
+                    val decorator = StickyHeaderItemDecorator(adapter)
+                    decorator.attachToRecyclerView(binding.recycler)
+
+                    var section = -1
+                    var sectionName = "--------------"
+
+                    val items = arrayListOf<Section>()
+                    for (i in notes.indices) {
+                        if (
+                            !formatter.format(notes[i].date.toLong())
+                                .contains(sectionName)
+                        ) {
+                            section ++
+                            sectionName = datesSet.elementAt(section)
+                            items.add(SectionHeader(section, sectionName))
+                        }
+                        items.add(SectionItem(section, sectionName, notes[i]))
+                    }
+
+//                    adapter.notes = notes.toMutableList()
+                    adapter.items = items
+//                    adapter.notifyDataSetChanged()
+//                    adapter = NotesAdapter(context!!, notes.toMutableList(), items)
                     binding.recycler.setUpRemoveItemTouchHelper(
                         R.string.delete,
                         R.dimen.text_size_12,
                         ::onItemInListSwiped
                     )
+
                 } else adapter.updateNotes(notes.toMutableList())
 
 //                if (!::pagerAdapter.isInitialized) {
@@ -139,6 +202,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
     @Subscribe
     fun onShowNoteDetailEvent(e: ShowNoteDetailEvent) {
+        Log.d("keke", e.position.toString())
         viewPagerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         binding.blur.isVisible = true
         binding.viewPagerBottomSheet.viewPager.post {

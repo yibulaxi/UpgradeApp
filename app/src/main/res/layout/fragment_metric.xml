@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@color/colorWhite"
+        android:background="@color/colorTgPrimaryDark"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
 
@@ -45,10 +45,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
-                android:backgroundTint="@color/colorLightGray"
-                app:customDividerColor="@color/colorLightGray"
-                app:customShadowColor="@color/colorLightGray"
-                app:customSliderColor="@color/colorPurple"
+                android:backgroundTint="@color/colorTgPrimary"
+                app:customDividerColor="@color/colorTgPrimary"
+                app:customShadowColor="@color/colorTgPrimary"
+                app:customSliderColor="@color/colorTgGray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -69,7 +69,7 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/wheel"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorTgWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/listState"
@@ -87,10 +87,9 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/list"
-                    android:textColor="@color/colorText" />
+                    android:textColor="@color/colorTgText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
-
 
             <com.alanvan.segmented_control.SegmentedControlGroup
                 android:id="@+id/radarStateControlGroup"
@@ -98,11 +97,11 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="72dp"
-                android:backgroundTint="@color/colorWhite"
-                app:customDividerColor="@color/colorWhite"
-                app:customShadowColor="@color/colorWhite"
-                app:customSliderColor="@color/colorBlueLight"
+                android:layout_marginBottom="92dp"
+                android:backgroundTint="@color/colorTgPrimary"
+                app:customDividerColor="@color/colorTgPrimary"
+                app:customShadowColor="@color/colorTgPrimary"
+                app:customSliderColor="@color/colorTgGray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -123,7 +122,7 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/current_wheel"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorTgWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/startState"
@@ -141,7 +140,7 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/start_wheel"
-                    android:textColor="@color/colorText" />
+                    android:textColor="@color/colorTgText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
@@ -152,7 +151,7 @@
                 android:layout_marginTop="100dp"
                 android:alpha="0"
                 android:animateLayoutChanges="true"
-                android:background="@color/colorWhite"
+                android:background="@color/colorTgPrimaryDark"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/metricStateControlGroup">
@@ -177,6 +176,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/diaryAmount"
                             style="@style/Text20.Medium"
+                            android:textColor="@color/colorTgWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0" />
@@ -187,7 +187,7 @@
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
                             android:text="записей"
-                            android:textColor="@color/colorGray" />
+                            android:textColor="@color/colorTgText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -203,6 +203,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/averageAmount"
                             style="@style/Text20.Medium"
+                            android:textColor="@color/colorTgWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0" />
@@ -213,7 +214,7 @@
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
                             android:text="средний балл"
-                            android:textColor="@color/colorGray" />
+                            android:textColor="@color/colorTgText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -229,6 +230,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/daysAmount"
                             style="@style/Text20.Medium"
+                            android:textColor="@color/colorTgWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="27" />
@@ -239,7 +241,7 @@
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
                             android:text="дней"
-                            android:textColor="@color/colorGray" />
+                            android:textColor="@color/colorTgText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -250,7 +252,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="56dp"
+                    android:layout_marginBottom="62dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -265,7 +267,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{handler::onInfoClicked}"
                 android:src="@drawable/ic_info"
-                android:tint="@color/colorGray"
+                android:tint="@color/colorTgGrayDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
