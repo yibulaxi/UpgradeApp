@@ -82,8 +82,6 @@ class UserInterestsViewModel @Inject constructor(
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
             .set(map)
             .addOnSuccessListener {
-                App.preferences.isInterestsInitialized = true
-
                 cloudFirestoreDatabase
                     .collection(UserSettingsTable().tableName).document(App.preferences.uid!!)
                     .update(mapOf("is_interests_initialized" to true))

@@ -330,7 +330,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     fun onLoadMainEvent(e: LoadMainEvent) {
         userDiaryViewModel.getDiary()
         userSettingsViewModel.getUserSettings()
-        userInterestsViewModel.getInterests { Navigator.splashToMetric(e.f) }
+        userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
     }
 
     @Subscribe
@@ -340,7 +340,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             .signOut(this@MainActivity)
             .addOnCompleteListener {
                 App.preferences.uid = ""
-                App.preferences.userName = ""
 
                 Navigator.toSplash(navController!!)
             }

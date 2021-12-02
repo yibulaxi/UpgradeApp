@@ -3,11 +3,12 @@ package com.velkonost.upgrade.ui.activity.main.ext
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.event.UserSettingsReadyEvent
+import com.velkonost.upgrade.model.UserSettings
 import com.velkonost.upgrade.ui.activity.main.MainActivity
 import org.greenrobot.eventbus.EventBus
 
-fun MainActivity.observeUserSettings(isUserSettingsReady: Boolean) {
-    EventBus.getDefault().post(UserSettingsReadyEvent(isUserSettingsReady))
+fun MainActivity.observeUserSettings(userSettings: UserSettings) {
+    EventBus.getDefault().post(UserSettingsReadyEvent(userSettings))
 }
 
 fun MainActivity.observeSetDiaryNote(isSuccess: Boolean) {

@@ -171,14 +171,15 @@ class UserDiaryViewModel @Inject constructor(
         note: DiaryNote
     ) {
 
-        userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
-            .observeForever { userSettings ->
-                val amount: Float = when (note.changeOfPoints) {
-                    0 -> userSettings!!.getDifficultyValue()
-                    1 -> 0f
-                    else -> -userSettings!!.getDifficultyValue()
-                }
+//        userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
+//            .observeForever { userSettings ->
+//                val amount: Float = when (note.changeOfPoints) {
+//                    0 -> userSettings!!.getDifficultyValue()
+//                    1 -> 0f
+//                    else -> -userSettings!!.getDifficultyValue()
+//                }
 
+                val amount = 0f
                 val data = hashMapOf(
                     note.diaryNoteId to note.toFirestore()
                 )
@@ -221,7 +222,7 @@ class UserDiaryViewModel @Inject constructor(
                             setDiaryNoteEvent.postValue(false)
                         }
                     }
-            }
+//            }
     }
 
     private fun DiaryNote.toFirestore() =

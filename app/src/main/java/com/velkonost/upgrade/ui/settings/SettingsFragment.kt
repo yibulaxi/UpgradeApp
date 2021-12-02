@@ -16,6 +16,7 @@ import com.velkonost.upgrade.databinding.FragmentSettingsBinding
 import com.velkonost.upgrade.event.UpdateDifficultyEvent
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.base.BaseFragment
+import com.velkonost.upgrade.util.ext.observeOnce
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserSettingsViewModel
 import org.greenrobot.eventbus.EventBus
@@ -37,8 +38,6 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-
-        binding.name.text = App.preferences.userName
         binding.version.text = "Версия " + BuildConfig.VERSION_NAME
 
         binding.difficultySpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
@@ -48,8 +47,9 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
         userSettingsViewModel.getUserSettingsById(
             App.preferences.uid!!
         )
-            .observe(viewLifecycleOwner, {
-                binding.difficultySpinner.selectItemByIndex(it?.difficulty!!.toInt())
+            .observeOnce(viewLifecycleOwner, {
+                binding.name.text = it!!.login
+                binding.difficultySpinner.selectItemByIndex(it.difficulty!!.toInt())
             })
     }
 
@@ -100,7 +100,6 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
                 .signOut(requireContext())
                 .addOnCompleteListener {
                     App.preferences.uid = ""
-                    App.preferences.userName = ""
 
                     userSettingsViewModel.resetUserSettings()
 

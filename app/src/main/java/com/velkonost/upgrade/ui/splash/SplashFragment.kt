@@ -3,7 +3,10 @@ package com.velkonost.upgrade.ui.splash
 import android.animation.Animator
 import android.app.Activity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -19,6 +22,8 @@ import com.velkonost.upgrade.event.LoadMainEvent
 import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
+import com.velkonost.upgrade.util.ext.observeOnce
+import com.velkonost.upgrade.vm.UserSettingsViewModel
 import org.greenrobot.eventbus.EventBus
 
 class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
@@ -27,7 +32,11 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     Handler::class
 ) {
 
+    val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
+
     private var allowGoNext: Boolean = true
+
+    private var animateText: String = "UPGRADE"
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -49,6 +58,19 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             )
         )
 
+        if (App.preferences.uid.isNullOrEmpty()) {
+            start()
+        } else {
+            userSettingsViewModel
+                .getUserSettingsById(App.preferences.uid!!)
+                .observeOnce(this) {
+                    animateText = it?.greeting!!
+                    start()
+            }
+        }
+    }
+
+    private fun start() {
         binding.animationView.imageAssetsFolder = "images"
         binding.animationView.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationEnd(animation: Animator?) {
@@ -61,9 +83,13 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
             override fun onAnimationCancel(animation: Animator?) {}
             override fun onAnimationStart(animation: Animator?) {
-                binding.logoText.animateText("UPGRADE")
+                binding.logoText.setCharacterDelay(
+                    (150L * 7) / animateText.length
+                )
+                binding.logoText.animateText(animateText)
             }
         })
+        binding.animationView.playAnimation()
     }
 
     override fun onStart() {
@@ -74,41 +100,46 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     private fun goNext() {
         if (binding.logoText.isAnimationLoaded && allowGoNext) {
             if (App.preferences.uid.isNullOrEmpty()) {
-                createSignInIntent()
+//                createSignInIntent()
+                Navigator.splashToAuth(this@SplashFragment)
             } else {
-                if (App.preferences.isInterestsInitialized) {
-                    EventBus.getDefault().post(
-                        LoadMainEvent(
-                            isAuthSuccess = true,
-                            this@SplashFragment
+                userSettingsViewModel
+                    .getUserSettingsById(App.preferences.uid!!)
+                    .observeOnce(this) {
+                    if (it!!.isInterestsInitialized!!) {
+                        EventBus.getDefault().post(
+                            LoadMainEvent(
+                                isAuthSuccess = true,
+                                this@SplashFragment
+                            )
                         )
-                    )
-                    allowGoNext = false
+                        allowGoNext = false
 
-                } else {
-                    Navigator.splashToWelcome(this@SplashFragment)
+                    } else {
+                        Navigator.splashToWelcome(this@SplashFragment)
+                    }
                 }
             }
         }
     }
 
-    private fun createSignInIntent() {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.PhoneBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setIsSmartLockEnabled(false)
-            .setLogo(R.drawable.logo)
-            .setTheme(R.style.AuthUITheme)
-            .build()
-
-        signInLauncher.launch(signInIntent)
-    }
+//    private fun createSignInIntent() {
+//        val providers = arrayListOf(
+//            AuthUI.IdpConfig.EmailBuilder().build(),
+//            AuthUI.IdpConfig.PhoneBuilder().build(),
+//            AuthUI.IdpConfig.GoogleBuilder().build()
+//        )
+//
+//        val signInIntent = AuthUI.getInstance()
+//            .createSignInIntentBuilder()
+//            .setAvailableProviders(providers)
+//            .setIsSmartLockEnabled(true)
+//            .setLogo(R.drawable.logo)
+//            .setTheme(R.style.AuthUITheme)
+//            .build()
+//
+//        signInLauncher.launch(signInIntent)
+//    }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
@@ -118,13 +149,13 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
             if (user != null && user.uid.isNotEmpty()) {
                 App.preferences.uid = user.uid
-                App.preferences.userName = user.displayName
+//                App.preferences.userName = user.displayName
 
                 if (response!!.isNewUser) {
                     onSignUpSuccess()
-                    initNewUserData(user.uid)
+                    initNewUserData(user.uid, user.displayName?: "Победитель")
                 } else {
-                    App.preferences.isInterestsInitialized = true
+//                    App.preferences.isInterestsInitialized = true
                     onSignInSuccess()
                     goNext()
                 }
@@ -137,11 +168,15 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         }
     }
 
-    private fun initNewUserData(userId: String) {
+    private fun initNewUserData(
+        userId: String,
+        login: String
+    ) {
         EventBus.getDefault()
             .post(
                 InitUserSettingsEvent(
-                    userId = userId
+                    userId = userId,
+                    login = login
                 )
             )
 

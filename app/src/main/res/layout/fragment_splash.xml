@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
+        android:background="@color/colorTgPrimaryDark"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
 
@@ -29,7 +29,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
             app:lottie_rawRes="@raw/logo_anim"
             app:lottie_repeatCount="100"
             app:lottie_repeatMode="reverse" />
@@ -37,10 +36,13 @@
         <com.velkonost.upgrade.util.Typewriter
             android:id="@+id/logoText"
             style="@style/Text24.Light"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:letterSpacing="0.5"
+            android:letterSpacing="0.3"
+            android:gravity="center"
+            android:layout_marginHorizontal="16dp"
+            android:textColor="@color/colorTgWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_view" />
