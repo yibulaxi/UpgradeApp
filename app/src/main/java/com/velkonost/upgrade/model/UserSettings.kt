@@ -7,10 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_settings_table")
 class UserSettings(
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Int? = null,
-
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "userId")
     val userId: String,
 
@@ -30,7 +27,7 @@ class UserSettings(
     val isPushAvailable: Boolean? = true,
 
     @ColumnInfo(name = "greeting")
-    val greeting: String? = null,
+    val greeting: String? = "UPGRADE",
 
     @ColumnInfo(name = "dateRegistration")
     val dateRegistration: String? = null,

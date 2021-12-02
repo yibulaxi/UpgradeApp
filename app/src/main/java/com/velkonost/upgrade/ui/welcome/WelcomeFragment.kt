@@ -31,12 +31,7 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        StatusBarUtil.setColor(
-            requireActivity(),
-            ContextCompat.getColor(requireContext(), R.color.colorWhite),
-            0
-        )
-        StatusBarUtil.setLightMode(requireActivity())
+
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
 
         binding.viewPager.adapter = adapter

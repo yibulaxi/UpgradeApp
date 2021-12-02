@@ -32,7 +32,7 @@ class UserSettingsRepository @Inject constructor(
         userSettingsDao.update(userSettings)
     }
 
-    fun clear() {
+    suspend fun clear() {
         userSettingsDao.clear()
     }
 

@@ -10,12 +10,15 @@
         <item name="colorControlNormal">@color/colorLightGray</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
 
+
+
     </style>
 
     <style name="AuthUITheme" parent="AppTheme">
-        <item name="colorPrimary">#A1AACA</item>
-        <item name="colorPrimaryDark">@color/colorWhite</item>
-        <item name="colorAccent">@color/colorBlack</item>
+        <item name="colorPrimary">@color/colorTgPrimary</item>
+        <item name="colorPrimaryDark">@color/colorTgPrimaryDark</item>
+        <item name="colorAccent">@color/colorTgPrimary</item>
+        <item name="colorSecondary">@color/colorTgPrimary</item>
         <!--        <item name="android:buttonStyle">@style/buttonStyle</item>-->
     </style>
 

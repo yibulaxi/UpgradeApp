@@ -17,7 +17,7 @@ interface UserSettingsDao {
     fun getById(id: String): LiveData<UserSettings?>
 
     @Query("DELETE FROM user_settings_table")
-    fun clear()
+    suspend fun clear()
 
     @Insert
     suspend fun insert(userSettings: UserSettings)

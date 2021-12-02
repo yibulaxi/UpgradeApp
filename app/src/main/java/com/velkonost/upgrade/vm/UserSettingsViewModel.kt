@@ -10,6 +10,7 @@ import com.velkonost.upgrade.repo.UserSettingsRepository
 import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.rest.UserSettingsTable
 import com.velkonost.upgrade.util.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -30,7 +31,7 @@ class UserSettingsViewModel @Inject constructor(
 //    }
 
 
-    val setUserSettingsEvent = SingleLiveEvent<Boolean>()
+    val setUserSettingsEvent = SingleLiveEvent<UserSettings>()
 
     private fun setUserSettings(
         documentSnapshot: DocumentSnapshot
@@ -67,13 +68,17 @@ class UserSettingsViewModel @Inject constructor(
         userSettings: UserSettings
     ) = viewModelScope.launch {
         userSettingsRepository.insertOrUpdate(userSettings)
-        setUserSettingsEvent.postValue(true)
+        setUserSettingsEvent.postValue(userSettings)
     }
 
     fun getUserSettingsById(id: String) =
         userSettingsRepository.getById(id)
 
-    fun resetUserSettings() = userSettingsRepository.clear()
+    fun resetUserSettings() =
+        viewModelScope.launch {
+            userSettingsRepository.clear()
+        }
+
 
     internal fun getUserSettings() {
         cloudFirestoreDatabase.collection(UserSettingsTable().tableName)
@@ -110,11 +115,11 @@ class UserSettingsViewModel @Inject constructor(
         val userSettings = hashMapOf(
             UserSettingsTable().tableFields[UserSettingsFields.Id] to e.userId,
             UserSettingsTable().tableFields[UserSettingsFields.AuthType] to 1.toString(),
-            UserSettingsTable().tableFields[UserSettingsFields.Login] to "",
+            UserSettingsTable().tableFields[UserSettingsFields.Login] to e.login,
             UserSettingsTable().tableFields[UserSettingsFields.Password] to "",
             UserSettingsTable().tableFields[UserSettingsFields.Difficulty] to 1.toString(),
             UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable] to true,
-            UserSettingsTable().tableFields[UserSettingsFields.Greeting] to "",
+            UserSettingsTable().tableFields[UserSettingsFields.Greeting] to "Привет, " + e.login,
             UserSettingsTable().tableFields[UserSettingsFields.DateRegistration] to System.currentTimeMillis()
                 .toString(),
             UserSettingsTable().tableFields[UserSettingsFields.DateLastLogin] to System.currentTimeMillis()
@@ -127,26 +132,9 @@ class UserSettingsViewModel @Inject constructor(
         cloudFirestoreDatabase
             .collection(UserSettingsTable().tableName).document(e.userId)
             .set(userSettings)
-            .addOnSuccessListener { }
+            .addOnSuccessListener {
+                getUserSettings()
+            }
             .addOnFailureListener { }
     }
-
-//    private fun UserSettings.toFirestore() =
-//        hashMapOf(
-//            UserSettingsTable().tableFields[UserSettingsFields.Id] to e.userId,
-//            UserSettingsTable().tableFields[UserSettingsFields.AuthType] to 1.toString(),
-//            UserSettingsTable().tableFields[UserSettingsFields.Login] to "",
-//            UserSettingsTable().tableFields[UserSettingsFields.Password] to "",
-//            UserSettingsTable().tableFields[UserSettingsFields.Difficulty] to 1.toString(),
-//            UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable] to true,
-//            UserSettingsTable().tableFields[UserSettingsFields.Greeting] to "",
-//            UserSettingsTable().tableFields[UserSettingsFields.DateRegistration] to System.currentTimeMillis()
-//                .toString(),
-//            UserSettingsTable().tableFields[UserSettingsFields.DateLastLogin] to System.currentTimeMillis()
-//                .toString(),
-//            UserSettingsTable().tableFields[UserSettingsFields.Avatar] to "",
-//            UserSettingsTable().tableFields[UserSettingsFields.Locale] to "",
-//            "is_interests_initialized" to false
-//        )
-
 }

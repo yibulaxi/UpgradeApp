@@ -41,7 +41,15 @@
         android:id="@+id/navigation_auth"
         android:name="com.velkonost.upgrade.ui.auth.AuthFragment"
         android:label="AuthFragment"
-        tools:layout="@layout/fragment_auth"></fragment>
+        tools:layout="@layout/fragment_auth">
+        <action
+            android:id="@+id/action_navigation_auth_to_navigation_welcome"
+            app:destination="@id/navigation_welcome"
+            app:enterAnim="@animator/right_in"
+            app:exitAnim="@animator/right_out"
+            app:popEnterAnim="@animator/left_in"
+            app:popExitAnim="@animator/left_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_metric"

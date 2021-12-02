@@ -136,8 +136,7 @@ class NotesPagerViewHolder(
 
         binding.recycler.addOnItemTouchListener(object : OnItemTouchListener {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                val action = e.action
-                when (action) {
+                when (e.action) {
                     MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
                 }
                 return false

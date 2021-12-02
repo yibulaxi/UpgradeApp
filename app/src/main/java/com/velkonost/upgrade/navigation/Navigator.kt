@@ -50,6 +50,12 @@ object Navigator {
         )
     }
 
+    fun authToWelcome(f: Fragment) {
+        f.findNavController().navigate(
+            R.id.action_navigation_auth_to_navigation_welcome
+        )
+    }
+
     fun welcomeToMetric(f: Fragment) {
         f.findNavController().navigate(
             R.id.action_navigation_welcome_to_navigation_metric
@@ -65,6 +71,12 @@ object Navigator {
     fun toSplash(fNavController: NavController) {
         fNavController.navigate(
             R.id.navigation_splash
+        )
+    }
+
+    fun toMetric(fNavController: NavController) {
+        fNavController.navigate(
+            R.id.navigation_metric
         )
     }
 }
