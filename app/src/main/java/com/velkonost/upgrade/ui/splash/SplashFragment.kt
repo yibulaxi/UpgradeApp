@@ -64,7 +64,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             userSettingsViewModel
                 .getUserSettingsById(App.preferences.uid!!)
                 .observeOnce(this) {
-                    animateText = it?.greeting!!
+                    animateText = it?.greeting?: "UPGRADE"
                     start()
             }
         }

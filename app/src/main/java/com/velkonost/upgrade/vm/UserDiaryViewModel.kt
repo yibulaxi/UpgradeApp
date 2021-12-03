@@ -190,7 +190,7 @@ class UserDiaryViewModel @Inject constructor(
                     .addOnSuccessListener {
 
                         setDiaryNoteEvent.postValue(true)
-
+                        getDiary()
                         EventBus.getDefault()
                             .post(
                                 UpdateUserInterestEvent(

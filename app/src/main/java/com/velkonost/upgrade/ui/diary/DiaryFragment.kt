@@ -81,18 +81,20 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     binding.blur.alpha = 0f
                     binding.blur.isVisible = false
+                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     binding.blur.alpha = 1f
                     binding.blur.isVisible = true
+                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
                 }
             }
         })
     }
 
     @Subscribe
-    fun onChangeViewPagerSwipingState(e: ChangeViewPagerSwipingState) {
-        Log.d("keke", e.isEnable.toString())
-        binding.viewPagerBottomSheet.viewPager.isUserInputEnabled = e.isEnable
+    fun onBackPressedEvent(e: BackPressedEvent) {
+        if (viewPagerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            viewPagerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun onItemInListSwiped(vh: RecyclerView.ViewHolder, swipeDirection: Int) {
@@ -202,7 +204,6 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
     @Subscribe
     fun onShowNoteDetailEvent(e: ShowNoteDetailEvent) {
-        Log.d("keke", e.position.toString())
         viewPagerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         binding.blur.isVisible = true
         binding.viewPagerBottomSheet.viewPager.post {
@@ -227,7 +228,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
         fun onBlurClicked(v: View) {
             viewPagerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+//            EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
         }
     }
 }

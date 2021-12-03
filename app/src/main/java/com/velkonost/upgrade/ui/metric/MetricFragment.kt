@@ -119,14 +119,9 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     }
 
     @Subscribe
-    fun onUserSettingsReadyEvent(e: UserSettingsReadyEvent) {
-//
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            binding.daysAmount.text =
-//                ((System.currentTimeMillis() - userSettingsViewModel.getFieldValue(UserSettingsTable().tableFields[UserSettingsFields.DateRegistration]!!)
-//                    .toLong()) / 1000 / 60 / 60 / 24).toInt()
-//                    .toString()
-//        }
+    fun onBackPressedEvent(e: BackPressedEvent) {
+        if (interestDetailBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            interestDetailBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     @Subscribe

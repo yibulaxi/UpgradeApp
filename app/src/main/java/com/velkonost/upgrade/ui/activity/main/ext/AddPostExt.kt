@@ -427,9 +427,8 @@ fun MainActivity.setupTrackerSheet() {
         binding.trackerFab.isVisible = false
     }
 
-    userDiaryViewModel.getActiveTracker().observeForever { activeTracker ->
+    userDiaryViewModel.getActiveTracker().observe(this) { activeTracker ->
         binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
-
 
         if (isActiveTrackerTimerInitialized()) {
             activeTrackerTimer.cancel()
@@ -437,6 +436,10 @@ fun MainActivity.setupTrackerSheet() {
 
         if (activeTracker == null && binding.trackerSheet.isFabExpanded) {
             binding.trackerSheet.contractFab()
+        }
+
+        binding.trackerSheet.setFabAnimationEndListener {
+            binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
         }
 
         if (activeTracker != null) {

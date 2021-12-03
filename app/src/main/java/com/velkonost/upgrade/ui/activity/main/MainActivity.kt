@@ -50,6 +50,7 @@ import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 
 
@@ -134,6 +135,29 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
 
         userSettingsViewModel.setUserSettingsEvent.observe(this, ::observeUserSettings)
+    }
+
+    override fun onBackPressed() {
+        if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            addGoalBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (addTrackerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            addTrackerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            addHabitBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (binding.trackerSheet.isFabExpanded)
+            binding.trackerSheet.contractFab()
+
+        EventBus.getDefault().post(BackPressedEvent(true))
+//        super.onBackPressed()
     }
 
     override fun onDestroy() {
