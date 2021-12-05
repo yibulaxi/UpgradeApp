@@ -89,6 +89,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     var selectedInterestIdToAddPost: String = ""
     var selectedDiffPointToAddPost: Int = 0
+    var selectedRegularityToAddHabit: Regularity = Regularity.Daily
 
     private lateinit var cloudStorage: FirebaseStorage
     private var isFirebaseAvailable: Boolean = false
@@ -415,6 +416,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         setupAddPostBottomSheet()
         setupAddGoalBottomSheet()
         setupAddTrackerBottomSheet()
+        setupAddHabitBottomSheet()
         setupTrackerSheet()
     }
 

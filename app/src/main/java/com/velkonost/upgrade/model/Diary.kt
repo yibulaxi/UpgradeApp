@@ -3,6 +3,7 @@ package com.velkonost.upgrade.model
 import androidx.room.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.io.Serializable
 
 class Diary {
     val notes: ArrayList<DiaryNote> = ArrayList()
@@ -77,16 +78,27 @@ data class DiaryNoteInterest(
     var interestIcon: String
 )
 
-data class DiaryNoteDatesCompletion(
-    val dates_completion_datetime: String? = null,
-    val dates_completion_is_completed: Boolean? = null
-)
+data class DiaryNoteDatesCompletion (
+    val datesCompletionDatetime: String? = null,
+    var datesCompletionIsCompleted: Boolean? = null
+): Serializable
+
+enum class Regularity(val id: Int) {
+    Daily(1),
+    Weekly(2)
+}
+
+enum class Milliseconds(val mills: Long) {
+    Day(86400000),
+    Week(604800000)
+}
 
 enum class NoteType(val id: Int) {
     Note(1),
     Habit(2),
     Goal(3),
-    Tracker(4)
+    Tracker(4),
+    HabitRealization(5)
 }
 
 enum class ChangeOfPoints(val id: Int) {

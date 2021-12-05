@@ -29,6 +29,8 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.shuhart.stickyheader.StickyHeaderItemDecorator
+import com.velkonost.upgrade.model.NoteType
+import com.velkonost.upgrade.ui.diary.adapter.habits.HabitsAdapter
 import com.velkonost.upgrade.vm.DateComparator
 import com.velkonost.upgrade.vm.StringDateComparator
 import kotlinx.android.synthetic.main.view_goal_add.*
@@ -55,6 +57,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
     private lateinit var adapter: NotesAdapter
     private lateinit var pagerAdapter: NotesPagerAdapter
+    private lateinit var habitsAdapter: HabitsAdapter
 
     private var onSwiped: ((DiaryNote) -> Unit)? = {
         EventBus.getDefault().post(DeleteDiaryNoteEvent(it.diaryNoteId))
@@ -64,6 +67,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         super.onLayoutReady(savedInstanceState)
 
         setupDiary()
+        setupHabitsRealization()
 
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
 
@@ -102,9 +106,29 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         onSwiped?.invoke(adapter.getNoteAt(swipedPosition))
     }
 
+    private fun setupHabitsRealization() {
+        userDiaryViewModel.getHabits().observe(this) { habits ->
+            val habitsRealization = arrayListOf<DiaryNote>()
+
+            habits.forEach { habit ->
+                habit!!.datesCompletion!!.firstOrNull { dateCompletion ->
+                    dateCompletion.datesCompletionIsCompleted == false
+                            && dateCompletion.datesCompletionDatetime!!.toLong() <= System.currentTimeMillis()
+                }.let {
+                    if (it != null) habitsRealization.add(habit)
+                }
+            }
+
+            habitsAdapter = HabitsAdapter(requireContext(), habitsRealization.toMutableList())
+            binding.horizontalRecycler.adapter = habitsAdapter
+        }
+    }
+
     private fun setupDiary() {
         userDiaryViewModel.getNotes().observe(this) { notes ->
-            if (notes.isEmpty()) {
+            val notesWithoutHabits = notes.filter { it.noteType != NoteType.Habit.id }
+
+            if (notesWithoutHabits.isEmpty()) {
                 binding.emptyText.isVisible = true
                 binding.emptyAnim.isVisible = true
 
@@ -117,11 +141,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
                 if (!::adapter.isInitialized) {
 
-                    Collections.sort(notes, DateComparator())
+                    Collections.sort(notesWithoutHabits, DateComparator())
                     val datesSet = linkedSetOf<String>()
                     val formatter = SimpleDateFormat("MMMM, yyyy")
 
-                    notes.forEach {
+                    notesWithoutHabits.forEach {
                         val calendar = Calendar.getInstance()
                         calendar.timeInMillis = it.date.toLong()
                         datesSet.add(
@@ -144,35 +168,32 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                     var sectionName = "--------------"
 
                     val items = arrayListOf<Section>()
-                    for (i in notes.indices) {
+                    for (i in notesWithoutHabits.indices) {
                         if (
-                            !formatter.format(notes[i].date.toLong())
+                            !formatter.format(notesWithoutHabits[i].date.toLong())
                                 .contains(sectionName)
                         ) {
                             section ++
                             sectionName = datesSet.elementAt(section)
                             items.add(SectionHeader(section, sectionName))
                         }
-                        items.add(SectionItem(section, sectionName, notes[i]))
+                        items.add(SectionItem(section, sectionName, notesWithoutHabits[i]))
                     }
 
-//                    adapter.notes = notes.toMutableList()
                     adapter.items = items
-//                    adapter.notifyDataSetChanged()
-//                    adapter = NotesAdapter(context!!, notes.toMutableList(), items)
+
                     binding.recycler.setUpRemoveItemTouchHelper(
                         R.string.delete,
                         R.dimen.text_size_12,
                         ::onItemInListSwiped
                     )
 
-                } else adapter.updateNotes(notes.toMutableList())
+                } else adapter.updateNotes(notesWithoutHabits.toMutableList())
 
-//                if (!::pagerAdapter.isInitialized) {
-                pagerAdapter = NotesPagerAdapter(context!!, notes.toMutableList())
+                Collections.sort(notesWithoutHabits, DateComparator())
+                pagerAdapter = NotesPagerAdapter(context!!, notesWithoutHabits.toMutableList())
                 binding.viewPagerBottomSheet.viewPager.adapter = pagerAdapter
                 binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
-//                } else pagerAdapter.updateNotes(notes.toMutableList())
 
                 val nextItemVisiblePx =
                     resources.getDimension(R.dimen.diary_viewpager_next_item_visible)
@@ -195,6 +216,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
             }
         }
+    }
+
+    @Subscribe
+    fun onHabitRealizationCompletedEvent(e: HabitRealizationCompletedEvent) {
+        userDiaryViewModel.setNote(e.habitRealization)
     }
 
     @Subscribe

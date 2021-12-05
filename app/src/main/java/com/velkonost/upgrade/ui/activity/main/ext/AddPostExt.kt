@@ -1,31 +1,31 @@
 package com.velkonost.upgrade.ui.activity.main.ext
 
 import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
+import android.content.res.ColorStateList
 import android.os.Build
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat.setBackgroundTintList
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
+import com.velkonost.upgrade.model.AllLogo
+import com.velkonost.upgrade.model.DiaryNoteDatesCompletion
+import com.velkonost.upgrade.model.Milliseconds
+import com.velkonost.upgrade.model.Regularity
 import com.velkonost.upgrade.ui.activity.main.MainActivity
 import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.util.ext.observeOnce
+import kotlinx.android.synthetic.main.view_habit_add.*
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
-import android.animation.ValueAnimator
-
-import android.animation.ValueAnimator.AnimatorUpdateListener
-import android.content.res.ColorStateList
-import android.view.animation.DecelerateInterpolator
-import androidx.core.animation.doOnEnd
-import androidx.core.view.ViewCompat.setBackgroundTintList
-import android.animation.ObjectAnimator
-import android.graphics.Color
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.ViewCompat
-import com.velkonost.upgrade.model.AllLogo
 import java.util.*
 
 
@@ -207,7 +207,16 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
         }
 
         habbitType.setOnClickListener {
+            selectNoteTypeBehavior.state =
+                BottomSheetBehavior.STATE_COLLAPSED
+            addHabitBehavior.state =
+                BottomSheetBehavior.STATE_EXPANDED
 
+            binding.addHabitBottomSheet.noteId = null
+
+            binding.addHabitBottomSheet.editText.setText("")
+            binding.addHabitBottomSheet.editAmount.setText("")
+            binding.addHabitBottomSheet.editText.requestFocus()
         }
     }
 }
@@ -261,17 +270,19 @@ fun MainActivity.setupAddPostBottomSheet() {
             if (editText.text?.length == 0) {
                 showFail(getString(R.string.enter_note_text))
             } else if (!isMediaAdapterInitialized() || mediaAdapter.getMedia().size == 0)
-                userDiaryViewModel.getNoteMediaById(noteId ?: "").observeOnce(context) { diaryNote ->
-                    setDiaryNote(
-                        noteId = noteId,
-                        noteType = com.velkonost.upgrade.model.NoteType.Note.id,
-                        mediaUrls = diaryNote?.media,
-                        text = editText.text.toString(),
-                        date =
-                        if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
-                        else diaryNote?.date!!
-                    )
-                }
+                userDiaryViewModel.getNoteMediaById(noteId ?: "")
+                    .observeOnce(context) { diaryNote ->
+                        setDiaryNote(
+                            noteId = noteId,
+                            noteType = com.velkonost.upgrade.model.NoteType.Note.id,
+                            mediaUrls = diaryNote?.media,
+                            text = editText.text.toString(),
+                            date =
+                            if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis()
+                                .toString()
+                            else diaryNote?.date!!
+                        )
+                    }
             else uploadMedia(
                 noteId = noteId,
                 text = editText.text.toString(),
@@ -438,6 +449,11 @@ fun MainActivity.setupTrackerSheet() {
             binding.trackerSheet.contractFab()
         }
 
+        if (App.preferences.uid.isNullOrEmpty()) {
+            binding.trackerSheet.contractFab()
+            binding.trackerFab.isVisible = false
+        }
+
         binding.trackerSheet.setFabAnimationEndListener {
             binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
         }
@@ -446,8 +462,10 @@ fun MainActivity.setupTrackerSheet() {
             val firstColor = resources.getColor(R.color.colorTgGray)
             val secondColor = resources.getColor(R.color.colorTgPrimary)
 
-            val colorAnimationFromFirstToSecond = ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
-            val colorAnimationFromSecondToFirst = ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
+            val colorAnimationFromFirstToSecond =
+                ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
+            val colorAnimationFromSecondToFirst =
+                ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
 
             colorAnimationFromFirstToSecond.duration = 3000
             colorAnimationFromSecondToFirst.duration = 3000
@@ -489,7 +507,8 @@ fun MainActivity.setupTrackerSheet() {
             }
 
             binding.trackerTitle.text = activeTracker.text
-            binding.trackerDate.text = SimpleDateFormat("dd MMM, HH:mm", Locale("ru")).format(activeTracker.date.toLong())
+            binding.trackerDate.text =
+                SimpleDateFormat("dd MMM, HH:mm", Locale("ru")).format(activeTracker.date.toLong())
             binding.trackerInterestName.text = activeTracker.interest!!.interestName
 
             binding.trackerIcon.setImageDrawable(
@@ -504,11 +523,12 @@ fun MainActivity.setupTrackerSheet() {
                 override fun onTick(millisUntilFinished: Long) {
                     if (activeTracker == null) cancel()
 
-                    val trackerTime = System.currentTimeMillis() - activeTracker.datetimeStart!!.toLong()
+                    val trackerTime =
+                        System.currentTimeMillis() - activeTracker.datetimeStart!!.toLong()
 
                     val hours = (trackerTime / (1000 * 60 * 60)).toInt()
                     val minutes = ((trackerTime / (1000 * 60)) % 60).toInt()
-                    val seconds = (trackerTime / 1000 ) % 60
+                    val seconds = (trackerTime / 1000) % 60
 
                     binding.timer.text = String.format(
                         "%02d:%02d:%02d",
@@ -527,7 +547,6 @@ fun MainActivity.setupTrackerSheet() {
         }
     }
 }
-
 
 fun MainActivity.setupAddHabitBottomSheet() {
     val context = this
@@ -561,9 +580,9 @@ fun MainActivity.setupAddHabitBottomSheet() {
 
         val currentDate = SimpleDateFormat(
             "dd MMMM, EEEE",
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) resources.configuration.locales[0]
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) resources.configuration.locales[0]
             else resources.configuration.locale
-        ).format(java.util.Calendar.getInstance().timeInMillis)
+        ).format(Calendar.getInstance().timeInMillis)
         date.text = currentDate
 
         editText.addTextChangedListener {
@@ -574,18 +593,79 @@ fun MainActivity.setupAddHabitBottomSheet() {
             selectedDiffPointToAddPost = it
         }
 
-        addPost.setOnClickListener {
-            if (editText.text?.length == 0) {
-                showFail(getString(R.string.enter_note_text))
-            } else
-                setDiaryNote(
-                    noteId = noteId,
-                    noteType = com.velkonost.upgrade.model.NoteType.Habit.id,
-                    text = editText.text.toString(),
-                    date = date.text.toString(),
-                    datetimeStart = System.currentTimeMillis().toString(),
-                    isActiveNow = true
+        regularityControlGroup.setOnSelectedOptionChangeCallback {
+            selectedRegularityToAddHabit = when(it) {
+                0 -> Regularity.Daily
+                else -> Regularity.Weekly
+            }
+
+            dailyPoint.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (it == 0) R.color.colorTgWhite else R.color.colorTgText
                 )
+            )
+
+            weeklyPoint.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (it == 1) R.color.colorTgWhite else R.color.colorTgText
+                )
+            )
+        }
+
+        dailyPoint.textSize = 10f
+        weeklyPoint.textSize = 10f
+
+        addPost.setOnClickListener {
+            when {
+                editText.text?.length == 0 -> {
+                    showFail(getString(R.string.enter_note_text))
+                }
+                editAmount.text?.length == 0 -> {
+                    showFail("Укажите кол-во выполнений")
+                }
+                else -> {
+                    setDiaryNote(
+                        noteId = noteId,
+                        noteType = com.velkonost.upgrade.model.NoteType.Habit.id,
+                        text = editText.text.toString(),
+                        date = System.currentTimeMillis().toString(),
+                        datetimeStart = System.currentTimeMillis().toString(),
+                        regularity = selectedRegularityToAddHabit.id,
+                        initialAmount = editAmount.text.toString().toInt(),
+                        datesCompletion = generateDatesCompletion(
+                            selectedRegularityToAddHabit,
+                            editAmount.text.toString().toInt()
+                        ),
+                        isActiveNow = true
+                    )
+                }
+            }
         }
     }
+}
+
+fun generateDatesCompletion(
+    regularity: Regularity,
+    amount: Int
+): ArrayList<DiaryNoteDatesCompletion> {
+    val datesCompletion = arrayListOf<DiaryNoteDatesCompletion>()
+    val time = System.currentTimeMillis()
+
+    for (i in 0 until amount) {
+        datesCompletion.add(
+            DiaryNoteDatesCompletion(
+                datesCompletionDatetime = (
+                        time + i * when (regularity) {
+                            Regularity.Daily -> Milliseconds.Day.mills
+                            else -> Milliseconds.Week.mills
+                        }
+                        ).toString(),
+                datesCompletionIsCompleted = false
+            )
+        )
+    }
+
+    return datesCompletion
 }

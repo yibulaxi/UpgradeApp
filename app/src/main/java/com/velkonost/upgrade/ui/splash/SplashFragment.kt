@@ -46,12 +46,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        StatusBarUtil.setColor(
-            requireActivity(),
-            ContextCompat.getColor(requireContext(), R.color.colorWhite),
-            0
-        )
-        StatusBarUtil.setLightMode(requireActivity())
+
         EventBus.getDefault().post(
             ChangeNavViewVisibilityEvent(
                 isVisible = false

@@ -18,6 +18,9 @@ interface UserDiaryDao {
     @Query("SELECT * FROM user_diary_table WHERE noteType = 4 AND isActiveNow = 1 LIMIT 1")
     fun getActiveTracker(): LiveData<DiaryNote?>
 
+    @Query("SELECT * FROM user_diary_table WHERE noteType = 2")
+    fun getHabits(): LiveData<List<DiaryNote?>>
+
     @Query("DELETE FROM user_diary_table")
     fun clear()
 

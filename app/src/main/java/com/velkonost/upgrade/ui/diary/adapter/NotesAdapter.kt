@@ -34,13 +34,6 @@ class NotesAdapter(
         } else
             NotesViewHolder(ItemNoteBinding.inflate(inflater, parent, false), context!!)
     }
-//            NotesViewHolder.newInstance(parent, context)
-
-
-
-//    override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-//        holder.bind(notes[position], position)
-//    }
 
     override fun getItemViewType(position: Int): Int {
         return items!![position].type()

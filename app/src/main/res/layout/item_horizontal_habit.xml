@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.velkonost.upgrade.model.Interest" />
+
+        <variable
+            name="handler"
+            type="com.velkonost.upgrade.ui.diary.adapter.habits.HabitsViewHolder.Handler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="6dp"
+            android:backgroundTint="@color/colorTgPrimary"
+            android:clickable="true"
+            android:elevation="6dp"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:hapticFeedbackEnabled="true"
+            app:cardCornerRadius="90dp"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icon"
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTgText"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/title"
+            android:text="3284913765987 32456"
+            style="@style/Text10.Light"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:textColor="@color/colorTgText"
+            app:layout_constraintStart_toStartOf="@id/cardView"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
+            app:layout_constraintTop_toBottomOf="@id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/completeBlock"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="6dp"
+            android:alpha="0"
+            android:backgroundTint="@color/colorTgBlue"
+            app:cardCornerRadius="90dp"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp"
+                android:src="@drawable/ic_check"
+                android:tint="@color/colorTgWhite" />
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

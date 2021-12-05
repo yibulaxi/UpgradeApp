@@ -81,14 +81,13 @@ class UserDiaryViewModel @Inject constructor(
                     else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Regularity]]
                         .toString().toInt(),
                     color = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Color]].toString(),
-//                    datesCompletion =
-//                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] == null) arrayListOf()
-//                    else ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] as ArrayList<DiaryNoteDatesCompletion>)
-//                        .toDiaryNoteDatesCompletion()
+                    datesCompletion =
+                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] == null) arrayListOf()
+                    else ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] as ArrayList<*>)
+                        .toDiaryNoteDatesCompletion()
                 )
             )
         }.run {
-            Log.d("keke", "omg")
             updateDiaryNotes(firestoreDiaryNotes)
             onComplete.invoke()
         }
@@ -110,7 +109,7 @@ class UserDiaryViewModel @Inject constructor(
 
     fun getNotes() = userDiaryRepository.getAll()
 
-
+    fun getHabits() = userDiaryRepository.getHabits()
 
     fun getNoteMediaById(id: String) = userDiaryRepository.getByIdLiveData(id)
 
@@ -256,8 +255,8 @@ class UserDiaryViewModel @Inject constructor(
 
     private fun DiaryNoteDatesCompletion.toFirestore() =
         hashMapOf(
-            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionDatetime] to dates_completion_datetime,
-            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionIsCompleted] to dates_completion_is_completed
+            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionDatetime] to datesCompletionDatetime,
+            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionIsCompleted] to datesCompletionIsCompleted
         )
 
     private fun HashMap<*, *>.toDiaryNoteInterest() =
@@ -267,10 +266,28 @@ class UserDiaryViewModel @Inject constructor(
             interestIcon = get(UserDiaryTable().tableFields[UserDiaryFields.InterestIcon]).toString(),
         )
 
-    private fun HashMap<*, *>.toDiaryNoteDatesCompletion(): ArrayList<DiaryNoteDatesCompletion> =
-        arrayListOf(
+    private fun ArrayList<*>.toDiaryNoteDatesCompletion(): ArrayList<DiaryNoteDatesCompletion> {
+        val list = arrayListOf<DiaryNoteDatesCompletion>()
+        forEach {
+            list.add(
+                DiaryNoteDatesCompletion(
+                    datesCompletionIsCompleted =
+                    (it as HashMap<String, String>)
+                            [UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionIsCompleted]]
+                        .toString().toBoolean(),
+                    datesCompletionDatetime =
+                    (it as HashMap<String, String>)
+                            [UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionDatetime]]
+                        .toString()
+                )
+            )
 
-        )
+        }
+        return list
+    }
+//        arrayListOf(
+//
+//        )
 
     @Subscribe
     fun onDeleteDiaryNoteEvent(e: DeleteDiaryNoteEvent) {

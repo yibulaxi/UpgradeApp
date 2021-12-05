@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/drawable/custom_wheel_highlight_bg.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/diary.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/ic_add_media.xml" value="0.31851851851851853" />
+        <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2453125" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.26875" />
         <entry key="app/src/main/res/drawable/ic_goal.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_habit.xml" value="0.3687179487179487" />
@@ -53,6 +54,7 @@
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_adapter_pager_notes.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_fullscreen_media.xml" value="0.35833333333333334" />
+        <entry key="app/src/main/res/layout/item_horizontal_habit.xml" value="0.75" />
         <entry key="app/src/main/res/layout/item_list_metric.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_media_add_post.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_note.xml" value="0.33" />
@@ -66,7 +68,7 @@
         <entry key="app/src/main/res/layout/view_active_tracker.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.27384615384615385" />
-        <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.35833333333333334" />
+        <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_post_add.xml" value="0.33" />
         <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.380248833592535" />

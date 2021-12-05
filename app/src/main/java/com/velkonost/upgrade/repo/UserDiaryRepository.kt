@@ -48,6 +48,9 @@ class UserDiaryRepository @Inject constructor(
     fun getActiveTracker() =
         userDiaryDao.getActiveTracker()
 
+    fun getHabits() =
+        userDiaryDao.getHabits()
+
     suspend fun insert(diaryNote: DiaryNote) {
         userDiaryDao.insert(diaryNote)
     }

@@ -65,7 +65,7 @@
                 android:gravity="center"
                 android:letterSpacing="0.1"
                 android:text="Добавить привычку"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorTgWhite"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.velkonost.upgrade.ui.view.CustomWheelPickerView
@@ -82,20 +82,86 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
-                android:background="@null"
-                android:backgroundTint="@color/colorText"
+                android:background="@drawable/bg_edittext"
                 android:gravity="start"
                 android:hint="Название цели"
                 android:letterSpacing="0.1"
                 android:lines="1"
                 android:maxLength="30"
                 android:maxLines="1"
+                android:padding="12dp"
                 android:textColor="@color/colorText"
                 android:textColorHint="@color/colorLightGray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toBottomOf="@id/title" />
 
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editAmount"
+                style="@style/Text14.Light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="start"
+                android:hint="Кол-во выполнений"
+                android:inputType="number"
+                android:letterSpacing="0.1"
+                android:lines="1"
+                android:maxLength="30"
+                android:maxLines="1"
+                android:padding="12dp"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorLightGray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon"
+                app:layout_constraintTop_toBottomOf="@id/editText" />
+
+            <com.alanvan.segmented_control.SegmentedControlGroup
+                android:id="@+id/regularityControlGroup"
+                style="@style/Text10.Light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorTgPrimary"
+                app:customDividerColor="@color/colorTgPrimary"
+                app:customShadowColor="@color/colorTgPrimary"
+                app:customSliderColor="@color/colorTgGray"
+                app:layout_constraintEnd_toEndOf="@id/editAmount"
+                app:layout_constraintStart_toStartOf="@id/editAmount"
+                app:layout_constraintTop_toBottomOf="@id/editAmount">
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/dailyPoint"
+                    style="@style/Text10.Medium"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:text="Ежедневно"
+                    android:textColor="@color/colorTgWhite"
+                    />
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/weeklyPoint"
+                    style="@style/Text10.Medium"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:text="Еженедельно"
+                    android:textColor="@color/colorTgText"
+                    />
+            </com.alanvan.segmented_control.SegmentedControlGroup>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/date"
@@ -133,10 +199,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorWhite"
-                app:customDividerColor="@color/colorWhite"
-                app:customShadowColor="@color/colorWhite"
-                app:customSliderColor="@color/colorBlueLight"
+                android:backgroundTint="@color/colorTgPrimary"
+                app:customDividerColor="@color/colorTgPrimary"
+                app:customShadowColor="@color/colorTgPrimary"
+                app:customSliderColor="@color/colorTgGray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator">
@@ -165,7 +231,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:text="0"
-                    android:textColor="@color/colorText" />
+                    android:textColor="@color/colorTgWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/negativePoint"
@@ -178,7 +244,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:text="-"
-                    android:textColor="@color/colorPrimaryRed" />
+                    android:textColor="@color/colorTgRed" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
