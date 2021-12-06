@@ -622,7 +622,8 @@ fun MainActivity.setupAddHabitBottomSheet() {
                 editText.text?.length == 0 -> {
                     showFail(getString(R.string.enter_note_text))
                 }
-                editAmount.text?.length == 0 -> {
+                editAmount.text?.length == 0
+                        || editAmount.text.toString().toInt() == 0 -> {
                     showFail("Укажите кол-во выполнений")
                 }
                 else -> {

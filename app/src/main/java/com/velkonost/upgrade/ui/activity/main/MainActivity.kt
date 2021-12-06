@@ -549,8 +549,70 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     else -> pointsStateControlGroup.setSelectedIndex(1, true)
                 }
             }
-        } else if (e.note.noteType == NoteType.Habit.id) {
+        } else if (e.note.noteType == NoteType.HabitRealization.id) {
+            addHabitBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.addHabitBottomSheet.editText.requestFocus()
 
+            with(binding.addHabitBottomSheet) {
+                noteId = e.note.diaryNoteId
+
+                editText.setText(e.note.text)
+                editText.setSelection(editText.length())
+
+                editAmount.setText(e.note.initialAmount.toString())
+
+
+                regularityControlGroup.setSelectedIndex(
+                    index = when(e.note.regularity) {
+                        Regularity.Daily.id -> 0
+                        else -> 1
+                    },
+                    shouldAnimate = true
+                )
+
+                dailyPoint.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity,
+                        if (e.note.regularity == Regularity.Daily.id) R.color.colorTgWhite else R.color.colorTgText
+                    )
+                )
+
+                weeklyPoint.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity,
+                        if (e.note.regularity == Regularity.Weekly.id) R.color.colorTgWhite else R.color.colorTgText
+                    )
+                )
+
+
+                var selectedIndex = 0
+                for (i in icon.adapter.values.indices) {
+                    if (icon.adapter.values[i].id == e.note.interest!!.interestId) {
+                        selectedIndex = i
+                        break
+                    }
+                }
+
+                icon.getRecycler().scrollToPosition(position = 5)
+                icon.getRecycler().post {
+                    icon.setSelectedIndex(
+                        index = selectedIndex,
+                        animated = true
+                    )
+                }
+
+                date.text = e.note.datetimeStart
+
+                when {
+                    e.note.changeOfPoints.toFloat() < 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(2, true)
+                    }
+                    e.note.changeOfPoints.toFloat() > 0f -> {
+                        pointsStateControlGroup.setSelectedIndex(0, true)
+                    }
+                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
+                }
+            }
         }
     }
 

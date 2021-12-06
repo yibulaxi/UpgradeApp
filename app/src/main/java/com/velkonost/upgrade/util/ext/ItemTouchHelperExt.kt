@@ -16,6 +16,8 @@ import androidx.core.graphics.withTranslation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.velkonost.upgrade.R
+import com.velkonost.upgrade.model.NoteType
+import com.velkonost.upgrade.ui.diary.adapter.NotesAdapter
 
 fun RecyclerView.setUpRemoveItemTouchHelper(
     @StringRes backgroundString: Int,
@@ -58,9 +60,8 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
             viewHolder: RecyclerView.ViewHolder
         ): Int {
             val position = viewHolder.adapterPosition
-//            val conversationModel = (recyclerView.adapter as NotesAdapter).getItemAt(position)
-            val canSwipe =
-                true//conversationModel is CartItemProductModel || conversationModel is CartItemDishModel
+            val conversationModel = (recyclerView.adapter as NotesAdapter).getNoteAt(position)
+            val canSwipe = conversationModel.noteType != NoteType.HabitRealization.id
             return if (canSwipe) super.getSwipeDirs(
                 recyclerView,
                 viewHolder

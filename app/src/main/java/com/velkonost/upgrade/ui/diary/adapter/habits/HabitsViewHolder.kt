@@ -28,6 +28,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.velkonost.upgrade.event.HabitRealizationCompletedEvent
 import com.velkonost.upgrade.model.AllLogo
 import com.velkonost.upgrade.model.DiaryNote
+import com.velkonost.upgrade.model.recalculateDatesCompletion
 import org.greenrobot.eventbus.EventBus
 
 
@@ -63,17 +64,22 @@ class HabitsViewHolder(
                         .setDuration(2000)
                         .setListener(object : AnimatorListenerAdapter() {
                             override fun onAnimationEnd(animation: Animator?) {
-                                Log.d("keke_alpha", binding.completeBlock.alpha.toString())
+
                                 if (binding.completeBlock.alpha == 0.5f) {
                                     habitRealization.datesCompletion!!.firstOrNull {
                                         it.datesCompletionIsCompleted == false
                                                 && it.datesCompletionDatetime!!.toLong() <= System.currentTimeMillis()
                                     }.let {
-                                        if (it != null)
+                                        if (it != null) {
+                                            habitRealization.recalculateDatesCompletion()
                                             it.datesCompletionIsCompleted = true
+
+                                            vibrator.cancel()
+                                            EventBus.getDefault()
+                                                .post(HabitRealizationCompletedEvent(habitRealization))
+                                        }
                                     }
-                                    EventBus.getDefault()
-                                        .post(HabitRealizationCompletedEvent(habitRealization))
+
                                 }
                                 super.onAnimationEnd(animation)
                             }

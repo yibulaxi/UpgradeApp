@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/add_post.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/background_bottom_sheet.xml" value="0.33611111111111114" />
         <entry key="app/src/main/res/drawable/bg_edittext.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/bg_habits_realization_value.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/bg_list_metric_value.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/bg_logout.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/bg_media_add_post.xml" value="0.3148148148148148" />
@@ -54,6 +55,7 @@
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_adapter_pager_notes.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_fullscreen_media.xml" value="0.35833333333333334" />
+        <entry key="app/src/main/res/layout/item_habit_realization.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_horizontal_habit.xml" value="0.75" />
         <entry key="app/src/main/res/layout/item_list_metric.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_media_add_post.xml" value="0.2" />

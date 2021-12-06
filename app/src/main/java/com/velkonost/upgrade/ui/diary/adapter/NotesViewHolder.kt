@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -58,6 +59,7 @@ class NotesViewHolder(
                 NoteType.Note.id -> AppCompatResources.getDrawable(context, R.drawable.diary)
                 NoteType.Goal.id -> AppCompatResources.getDrawable(context, R.drawable.ic_goal)
                 NoteType.Habit.id -> AppCompatResources.getDrawable(context, R.drawable.ic_habit)
+                NoteType.HabitRealization.id -> AppCompatResources.getDrawable(context, R.drawable.ic_habit)
                 NoteType.Tracker.id -> AppCompatResources.getDrawable(context, R.drawable.ic_tracker)
                 else -> AppCompatResources.getDrawable(context, R.drawable.diary)
             }
@@ -105,6 +107,7 @@ class NotesViewHolder(
 //        }
 
         binding.container.setOnClickListener {
+            Log.d("keke_pos", position.toString())
             EventBus.getDefault().post(ShowNoteDetailEvent(position))
         }
 

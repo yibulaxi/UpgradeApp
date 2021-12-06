@@ -10,7 +10,7 @@ class Diary {
 }
 
 @Entity(tableName = "user_diary_table")
-class DiaryNote(
+data class DiaryNote(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "diaryNoteId")
@@ -79,7 +79,7 @@ data class DiaryNoteInterest(
 )
 
 data class DiaryNoteDatesCompletion (
-    val datesCompletionDatetime: String? = null,
+    var datesCompletionDatetime: String? = null,
     var datesCompletionIsCompleted: Boolean? = null
 ): Serializable
 
@@ -141,4 +141,40 @@ class DatesCompletionConverters {
     @TypeConverter
     fun fromJsonToDatesCompletion(json: String): ArrayList<DiaryNoteDatesCompletion> =
         Gson().fromJson(json, object : TypeToken<ArrayList<DiaryNoteDatesCompletion>>() {}.type)
+}
+
+fun List<DiaryNote>.getHabitsRealization(): List<DiaryNote> {
+    val habitsRealization = arrayListOf<DiaryNote>()
+    forEach { habit ->
+        val datesCompletion = habit.datesCompletion?.filter { it.datesCompletionIsCompleted == true }
+
+        datesCompletion?.forEach { dateCompletion ->
+            val date = habit.date
+            habitsRealization.add(
+                habit.copy(
+                    date = dateCompletion.datesCompletionDatetime!!,
+                    datetimeStart = date,
+                    noteType = NoteType.HabitRealization.id
+                )
+            )
+        }
+    }
+
+    return habitsRealization
+}
+
+fun DiaryNote.recalculateDatesCompletion() {
+    datesCompletion!!.filter { it.datesCompletionIsCompleted == false }
+        .forEachIndexed { index, dateCompletion ->
+            dateCompletion.datesCompletionDatetime =
+                (
+                        System.currentTimeMillis()
+                                + index * when(regularity) {
+                                    Regularity.Daily.id -> Milliseconds.Day.mills
+                                    Regularity.Weekly.id -> Milliseconds.Week.mills
+                                    else -> Milliseconds.Day.mills
+                                }
+                        )
+                    .toString()
+        }
 }

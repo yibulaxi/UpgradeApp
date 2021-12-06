@@ -73,7 +73,11 @@ class NotesAdapter(
         }
 
         for (i in 0 until newNotes.size) {
-            val foundNote = items!!.findLast { it is SectionItem && it.diaryNote!!.diaryNoteId == newNotes[i].diaryNoteId }
+            val foundNote = items!!.findLast {
+                it is SectionItem
+                        && it.diaryNote!!.diaryNoteId == newNotes[i].diaryNoteId
+                        && it.diaryNote!!.date == newNotes[i].date
+            }
 
             if (foundNote == null) {
                 notesToAddIndexes.add(i)
@@ -192,7 +196,8 @@ class NotesAdapter(
                     note = items!![position].diaryNote!!,
                     position =
                     getNotePosition(
-                        diaryNoteId = items!![position].diaryNote!!.diaryNoteId
+                        diaryNoteId = items!![position].diaryNote!!.diaryNoteId,
+                        date = items!![position].diaryNote!!.date
                     )
                 )
             }
@@ -202,8 +207,15 @@ class NotesAdapter(
         }
     }
 
-    private fun getNotePosition(diaryNoteId: String): Int =
-        items!!.filter { it !is SectionHeader  }.indexOfFirst { it.diaryNote!!.diaryNoteId == diaryNoteId }
+    private fun getNotePosition(
+        diaryNoteId: String,
+        date: String
+    ): Int =
+        items!!.filter { it !is SectionHeader  }
+            .indexOfFirst {
+                it.diaryNote!!.diaryNoteId == diaryNoteId
+                        && it.diaryNote!!.date == date
+            }
 }
 
 class HeaderViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {

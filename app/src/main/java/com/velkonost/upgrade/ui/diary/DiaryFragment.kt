@@ -30,6 +30,7 @@ import org.greenrobot.eventbus.Subscribe
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.shuhart.stickyheader.StickyHeaderItemDecorator
 import com.velkonost.upgrade.model.NoteType
+import com.velkonost.upgrade.model.getHabitsRealization
 import com.velkonost.upgrade.ui.diary.adapter.habits.HabitsAdapter
 import com.velkonost.upgrade.vm.DateComparator
 import com.velkonost.upgrade.vm.StringDateComparator
@@ -124,11 +125,18 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         }
     }
 
+
+
     private fun setupDiary() {
         userDiaryViewModel.getNotes().observe(this) { notes ->
             val notesWithoutHabits = notes.filter { it.noteType != NoteType.Habit.id }
 
-            if (notesWithoutHabits.isEmpty()) {
+            val habits = notes.filter { it.noteType == NoteType.Habit.id }.getHabitsRealization()
+
+            val allNotes = notesWithoutHabits.plus(habits)
+
+
+            if (allNotes.isEmpty()) {
                 binding.emptyText.isVisible = true
                 binding.emptyAnim.isVisible = true
 
@@ -139,13 +147,14 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
                 binding.recycler.isVisible = true
 
+                Collections.sort(allNotes, DateComparator())
                 if (!::adapter.isInitialized) {
 
-                    Collections.sort(notesWithoutHabits, DateComparator())
+
                     val datesSet = linkedSetOf<String>()
                     val formatter = SimpleDateFormat("MMMM, yyyy")
 
-                    notesWithoutHabits.forEach {
+                    allNotes.forEach {
                         val calendar = Calendar.getInstance()
                         calendar.timeInMillis = it.date.toLong()
                         datesSet.add(
@@ -168,16 +177,16 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                     var sectionName = "--------------"
 
                     val items = arrayListOf<Section>()
-                    for (i in notesWithoutHabits.indices) {
+                    for (i in allNotes.indices) {
                         if (
-                            !formatter.format(notesWithoutHabits[i].date.toLong())
+                            !formatter.format(allNotes[i].date.toLong())
                                 .contains(sectionName)
                         ) {
                             section ++
                             sectionName = datesSet.elementAt(section)
                             items.add(SectionHeader(section, sectionName))
                         }
-                        items.add(SectionItem(section, sectionName, notesWithoutHabits[i]))
+                        items.add(SectionItem(section, sectionName, allNotes[i]))
                     }
 
                     adapter.items = items
@@ -188,10 +197,9 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                         ::onItemInListSwiped
                     )
 
-                } else adapter.updateNotes(notesWithoutHabits.toMutableList())
+                } else adapter.updateNotes(allNotes.toMutableList())
 
-                Collections.sort(notesWithoutHabits, DateComparator())
-                pagerAdapter = NotesPagerAdapter(context!!, notesWithoutHabits.toMutableList())
+                pagerAdapter = NotesPagerAdapter(context!!, allNotes.toMutableList())
                 binding.viewPagerBottomSheet.viewPager.adapter = pagerAdapter
                 binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
 

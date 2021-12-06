@@ -24,6 +24,7 @@ import com.velkonost.upgrade.model.DiaryNote
 import com.velkonost.upgrade.model.Media
 import com.velkonost.upgrade.model.NoteType
 import com.velkonost.upgrade.ui.diary.adapter.NotesMediaAdapter
+import com.velkonost.upgrade.util.formatMillsToFullDateTime
 import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,15 +42,19 @@ class NotesPagerViewHolder(
 
     fun bind(note: DiaryNote) {
         binding.text.text = Html.fromHtml(note.text)
-        binding.date.text =
-            SimpleDateFormat("dd MMM yyyy HH:mm", Locale("ru")).format(note.date.toLong())
+
+        if (note.noteType == NoteType.HabitRealization.id) {
+            binding.date.text = context.formatMillsToFullDateTime(note.datetimeStart!!.toLong())
+        } else {
+            binding.date.text = context.formatMillsToFullDateTime(note.date.toLong())
+        }
 
         binding.interestName.text = note.interest!!.interestName
 
         binding.icon.setImageDrawable(
             AppCompatResources.getDrawable(
                 context,
-                DefaultInterest.getInterestById(note.interest!!.interestId.toInt()).getLogo()
+                DefaultInterest.getInterestById(note.interest.interestId.toInt()).getLogo()
             )
         )
 
@@ -69,6 +74,7 @@ class NotesPagerViewHolder(
                 NoteType.Note.id -> AppCompatResources.getDrawable(context, R.drawable.diary)
                 NoteType.Goal.id -> AppCompatResources.getDrawable(context, R.drawable.ic_goal)
                 NoteType.Habit.id -> AppCompatResources.getDrawable(context, R.drawable.ic_habit)
+                NoteType.HabitRealization.id -> AppCompatResources.getDrawable(context, R.drawable.ic_habit)
                 NoteType.Tracker.id -> AppCompatResources.getDrawable(context, R.drawable.ic_tracker)
                 else -> AppCompatResources.getDrawable(context, R.drawable.diary)
             }
@@ -76,6 +82,7 @@ class NotesPagerViewHolder(
 
         binding.cardView.maxCardElevation = (binding.cardView.cardElevation * MAX_ELEVATION_FACTOR)
 
+        binding.edit.isVisible = note.noteType != NoteType.HabitRealization.id
         binding.edit.setOnClickListener { EventBus.getDefault().post(EditDiaryNoteEvent(note)) }
 
         binding.recycler.isVisible = !note.media.isNullOrEmpty()
@@ -86,38 +93,52 @@ class NotesPagerViewHolder(
 
         binding.recycler.adapter = NotesMediaAdapter(context, media)
 
-        if (note.noteType == NoteType.Tracker.id && note.isActiveNow!!) {
-            val firstColor = context.resources.getColor(R.color.colorTgWhite)
-            val secondColor = context.resources.getColor(R.color.colorTgPrimary)
+        if (note.noteType == NoteType.HabitRealization.id) {
+            binding.habitsRealizationBlock.isVisible = true
+            binding.habitsRealizationRecycler.isVisible = true
 
-            val colorAnimationFromFirstToSecond = ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
-            val colorAnimationFromSecondToFirst = ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
+            binding.habitsRealizationValue.text =
+                note.datesCompletion!!.filter { it.datesCompletionIsCompleted == true }.size.toString() +
+                        " / " +
+                        note.datesCompletion!!.size.toString()
 
-            colorAnimationFromFirstToSecond.duration = 500
-            colorAnimationFromSecondToFirst.duration = 500
-
-            colorAnimationFromSecondToFirst.startDelay = 100
-            colorAnimationFromFirstToSecond.startDelay = 100
-
-            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
-                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
-            }
-
-            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
-                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
-            }
-
-            colorAnimationFromFirstToSecond.doOnEnd {
-                colorAnimationFromSecondToFirst.start()
-            }
-
-            colorAnimationFromSecondToFirst.doOnEnd {
-                colorAnimationFromFirstToSecond.start()
-            }
-
-            colorAnimationFromSecondToFirst.start()
-
+            binding.habitsRealizationRecycler.adapter = HabitsRealizationAdapter(context, note.datesCompletion!!.toMutableList())
+        } else {
+            binding.habitsRealizationBlock.isVisible = false
+            binding.habitsRealizationRecycler.isVisible = false
         }
+
+//        if (note.noteType == NoteType.Tracker.id && note.isActiveNow!!) {
+//            val firstColor = context.resources.getColor(R.color.colorTgWhite)
+//            val secondColor = context.resources.getColor(R.color.colorTgPrimary)
+//
+//            val colorAnimationFromFirstToSecond = ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
+//            val colorAnimationFromSecondToFirst = ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
+//
+//            colorAnimationFromFirstToSecond.duration = 500
+//            colorAnimationFromSecondToFirst.duration = 500
+//
+//            colorAnimationFromSecondToFirst.startDelay = 100
+//            colorAnimationFromFirstToSecond.startDelay = 100
+//
+//            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
+//                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
+//            }
+//
+//            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
+//                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
+//            }
+//
+//            colorAnimationFromFirstToSecond.doOnEnd {
+//                colorAnimationFromSecondToFirst.start()
+//            }
+//
+//            colorAnimationFromSecondToFirst.doOnEnd {
+//                colorAnimationFromFirstToSecond.start()
+//            }
+//
+//            colorAnimationFromSecondToFirst.start()
+//        }
 
         if (note.noteType == NoteType.Tracker.id && !note.isActiveNow!!) {
             binding.wasteTime.isVisible = true
@@ -135,6 +156,18 @@ class NotesPagerViewHolder(
         } else binding.wasteTime.isVisible = false
 
         binding.recycler.addOnItemTouchListener(object : OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                when (e.action) {
+                    MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
+                }
+                return false
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
+
+        binding.habitsRealizationRecycler.addOnItemTouchListener(object : OnItemTouchListener {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                 when (e.action) {
                     MotionEvent.ACTION_MOVE -> rv.parent.requestDisallowInterceptTouchEvent(true)
