@@ -83,6 +83,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     @SuppressLint("ClickableViewAccessibility")
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+        EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
         setupChart()
         setupList()
@@ -367,6 +368,10 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                     super.onAnimationEnd(animation)
                 }
             })
+
+        binding.list.post {
+            EventBus.getDefault().post(ChangeProgressStateEvent(false))
+        }
     }
 
     private fun setupMetricControlGroup() {

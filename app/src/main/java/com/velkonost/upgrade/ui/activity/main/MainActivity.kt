@@ -2,14 +2,19 @@ package com.velkonost.upgrade.ui.activity.main
 
 import android.Manifest
 import android.R.attr
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.net.Uri
+import android.opengl.Visibility
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -42,6 +47,7 @@ import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserInterestsViewModel
 import com.velkonost.upgrade.vm.UserSettingsViewModel
+import io.saeid.fabloading.LoadingView
 import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
@@ -308,6 +314,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             }
         }
+    }
+
+    private fun changeProgressState(isActive: Boolean) {
+        ProgressTask(binding.progress,this, isActive).execute()
+    }
+
+    @Subscribe
+    fun onChangeProgressStateEvent(e: ChangeProgressStateEvent) {
+        changeProgressState(e.isActive)
     }
 
     fun checkPermissionForReadExternalStorage(): Boolean {
@@ -710,4 +725,38 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     inner class Handler
+
+    internal class ProgressTask(
+        var progress: ConstraintLayout,
+        var context: Activity,
+        var isActive: Boolean
+    ) : AsyncTask<Void, Int, Int>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+            if (isActive)
+                progress.visibility = View.VISIBLE
+            else progress.visibility = View.GONE
+
+        }
+
+        override fun onProgressUpdate(vararg values: Int?) {
+            super.onProgressUpdate(*values)
+
+//            progress.setProgress(values[0]!!)
+        }
+
+        override fun doInBackground(vararg params: Void?): Int? {
+//            for (i in 0 until max) {
+//                doHeavyStuff()
+//                publishProgress(i)
+//            }
+            return null
+        }
+
+        override fun onPostExecute(result: Int?) {
+            super.onPostExecute(result)
+//            progress.visibility = View.GONE
+//            Toast.makeText(context, "Finished!", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

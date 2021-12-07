@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.velkonost.upgrade.App
+import com.velkonost.upgrade.event.ChangeProgressStateEvent
 import com.velkonost.upgrade.event.DeleteDiaryNoteEvent
 import com.velkonost.upgrade.event.UpdateDiaryEvent
 import com.velkonost.upgrade.event.UpdateUserInterestEvent
@@ -115,6 +116,8 @@ class UserDiaryViewModel @Inject constructor(
     fun getActiveTracker() = userDiaryRepository.getActiveTracker()
 
     private fun deleteDiaryNote(noteId: String) {
+        EventBus.getDefault().post(ChangeProgressStateEvent(true))
+
         val deleteNote = hashMapOf(
             noteId to FieldValue.delete()
         )
@@ -131,6 +134,8 @@ class UserDiaryViewModel @Inject constructor(
     }
 
     fun getDiary() {
+        EventBus.getDefault().post(ChangeProgressStateEvent(true))
+
         cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
             .document(App.preferences.uid!!)
             .get()
@@ -146,6 +151,7 @@ class UserDiaryViewModel @Inject constructor(
         tracker: DiaryNote,
         isActiveNow: Boolean
     ) {
+        EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
         tracker.isActiveNow = isActiveNow
         if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis().toString()
@@ -168,7 +174,7 @@ class UserDiaryViewModel @Inject constructor(
     fun setNote(
         note: DiaryNote
     ) {
-
+        EventBus.getDefault().post(ChangeProgressStateEvent(true))
 //        userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
 //            .observeForever { userSettings ->
 //                val amount: Float = when (note.changeOfPoints) {

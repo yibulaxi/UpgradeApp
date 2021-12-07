@@ -67,10 +67,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+        EventBus.getDefault().post(ChangeProgressStateEvent(true))
+
         setupDiary()
         setupHabitsRealization()
-
-        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
 
         viewPagerBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -222,6 +223,10 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 if (binding.viewPagerBottomSheet.viewPager.itemDecorationCount == 0)
                     binding.viewPagerBottomSheet.viewPager.addItemDecoration(itemDecoration)
 
+
+                binding.viewPagerBottomSheet.viewPager.post{
+                    EventBus.getDefault().post(ChangeProgressStateEvent(false))
+                }
             }
         }
     }

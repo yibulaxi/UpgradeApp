@@ -16,6 +16,7 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
+import com.velkonost.upgrade.event.ChangeProgressStateEvent
 import com.velkonost.upgrade.model.AllLogo
 import com.velkonost.upgrade.model.DiaryNoteDatesCompletion
 import com.velkonost.upgrade.model.Milliseconds
@@ -24,6 +25,7 @@ import com.velkonost.upgrade.ui.activity.main.MainActivity
 import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.util.ext.observeOnce
 import kotlinx.android.synthetic.main.view_habit_add.*
+import org.greenrobot.eventbus.EventBus
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -381,7 +383,7 @@ fun MainActivity.setupAddTrackerBottomSheet() {
         icon.adapter.values = (0 until itemCount).map {
             com.velkonost.upgrade.ui.view.CustomWheelPickerView.Item(
                 userInterestsViewModel.getInterests()[it].id,
-                androidx.core.content.ContextCompat.getDrawable(
+                ContextCompat.getDrawable(
                     context,
                     userInterestsViewModel.getInterests()[it].getLogo()
                 )
@@ -459,6 +461,7 @@ fun MainActivity.setupTrackerSheet() {
 
         if (activeTracker == null && binding.trackerSheet.isFabExpanded) {
             binding.trackerSheet.contractFab()
+            EventBus.getDefault().post(ChangeProgressStateEvent(false))
         }
 
         if (App.preferences.uid.isNullOrEmpty()) {
