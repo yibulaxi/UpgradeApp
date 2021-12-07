@@ -178,6 +178,9 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addPostBottomSheet.editText.setText("")
             binding.addPostBottomSheet.editText.requestFocus()
 
+            binding.addPostBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            selectedDiffPointToAddPost = 0
+
             mediaAdapter = AddPostMediaAdapter(context, arrayListOf())
             binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
         }
@@ -192,6 +195,9 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 
             binding.addTrackerBottomSheet.editText.setText("")
             binding.addTrackerBottomSheet.editText.requestFocus()
+
+            binding.addTrackerBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            selectedDiffPointToAddPost = 0
         }
 
         goalType.setOnClickListener {
@@ -204,6 +210,9 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 
             binding.addGoalBottomSheet.editText.setText("")
             binding.addGoalBottomSheet.editText.requestFocus()
+
+            binding.addGoalBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            selectedDiffPointToAddPost = 0
         }
 
         habbitType.setOnClickListener {
@@ -217,6 +226,9 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addHabitBottomSheet.editText.setText("")
             binding.addHabitBottomSheet.editAmount.setText("")
             binding.addHabitBottomSheet.editText.requestFocus()
+
+            binding.addHabitBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            selectedDiffPointToAddPost = 0
         }
     }
 }
@@ -231,7 +243,7 @@ fun MainActivity.setupAddPostBottomSheet() {
         icon.adapter.values = (0 until itemCount).map {
             com.velkonost.upgrade.ui.view.CustomWheelPickerView.Item(
                 userInterestsViewModel.getInterests()[it].id,
-                androidx.core.content.ContextCompat.getDrawable(
+                ContextCompat.getDrawable(
                     context,
                     userInterestsViewModel.getInterests()[it].getLogo()
                 )

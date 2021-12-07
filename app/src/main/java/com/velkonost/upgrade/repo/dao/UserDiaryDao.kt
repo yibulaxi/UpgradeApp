@@ -27,7 +27,7 @@ interface UserDiaryDao {
     @Query("DELETE FROM user_diary_table WHERE diaryNoteId = :id")
     suspend fun deleteNoteById(id: String): Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(diaryNote: DiaryNote)
 
     @Update

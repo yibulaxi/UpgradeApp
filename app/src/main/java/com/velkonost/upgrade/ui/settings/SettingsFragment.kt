@@ -29,6 +29,8 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
     Handler::class
 ) {
 
+    private var allowChangeDifficulty = false
+
     private val userSettingsViewModel: UserSettingsViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(
             UserSettingsViewModel::class.java
@@ -41,7 +43,8 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
         binding.version.text = "Версия " + BuildConfig.VERSION_NAME
 
         binding.difficultySpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
-            EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
+            if (allowChangeDifficulty)
+                EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
         }
 
         userSettingsViewModel.getUserSettingsById(
@@ -50,6 +53,7 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
             .observeOnce(viewLifecycleOwner, {
                 binding.name.text = it!!.login
                 binding.difficultySpinner.selectItemByIndex(it.difficulty!!.toInt())
+                allowChangeDifficulty = true
             })
     }
 

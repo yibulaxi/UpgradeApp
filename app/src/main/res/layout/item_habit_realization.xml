@@ -22,11 +22,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="6dp"
             app:cardCornerRadius="90dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:elevation="6dp"
             android:backgroundTint="@color/colorTgGray">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text"
-                android:text="1324536"
                 style="@style/Text12.Light"
                 android:textColor="@color/colorTgWhite"
                 android:layout_gravity="center"

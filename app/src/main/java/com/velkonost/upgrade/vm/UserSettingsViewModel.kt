@@ -99,7 +99,7 @@ class UserSettingsViewModel @Inject constructor(
             .document(App.preferences.uid!!)
             .update(data as Map<String, Any>)
             .addOnSuccessListener {
-
+                getUserSettings()
             }
             .addOnFailureListener { }
     }

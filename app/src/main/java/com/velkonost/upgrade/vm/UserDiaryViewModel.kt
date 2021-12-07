@@ -1,6 +1,7 @@
 package com.velkonost.upgrade.vm
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -8,14 +9,12 @@ import com.velkonost.upgrade.App
 import com.velkonost.upgrade.event.DeleteDiaryNoteEvent
 import com.velkonost.upgrade.event.UpdateDiaryEvent
 import com.velkonost.upgrade.event.UpdateUserInterestEvent
-import com.velkonost.upgrade.model.DiaryNote
-import com.velkonost.upgrade.model.DiaryNoteDatesCompletion
-import com.velkonost.upgrade.model.DiaryNoteInterest
-import com.velkonost.upgrade.model.getDifficultyValue
+import com.velkonost.upgrade.model.*
 import com.velkonost.upgrade.repo.UserDiaryRepository
 import com.velkonost.upgrade.rest.UserDiaryFields
 import com.velkonost.upgrade.rest.UserDiaryTable
 import com.velkonost.upgrade.util.SingleLiveEvent
+import com.velkonost.upgrade.util.ext.observeOnce
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.text.SimpleDateFormat
@@ -178,7 +177,7 @@ class UserDiaryViewModel @Inject constructor(
 //                    else -> -userSettings!!.getDifficultyValue()
 //                }
 
-                val amount = 0f
+//                val amount = 0f
                 val data = hashMapOf(
                     note.diaryNoteId to note.toFirestore()
                 )
@@ -190,13 +189,29 @@ class UserDiaryViewModel @Inject constructor(
 
                         setDiaryNoteEvent.postValue(true)
                         getDiary()
-                        EventBus.getDefault()
-                            .post(
-                                UpdateUserInterestEvent(
-                                    interestId = note.interest!!.interestId,
-                                    amount = amount
+
+                        userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
+                            .observeOnce { userSettings ->
+                                var amount: Float = when (note.changeOfPoints) {
+                                    0 -> userSettings!!.getDifficultyValue()
+                                    1 -> 0f
+                                    else -> -userSettings!!.getDifficultyValue()
+                                }
+
+                                if (note.noteType == NoteType.Habit.id
+                                    && note.datesCompletion!!.none { it.datesCompletionIsCompleted == true }
                                 )
-                            )
+                                    amount = 0f
+
+                                EventBus.getDefault()
+                                    .post(
+                                        UpdateUserInterestEvent(
+                                            interestId = note.interest!!.interestId,
+                                            amount = amount
+                                        )
+                                    )
+                            }
+
                     }
                     .addOnFailureListener {
                         if (it is FirebaseFirestoreException && it.code.value() == 5) {
@@ -206,13 +221,25 @@ class UserDiaryViewModel @Inject constructor(
                                 .addOnSuccessListener {
                                     setDiaryNoteEvent.postValue(true)
 
-                                    EventBus.getDefault()
-                                        .post(
-                                            UpdateUserInterestEvent(
-                                                interestId = note.interest!!.interestId,
-                                                amount = amount
-                                            )
-                                        )
+                                    userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
+                                        .observeOnce { userSettings ->
+                                            var amount: Float = when (note.changeOfPoints) {
+                                                0 -> userSettings!!.getDifficultyValue()
+                                                1 -> 0f
+                                                else -> -userSettings!!.getDifficultyValue()
+                                            }
+
+                                            if (note.noteType == NoteType.Habit.id)
+                                                amount = 0f
+
+                                            EventBus.getDefault()
+                                                .post(
+                                                    UpdateUserInterestEvent(
+                                                        interestId = note.interest!!.interestId,
+                                                        amount = amount
+                                                    )
+                                                )
+                                        }
                                 }
                                 .addOnFailureListener {
                                     setDiaryNoteEvent.postValue(false)
