@@ -6,13 +6,19 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Color.argb
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewTreeObserver
+import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.animation.Easing
@@ -25,6 +31,12 @@ import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet
 import com.github.mikephil.charting.listener.PieRadarChartTouchListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.skydoves.balloon.*
+import com.takusemba.spotlight.OnSpotlightListener
+import com.takusemba.spotlight.OnTargetListener
+import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.effet.RippleEffect
+import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentMetricBinding
@@ -34,6 +46,7 @@ import com.velkonost.upgrade.model.EmptyInterest
 import com.velkonost.upgrade.model.Interest
 import com.velkonost.upgrade.model.UserCustomInterest
 import com.velkonost.upgrade.navigation.Navigator
+import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.metric.adapter.MetricListAdapter
 import com.velkonost.upgrade.ui.view.CustomWheelPickerView
@@ -84,10 +97,12 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
+        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
 
         setupChart()
         setupList()
         setupMetricControlGroup()
+
 
         interestDetailBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -116,7 +131,40 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             }
         })
 
-        EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+    }
+
+    @Subscribe
+    fun onShowSpotlightEvent(e: ShowSpotlightEvent) {
+        if (e.spotlightType == SpotlightType.MetricWheel)
+            showWheelSpotlight()
+    }
+
+    private fun showWheelSpotlight() {
+        val wheelTargetLayout = layoutInflater.inflate(R.layout.target_metric_wheel, FrameLayout(requireContext()))
+        val wheelTarget = com.takusemba.spotlight.Target.Builder()
+            .setAnchor(binding.wheelTarget)
+            .setShape(Circle(400f))
+            .setEffect(RippleEffect(100f, 200f, ContextCompat.getColor(requireContext(), R.color.colorTgPrimary)))
+            .setOverlay(wheelTargetLayout)
+            .build()
+
+        val spotlight = Spotlight.Builder(requireActivity())
+            .setTargets(wheelTarget)
+            .setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTgPrimaryDark))
+            .setDuration(1000L)
+            .setAnimation(DecelerateInterpolator(2f))
+            .setContainer(binding.container)
+            .build()
+        spotlight.start()
+        EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(true))
+
+        wheelTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
+            spotlight.finish()
+
+            App.preferences.isMetricWheelSpotlightShown = true
+            EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))
+            userSettingsViewModel.updateField(UserSettingsFields.IsMetricWheelSpotlightShown, true)
+        }
     }
 
     @Subscribe

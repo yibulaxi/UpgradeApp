@@ -59,7 +59,14 @@ class UserSettingsViewModel @Inject constructor(
                 avatar = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Avatar]!!)!!,
                 locale = documentSnapshot.getString(UserSettingsTable().tableFields[UserSettingsFields.Locale]!!)!!,
                 isInterestsInitialized = documentSnapshot.getBoolean("is_interests_initialized")!!,
+                isMetricWheelSpotlightShown = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsMetricWheelSpotlightShown]!!)!!,
+                isDiaryHabitsSpotlightShown = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsDiaryHabitsSpotlightShown]!!)!!,
+                isMainAddPostSpotlightShown = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsMainAddPostSpotlightShown]!!)!!
             )
+
+        App.preferences.isMetricWheelSpotlightShown = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsMetricWheelSpotlightShown]!!)!!
+        App.preferences.isDiaryHabitsSpotlightShown = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsDiaryHabitsSpotlightShown]!!)!!
+        App.preferences.isMainAddPostSpotlightShown = documentSnapshot.getBoolean(UserSettingsTable().tableFields[UserSettingsFields.IsMainAddPostSpotlightShown]!!)!!
 
         updateUserSettings(firestoreUserSettings)
     }
@@ -104,6 +111,25 @@ class UserSettingsViewModel @Inject constructor(
             .addOnFailureListener { }
     }
 
+    fun updateField(
+        field: UserSettingsFields,
+        value: Any
+    ) {
+        val data = hashMapOf(
+            UserSettingsTable().tableFields[field] to value
+        )
+
+        cloudFirestoreDatabase.collection(UserSettingsTable().tableName)
+            .document(App.preferences.uid!!)
+            .update(data as Map<String, Any>)
+            .addOnSuccessListener {
+                getUserSettings()
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
     @Subscribe
     fun onUpdateDifficultyEvent(e: UpdateDifficultyEvent) {
         updateDifficulty(e.difficulty)
@@ -111,7 +137,7 @@ class UserSettingsViewModel @Inject constructor(
 
     @Subscribe
     fun onInitUserSettingsEvent(e: InitUserSettingsEvent) {
-//
+
         val userSettings = hashMapOf(
             UserSettingsTable().tableFields[UserSettingsFields.Id] to e.userId,
             UserSettingsTable().tableFields[UserSettingsFields.AuthType] to 1.toString(),
@@ -126,7 +152,10 @@ class UserSettingsViewModel @Inject constructor(
                 .toString(),
             UserSettingsTable().tableFields[UserSettingsFields.Avatar] to "",
             UserSettingsTable().tableFields[UserSettingsFields.Locale] to "",
-            "is_interests_initialized" to false
+            "is_interests_initialized" to false,
+            UserSettingsTable().tableFields[UserSettingsFields.IsMetricWheelSpotlightShown] to false,
+            UserSettingsTable().tableFields[UserSettingsFields.IsDiaryHabitsSpotlightShown] to false,
+            UserSettingsTable().tableFields[UserSettingsFields.IsMainAddPostSpotlightShown] to false
         )
 
         cloudFirestoreDatabase

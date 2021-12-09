@@ -43,6 +43,15 @@ class UserSettings(
 
     @ColumnInfo(name = "isInterestsInitialized")
     val isInterestsInitialized: Boolean? = true,
+
+    @ColumnInfo(name = "isMetricWheelSpotlightShown")
+    var isMetricWheelSpotlightShown: Boolean = false,
+
+    @ColumnInfo(name = "isDiaryHabitsSpotlightShown")
+    var isDiaryHabitsSpotlightShown: Boolean = false,
+
+    @ColumnInfo(name = "isMainAddPostSpotlightShown")
+    var isMainAddPostSpotlightShown: Boolean = false
 )
 
 

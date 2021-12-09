@@ -4,7 +4,10 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -23,16 +26,21 @@ import com.velkonost.upgrade.util.ext.setUpRemoveItemTouchHelper
 import com.velkonost.upgrade.util.stickyheader.Section
 import com.velkonost.upgrade.util.stickyheader.SectionHeader
 import com.velkonost.upgrade.util.stickyheader.SectionItem
-import com.velkonost.upgrade.vm.BaseViewModel
-import com.velkonost.upgrade.vm.UserDiaryViewModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.shuhart.stickyheader.StickyHeaderItemDecorator
+import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.effet.RippleEffect
+import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
+import com.velkonost.upgrade.App
 import com.velkonost.upgrade.model.NoteType
 import com.velkonost.upgrade.model.getHabitsRealization
+import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.ui.diary.adapter.habits.HabitsAdapter
-import com.velkonost.upgrade.vm.DateComparator
+import com.velkonost.upgrade.util.ext.observeOnce
+import com.velkonost.upgrade.vm.*
 import com.velkonost.upgrade.vm.StringDateComparator
 import kotlinx.android.synthetic.main.view_goal_add.*
 import java.text.SimpleDateFormat
@@ -52,6 +60,12 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         )
     }
 
+    private val userSettingsViewModel: UserSettingsViewModel by lazy {
+        ViewModelProviders.of(requireActivity()).get(
+            UserSettingsViewModel::class.java
+        )
+    }
+
     private val viewPagerBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.viewPagerBottomSheet.bottomSheetContainer)
     }
@@ -59,6 +73,8 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     private lateinit var adapter: NotesAdapter
     private lateinit var pagerAdapter: NotesPagerAdapter
     private lateinit var habitsAdapter: HabitsAdapter
+
+    private var allowShowHabitsSpotlight: Boolean = false
 
     private var onSwiped: ((DiaryNote) -> Unit)? = {
         EventBus.getDefault().post(DeleteDiaryNoteEvent(it.diaryNoteId))
@@ -69,6 +85,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
+        EventBus.getDefault().post(TryShowSpotlightEvent(SpotlightType.DiaryHabits))
 
         setupDiary()
         setupHabitsRealization()
@@ -95,6 +112,14 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 }
             }
         })
+
+    }
+
+    @Subscribe
+    fun onShowSpotlightEvent(e: ShowSpotlightEvent) {
+        if (e.spotlightType == SpotlightType.DiaryHabits)
+            allowShowHabitsSpotlight = true
+
     }
 
     @Subscribe
@@ -123,10 +148,13 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
             habitsAdapter = HabitsAdapter(requireContext(), habitsRealization.toMutableList())
             binding.horizontalRecycler.adapter = habitsAdapter
+
+            binding.horizontalRecycler.post {
+                if (habitsAdapter.itemCount != 0 && allowShowHabitsSpotlight)
+                    showHabitsSpotlight()
+            }
         }
     }
-
-
 
     private fun setupDiary() {
         userDiaryViewModel.getNotes().observe(this) { notes ->
@@ -258,6 +286,35 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     @Subscribe
     fun onUpdateDiaryEvent(e: UpdateDiaryEvent) {
 //        Navigator.refresh(this@DiaryFragment)
+    }
+
+    private fun showHabitsSpotlight() {
+        val habitsTargetLayout = layoutInflater.inflate(R.layout.target_diary_habits, FrameLayout(requireContext()))
+        val habitsTarget = com.takusemba.spotlight.Target.Builder()
+            .setAnchor(binding.horizontalRecycler)
+            .setShape(RoundedRectangle(binding.horizontalRecycler.height.toFloat(), binding.horizontalRecycler.width.toFloat() - 25f, 16f))
+            .setEffect(RippleEffect(100f, 200f, ContextCompat.getColor(requireContext(), R.color.colorTgPrimary)))
+            .setOverlay(habitsTargetLayout)
+            .build()
+
+        val spotlight = Spotlight.Builder(requireActivity())
+            .setTargets(habitsTarget)
+            .setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTgPrimary))
+            .setDuration(1000L)
+            .setAnimation(DecelerateInterpolator(2f))
+            .setContainer(binding.container)
+            .build()
+        spotlight.start()
+        EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(true))
+
+
+        habitsTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
+            spotlight.finish()
+
+            App.preferences.isDiaryHabitsSpotlightShown = true
+            EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))
+            userSettingsViewModel.updateField(UserSettingsFields.IsDiaryHabitsSpotlightShown, true)
+        }
     }
 
     inner class Handler {

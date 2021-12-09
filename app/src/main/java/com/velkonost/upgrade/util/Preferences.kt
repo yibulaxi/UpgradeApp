@@ -6,7 +6,6 @@ import com.velkonost.upgrade.App
 
 class Preferences(context: Context) {
 
-    val authToken: String = "123"
     private val sharedPreferences: SharedPreferences
 
     init {
@@ -19,6 +18,18 @@ class Preferences(context: Context) {
     var uid: String?
         set(value) = sharedPreferences.edit().putString(USER_ID, value).apply()
         get() = sharedPreferences.getString(USER_ID, null)
+
+    var isDiaryHabitsSpotlightShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("isDiaryHabitsSpotlightShown", value).apply()
+        get() = sharedPreferences.getBoolean("isDiaryHabitsSpotlightShown", false)
+
+    var isMainAddPostSpotlightShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("isMainAddPostSpotlightShown", value).apply()
+        get() = sharedPreferences.getBoolean("isMainAddPostSpotlightShown", false)
+
+    var isMetricWheelSpotlightShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("isMetricWheelSpotlightShown", value).apply()
+        get() = sharedPreferences.getBoolean("isMetricWheelSpotlightShown", false)
 
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"

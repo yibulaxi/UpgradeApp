@@ -12,7 +12,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-@Database(entities = [UserSettings::class, DiaryNote::class], version = 19)
+@Database(entities = [UserSettings::class, DiaryNote::class], version = 20)
 @TypeConverters(
     MediaConverters::class,
     DiaryNoteInterestConverters::class,

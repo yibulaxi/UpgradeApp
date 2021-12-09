@@ -16,7 +16,10 @@ enum class UserSettingsFields(override val fieldName: String) : TableFields {
     DateRegistration("dateRegistration"),
     DateLastLogin("dateLastLogin"),
     Avatar("avatar"),
-    Locale("locale")
+    Locale("locale"),
+    IsMetricWheelSpotlightShown("isMetricWheelSpotlightShown"),
+    IsDiaryHabitsSpotlightShown("isDiaryHabitsSpotlightShown"),
+    IsMainAddPostSpotlightShown("isMainAddPostSpotlightShown")
 }
 
 enum class UserInterestsFields(override val fieldName: String) : TableFields {
@@ -77,7 +80,10 @@ class UserSettingsTable : FirestoreDatabaseTable {
             UserSettingsFields.DateRegistration to UserSettingsFields.DateRegistration.fieldName,
             UserSettingsFields.DateLastLogin to UserSettingsFields.DateLastLogin.fieldName,
             UserSettingsFields.Avatar to UserSettingsFields.Avatar.fieldName,
-            UserSettingsFields.Locale to UserSettingsFields.Locale.fieldName
+            UserSettingsFields.Locale to UserSettingsFields.Locale.fieldName,
+            UserSettingsFields.IsMetricWheelSpotlightShown to UserSettingsFields.IsMetricWheelSpotlightShown.fieldName,
+            UserSettingsFields.IsDiaryHabitsSpotlightShown to UserSettingsFields.IsDiaryHabitsSpotlightShown.fieldName,
+            UserSettingsFields.IsMainAddPostSpotlightShown to UserSettingsFields.IsMainAddPostSpotlightShown.fieldName
         )
 }
 

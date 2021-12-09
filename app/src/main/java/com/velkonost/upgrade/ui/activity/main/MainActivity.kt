@@ -3,6 +3,7 @@ package com.velkonost.upgrade.ui.activity.main
 import android.Manifest
 import android.R.attr
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
@@ -11,8 +12,11 @@ import android.opengl.Visibility
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -32,6 +36,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.jaeger.library.StatusBarUtil
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
+import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.effet.RippleEffect
+import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
 import com.velkonost.upgrade.App
 import com.velkonost.upgrade.App.Companion.READ_EXTERNAL_STORAGE_REQUEST_CODE
 import com.velkonost.upgrade.R
@@ -39,15 +47,16 @@ import com.velkonost.upgrade.databinding.ActivityMainBinding
 import com.velkonost.upgrade.event.*
 import com.velkonost.upgrade.model.*
 import com.velkonost.upgrade.navigation.Navigator
+import com.velkonost.upgrade.rest.UserSettingsFields
 import com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaAdapter
 import com.velkonost.upgrade.ui.activity.main.ext.*
 import com.velkonost.upgrade.ui.base.BaseActivity
 import com.velkonost.upgrade.ui.view.SimpleCustomSnackbar
+import com.velkonost.upgrade.util.ext.observeOnce
 import com.velkonost.upgrade.vm.BaseViewModel
 import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserInterestsViewModel
 import com.velkonost.upgrade.vm.UserSettingsViewModel
-import io.saeid.fabloading.LoadingView
 import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.view_post_add.*
@@ -92,6 +101,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         BottomSheetBehavior.from(binding.selectNoteTypeBottomSheet.bottomSheetContainer)
     }
 
+    private var isAnySpotlightActiveNow: Boolean = false
 
     var selectedInterestIdToAddPost: String = ""
     var selectedDiffPointToAddPost: Int = 0
@@ -128,6 +138,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         subscribePushTopic()
         setupBottomSheets()
+
+
+
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        return super.onCreateView(name, context, attrs)
+
+
     }
 
     var isTrackerTimerRunning = false
@@ -413,6 +432,17 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
     }
 
+    @Subscribe
+    fun onChangeIsAnySpotlightActiveNow(e: ChangeIsAnySpotlightActiveNowEvent) {
+        isAnySpotlightActiveNow = e.isActive
+        showSpotlights()
+    }
+
+    @Subscribe
+    fun onTryShowSpotlightEvent(e: TryShowSpotlightEvent) {
+        showSpotlights()
+    }
+
     private fun setupNavMenu(msg: String) {
         if (binding.navView.menu.size() != 0) return
 
@@ -433,6 +463,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         setupAddTrackerBottomSheet()
         setupAddHabitBottomSheet()
         setupTrackerSheet()
+
+        showSpotlights()
+    }
+
+    private fun showSpotlights() {
+        if (!isAnySpotlightActiveNow) {
+            userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
+                .observeOnce(this) {
+                    if (!App.preferences.isMetricWheelSpotlightShown) {
+                        EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.MetricWheel))
+                    } else if (!App.preferences.isMainAddPostSpotlightShown) {
+                        showAddPostSpotlight()
+                    } else if (!App.preferences.isDiaryHabitsSpotlightShown) {
+                        EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.DiaryHabits))
+                    }
+                }
+        }
     }
 
     @Subscribe
@@ -695,6 +742,34 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     @Subscribe
     fun onShowFailEvent(e: ShowFailEvent) {
         showFail(e.msg)
+    }
+
+    private fun showAddPostSpotlight() {
+        val addPostTargetLayout = layoutInflater.inflate(R.layout.target_menu_addpost, FrameLayout(this))
+        val addPostTarget = com.takusemba.spotlight.Target.Builder()
+            .setAnchor(binding.targetAddPost)
+            .setShape(Circle( 16f))
+            .setEffect(RippleEffect(100f, 200f, ContextCompat.getColor(this, R.color.colorTgPrimary)))
+            .setOverlay(addPostTargetLayout)
+            .build()
+
+        val spotlight = Spotlight.Builder(this)
+            .setTargets(addPostTarget)
+            .setBackgroundColor(ContextCompat.getColor(this, R.color.colorTgPrimaryDark))
+            .setDuration(1000L)
+            .setAnimation(DecelerateInterpolator(2f))
+            .setContainer(binding.container)
+            .build()
+        spotlight.start()
+        isAnySpotlightActiveNow = true
+
+        addPostTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
+            spotlight.finish()
+
+            App.preferences.isMainAddPostSpotlightShown = true
+            isAnySpotlightActiveNow = false
+            userSettingsViewModel.updateField(UserSettingsFields.IsMainAddPostSpotlightShown, true)
+        }
     }
 
     fun showSuccess(msg: String) {
