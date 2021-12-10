@@ -14,11 +14,11 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.EventBusException
+import ru.get.better.BR
 import ru.get.better.util.ext.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KClass
-import ru.get.better.BR
 
 abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
     private val layoutResourceId: Int?,

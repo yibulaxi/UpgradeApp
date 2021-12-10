@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
+import ru.get.better.R
 import ru.get.better.databinding.FragmentMetricBinding
 import ru.get.better.event.*
 import ru.get.better.model.AllLogo
@@ -55,7 +56,6 @@ import ru.get.better.vm.UserSettingsViewModel
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.util.*
 import kotlin.collections.ArrayList
-import ru.get.better.R
 
 
 class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(

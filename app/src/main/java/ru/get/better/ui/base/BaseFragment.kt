@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.EventBusException
 import org.greenrobot.eventbus.Subscribe
+import ru.get.better.BR
 import ru.get.better.R
 import ru.get.better.glide.GlideApp
 import ru.get.better.navigation.Navigator
@@ -28,7 +29,6 @@ import ru.get.better.util.lazyErrorDelegate
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KClass
-import ru.get.better.BR
 
 abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     private val layoutResourceId: Int,
