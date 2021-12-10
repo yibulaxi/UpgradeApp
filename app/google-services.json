@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "765139219355",
-    "project_id": "upgrade-1635b",
-    "storage_bucket": "upgrade-1635b.appspot.com"
+    "project_number": "1062483768432",
+    "project_id": "getbetter-bd8dc",
+    "storage_bucket": "getbetter-bd8dc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:765139219355:android:750941b94785351abe273e",
+        "mobilesdk_app_id": "1:1062483768432:android:11908fffa66287793870b5",
         "android_client_info": {
-          "package_name": "com.velkonost.upgrade"
+          "package_name": "ru.get.better"
         }
       },
       "oauth_client": [
         {
-          "client_id": "765139219355-t7k60tra26njti80mhpo151qmj7noijb.apps.googleusercontent.com",
+          "client_id": "1062483768432-k93hlbq39hhfljeat48d8irtsgftr5fe.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAbloDDav3vtgcWDjp3ZmKgNGmrWt_y9Rg"
+          "current_key": "AIzaSyBRNXgRfS8oybVewo2aDApHnq0i8fpeO70"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "765139219355-t7k60tra26njti80mhpo151qmj7noijb.apps.googleusercontent.com",
+              "client_id": "1062483768432-k93hlbq39hhfljeat48d8irtsgftr5fe.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -129,8 +129,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         subscribePushTopic()
         setupBottomSheets()
-
-
     }
 
     var isTrackerTimerRunning = false

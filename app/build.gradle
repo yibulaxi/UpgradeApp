@@ -12,11 +12,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-
-        buildConfigField "String", "REST_BASE_URL", "\"google.com\""
-        buildConfigField "String", "FIREBASE_DATABASE", "\"https://manna-store-89181-default-rtdb.europe-west1.firebasedatabase.app/\""
-
-        applicationId "com.velkonost.upgrade"
+        applicationId "ru.get.better"
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 2
