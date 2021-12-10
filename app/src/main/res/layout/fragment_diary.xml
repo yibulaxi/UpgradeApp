@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.vm.BaseViewModel" />
+            type="ru.get.better.vm.BaseViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.diary.DiaryFragment.Handler" />
+            type="ru.get.better.ui.diary.DiaryFragment.Handler" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,18 +30,17 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/title"
                     style="@style/Text24.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.2"
-                    android:text="@string/diary"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:letterSpacing="0.2"
+                    android:text="@string/diary"
                     android:textColor="@color/colorTgWhite"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -49,9 +48,9 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/emptyText"
                     style="@style/Text14.Light"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="24dp"
                     android:letterSpacing="0.1"
                     android:text="@string/diary_empty_text"
@@ -62,11 +61,11 @@
                     android:id="@+id/emptyAnim"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    android:layout_margin="16dp"
                     app:lottie_rawRes="@raw/empty_anim"
                     app:lottie_repeatMode="reverse" />
 
@@ -77,7 +76,7 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title"/>
+                    app:layout_constraintTop_toBottomOf="@id/title" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler"
@@ -91,9 +90,9 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/info"
-                    android:layout_margin="16dp"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_margin="16dp"
                     android:layout_marginTop="5dp"
                     android:clickable="true"
                     android:focusable="true"

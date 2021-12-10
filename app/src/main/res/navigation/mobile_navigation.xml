@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_splash"
-        android:name="com.velkonost.upgrade.ui.splash.SplashFragment"
+        android:name="ru.get.better.ui.splash.SplashFragment"
         android:label="SplashFragment"
         app:enterAnim="@animator/right_in"
         app:exitAnim="@animator/right_out"
@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/navigation_auth"
-        android:name="com.velkonost.upgrade.ui.auth.AuthFragment"
+        android:name="ru.get.better.ui.auth.AuthFragment"
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth">
         <action
@@ -53,7 +53,7 @@
 
     <fragment
         android:id="@+id/navigation_metric"
-        android:name="com.velkonost.upgrade.ui.metric.MetricFragment"
+        android:name="ru.get.better.ui.metric.MetricFragment"
         android:label="MetricFragment"
         app:enterAnim="@animator/right_in"
         app:exitAnim="@animator/right_out"
@@ -63,7 +63,7 @@
 
     <fragment
         android:id="@+id/navigation_welcome"
-        android:name="com.velkonost.upgrade.ui.welcome.WelcomeFragment"
+        android:name="ru.get.better.ui.welcome.WelcomeFragment"
         android:label="WelcomeFragment"
         tools:layout="@layout/fragment_welcome">
         <action
@@ -77,7 +77,7 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.velkonost.upgrade.ui.settings.SettingsFragment"
+        android:name="ru.get.better.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
         app:enterAnim="@animator/right_in"
         app:exitAnim="@animator/right_out"
@@ -91,7 +91,7 @@
 
     <fragment
         android:id="@+id/navigation_achievements"
-        android:name="com.velkonost.upgrade.ui.achievements.AchievementsFragment"
+        android:name="ru.get.better.ui.achievements.AchievementsFragment"
         android:label="AchievementsFragment"
         app:enterAnim="@animator/right_in"
         app:exitAnim="@animator/right_out"
@@ -101,7 +101,7 @@
 
     <fragment
         android:id="@+id/navigation_diary"
-        android:name="com.velkonost.upgrade.ui.diary.DiaryFragment"
+        android:name="ru.get.better.ui.diary.DiaryFragment"
         android:label="DiaryFragment"
         app:enterAnim="@animator/right_in"
         app:exitAnim="@animator/right_out"

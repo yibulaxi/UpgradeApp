@@ -7,35 +7,36 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.ui.auth.AuthViewModel" />
+            type="ru.get.better.ui.auth.AuthViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.auth.AuthFragment.Handler" />
+            type="ru.get.better.ui.auth.AuthFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:background="@color/colorTgPrimaryDark"
+        android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/signInBlock"
-            android:visibility="gone"
-            android:alpha="0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:alpha="0"
             android:background="@color/colorWhite"
             android:backgroundTint="@color/colorTgPrimary"
             android:elevation="16dp"
+            android:visibility="gone"
             app:cardCornerRadius="12dp"
-            android:layout_marginBottom="16dp"
             app:cardUseCompatPadding="false"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -43,30 +44,30 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/emailTitle"
                     style="@style/Text12.Light"
-                    android:text="Email"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/colorTgText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Email"
+                    android:textColor="@color/colorTgText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/email"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:layout_marginHorizontal="16dp"
                     android:hint="test@upgrade.ru"
+                    android:inputType="textEmailAddress"
                     android:letterSpacing="0.1"
                     android:lines="2"
-                    android:inputType="textEmailAddress"
-                    android:padding="12dp"
                     android:maxLength="30"
                     android:maxLines="1"
+                    android:padding="12dp"
                     android:textColor="@color/colorTgText"
                     android:textColorHint="@color/colorLightGray"
                     app:layout_constraintTop_toBottomOf="@id/emailTitle" />
@@ -74,51 +75,51 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/passwordTitle"
                     style="@style/Text12.Light"
-                    android:text="Password"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/email"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/colorTgText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Password"
+                    android:textColor="@color/colorTgText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/password"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
                     android:hint="********"
-                    android:letterSpacing="0.1"
-                    android:layout_marginHorizontal="16dp"
-                    android:lines="2"
                     android:inputType="textPassword"
-                    android:padding="12dp"
+                    android:letterSpacing="0.1"
+                    android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
+                    android:padding="12dp"
                     android:textColor="@color/colorTgText"
                     android:textColorHint="@color/colorLightGray"
                     app:layout_constraintTop_toBottomOf="@id/passwordTitle" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/signInButton"
-                        style="@style/Text14.Light"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="@{handler::signInClicked}"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:background="@color/colorTgWhite"
-                        android:textColor="@color/colorTgPrimary"
-                        android:text="Войти"
-                        android:paddingVertical="8dp"
-                        android:gravity="center"
-                        android:layout_marginTop="36dp"
-                        app:layout_constraintTop_toBottomOf="@id/password"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/signInButton"
+                    style="@style/Text14.Light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="36dp"
+                    android:background="@color/colorTgWhite"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:onClick="@{handler::signInClicked}"
+                    android:paddingVertical="8dp"
+                    android:text="Войти"
+                    android:textColor="@color/colorTgPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/password" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -128,16 +129,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:alpha="0"
             android:background="@color/colorWhite"
             android:backgroundTint="@color/colorTgPrimary"
             android:elevation="16dp"
-            app:cardCornerRadius="12dp"
-            android:layout_marginBottom="16dp"
-            app:cardUseCompatPadding="false"
-            android:alpha="0"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:cardCornerRadius="12dp"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -145,30 +147,30 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/emailTitleSignUp"
                     style="@style/Text12.Light"
-                    android:text="Email"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/colorTgText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Email"
+                    android:textColor="@color/colorTgText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/emailSignUp"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:layout_marginHorizontal="16dp"
                     android:hint="test@upgrade.ru"
+                    android:inputType="textEmailAddress"
                     android:letterSpacing="0.1"
                     android:lines="2"
-                    android:inputType="textEmailAddress"
-                    android:padding="12dp"
                     android:maxLength="30"
                     android:maxLines="1"
+                    android:padding="12dp"
                     android:textColor="@color/colorTgText"
                     android:textColorHint="@color/colorLightGray"
                     app:layout_constraintTop_toBottomOf="@id/emailTitleSignUp" />
@@ -176,30 +178,30 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/passwordTitleSignUp"
                     style="@style/Text12.Light"
-                    android:text="Password"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/emailSignUp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/colorTgText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Password"
+                    android:textColor="@color/colorTgText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emailSignUp" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/passwordSignUp"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
                     android:hint="********"
-                    android:letterSpacing="0.1"
-                    android:layout_marginHorizontal="16dp"
-                    android:lines="2"
                     android:inputType="textPassword"
-                    android:padding="12dp"
+                    android:letterSpacing="0.1"
+                    android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
+                    android:padding="12dp"
                     android:textColor="@color/colorTgText"
                     android:textColorHint="@color/colorLightGray"
                     app:layout_constraintTop_toBottomOf="@id/passwordTitleSignUp" />
@@ -207,30 +209,30 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/passwordRepeatTitleSignUp"
                     style="@style/Text12.Light"
-                    android:text="Repeat password"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/passwordSignUp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/colorTgText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Repeat password"
+                    android:textColor="@color/colorTgText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/passwordSignUp" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/passwordRepeatSignUp"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
                     android:hint="********"
-                    android:letterSpacing="0.1"
-                    android:layout_marginHorizontal="16dp"
-                    android:lines="2"
                     android:inputType="textPassword"
-                    android:padding="12dp"
+                    android:letterSpacing="0.1"
+                    android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
+                    android:padding="12dp"
                     android:textColor="@color/colorTgText"
                     android:textColorHint="@color/colorLightGray"
                     app:layout_constraintTop_toBottomOf="@id/passwordRepeatTitleSignUp" />
@@ -238,79 +240,79 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/signUpButton"
                     style="@style/Text14.Light"
-                    android:onClick="@{handler::signUpClicked}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="36dp"
+                    android:background="@color/colorTgWhite"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
-                    android:background="@color/colorTgWhite"
-                    android:textColor="@color/colorTgPrimary"
-                    android:text="Зарегистрироваться"
-                    android:paddingVertical="8dp"
                     android:gravity="center"
-                    android:layout_marginTop="36dp"
-                    app:layout_constraintTop_toBottomOf="@id/passwordRepeatSignUp"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:onClick="@{handler::signUpClicked}"
+                    android:paddingVertical="8dp"
+                    android:text="Зарегистрироваться"
+                    android:textColor="@color/colorTgPrimary"
+                    app:layout_constraintTop_toBottomOf="@id/passwordRepeatSignUp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/signIn"
-            android:onClick="@{handler::openSignInBlock}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorWhite"
             android:backgroundTint="@color/colorTgPrimary"
-            android:elevation="8dp"
             android:clickable="true"
+            android:elevation="8dp"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{handler::openSignInBlock}"
             app:cardCornerRadius="12dp"
-            android:layout_marginBottom="16dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toTopOf="@id/signUp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text14.Light"
-                android:layout_margin="16dp"
-                android:textColor="@color/colorTgWhite"
-                android:text="Войти"
-                android:gravity="center"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="Войти"
+                android:textColor="@color/colorTgWhite" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/signUp"
-            android:onClick="@{handler::openSignUpBlock}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorWhite"
             android:backgroundTint="@color/colorTgPrimary"
-            android:elevation="8dp"
             android:clickable="true"
+            android:elevation="8dp"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{handler::openSignUpBlock}"
             app:cardCornerRadius="12dp"
-            android:layout_marginBottom="16dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text14.Light"
-                android:layout_margin="16dp"
-                android:textColor="@color/colorTgWhite"
-                android:text="Зарегистрироваться"
-                android:gravity="center"
-
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+
+                android:gravity="center"
+                android:text="Зарегистрироваться"
+                android:textColor="@color/colorTgWhite" />
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

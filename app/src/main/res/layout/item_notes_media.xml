@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.velkonost.upgrade.model.Media" />
+            type="ru.get.better.model.Media" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.diary.adapter.NotesMediaViewHolder.Handler" />
+            type="ru.get.better.ui.diary.adapter.NotesMediaViewHolder.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,14 +31,13 @@
             android:clickable="true"
             android:fitsSystemWindows="true"
             android:focusable="true"
-            android:scaleType="centerCrop"
             android:foreground="?attr/selectableItemBackground"
             android:maxWidth="300dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/roundedCorners"
-            />
+            app:shapeAppearanceOverlay="@style/roundedCorners" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

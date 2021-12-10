@@ -6,7 +6,7 @@
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.diary.adapter.viewpager.HabitsRealizationViewHolder.Handler" />
+            type="ru.get.better.ui.diary.adapter.viewpager.HabitsRealizationViewHolder.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,24 +17,24 @@
             android:id="@+id/cardView"
             android:layout_width="120dp"
             android:layout_height="30dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="6dp"
-            app:cardCornerRadius="90dp"
+            android:backgroundTint="@color/colorTgGray"
             android:clickable="true"
+            android:elevation="6dp"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:elevation="6dp"
-            android:backgroundTint="@color/colorTgGray">
+            app:cardCornerRadius="90dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text"
                 style="@style/Text12.Light"
-                android:textColor="@color/colorTgWhite"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorTgWhite" />
 
         </com.google.android.material.card.MaterialCardView>
 

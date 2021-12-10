@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.velkonost.upgrade.model.Media" />
+            type="ru.get.better.model.Media" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.activity.main.adapter.AddPostMediaViewHolder.Handler" />
+            type="ru.get.better.ui.activity.main.adapter.AddPostMediaViewHolder.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,12 +26,12 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
             android:clickable="true"
             android:fitsSystemWindows="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:maxWidth="200dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

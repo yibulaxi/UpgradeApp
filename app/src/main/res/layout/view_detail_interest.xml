@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.ui.welcome.WelcomeViewModel" />
+            type="ru.get.better.ui.welcome.WelcomeViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.activity.main.MainActivity.Handler" />
+            type="ru.get.better.ui.activity.main.MainActivity.Handler" />
     </data>
 
 
@@ -66,10 +66,10 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/amount"
                 style="@style/Text24.Medium"
-                android:textColor="@color/colorTgWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/colorTgWhite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
@@ -99,20 +99,20 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/startValue"
                 style="@style/Text14.Light"
-                android:textColor="@color/colorTgText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:textColor="@color/colorTgText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/notesAmount" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/currentValue"
                 style="@style/Text14.Light"
-                android:textColor="@color/colorTgText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:textColor="@color/colorTgText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/startValue" />
 
@@ -121,16 +121,16 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="6dp"
+                android:backgroundTint="@color/colorTgPrimary"
+                android:clickable="true"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:dividerHeight="0.0px"
-                android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:innerRadius="0dp"
                 app:cardCornerRadius="80dp"
                 app:cardPreventCornerOverlap="false"
-                android:backgroundTint="@color/colorTgPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 

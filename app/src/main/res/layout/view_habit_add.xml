@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.ui.welcome.WelcomeViewModel" />
+            type="ru.get.better.ui.welcome.WelcomeViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.activity.main.MainActivity.Handler" />
+            type="ru.get.better.ui.activity.main.MainActivity.Handler" />
 
         <variable
             name="noteId"
@@ -68,7 +68,7 @@
                 android:textColor="@color/colorTgWhite"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.velkonost.upgrade.ui.view.CustomWheelPickerView
+            <ru.get.better.ui.view.CustomWheelPickerView
                 android:id="@+id/icon"
                 android:layout_width="120dp"
                 android:layout_height="200dp"
@@ -137,30 +137,28 @@
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
-                    android:gravity="center"
                     android:layout_gravity="center"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
                     android:lines="1"
                     android:text="Ежедневно"
-                    android:textColor="@color/colorTgWhite"
-                    />
+                    android:textColor="@color/colorTgWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/weeklyPoint"
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
-                    android:gravity="center"
                     android:layout_gravity="center"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
                     android:lines="1"
                     android:text="Еженедельно"
-                    android:textColor="@color/colorTgText"
-                    />
+                    android:textColor="@color/colorTgText" />
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
             <androidx.appcompat.widget.AppCompatTextView

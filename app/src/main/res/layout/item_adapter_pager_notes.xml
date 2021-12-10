@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.velkonost.upgrade.model.Interest" />
+            type="ru.get.better.model.Interest" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.diary.adapter.viewpager.NotesPagerViewHolder.Handler" />
+            type="ru.get.better.ui.diary.adapter.viewpager.NotesPagerViewHolder.Handler" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -112,59 +112,61 @@
 
                     <TextView
                         android:id="@+id/wasteTime"
+                        style="@style/Text12.Light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Text12.Light"
-                        android:visibility="gone"
                         android:layout_gravity="center"
                         android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_waste_time"
                         android:gravity="end"
                         android:letterSpacing="0.1"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="8dp"
-                        android:background="@drawable/bg_waste_time"
                         android:textColor="@color/colorTgWhite"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent" />
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/habitsRealizationBlock"
-                        android:layout_marginTop="12dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    <TextView
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:id="@+id/habitsRealizationTitle"
-                        style="@style/Text12.Light"
-                        android:textColor="@color/colorTgText"
-                        android:text="Выполнено"
-                        android:letterSpacing="0.1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp">
 
-                    <TextView
-                        android:id="@+id/habitsRealizationValue"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/habitsRealizationTitle"
-                        style="@style/Text14.Light"
-                        android:text="12 / 66"
-                        android:letterSpacing="0.1"
-                        android:layout_marginStart="12dp"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="6dp"
-                        android:textColor="@color/colorTgWhite"
-                        android:background="@drawable/bg_habits_realization_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/habitsRealizationTitle"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:text="Выполнено"
+                            android:textColor="@color/colorTgText"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/habitsRealizationValue"
+                            style="@style/Text14.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/bg_habits_realization_value"
+                            android:letterSpacing="0.1"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="6dp"
+                            android:text="12 / 66"
+                            android:textColor="@color/colorTgWhite"
+                            app:layout_constraintStart_toEndOf="@id/habitsRealizationTitle"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginTop="12dp"
                         android:id="@+id/habitsRealizationRecycler"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/date"

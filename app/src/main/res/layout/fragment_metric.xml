@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.vm.BaseViewModel" />
+            type="ru.get.better.vm.BaseViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.metric.MetricFragment.Handler" />
+            type="ru.get.better.ui.metric.MetricFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,12 +30,12 @@
 
             <View
                 android:id="@+id/wheelTarget"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="1dp"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.github.mikephil.charting.charts.RadarChart
                 android:id="@+id/radarChart"
@@ -186,10 +186,10 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/diaryAmount"
                             style="@style/Text20.Medium"
-                            android:textColor="@color/colorTgWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0" />
+                            android:text="0"
+                            android:textColor="@color/colorTgWhite" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
@@ -213,10 +213,10 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/averageAmount"
                             style="@style/Text20.Medium"
-                            android:textColor="@color/colorTgWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0" />
+                            android:text="0"
+                            android:textColor="@color/colorTgWhite" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
@@ -240,10 +240,10 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/daysAmount"
                             style="@style/Text20.Medium"
-                            android:textColor="@color/colorTgWhite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="27" />
+                            android:text="27"
+                            android:textColor="@color/colorTgWhite" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"

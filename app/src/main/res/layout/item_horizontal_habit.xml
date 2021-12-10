@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.velkonost.upgrade.model.Interest" />
+            type="ru.get.better.model.Interest" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.diary.adapter.habits.HabitsViewHolder.Handler" />
+            type="ru.get.better.ui.diary.adapter.habits.HabitsViewHolder.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,9 +41,9 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/icon"
-                    android:layout_margin="12dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_margin="12dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -57,17 +57,17 @@
 
         <TextView
             android:id="@+id/title"
-            android:text="3284913765987 32456"
             style="@style/Text10.Light"
-            android:maxLines="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="2"
+            android:text="3284913765987 32456"
             android:textColor="@color/colorTgText"
-            app:layout_constraintStart_toStartOf="@id/cardView"
             app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintTop_toBottomOf="@id/cardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintStart_toStartOf="@id/cardView"
+            app:layout_constraintTop_toBottomOf="@id/cardView" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/completeBlock"

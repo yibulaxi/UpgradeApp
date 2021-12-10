@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Upgrade</string>
-    <string name="empty_text">Upgrade</string>
+    <string name="app_name">Get Better</string>
+    <string name="empty_text">Get Better</string>
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
 
     <string name="default_error_message">Произошла ошибка при загрузке данных. Попробуйте позже.</string>
 
-    <string name="welcome_title">Что такое Upgrade?</string>
-    <string name="welcome_short">Что такое Upgrade?</string>
+    <string name="welcome_title">Что такое Get Better?</string>
+    <string name="welcome_short">Что такое Get Better?</string>
     <string name="welcome_description">
         Это приложение, которое поможет тебе определить, какие сферы жизни нужно прокачать, чтобы добиться гармонии.
         \n\nДля начала давай определим твой текущий уровень.
@@ -88,7 +88,7 @@
     Каждый раз, когда ты добалвяешь событие в дневник, ты получаешь или теряешь баллы к текущему уровню. Например, сделал зарядку — плюс 0,1 к здоровью. Закрыл важную сделку — плюс 0,1 к работе. И так далее
 
     <br><br>
-    С каждым днём при должных усилиях колесо будет всё больше выпрямлять свои грани. В этом и смысл Upgrade.
+    С каждым днём при должных усилиях колесо будет всё больше выпрямлять свои грани. В этом и смысл Get Better.
 
     <br><br>
     Не забывай регулярно множить яркие события и не забрасывать сферы, которые требуют внимания.

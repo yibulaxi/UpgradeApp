@@ -6,11 +6,11 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.ui.welcome.WelcomeViewModel" />
+            type="ru.get.better.ui.welcome.WelcomeViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.welcome.WelcomeFragment.Handler" />
+            type="ru.get.better.ui.welcome.WelcomeFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

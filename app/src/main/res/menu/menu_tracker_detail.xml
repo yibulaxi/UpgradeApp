@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_send"
+        android:icon="@drawable/ic_launcher_background"
         android:orderInCategory="1"
         android:title="send"
-        android:icon="@drawable/ic_launcher_background"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
 </menu>

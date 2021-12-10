@@ -6,11 +6,11 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.vm.BaseViewModel" />
+            type="ru.get.better.vm.BaseViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.achievements.AchievementsFragment.Handler" />
+            type="ru.get.better.ui.achievements.AchievementsFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

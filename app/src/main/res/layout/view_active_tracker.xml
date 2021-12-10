@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/trackerContainer"
@@ -11,8 +11,8 @@
         android:layout_marginHorizontal="16dp"
         android:background="@color/colorWhite"
         android:backgroundTint="@color/colorTgPrimary"
-        android:elevation="8dp"
         android:clickable="true"
+        android:elevation="8dp"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="12dp"
@@ -29,8 +29,8 @@
                 android:id="@+id/icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/chill_logo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,100 +40,104 @@
                 style="@style/Text16.Light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
-                android:text="name interest"
+                android:gravity="end"
                 android:letterSpacing="0.1"
+                android:text="name interest"
                 android:textColor="@color/colorTgWhite"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/icon"
-                android:layout_marginStart="12dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:orientation="vertical"
-                android:gravity="end"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/dateTitle"
-                style="@style/Text12.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="начало:"
-                android:letterSpacing="0.1"
-                android:textColor="@color/colorTgText" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dateTitle"
+                    style="@style/Text12.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="end"
+                    android:letterSpacing="0.1"
+                    android:text="начало:"
+                    android:textColor="@color/colorTgText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/trackerDate"
                     style="@style/Text12.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
                     android:layout_marginEnd="16dp"
-                    android:text="17326948:"
+                    android:gravity="end"
                     android:letterSpacing="0.1"
+                    android:text="17326948:"
                     android:textColor="@color/colorTgText" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-            <TextView
-                android:id="@+id/timer"
-                style="@style/Text14.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="40sp"
-                android:text="02:30"
-                android:letterSpacing="0.2"
-                android:textColor="@color/colorTgWhite" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/timer"
+                    style="@style/Text14.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.2"
+                    android:text="02:30"
+                    android:textColor="@color/colorTgWhite"
+                    android:textSize="40sp" />
+
                 <TextView
                     android:id="@+id/trackerTitle"
                     style="@style/Text14.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:text="02:30"
                     android:letterSpacing="0.2"
+                    android:text="02:30"
                     android:textColor="@color/colorTgWhite" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
+                android:background="@drawable/bg_view_active_tracker_btn"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:background="@drawable/bg_view_active_tracker_btn"
+                android:paddingTop="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" >
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/stopTracker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:text="закончить"
-                android:textAllCaps="true"
-                android:letterSpacing="0.3"
-                android:textColor="@color/colorTgWhite"
-                style="@style/Text18.Light"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stopTracker"
+                    style="@style/Text18.Light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.3"
+                    android:text="закончить"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTgWhite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

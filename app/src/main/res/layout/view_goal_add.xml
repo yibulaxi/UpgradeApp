@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.velkonost.upgrade.ui.welcome.WelcomeViewModel" />
+            type="ru.get.better.ui.welcome.WelcomeViewModel" />
 
         <variable
             name="handler"
-            type="com.velkonost.upgrade.ui.activity.main.MainActivity.Handler" />
+            type="ru.get.better.ui.activity.main.MainActivity.Handler" />
 
         <variable
             name="noteId"
@@ -68,7 +68,7 @@
                 android:textColor="@color/colorTgWhite"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.velkonost.upgrade.ui.view.CustomWheelPickerView
+            <ru.get.better.ui.view.CustomWheelPickerView
                 android:id="@+id/icon"
                 android:layout_width="120dp"
                 android:layout_height="200dp"
@@ -87,9 +87,9 @@
                 android:hint="Название цели"
                 android:letterSpacing="0.1"
                 android:lines="2"
-                android:padding="12dp"
                 android:maxLength="30"
                 android:maxLines="1"
+                android:padding="12dp"
                 android:textColor="@color/colorTgText"
                 android:textColorHint="@color/colorLightGray"
                 app:layout_constraintEnd_toEndOf="parent"

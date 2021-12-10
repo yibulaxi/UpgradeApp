@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:focusable="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:focusable="true">
 
     <TextView
         android:id="@+id/title"
-        app:layout_constraintTop_toBottomOf="@id/icArrow"
-        app:layout_constraintStart_toStartOf="parent"
         style="@style/Text14.Light"
-        android:textColor="@color/colorTgWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="48dp"
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
         android:text="Здесь отображены невыполненные на текущий момент привычки.\n\nЗажмите привычку на 3 секнды, чтобы закрыть ее."
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:textColor="@color/colorTgWhite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icArrow" />
 
     <ImageView
         android:id="@+id/icArrow"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:rotation="180"
-        app:tint="@color/colorTgWhite"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="40dp"
         android:layout_marginTop="120dp"
-        android:src="@drawable/ic_target_arrow"/>
+        android:layout_marginEnd="40dp"
+        android:rotation="180"
+        android:src="@drawable/ic_target_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/colorTgWhite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
