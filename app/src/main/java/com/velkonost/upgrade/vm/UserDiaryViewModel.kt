@@ -16,6 +16,7 @@ import com.velkonost.upgrade.rest.UserDiaryFields
 import com.velkonost.upgrade.rest.UserDiaryTable
 import com.velkonost.upgrade.util.SingleLiveEvent
 import com.velkonost.upgrade.util.ext.observeOnce
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.text.SimpleDateFormat
@@ -98,14 +99,12 @@ class UserDiaryViewModel @Inject constructor(
     }
 
     private fun updateDiaryNotes(diaryNotes: ArrayList<DiaryNote>) =
-//        viewModelScope.launch {
         userDiaryRepository.insertOrUpdateList(diaryNotes)
-//        }
-//        diaryNotes.forEach {
-//            viewModelScope.launch {
-//                userDiaryRepository.insertOrUpdate(it)
-//            }
-//        }
+
+    fun resetDiary() =
+        viewModelScope.launch {
+            userDiaryRepository.clear()
+        }
 
     fun getNotes() = userDiaryRepository.getAll()
 

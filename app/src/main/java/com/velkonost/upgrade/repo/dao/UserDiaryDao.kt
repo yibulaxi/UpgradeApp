@@ -22,7 +22,7 @@ interface UserDiaryDao {
     fun getHabits(): LiveData<List<DiaryNote?>>
 
     @Query("DELETE FROM user_diary_table")
-    fun clear()
+    suspend fun clear()
 
     @Query("DELETE FROM user_diary_table WHERE diaryNoteId = :id")
     suspend fun deleteNoteById(id: String): Int

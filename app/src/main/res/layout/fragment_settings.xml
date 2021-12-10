@@ -32,27 +32,29 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/colorTgPrimary"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:backgroundTint="@color/colorTgPrimary"
-            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/title">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/logout"
-            style="@style/Text16.Light"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="6dp"
-            android:gravity="center"
-            android:letterSpacing="0.2"
-            android:onClick="@{handler::onLogoutClicked}"
-            android:text="Выйти"
-            android:textColor="@color/colorTgText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/logout"
+                style="@style/Text16.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:letterSpacing="0.2"
+                android:onClick="@{handler::onLogoutClicked}"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:text="Выйти"
+                android:textColor="@color/colorTgText" />
         </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/userBlock"
             android:layout_width="match_parent"
@@ -61,304 +63,307 @@
             app:cardCornerRadius="12dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintTop_toBottomOf="@id/title">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="6dp"
-            >
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/chill_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/name"
-                style="@style/Text16.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:letterSpacing="0.1"
-                android:text="velkonost@gmail.com"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/icon"
-                app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintTop_toTopOf="@id/icon" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/chill_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/name"
+                    style="@style/Text16.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:letterSpacing="0.1"
+                    android:text="velkonost@gmail.com"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/icon"
+                    app:layout_constraintStart_toEndOf="@id/icon"
+                    app:layout_constraintTop_toTopOf="@id/icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/generalBlock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorTgPrimary"
             android:layout_marginTop="24dp"
+            android:backgroundTint="@color/colorTgPrimary"
             app:cardCornerRadius="12dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintTop_toBottomOf="@id/userBlock">
-        <androidx.constraintlayout.widget.ConstraintLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/pushBlock"
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/pushTitle"
-                    style="@style/Text16.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="Push-уведомления"
-                    android:paddingTop="6dp"
-                    android:textColor="@color/colorWhite"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/pushValue"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="Скоро"
-                    android:paddingBottom="8dp"
-                    android:textColor="@color/colorLightGray"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pushTitle" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/separator1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/colorTgGray"
-                app:layout_constraintTop_toBottomOf="@id/pushBlock" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/difficultyBlock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
-                app:layout_constraintTop_toBottomOf="@id/pushBlock">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/difficultyTitle"
-                    style="@style/Text16.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:paddingTop="6dp"
-                    android:text="Уровень сложности"
-                    android:textColor="@color/colorWhite"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.skydoves.powerspinner.PowerSpinnerView
-                    android:id="@+id/difficultySpinner"
-                    style="@style/Text12.Light"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/pushBlock"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="-10dp"
-                    android:layout_marginEnd="-10dp"
-                    android:layout_marginTop="-10dp"
-                    android:gravity="start|center_vertical"
-                    android:hint="Скоро"
-                    android:letterSpacing="0.1"
-                    android:padding="10dp"
-                    android:textColor="@color/colorLightGray"
-                    android:textColorHint="@color/colorLightGray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/difficultyTitle"
-                    app:spinner_arrow_gravity="end"
-                    app:spinner_divider_color="@color/colorTgGray"
-                    app:spinner_divider_show="false"
-                    app:spinner_divider_size="0.4dp"
-                    app:spinner_item_array="@array/difficulty_values"
-                    app:spinner_popup_animation="fade"
-                    app:spinner_popup_background="@color/colorTgPrimaryDark" />
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="6dp"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/difficultyValue"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/pushTitle"
+                        style="@style/Text16.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:paddingTop="6dp"
+                        android:text="Push-уведомления"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/pushValue"
+                        style="@style/Text12.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:paddingBottom="8dp"
+                        android:text="Скоро"
+                        android:textColor="@color/colorLightGray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pushTitle" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/separator1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/colorTgGray"
+                    app:layout_constraintTop_toBottomOf="@id/pushBlock" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/difficultyBlock"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="Скоро"
-                    android:textColor="@color/colorLightGray"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/difficultyTitle" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/pushBlock">
 
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="10dp"-->
-<!--                android:layout_marginTop="-10dp"-->
-<!--                android:background="@color/colorTgPrimary"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/difficultyBlock" />-->
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/difficultyTitle"
+                        style="@style/Text16.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:paddingTop="6dp"
+                        android:text="Уровень сложности"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.skydoves.powerspinner.PowerSpinnerView
+                        android:id="@+id/difficultySpinner"
+                        style="@style/Text12.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-10dp"
+                        android:layout_marginTop="-10dp"
+                        android:layout_marginEnd="-10dp"
+                        android:gravity="start|center_vertical"
+                        android:hint="Скоро"
+                        android:letterSpacing="0.1"
+                        android:padding="10dp"
+                        android:textColor="@color/colorLightGray"
+                        android:textColorHint="@color/colorLightGray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/difficultyTitle"
+                        app:spinner_arrow_gravity="end"
+                        app:spinner_divider_color="@color/colorTgGray"
+                        app:spinner_divider_show="false"
+                        app:spinner_divider_size="0.4dp"
+                        app:spinner_item_array="@array/difficulty_values"
+                        app:spinner_popup_animation="fade"
+                        app:spinner_popup_background="@color/colorTgPrimaryDark" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/difficultyValue"
+                        style="@style/Text12.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:text="Скоро"
+                        android:textColor="@color/colorLightGray"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/difficultyTitle" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--            <View-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="10dp"-->
+                <!--                android:layout_marginTop="-10dp"-->
+                <!--                android:background="@color/colorTgPrimary"-->
+                <!--                app:layout_constraintTop_toBottomOf="@id/difficultyBlock" />-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorTgPrimary"
             android:layout_marginTop="24dp"
+            android:backgroundTint="@color/colorTgPrimary"
             app:cardCornerRadius="12dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintTop_toBottomOf="@id/generalBlock">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/footerBlock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/versionBlock"
+                android:id="@+id/footerBlock"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/version"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/versionBlock"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="Версия"
-                    android:textColor="@color/colorWhite"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/separator2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/colorTgGray"
-                app:layout_constraintTop_toBottomOf="@id/versionBlock" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/version"
+                        style="@style/Text12.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:text="Версия"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/aboutBlock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{handler::onAboutClicked}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                app:layout_constraintTop_toBottomOf="@id/versionBlock">
+                <View
+                    android:id="@+id/separator2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/colorTgGray"
+                    app:layout_constraintTop_toBottomOf="@id/versionBlock" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/about"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/aboutBlock"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="О приложении"
-                    android:textColor="@color/colorWhite"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{handler::onAboutClicked}"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/versionBlock">
 
-            <View
-                android:id="@+id/separator3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/colorTgGray"
-                app:layout_constraintTop_toBottomOf="@id/aboutBlock" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/about"
+                        style="@style/Text12.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:text="О приложении"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/rateBlock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{handler::onRateBlockClicked}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                app:layout_constraintTop_toBottomOf="@id/aboutBlock">
+                <View
+                    android:id="@+id/separator3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/colorTgGray"
+                    app:layout_constraintTop_toBottomOf="@id/aboutBlock" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/rate"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rateBlock"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="Оценить приложение"
-                    android:textColor="@color/colorWhite"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{handler::onRateBlockClicked}"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/aboutBlock">
 
-            <View
-                android:id="@+id/separator4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/colorTgGray"
-                app:layout_constraintTop_toBottomOf="@id/rateBlock" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/rate"
+                        style="@style/Text12.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:text="Оценить приложение"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/writeBlock"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{handler::onWriteBlockClicked}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                app:layout_constraintTop_toBottomOf="@id/separator4">
+                <View
+                    android:id="@+id/separator4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/colorTgGray"
+                    app:layout_constraintTop_toBottomOf="@id/rateBlock" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/write"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/writeBlock"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="Написать разработчику"
-                    android:textColor="@color/colorWhite"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{handler::onWriteBlockClicked}"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/separator4">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/write"
+                        style="@style/Text12.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        android:text="Написать разработчику"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
         <View
             android:id="@+id/blur"
             android:layout_width="match_parent"

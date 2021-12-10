@@ -62,4 +62,8 @@ class UserDiaryRepository @Inject constructor(
     suspend fun delete(diaryNote: DiaryNote) {
         userDiaryDao.delete(diaryNote)
     }
+
+    suspend fun clear() {
+        userDiaryDao.clear()
+    }
 }

@@ -23,6 +23,10 @@
         <entry key="app/src/main/res/drawable/container_snackbar.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/custom_wheel_highlight_bg.xml" value="0.2703125" />
         <entry key="app/src/main/res/drawable/diary.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_first_value.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_forth_value.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_second_value.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_third_value.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_add_media.xml" value="0.31851851851851853" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2453125" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.26875" />
@@ -48,7 +52,7 @@
         <entry key="app/src/main/res/layout/dialog_alert_add_interest.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_alert_edit_interest.xml" value="0.2598958333333333" />
         <entry key="app/src/main/res/layout/fragment_achievements.xml" value="0.19947916666666668" />
-        <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.3203125" />
         <entry key="app/src/main/res/layout/fragment_metric.xml" value="0.25" />

@@ -336,7 +336,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private fun changeProgressState(isActive: Boolean) {
-        ProgressTask(binding.progress,this, isActive).execute()
+        runOnUiThread {
+            ProgressTask(binding.progress, this, isActive).execute()
+        }
     }
 
     @Subscribe
@@ -773,30 +775,34 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     fun showSuccess(msg: String) {
-        SimpleCustomSnackbar.make(
-            binding.coordinator,
-            msg,
-            Snackbar.LENGTH_SHORT,
-            null,
-            null,
-            null,
-            null,
-            R.drawable.snack_success_gradient,
-            R.drawable.snack_success_gradient
-        )?.show()
+        kotlin.runCatching {
+            SimpleCustomSnackbar.make(
+                binding.coordinator,
+                msg,
+                Snackbar.LENGTH_SHORT,
+                null,
+                null,
+                null,
+                null,
+                R.drawable.snack_success_gradient,
+                R.drawable.snack_success_gradient
+            )?.show()
+        }
     }
 
     fun showFail(msg: String) {
-        SimpleCustomSnackbar.make(
-            binding.coordinator,
-            msg,
-            Snackbar.LENGTH_SHORT,
-            null,
-            null,
-            null,
-            null,
-            R.drawable.snack_warning_gradient,
-        )?.show()
+        kotlin.runCatching {
+            SimpleCustomSnackbar.make(
+                binding.coordinator,
+                msg,
+                Snackbar.LENGTH_SHORT,
+                null,
+                null,
+                null,
+                null,
+                R.drawable.snack_warning_gradient,
+            )?.show()
+        }
     }
 
     inner class Handler

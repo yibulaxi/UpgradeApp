@@ -17,34 +17,67 @@
     <string name="relationship_title">Отношения</string>
     <string name="relationship_short">Взаимоотношения с партнером, любовь</string>
     <string name="relationship_description">На сколько баллов ты бы оценил свои отношения с любимым человеком, близкими людьми внутри семьи?</string>
+    <string name="relationship_first_value">У нас все отлично</string>
+    <string name="relationship_second_value">Бывают разногласия</string>
+    <string name="relationship_third_value">Часто ссоримся</string>
+    <string name="relationship_forth_value">Нет отношений</string>
+
 
     <string name="health_title">Здоровье</string>
     <string name="health_short">Энергия, оздоровление, самочувствие</string>
     <string name="health_description">На сколько баллов ты бы оценил своё самочувствие? Занимаешься ли спортом? Какое у тебя отношение к здоровью?</string>
+    <string name="health_first_value">Все отлично</string>
+    <string name="health_second_value">Стараюсь следить за собой</string>
+    <string name="health_third_value">Изредка занимаюсь спортом</string>
+    <string name="health_forth_value">Не слежу за здоровьем</string>
 
     <string name="environment_title">Окружение</string>
     <string name="environment_short">Дети, родители, родственники, близкие друзья</string>
     <string name="environment_description">На сколько баллов ты бы оценил свои отношения с родителями, детьми, родственниками, близкими друзьями?</string>
+    <string name="environment_first_value">Все отлично</string>
+    <string name="environment_second_value">Поддерживаю хорошие отношения</string>
+    <string name="environment_third_value">У меня мало друзей</string>
+    <string name="environment_forth_value">Практически ни с кем не общаюсь</string>
 
     <string name="finance_title">Финансы</string>
     <string name="finance_short">Доходы, расходы, пассивы, активы</string>
     <string name="finance_description">На сколько баллов ты бы оценил свои доходы, активы? Насколько хорошо ты разбираешься в финансах?</string>
+    <string name="finance_first_value">Все отлично</string>
+    <string name="finance_second_value">Хватает чтобы откладывать</string>
+    <string name="finance_third_value">Иногда бывают трудности</string>
+    <string name="finance_forth_value">Живу от зарплаты до зарплаты</string>
 
     <string name="work_title">Работа</string>
     <string name="work_short">Место работы, профессиональные навыки, карьерный рост</string>
     <string name="work_description">На сколько баллов ты бы оценил своё место работы, профессиональные навыки, карьерный рост?</string>
+    <string name="work_first_value">Все отлично</string>
+    <string name="work_second_value">Есть куда расти</string>
+    <string name="work_third_value">Чувствую, что это не мое</string>
+    <string name="work_forth_value">Ненавижу свою работу</string>
 
     <string name="chill_title">Отдых</string>
     <string name="chill_short">Яркость жизни, общение, путешествия, развлечения, сон</string>
     <string name="chill_description">На сколько баллов ты бы оценил яркость своей жизни, общение, путешествия, развлечения, качество сна?</string>
+    <string name="chill_first_value">Все отлично</string>
+    <string name="chill_second_value">Иногда выгораю, не хватает отдыха</string>
+    <string name="chill_third_value">Редко удается вырваться отдохнуть</string>
+    <string name="chill_forth_value">Моя жизнь однообразна</string>
 
     <string name="creation_title">Творчество</string>
     <string name="creation_short">Реализация потенциала, хобби, личностное развитие</string>
     <string name="creation_description">На сколько баллов ты бы оценил реализацию своего потенциала, занятия хоббби, личностное развитие?</string>
+    <string name="creation_first_value">Все отлично</string>
+    <string name="creation_second_value">Чего-то все равно не хватает</string>
+    <string name="creation_third_value">Сложно должго заниматься чем-то одним</string>
+    <string name="creation_forth_value">Ничем не интересуюсь</string>
 
     <string name="spirit_title">Духовность</string>
     <string name="spirit_short">Эмоции, душевное состояние, медитации</string>
     <string name="spirit_description">На сколько баллов ты бы оценил свои эмоции, душевное состояние? Практикуешь ли медитации?\n\nПосле всех оценок жми "Сохранить"</string>
+    <string name="spirit_first_value">Все отлично</string>
+    <string name="spirit_second_value">Поддерживаю себя в тонусе</string>
+    <string name="spirit_third_value">Часто ловлю отрицательные эмоции</string>
+    <string name="spirit_forth_value">Эмоционально выгорел</string>
 
     <string name="metric_info"><![CDATA[Этот график показывает, какие сферы твоей жизни уже находятся на хорошем уровне, а какие сферы следует прокачать.
 

@@ -1,10 +1,7 @@
 package com.velkonost.upgrade.repo.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.velkonost.upgrade.model.UserSettings
 
 @Dao
@@ -19,7 +16,7 @@ interface UserSettingsDao {
     @Query("DELETE FROM user_settings_table")
     suspend fun clear()
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(userSettings: UserSettings)
 
     @Update

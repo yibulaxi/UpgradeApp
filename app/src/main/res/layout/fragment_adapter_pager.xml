@@ -23,24 +23,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
+            app:layout_constraintGuide_percent="0.55" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
-            style="@style/Text24.SemiBold"
+            style="@style/Text20.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:gravity="start"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorTgWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/description"
-            style="@style/Text16.Light"
+            style="@style/Text14.Light"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -49,43 +49,194 @@
             android:layout_marginBottom="16dp"
             android:gravity="start"
             android:letterSpacing="0.1"
-            android:textColor="@color/colorText"
-            app:layout_constraintBottom_toTopOf="@id/spinner"
+            android:textColor="@color/colorTgText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <com.mcdev.quantitizerlibrary.HorizontalQuantitizer
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="12dp"
-            app:layout_constraintBottom_toTopOf="@id/valueDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/valueDescription"
-            style="@style/Text14.Light"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:letterSpacing="0.1"
-            android:textColor="@color/colorText"
-            app:layout_constraintBottom_toTopOf="@id/lottieAnimationView" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimationView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontalBottomGuideLine"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintBottom_toBottomOf="@id/horizontalBottomGuideLine"
             app:lottie_autoPlay="true"
             app:lottie_loop="true" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/startLottieAnimationView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintBottom_toTopOf="@id/startBtn"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="36dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/firstValue"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="6dp"
+                android:elevation="6dp"
+                android:layout_marginTop="12dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_welcome_first_value">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/firstValueText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Text14.Medium"
+                    android:textColor="@color/colorTgWhite"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:text="Каждый день"/>
+                </FrameLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/secondValue"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="6dp"
+                android:elevation="6dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/colorPrimaryGreen">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_welcome_second_value">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/secondValueText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Text14.Medium"
+                    android:textColor="@color/colorTgWhite"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:text="Каждый день"/>
+                </FrameLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/thirdValue"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="6dp"
+                android:elevation="6dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/colorPrimaryGreen">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_welcome_third_value">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/thirdValueText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Text14.Medium"
+                    android:textColor="@color/colorTgWhite"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:text="Каждый день"/>
+                </FrameLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/forthValue"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="6dp"
+                android:elevation="6dp"
+                android:layout_marginTop="12dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient_welcome_forth_value">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/forthValueText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Text14.Medium"
+                    android:textColor="@color/colorTgWhite"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:text="Каждый день"/>
+                </FrameLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/startBtn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="56dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/snack_neutral_gradient"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_message"
+                style="@style/Text18.Light"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:letterSpacing="0.2"
+                android:text="Начать"
+                android:textColor="@color/colorTgWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

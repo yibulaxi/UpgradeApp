@@ -18,6 +18,7 @@ import com.velkonost.upgrade.navigation.Navigator
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.util.ext.observeOnce
 import com.velkonost.upgrade.vm.BaseViewModel
+import com.velkonost.upgrade.vm.UserDiaryViewModel
 import com.velkonost.upgrade.vm.UserSettingsViewModel
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
@@ -34,6 +35,12 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
     private val userSettingsViewModel: UserSettingsViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(
             UserSettingsViewModel::class.java
+        )
+    }
+
+    private val userDiaryViewModel: UserDiaryViewModel by lazy {
+        ViewModelProviders.of(requireActivity()).get(
+            UserDiaryViewModel::class.java
         )
     }
 
@@ -106,6 +113,7 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
                     App.preferences.uid = ""
 
                     userSettingsViewModel.resetUserSettings()
+                    userDiaryViewModel.resetDiary()
 
                     Navigator.settingsToSplash(this@SettingsFragment)
                 }

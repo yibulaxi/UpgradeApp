@@ -12,9 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.jaeger.library.StatusBarUtil
 import com.velkonost.upgrade.R
 import com.velkonost.upgrade.databinding.FragmentWelcomeBinding
-import com.velkonost.upgrade.event.ChangeNavViewVisibilityEvent
-import com.velkonost.upgrade.event.InitUserInterestsEvent
-import com.velkonost.upgrade.event.SaveInterestsChangeVisibilityEvent
+import com.velkonost.upgrade.event.*
 import com.velkonost.upgrade.model.DefaultInterest
 import com.velkonost.upgrade.ui.base.BaseFragment
 import com.velkonost.upgrade.ui.welcome.adapter.WelcomePagerAdapter
@@ -56,11 +54,28 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
             R.dimen.viewpager_current_item_horizontal_margin
         )
         binding.viewPager.addItemDecoration(itemDecoration)
+        binding.viewPager.isUserInputEnabled = false
     }
 
     @Subscribe
     fun onSaveInterestsChangeVisibilityEvent(e: SaveInterestsChangeVisibilityEvent) {
         binding.saveInterests.isVisible = e.isVisible
+    }
+
+    @Subscribe
+    fun onSwipeViewPagerEvent(e: SwipeViewPagerEvent) {
+        binding.viewPager.currentItem = binding.viewPager.currentItem + 1
+    }
+
+    @Subscribe
+    fun onSaveInterestsClickedEvent(e: SaveInterestsClickedEvent) {
+        EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
+        EventBus.getDefault().post(
+            InitUserInterestsEvent(
+                adapter.getInterests().filter { it !is DefaultInterest.Companion },
+                this@WelcomeFragment
+            )
+        )
     }
 
     inner class Handler {

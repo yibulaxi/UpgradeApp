@@ -91,7 +91,7 @@ class UserInterestsViewModel @Inject constructor(
 
                             userSettingsViewModel.getUserSettings()
                             userDiaryViewModel.getDiary()
-                            getInterests { Navigator.welcomeToMetric(e.f) }
+                            getInterests { Navigator.toMetric(e.f) }
                         }
                     }
             }

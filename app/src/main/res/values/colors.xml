@@ -29,4 +29,7 @@
     <color name="colorTgText">#717a8a</color>
     <color name="colorTgRed">#de6d63</color>
 
+    <color name="colorGreenDark">#298729</color>
+    <color name="colorRedDark">#780707</color>
+
 </resources>

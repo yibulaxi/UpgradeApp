@@ -170,6 +170,8 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 binding.emptyAnim.isVisible = true
 
                 binding.recycler.isVisible = false
+
+                EventBus.getDefault().post(ChangeProgressStateEvent(false))
             } else {
                 binding.emptyText.isVisible = false
                 binding.emptyAnim.isVisible = false
