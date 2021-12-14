@@ -62,8 +62,8 @@ class SimpleCustomSnackbar(
                     }
                 }
                 icon?.let {
-                    customView.imLeft.isVisible = true
-                    customView.imLeft.setImageResource(it)
+                    customView.icon.isVisible = true
+                    customView.icon.setImageResource(it)
                 } ?: run {
                     customView.imLeft.isVisible = false
                 }

@@ -90,7 +90,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     private fun goNext() {
         if (binding.logoText.isAnimationLoaded && allowGoNext) {
             if (App.preferences.uid.isNullOrEmpty()) {
-//                createSignInIntent()
                 Navigator.splashToAuth(this@SplashFragment)
             } else {
                 userSettingsViewModel
@@ -112,24 +111,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             }
         }
     }
-
-//    private fun createSignInIntent() {
-//        val providers = arrayListOf(
-//            AuthUI.IdpConfig.EmailBuilder().build(),
-//            AuthUI.IdpConfig.PhoneBuilder().build(),
-//            AuthUI.IdpConfig.GoogleBuilder().build()
-//        )
-//
-//        val signInIntent = AuthUI.getInstance()
-//            .createSignInIntentBuilder()
-//            .setAvailableProviders(providers)
-//            .setIsSmartLockEnabled(true)
-//            .setLogo(R.drawable.logo)
-//            .setTheme(R.style.AuthUITheme)
-//            .build()
-//
-//        signInLauncher.launch(signInIntent)
-//    }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
@@ -180,8 +161,9 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             Snackbar.LENGTH_SHORT,
             null,
             null,
+            R.drawable.ic_check,
             null,
-            null,
+            R.drawable.snack_success_gradient,
             R.drawable.snack_success_gradient,
         )?.show()
     }
@@ -193,7 +175,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             Snackbar.LENGTH_SHORT,
             null,
             null,
-            null,
+            R.drawable.ic_check,
             null,
             R.drawable.snack_success_gradient,
             R.drawable.snack_success_gradient,
@@ -207,7 +189,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             Snackbar.LENGTH_SHORT,
             null,
             null,
-            null,
+            R.drawable.ic_close,
             null,
             R.drawable.snack_warning_gradient,
             R.drawable.snack_warning_gradient,

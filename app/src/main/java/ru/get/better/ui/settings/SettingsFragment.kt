@@ -58,9 +58,14 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
             .observeOnce(viewLifecycleOwner, {
                 binding.name.text = it!!.login
                 binding.difficultySpinner.selectItemByIndex(it.difficulty!!.toInt())
+                binding.difficultySpinner.setOnSpinnerOutsideTouchListener { view, motionEvent ->
+                    binding.difficultySpinner.dismiss()
+                }
                 allowChangeDifficulty = true
             })
     }
+
+
 
     inner class Handler {
 
@@ -77,7 +82,7 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
         }
 
         fun onRateBlockClicked(v: View) {
-            val uri: Uri = Uri.parse("market://details?id=com.velkonost.upgrade")
+            val uri: Uri = Uri.parse("market://details?id=ru.get.better")
             val goToMarket = Intent(Intent.ACTION_VIEW, uri)
 
             goToMarket.addFlags(
@@ -92,7 +97,7 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=com.velkonost.upgrade")
+                        Uri.parse("http://play.google.com/store/apps/details?id=ru.get.better")
                     )
                 )
             }

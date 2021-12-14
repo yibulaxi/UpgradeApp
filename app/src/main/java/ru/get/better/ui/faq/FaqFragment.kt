@@ -24,6 +24,7 @@ class FaqFragment : BaseFragment<BaseViewModel, FragmentFaqBinding>(
             initFaqs()
         )
         binding.recycler.adapter = faqAdapter
+
     }
 
     private fun initFaqs(): List<Pair<String, String>> {

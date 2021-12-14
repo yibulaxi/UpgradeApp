@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 
 import com.google.android.material.snackbar.ContentViewCallback
@@ -25,6 +26,7 @@ class SimpleCustomSnackbarView @JvmOverloads constructor(
     lateinit var imLeft: ImageView
     lateinit var layRoot: ConstraintLayout
     lateinit var backgroundRoot: View
+    lateinit var icon: AppCompatImageView
 
     init {
         View.inflate(context, R.layout.view_snackbar_simple, this)
@@ -34,6 +36,7 @@ class SimpleCustomSnackbarView @JvmOverloads constructor(
         this.imLeft = findViewById(R.id.im_action_left)
         this.layRoot = findViewById(R.id.snack_constraint)
         this.backgroundRoot = findViewById(R.id.background)
+        this.icon = findViewById(R.id.icon)
     }
 
     override fun animateContentIn(delay: Int, duration: Int) {

@@ -195,7 +195,9 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         with(binding.interestDetailBottomSheet) {
             userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
                 title.text = interest.name ?: getString(interest.nameRes!!)
-                amount.text = interest.currentValue.toString()
+                amount.text =
+                    String.format("%.2f", interest.currentValue)
+                        .replace(".", ",")
 
                 amountMax.isVisible = interest.currentValue == 10f
 
@@ -206,8 +208,11 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                             notes.filter { it.interest!!.interestId == interest.id }.size
 
                 startValue.text =
-                    "Начальное значение - " + interest.startValue
-                currentValue.text = "Текущее значение - " + interest.currentValue
+                    "Начальное значение - " + String.format("%.2f", interest.startValue)
+                        .replace(".", ",")
+                currentValue.text =
+                    "Текущее значение - " + String.format("%.2f", interest.currentValue)
+                        .replace(".", ",")
 
                 edit.setOnClickListener {
                     interestDetailBehavior.state = BottomSheetBehavior.STATE_COLLAPSED

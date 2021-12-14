@@ -772,10 +772,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 Snackbar.LENGTH_SHORT,
                 null,
                 null,
-                null,
+                R.drawable.ic_check,
                 null,
                 R.drawable.snack_success_gradient,
-                R.drawable.snack_success_gradient
+                R.drawable.snack_success_gradient,
             )?.show()
         }
     }
@@ -788,7 +788,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 Snackbar.LENGTH_SHORT,
                 null,
                 null,
-                null,
+                R.drawable.ic_close,
                 null,
                 R.drawable.snack_warning_gradient,
             )?.show()

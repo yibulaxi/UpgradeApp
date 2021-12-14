@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/ic_plus_small.xml" value="0.2234375" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/plus_icon_bg.xml" value="0.2234375" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/ed242d627c9eae0e774462ea49b60811/jetified-ChiliPhotoPicker-0.3.1/res/drawable/ic_picker_cancel.xml" value="0.2708333333333333" />
         <entry key="app/src/main/res/drawable/achievments.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/add_post.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/background_bottom_sheet.xml" value="0.33611111111111114" />
@@ -29,6 +30,7 @@
         <entry key="app/src/main/res/drawable/gradient_welcome_third_value.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_add_media.xml" value="0.31851851851851853" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2453125" />
+        <entry key="app/src/main/res/drawable/ic_close.xml" value="0.2708333333333333" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.26875" />
         <entry key="app/src/main/res/drawable/ic_goal.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_habit.xml" value="0.3687179487179487" />
@@ -47,7 +49,7 @@
         <entry key="app/src/main/res/drawable/tire.xml" value="0.215625" />
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_detail_tracker.xml" value="0.35833333333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="app/src/main/res/layout/custom_wheel_picker_item.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/dialog_alert_add_interest.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_alert_edit_interest.xml" value="0.2598958333333333" />
@@ -89,7 +91,7 @@
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_post_add.xml" value="0.33" />
         <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.380248833592535" />
-        <entry key="app/src/main/res/layout/view_snackbar_simple.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/layout/view_snackbar_simple.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_tracker_add.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32685185185185184" />
         <entry key="app/src/main/res/menu/menu_tracker_detail.xml" value="0.35833333333333334" />

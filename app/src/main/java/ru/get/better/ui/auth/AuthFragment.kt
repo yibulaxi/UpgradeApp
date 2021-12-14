@@ -62,17 +62,11 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
                     selectedAuthType = AuthType.Login
                     userSettingsViewModel.getUserSettings()
 
-                    // Sign in success, update UI with the signed-in user's information
-//                    Log.d(TAG, "signInWithEmail:success")
-//                    updateUI(user)
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("keke", "signInWithEmail:failure", task.exception)
                     Toast.makeText(
                         requireContext(), "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
-//                    updateUI(null)
                 }
             }
     }
@@ -92,7 +86,6 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
                     EventBus.getDefault().post(ShowSuccessEvent(getString(R.string.signup_success)))
                     initNewUserData(user!!.uid, user.email!!.substringBefore("@"))
                 } else {
-                    Log.w("keke", "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         requireContext(), "Authentication failed.",
                         Toast.LENGTH_SHORT
