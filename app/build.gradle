@@ -172,6 +172,11 @@ dependencies {
 //    showcase
     implementation 'com.github.takusemba:spotlight:2.0.5'
 
+//    expandable layout
+    implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
+
+
+
 
 //    room
     def roomVersion = "2.3.0"

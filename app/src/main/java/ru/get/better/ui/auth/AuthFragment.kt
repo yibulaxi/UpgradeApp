@@ -19,6 +19,7 @@ import ru.get.better.event.*
 import ru.get.better.model.UserSettings
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
+import ru.get.better.util.Keyboard
 import ru.get.better.vm.UserSettingsViewModel
 
 class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
@@ -141,10 +142,13 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
                     .post(ShowFailEvent("Укажите email"))
                 binding.password.text.isNullOrEmpty() -> EventBus.getDefault()
                     .post(ShowFailEvent("Укажите пароль"))
-                else -> login(
-                    binding.email.text.toString(),
-                    binding.password.text.toString()
-                )
+                else -> {
+                    Keyboard.hide(requireActivity())
+                    login(
+                        binding.email.text.toString(),
+                        binding.password.text.toString()
+                    )
+                }
             }
         }
 
@@ -160,11 +164,14 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
                     .post(ShowFailEvent("Пароль слишком короткий"))
                 binding.passwordRepeatSignUp.text.isNullOrEmpty() -> EventBus.getDefault()
                     .post(ShowFailEvent("Укажите пароль повторно"))
-                else -> register(
-                    binding.emailSignUp.text.toString(),
-                    binding.passwordSignUp.text.toString(),
-                    binding.passwordRepeatSignUp.text.toString()
-                )
+                else -> {
+                    Keyboard.hide(requireActivity())
+                    register(
+                        binding.emailSignUp.text.toString(),
+                        binding.passwordSignUp.text.toString(),
+                        binding.passwordRepeatSignUp.text.toString()
+                    )
+                }
             }
 
         }

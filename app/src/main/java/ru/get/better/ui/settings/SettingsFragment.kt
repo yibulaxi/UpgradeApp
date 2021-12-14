@@ -64,6 +64,10 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
 
     inner class Handler {
 
+        fun onFaqBlockClicked(v: View) {
+            Navigator.fromSettingsToFaq(this@SettingsFragment)
+        }
+
         fun onWriteBlockClicked(v: View) {
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/velkonost")))
@@ -108,7 +112,12 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
             AuthUI.getInstance()
                 .signOut(requireContext())
                 .addOnCompleteListener {
+
+
                     App.preferences.uid = ""
+                    App.preferences.isDiaryHabitsSpotlightShown = false
+                    App.preferences.isMainAddPostSpotlightShown = false
+                    App.preferences.isMetricWheelSpotlightShown = false
 
                     userSettingsViewModel.resetUserSettings()
                     userDiaryViewModel.resetDiary()

@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @Module
 class UserDiaryRepository @Inject constructor(
-    private val database: UserDatabase,
+    database: UserDatabase,
 ) {
 
     private val userDiaryDao: UserDiaryDao = database.userDiaryDao
@@ -41,7 +41,6 @@ class UserDiaryRepository @Inject constructor(
     fun deleteNoteById(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val i = userDiaryDao.deleteNoteById(id)
-            Log.d("kekeke", i.toString())
         }
     }
 

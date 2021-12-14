@@ -87,6 +87,9 @@
         <action
             android:id="@+id/action_navigation_settings_to_navigation_splash"
             app:destination="@id/navigation_splash" />
+        <action
+            android:id="@+id/action_navigation_settings_to_navigation_faq"
+            app:destination="@id/navigation_faq" />
     </fragment>
 
     <fragment
@@ -108,4 +111,14 @@
         app:popEnterAnim="@animator/left_in"
         app:popExitAnim="@animator/left_out"
         tools:layout="@layout/fragment_diary"></fragment>
+
+    <fragment
+        android:id="@+id/navigation_faq"
+        android:name="ru.get.better.ui.faq.FaqFragment"
+        android:label="FaqFragment"
+        app:enterAnim="@animator/right_in"
+        app:exitAnim="@animator/right_out"
+        app:popEnterAnim="@animator/left_in"
+        app:popExitAnim="@animator/left_out"
+        tools:layout="@layout/fragment_faq"></fragment>
 </navigation>

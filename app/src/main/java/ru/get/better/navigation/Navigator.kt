@@ -80,6 +80,12 @@ object Navigator {
         )
     }
 
+    fun fromSettingsToFaq(f: Fragment) {
+        f.findNavController().navigate(
+            R.id.action_navigation_settings_to_navigation_faq
+        )
+    }
+
     fun toMetric(fNavController: NavController) {
         fNavController.navigate(
             R.id.navigation_metric
