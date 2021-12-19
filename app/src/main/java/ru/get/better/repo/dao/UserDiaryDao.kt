@@ -7,7 +7,10 @@ import ru.get.better.model.DiaryNote
 @Dao
 interface UserDiaryDao {
     @Query("SELECT * FROM user_diary_table")
-    fun getAll(): LiveData<List<DiaryNote>>
+    fun getAllLiveData(): LiveData<List<DiaryNote>>
+
+    @Query("SELECT * FROM user_diary_table")
+    suspend fun getAll(): List<DiaryNote?>
 
     @Query("SELECT * FROM user_diary_table WHERE diaryNoteId = :id")
     fun getById(id: String): DiaryNote?
@@ -35,4 +38,22 @@ interface UserDiaryDao {
 
     @Delete
     suspend fun delete(diaryNote: DiaryNote)
+
+    @Query("SELECT COUNT(1) FROM user_diary_table")
+    suspend fun allNotesAmount(): Int
+
+    @Query("SELECT * FROM user_diary_table WHERE noteType = 2")
+    suspend fun habits(): List<DiaryNote?>
+
+    @Query("SELECT COUNT(1) FROM user_diary_table WHERE noteType = 1")
+    suspend fun notesAmount(): Int
+
+    @Query("SELECT COUNT(1) FROM user_diary_table WHERE noteType = 2")
+    suspend fun habitsAmount(): Int
+
+    @Query("SELECT COUNT(1) FROM user_diary_table WHERE noteType = 3")
+    suspend fun goalsAmount(): Int
+
+    @Query("SELECT COUNT(1) FROM user_diary_table WHERE noteType = 4")
+    suspend fun trackersAmount(): Int
 }

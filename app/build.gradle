@@ -175,6 +175,15 @@ dependencies {
 //    expandable layout
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 
+//  voronoi diagram
+    implementation 'com.github.lriccardo:TimelineView:1.0.4'
+
+    implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
+
+//   round charts
+    implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
+
+
 //    room
     def roomVersion = "2.3.0"
 

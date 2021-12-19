@@ -60,6 +60,18 @@ enum class UserDiaryFields(override val fieldName: String) : TableFields {
     Tags("tags")
 }
 
+enum class UserAchievementsFields(override val fieldName: String) : TableFields {
+    UserId("userId"),
+    UserLvl("userLvl"),
+    UserExp("userExp"),
+    Efficiency("efficiency"),
+    CompletedTasks("completedTasks"),
+    TaskId("taskId"),
+    Datetime("datetime"),
+    CompletedAchievements("completedAchievements"),
+    AchievementId("achievementId")
+}
+
 interface FirestoreDatabaseTable {
     val tableName: String
     val tableFields: HashMap<TableFields, String>
@@ -130,5 +142,21 @@ class UserDiaryTable : FirestoreDatabaseTable {
             UserDiaryFields.DatesCompletionDatetime to UserDiaryFields.DatesCompletionDatetime.fieldName,
             UserDiaryFields.DatesCompletionIsCompleted to UserDiaryFields.DatesCompletionIsCompleted.fieldName,
             UserDiaryFields.Tags to UserDiaryFields.Tags.fieldName,
+        )
+}
+
+class UserAchievementsTable : FirestoreDatabaseTable {
+    override val tableName: String = "user_achievements"
+    override val tableFields: HashMap<TableFields, String> =
+        hashMapOf(
+            UserAchievementsFields.UserId to UserAchievementsFields.UserId.fieldName,
+            UserAchievementsFields.UserLvl to UserAchievementsFields.UserLvl.fieldName,
+            UserAchievementsFields.UserExp to UserAchievementsFields.UserExp.fieldName,
+            UserAchievementsFields.Efficiency to UserAchievementsFields.Efficiency.fieldName,
+            UserAchievementsFields.CompletedTasks to UserAchievementsFields.CompletedTasks.fieldName,
+            UserAchievementsFields.CompletedAchievements to UserAchievementsFields.CompletedAchievements.fieldName,
+            UserAchievementsFields.TaskId to UserAchievementsFields.TaskId.fieldName,
+            UserAchievementsFields.AchievementId to UserAchievementsFields.AchievementId.fieldName,
+            UserAchievementsFields.Datetime to UserAchievementsFields.Datetime.fieldName,
         )
 }

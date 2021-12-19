@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        style="@style/Text16.Light"
+        android:letterSpacing="0.2"
+        android:gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/colorTgWhite"
+        android:text="Ожидайте в следующем обновлении!"/>
+
+</RelativeLayout>

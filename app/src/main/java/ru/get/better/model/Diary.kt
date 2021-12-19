@@ -143,11 +143,11 @@ class DatesCompletionConverters {
         Gson().fromJson(json, object : TypeToken<ArrayList<DiaryNoteDatesCompletion>>() {}.type)
 }
 
-fun List<DiaryNote>.getHabitsRealization(): List<DiaryNote> {
+fun List<DiaryNote?>.getHabitsRealization(): List<DiaryNote> {
     val habitsRealization = arrayListOf<DiaryNote>()
     forEach { habit ->
         val datesCompletion =
-            habit.datesCompletion?.filter { it.datesCompletionIsCompleted == true }
+            habit!!.datesCompletion?.filter { it.datesCompletionIsCompleted == true }
 
         datesCompletion?.forEach { dateCompletion ->
             val date = habit.date

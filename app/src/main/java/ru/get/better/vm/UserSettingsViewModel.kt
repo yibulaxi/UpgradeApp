@@ -29,7 +29,6 @@ class UserSettingsViewModel @Inject constructor(
 //            .format(systemTime).toString()
 //    }
 
-
     val setUserSettingsEvent = SingleLiveEvent<UserSettings>()
 
     private fun setUserSettings(
@@ -87,7 +86,6 @@ class UserSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             userSettingsRepository.clear()
         }
-
 
     internal fun getUserSettings() {
         cloudFirestoreDatabase.collection(UserSettingsTable().tableName)

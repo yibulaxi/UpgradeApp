@@ -6,6 +6,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 import ru.get.better.App
 import ru.get.better.di.scope.AppScope
 import ru.get.better.push.di.ServiceBuilderModule
+import ru.get.better.repo.UserAchievementsRepository
 import ru.get.better.repo.UserDiaryRepository
 import ru.get.better.repo.UserSettingsRepository
 import ru.get.better.repo.databases.UserDatabase
@@ -25,7 +26,8 @@ import ru.get.better.ui.activity.main.ViewModelModule
         FragmentsModule::class,
         UserDatabase::class,
         UserSettingsRepository::class,
-        UserDiaryRepository::class
+        UserDiaryRepository::class,
+        UserAchievementsRepository::class
     ]
 )
 interface AppComponent : AndroidInjector<App>

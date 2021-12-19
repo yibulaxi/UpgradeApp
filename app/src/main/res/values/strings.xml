@@ -119,6 +119,11 @@
         <item>Hardcore</item>
     </string-array>
 
+    <string-array name="achievements_tabs">
+        <item>Задачи</item>
+        <item>Достижения</item>
+    </string-array>
+
     <string name="picker_app_name">Picker</string>
     <string name="picker_gallery">Галерея</string>
     <string name="picker_camera">Камера</string>

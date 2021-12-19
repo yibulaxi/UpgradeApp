@@ -8,21 +8,25 @@ import androidx.room.TypeConverters
 import dagger.Module
 import dagger.Provides
 import ru.get.better.model.*
+import ru.get.better.repo.dao.UserAchievementsDao
 import ru.get.better.repo.dao.UserDiaryDao
 import ru.get.better.repo.dao.UserSettingsDao
 
 @Module
-@Database(entities = [UserSettings::class, DiaryNote::class], version = 20)
+@Database(entities = [UserSettings::class, DiaryNote::class, UserAchievements::class], version = 21)
 @TypeConverters(
     MediaConverters::class,
     DiaryNoteInterestConverters::class,
     DatesCompletionConverters::class,
+    CompletedTasksConverters::class,
+    CompletedAchievementsConverters::class
 //    TagsConverters::class
 )
 abstract class UserDatabase : RoomDatabase() {
 
     abstract val userSettingsDao: UserSettingsDao
     abstract val userDiaryDao: UserDiaryDao
+    abstract val userAchievementsDao: UserAchievementsDao
 
     companion object {
 

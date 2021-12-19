@@ -8,10 +8,7 @@ import ru.get.better.di.scope.ViewModelKey
 import ru.get.better.ui.auth.AuthViewModel
 import ru.get.better.ui.splash.SplashViewModel
 import ru.get.better.ui.welcome.WelcomeViewModel
-import ru.get.better.vm.BaseViewModel
-import ru.get.better.vm.UserDiaryViewModel
-import ru.get.better.vm.UserInterestsViewModel
-import ru.get.better.vm.UserSettingsViewModel
+import ru.get.better.vm.*
 
 @Module
 interface CommonViewModelModule {
@@ -50,5 +47,10 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(UserInterestsViewModel::class)
     fun userInterestsViewModel(m: UserInterestsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserAchievementsViewModel::class)
+    fun userAchievementsViewModel(m: UserAchievementsViewModel): ViewModel
 
 }

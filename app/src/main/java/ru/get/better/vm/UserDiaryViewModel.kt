@@ -30,14 +30,12 @@ class UserDiaryViewModel @Inject constructor(
         EventBus.getDefault().register(this)
     }
 
-    //    var diary = Diary()
     val setDiaryNoteEvent = SingleLiveEvent<Boolean>()
 
     private fun setDiary(
         documentSnapshot: DocumentSnapshot,
         onComplete: () -> Unit
     ) {
-//        diary.notes.clear()
 
 //        try {
         val firestoreDiaryNotes: ArrayList<DiaryNote> = arrayListOf()
@@ -101,7 +99,7 @@ class UserDiaryViewModel @Inject constructor(
             userDiaryRepository.clear()
         }
 
-    fun getNotes() = userDiaryRepository.getAll()
+    fun getNotes() = userDiaryRepository.getAllLiveData()
 
     fun getHabits() = userDiaryRepository.getHabits()
 
@@ -312,9 +310,6 @@ class UserDiaryViewModel @Inject constructor(
         }
         return list
     }
-//        arrayListOf(
-//
-//        )
 
     @Subscribe
     fun onDeleteDiaryNoteEvent(e: DeleteDiaryNoteEvent) {
@@ -322,9 +317,9 @@ class UserDiaryViewModel @Inject constructor(
     }
 }
 
-class DateComparator : Comparator<DiaryNote> {
-    override fun compare(o1: DiaryNote, o2: DiaryNote): Int {
-        return o1.date.toLong().compareTo(o2.date.toLong())
+class DateComparator : Comparator<DiaryNote?> {
+    override fun compare(o1: DiaryNote?, o2: DiaryNote?): Int {
+    return o1!!.date.toLong().compareTo(o2!!.date.toLong())
     }
 }
 

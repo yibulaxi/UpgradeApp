@@ -18,12 +18,14 @@ class UserDiaryRepository @Inject constructor(
 
     private val userDiaryDao: UserDiaryDao = database.userDiaryDao
 
-    fun getAll(): LiveData<List<DiaryNote>> = userDiaryDao.getAll()
+    fun getAllLiveData(): LiveData<List<DiaryNote>> = userDiaryDao.getAllLiveData()
+
+    suspend fun getAll(): List<DiaryNote?> = userDiaryDao.getAll()
 
     fun getById(id: String): DiaryNote? = userDiaryDao.getById(id)
     fun getByIdLiveData(id: String): LiveData<DiaryNote?> = userDiaryDao.getByIdLiveData(id)
 
-    fun insertOrUpdate(diaryNote: DiaryNote) {
+    private fun insertOrUpdate(diaryNote: DiaryNote) {
         CoroutineScope(Dispatchers.IO).launch {
             getById(diaryNote.diaryNoteId).let {
                 if (it == null) insert(diaryNote)
@@ -65,4 +67,66 @@ class UserDiaryRepository @Inject constructor(
     suspend fun clear() {
         userDiaryDao.clear()
     }
+
+     suspend fun checkAchievementEachTypeNote(): Boolean {
+         val isNoteExist = userDiaryDao.notesAmount()
+         Log.d("keke_note", isNoteExist.toString())
+
+         val isGoalExist = userDiaryDao.goalsAmount()
+         Log.d("keke_goal", isGoalExist.toString())
+
+         val isHabitExist = userDiaryDao.habitsAmount()
+         Log.d("keke_habit", isHabitExist.toString())
+
+         val isTrackerExist = userDiaryDao.trackersAmount()
+         Log.d("keke_tracker", isTrackerExist.toString())
+
+          return (isNoteExist != 0)
+                     && (isGoalExist != 0)
+                     && (isHabitExist != 0)
+                     && (isTrackerExist != 0)
+    }
+
+    suspend fun checkAchievement50Notes(): Boolean {
+        Log.d("keke_all_notes", userDiaryDao.allNotesAmount().toString())
+        return userDiaryDao.allNotesAmount() >= 50
+    }
+
+    suspend fun checkAchievement100Notes(): Boolean {
+        return userDiaryDao.allNotesAmount() >= 100
+    }
+
+    suspend fun checkAchievement200Notes(): Boolean {
+        return userDiaryDao.allNotesAmount() >= 200
+    }
+
+    suspend fun checkAchievement1HabitCompleted(): Boolean {
+        return userDiaryDao.habits().any { habit ->
+            habit!!.datesCompletion!!.none { dateCompletion ->
+                dateCompletion.datesCompletionIsCompleted == false
+            }
+        }
+    }
+
+    suspend fun checkAchievement3HabitCompleted(): Boolean {
+        Log.d("keke_all_habits", userDiaryDao.habits().filter { habit ->
+            habit!!.datesCompletion!!.none { dateCompletion ->
+                dateCompletion.datesCompletionIsCompleted == false
+            }
+        }.size.toString() )
+        return userDiaryDao.habits().filter { habit ->
+            habit!!.datesCompletion!!.none { dateCompletion ->
+                dateCompletion.datesCompletionIsCompleted == false
+            }
+        }.size >= 3
+    }
+
+    suspend fun checkAchievement9HabitCompleted(): Boolean {
+        return userDiaryDao.habits().filter { habit ->
+            habit!!.datesCompletion!!.none { dateCompletion ->
+                dateCompletion.datesCompletionIsCompleted == false
+            }
+        }.size >= 9
+    }
+
 }

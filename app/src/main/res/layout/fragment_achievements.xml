@@ -1,12 +1,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="ru.get.better.vm.BaseViewModel" />
+            type="ru.get.better.vm.UserAchievementsViewModel" />
 
         <variable
             name="handler"
@@ -16,20 +15,132 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
+        android:fitsSystemWindows="true">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Text24.Light"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/chartsBlock"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:letterSpacing="0.3"
-            android:text="@string/soon"
-            android:textColor="@color/colorText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.ramijemli.percentagechartview.PercentageChartView
+                    android:id="@+id/expChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="12dp"
+                    app:pcv_animDuration="1800"
+                    app:pcv_textSize="@dimen/text_size_16"
+                    app:pcv_backgroundColor="@color/colorTgGrayDark"
+                    app:pcv_animInterpolator="anticipate_overshoot"
+                    app:pcv_gradientColors="#298729 , #30678d , #1f2f3f"
+                    app:pcv_gradientType="radial"
+                    app:pcv_mode="fill"
+                    app:pcv_orientation="counter_clockwise"
+                    app:pcv_progress="100"
+                    app:pcv_startAngle="90" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text12.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="уровень"
+                    android:textColor="@color/colorTgWhite" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.ramijemli.percentagechartview.PercentageChartView
+                    android:id="@+id/efficiencyChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="12dp"
+                    app:pcv_animDuration="1800"
+                    app:pcv_backgroundColor="@color/colorTgGrayDark"
+                    app:pcv_animInterpolator="anticipate_overshoot"
+                    app:pcv_gradientColors="#298729 , #30678d , #1f2f3f"
+                    app:pcv_gradientType="radial"
+                    app:pcv_textSize="@dimen/text_size_16"
+                    app:pcv_mode="fill"
+                    app:pcv_orientation="counter_clockwise"
+                    app:pcv_progress="100"
+                    app:pcv_startAngle="90" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text12.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="эффективность"
+                    android:textColor="@color/colorTgWhite" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <LinearLayout
+            android:id="@+id/viewPagerBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@id/chartsBlock">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@color/colorTgPrimary">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="18dp"
+                    android:background="@color/colorTgPrimaryDark" />
+
+                <com.gigamole.navigationtabstrip.NavigationTabStrip
+                    android:id="@+id/nts_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="30dp"
+                    app:nts_active_color="@color/colorTgWhite"
+                    app:nts_color="@color/colorTgBlue"
+                    app:nts_corners_radius="3.5dp"
+                    app:nts_factor="0.8"
+                    app:nts_gravity="bottom"
+                    app:nts_inactive_color="@color/colorTgText"
+                    app:nts_titles="@array/achievements_tabs"
+                    app:nts_type="point"
+                    app:nts_weight="7dp" />
+
+            </FrameLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="202dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

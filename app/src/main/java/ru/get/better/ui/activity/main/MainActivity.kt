@@ -53,10 +53,7 @@ import ru.get.better.ui.activity.main.ext.*
 import ru.get.better.ui.base.BaseActivity
 import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.util.ext.observeOnce
-import ru.get.better.vm.BaseViewModel
-import ru.get.better.vm.UserDiaryViewModel
-import ru.get.better.vm.UserInterestsViewModel
-import ru.get.better.vm.UserSettingsViewModel
+import ru.get.better.vm.*
 import java.util.*
 
 
@@ -69,6 +66,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     val userSettingsViewModel: UserSettingsViewModel by viewModels { viewModelFactory }
     val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory }
     val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
+    val userAchievementsViewModel: UserAchievementsViewModel by viewModels { viewModelFactory }
 
     private var navController: NavController? = null
 
