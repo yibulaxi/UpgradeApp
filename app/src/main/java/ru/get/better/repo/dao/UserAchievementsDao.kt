@@ -3,7 +3,6 @@ package ru.get.better.repo.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import ru.get.better.model.UserAchievements
-import ru.get.better.model.UserSettings
 
 @Dao
 interface UserAchievementsDao {

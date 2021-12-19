@@ -1,6 +1,5 @@
 package ru.get.better.ui
 
-import android.provider.Settings
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module

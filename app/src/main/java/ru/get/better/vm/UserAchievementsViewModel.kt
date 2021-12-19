@@ -1,6 +1,5 @@
 package ru.get.better.vm
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
@@ -12,9 +11,6 @@ import ru.get.better.repo.UserAchievementsRepository
 import ru.get.better.repo.UserDiaryRepository
 import ru.get.better.rest.UserAchievementsFields
 import ru.get.better.rest.UserAchievementsTable
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
@@ -150,8 +146,10 @@ class UserAchievementsViewModel @Inject constructor(
         val timeStart: Long = currentDayEnd - 86400000 * 30L
 
         val allNotes = userDiaryRepository.getAll()
-        val notesWithoutHabits = allNotes.filter { it!!.noteType != NoteType.Habit.id && it.date.toLong() >= timeStart }
-        val habits = allNotes.filter { it!!.noteType == NoteType.Habit.id }.getHabitsRealization().filter { it.date.toLong() >= timeStart }
+        val notesWithoutHabits =
+            allNotes.filter { it!!.noteType != NoteType.Habit.id && it.date.toLong() >= timeStart }
+        val habits = allNotes.filter { it!!.noteType == NoteType.Habit.id }.getHabitsRealization()
+            .filter { it.date.toLong() >= timeStart }
 
         notesWithoutHabits.forEach { note ->
             when (note!!.noteType) {
@@ -188,8 +186,7 @@ class UserAchievementsViewModel @Inject constructor(
                 else {
                     if (dayStart == prevDayStart && dayEnd == prevDayEnd) {
 
-                    }
-                    else if (abs(dayStart - prevDayEnd) < 10000) {
+                    } else if (abs(dayStart - prevDayEnd) < 10000) {
                         inRowAmount++
                     } else {
                         inRowAmount = 0

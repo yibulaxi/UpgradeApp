@@ -68,23 +68,23 @@ class UserDiaryRepository @Inject constructor(
         userDiaryDao.clear()
     }
 
-     suspend fun checkAchievementEachTypeNote(): Boolean {
-         val isNoteExist = userDiaryDao.notesAmount()
-         Log.d("keke_note", isNoteExist.toString())
+    suspend fun checkAchievementEachTypeNote(): Boolean {
+        val isNoteExist = userDiaryDao.notesAmount()
+        Log.d("keke_note", isNoteExist.toString())
 
-         val isGoalExist = userDiaryDao.goalsAmount()
-         Log.d("keke_goal", isGoalExist.toString())
+        val isGoalExist = userDiaryDao.goalsAmount()
+        Log.d("keke_goal", isGoalExist.toString())
 
-         val isHabitExist = userDiaryDao.habitsAmount()
-         Log.d("keke_habit", isHabitExist.toString())
+        val isHabitExist = userDiaryDao.habitsAmount()
+        Log.d("keke_habit", isHabitExist.toString())
 
-         val isTrackerExist = userDiaryDao.trackersAmount()
-         Log.d("keke_tracker", isTrackerExist.toString())
+        val isTrackerExist = userDiaryDao.trackersAmount()
+        Log.d("keke_tracker", isTrackerExist.toString())
 
-          return (isNoteExist != 0)
-                     && (isGoalExist != 0)
-                     && (isHabitExist != 0)
-                     && (isTrackerExist != 0)
+        return (isNoteExist != 0)
+                && (isGoalExist != 0)
+                && (isHabitExist != 0)
+                && (isTrackerExist != 0)
     }
 
     suspend fun checkAchievement50Notes(): Boolean {
@@ -113,7 +113,7 @@ class UserDiaryRepository @Inject constructor(
             habit!!.datesCompletion!!.none { dateCompletion ->
                 dateCompletion.datesCompletionIsCompleted == false
             }
-        }.size.toString() )
+        }.size.toString())
         return userDiaryDao.habits().filter { habit ->
             habit!!.datesCompletion!!.none { dateCompletion ->
                 dateCompletion.datesCompletionIsCompleted == false

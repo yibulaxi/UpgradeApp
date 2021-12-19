@@ -1,7 +1,5 @@
 package ru.get.better.model
 
-import android.content.Context
-
 data class Achievement(
     val achievementId: String,
     val datetime: String? = null,

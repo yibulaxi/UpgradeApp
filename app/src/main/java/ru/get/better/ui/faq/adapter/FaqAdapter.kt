@@ -1,26 +1,20 @@
 package ru.get.better.ui.faq.adapter
 
 import android.util.Log
-import net.cachapa.expandablelayout.ExpandableLayout
-
-import android.view.animation.OvershootInterpolator
-
-import android.widget.TextView
-
-import androidx.recyclerview.widget.RecyclerView
-
 import android.view.LayoutInflater
 import android.view.View
-
 import android.view.ViewGroup
-import android.widget.SimpleAdapter
+import android.view.animation.OvershootInterpolator
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import net.cachapa.expandablelayout.ExpandableLayout
 import net.cachapa.expandablelayout.ExpandableLayout.OnExpansionUpdateListener
 import ru.get.better.R
 
- class FaqAdapter(
-     private val recyclerView: RecyclerView,
-     private val faqs: List<Pair<String, String>>
- ): RecyclerView.Adapter<FaqAdapter.ViewHolder>() {
+class FaqAdapter(
+    private val recyclerView: RecyclerView,
+    private val faqs: List<Pair<String, String>>
+) : RecyclerView.Adapter<FaqAdapter.ViewHolder>() {
 
     private var selectedItem = UNSELECTED
 
@@ -42,7 +36,8 @@ import ru.get.better.R
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener, OnExpansionUpdateListener {
 
-        private val expandableLayout: ExpandableLayout = itemView.findViewById(R.id.expandable_layout)
+        private val expandableLayout: ExpandableLayout =
+            itemView.findViewById(R.id.expandable_layout)
         private val expandButton: TextView
         private val text: TextView
 

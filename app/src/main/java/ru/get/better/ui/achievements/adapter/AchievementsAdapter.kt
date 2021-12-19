@@ -4,15 +4,13 @@ import android.view.LayoutInflater
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.lriccardo.timelineview.TimelineAdapter
 import com.lriccardo.timelineview.TimelineView
 import ru.get.better.R
 import ru.get.better.model.Achievement
-import ru.get.better.model.AchievementId
 
-class AchievementsAdapter(var items: List<Achievement>):
+class AchievementsAdapter(var items: List<Achievement>) :
     TimelineAdapter, RecyclerView.Adapter<AchievementsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AchievementsViewHolder {
@@ -55,7 +53,7 @@ class AchievementsAdapter(var items: List<Achievement>):
     }
 
     override fun getLineStyle(position: Int): TimelineView.LineStyle {
-        return when(items[position].isCompleted) {
+        return when (items[position].isCompleted) {
             true -> TimelineView.LineStyle.Normal
             false -> TimelineView.LineStyle.Dashed
         }

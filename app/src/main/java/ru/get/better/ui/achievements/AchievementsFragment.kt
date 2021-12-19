@@ -1,15 +1,10 @@
 package ru.get.better.ui.achievements
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-
-import ru.get.better.databinding.FragmentAchievementsBinding
-import ru.get.better.ui.base.BaseFragment
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-
 import androidx.viewpager.widget.PagerAdapter
 import com.lriccardo.timelineview.TimelineDecorator
 import com.lriccardo.timelineview.TimelineView
@@ -18,12 +13,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.R
+import ru.get.better.databinding.FragmentAchievementsBinding
 import ru.get.better.event.ChangeProgressStateEvent
 import ru.get.better.model.Achievement
 import ru.get.better.ui.achievements.adapter.AchievementsAdapter
+import ru.get.better.ui.base.BaseFragment
 import ru.get.better.util.ext.observeOnView
-import ru.get.better.vm.*
-import kotlin.math.pow
+import ru.get.better.vm.UserAchievementsViewModel
+import ru.get.better.vm.UserInterestsViewModel
 
 
 class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAchievementsBinding>(
@@ -95,7 +92,7 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
                             )
                         )
                         container.addView(view)
-                         view
+                        view
                     }
                 }
             }

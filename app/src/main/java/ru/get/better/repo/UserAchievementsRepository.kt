@@ -1,12 +1,10 @@
 package ru.get.better.repo
 
-import androidx.lifecycle.LiveData
 import dagger.Module
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.get.better.model.UserAchievements
-import ru.get.better.model.UserSettings
 import ru.get.better.repo.dao.UserAchievementsDao
 import ru.get.better.repo.databases.UserDatabase
 import javax.inject.Inject

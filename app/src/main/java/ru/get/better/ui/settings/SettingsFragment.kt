@@ -19,7 +19,6 @@ import ru.get.better.model.AllLogo
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.util.ext.observeOnce
-import ru.get.better.vm.BaseViewModel
 import ru.get.better.vm.SettingsViewModel
 import ru.get.better.vm.UserDiaryViewModel
 import ru.get.better.vm.UserSettingsViewModel

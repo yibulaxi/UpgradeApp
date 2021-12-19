@@ -36,15 +36,15 @@
                     android:layout_height="100dp"
                     android:layout_marginTop="12dp"
                     app:pcv_animDuration="1800"
-                    app:pcv_textSize="@dimen/text_size_16"
-                    app:pcv_backgroundColor="@color/colorTgGrayDark"
                     app:pcv_animInterpolator="anticipate_overshoot"
+                    app:pcv_backgroundColor="@color/colorTgGrayDark"
                     app:pcv_gradientColors="#298729 , #30678d , #1f2f3f"
                     app:pcv_gradientType="radial"
                     app:pcv_mode="fill"
                     app:pcv_orientation="counter_clockwise"
                     app:pcv_progress="100"
-                    app:pcv_startAngle="90" />
+                    app:pcv_startAngle="90"
+                    app:pcv_textSize="@dimen/text_size_16" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text12.Light"
@@ -69,15 +69,15 @@
                     android:layout_height="100dp"
                     android:layout_marginTop="12dp"
                     app:pcv_animDuration="1800"
-                    app:pcv_backgroundColor="@color/colorTgGrayDark"
                     app:pcv_animInterpolator="anticipate_overshoot"
+                    app:pcv_backgroundColor="@color/colorTgGrayDark"
                     app:pcv_gradientColors="#298729 , #30678d , #1f2f3f"
                     app:pcv_gradientType="radial"
-                    app:pcv_textSize="@dimen/text_size_16"
                     app:pcv_mode="fill"
                     app:pcv_orientation="counter_clockwise"
                     app:pcv_progress="100"
-                    app:pcv_startAngle="90" />
+                    app:pcv_startAngle="90"
+                    app:pcv_textSize="@dimen/text_size_16" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text12.Light"
