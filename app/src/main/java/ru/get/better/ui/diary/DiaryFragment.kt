@@ -1,6 +1,7 @@
 package ru.get.better.ui.diary
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
@@ -79,8 +80,10 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
         EventBus.getDefault().post(TryShowSpotlightEvent(SpotlightType.DiaryHabits))
 
-        setupDiary()
-        setupHabitsRealization()
+        view!!.post {
+            setupDiary()
+            setupHabitsRealization()
+        }
 
         viewPagerBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -154,6 +157,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
             val habits = notes.filter { it.noteType == NoteType.Habit.id }.getHabitsRealization()
 
+            Log.d("keke", "step3")
             val allNotes = notesWithoutHabits.plus(habits)
 
 
@@ -286,11 +290,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         val habitsTargetLayout =
             layoutInflater.inflate(R.layout.target_diary_habits, FrameLayout(requireContext()))
         val habitsTarget = com.takusemba.spotlight.Target.Builder()
-            .setAnchor(binding.horizontalRecycler)
+            .setAnchor(binding.habitsSpotlightView)
             .setShape(
                 RoundedRectangle(
-                    binding.horizontalRecycler.height.toFloat(),
-                    binding.horizontalRecycler.width.toFloat() - 25f,
+                    binding.habitsSpotlightView.height.toFloat(),
+                    binding.habitsSpotlightView.width.toFloat() - 25f,
                     16f
                 )
             )

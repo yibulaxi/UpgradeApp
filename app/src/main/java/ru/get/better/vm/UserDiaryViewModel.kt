@@ -1,5 +1,6 @@
 package ru.get.better.vm
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
@@ -167,15 +168,7 @@ class UserDiaryViewModel @Inject constructor(
         note: DiaryNote
     ) {
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
-//        userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
-//            .observeForever { userSettings ->
-//                val amount: Float = when (note.changeOfPoints) {
-//                    0 -> userSettings!!.getDifficultyValue()
-//                    1 -> 0f
-//                    else -> -userSettings!!.getDifficultyValue()
-//                }
 
-//                val amount = 0f
         val data = hashMapOf(
             note.diaryNoteId to note.toFirestore()
         )
@@ -196,6 +189,7 @@ class UserDiaryViewModel @Inject constructor(
                             else -> -userSettings!!.getDifficultyValue()
                         }
 
+                        Log.d("keke", "step1")
                         if (note.noteType == NoteType.Habit.id
                             && note.datesCompletion!!.none { it.datesCompletionIsCompleted == true }
                         )

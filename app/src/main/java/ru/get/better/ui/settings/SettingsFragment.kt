@@ -8,23 +8,27 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.BuildConfig
 import ru.get.better.databinding.FragmentSettingsBinding
 import ru.get.better.event.UpdateDifficultyEvent
+import ru.get.better.model.AllLogo
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.BaseViewModel
+import ru.get.better.vm.SettingsViewModel
 import ru.get.better.vm.UserDiaryViewModel
 import ru.get.better.vm.UserSettingsViewModel
 import timber.log.Timber
 
 
-class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
+class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding>(
     ru.get.better.R.layout.fragment_settings,
-    BaseViewModel::class,
+    SettingsViewModel::class,
     Handler::class
 ) {
 
@@ -52,6 +56,7 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
                 EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
         }
 
+        binding.icon.setImageResource(AllLogo().getRandomLogo())
         userSettingsViewModel.getUserSettingsById(
             App.preferences.uid!!
         )
@@ -65,6 +70,13 @@ class SettingsFragment : BaseFragment<BaseViewModel, FragmentSettingsBinding>(
             })
     }
 
+    override fun onViewModelReady(viewModel: SettingsViewModel) {
+
+    }
+
+    private fun getUserData() {
+        val user = Firebase.auth.currentUser
+    }
 
 
     inner class Handler {

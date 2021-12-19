@@ -1,5 +1,6 @@
 package ru.get.better.ui
 
+import android.provider.Settings
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
@@ -52,5 +53,10 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(UserAchievementsViewModel::class)
     fun userAchievementsViewModel(m: UserAchievementsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    fun settingsViewModel(m: SettingsViewModel): ViewModel
 
 }

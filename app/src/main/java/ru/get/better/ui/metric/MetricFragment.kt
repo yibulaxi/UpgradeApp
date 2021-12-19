@@ -98,7 +98,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         setupList()
         setupMetricControlGroup()
 
-
         interestDetailBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {

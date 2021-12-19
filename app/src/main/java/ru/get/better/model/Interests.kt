@@ -253,13 +253,15 @@ class AllLogo(
     fun getIndexById(id: String): Int {
         var index = 0
 
-        for (i in 0..logoList.size - 1) {
+        for (i in logoList.indices) {
             if (logoList[i].id == id)
                 index = i
         }
 
         return index
     }
+
+    fun getRandomLogo() = logoList.random().resId
 
     fun getLogoById(id: String) =
         logoList.firstOrNull { it.id == id }!!.resId

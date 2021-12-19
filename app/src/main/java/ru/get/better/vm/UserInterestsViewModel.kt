@@ -1,5 +1,6 @@
 package ru.get.better.vm
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
@@ -213,6 +214,7 @@ class UserInterestsViewModel @Inject constructor(
             .get()
             .addOnSuccessListener {
 
+                Log.d("keke", "step2")
                 val interestToUpdate =
                     (it.get(e.interestId) as HashMap<*, *>).toUserCustomInterest()
                 interestToUpdate.currentValue = interestToUpdate.currentValue?.plus(e.amount)
