@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import org.greenrobot.eventbus.EventBus
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemAdapterPagerNotesBinding
 import ru.get.better.event.EditDiaryNoteEvent
@@ -149,7 +150,7 @@ class NotesPagerViewHolder(
             val seconds = (trackerTime / 1000) % 60
 
             binding.wasteTime.text = String.format(
-                "Продолжительность: %02d:%02d:%02d",
+                App.resourcesProvider.getString(R.string.waste_time),
                 hours, minutes, seconds
             )
         } else binding.wasteTime.isVisible = false

@@ -16,7 +16,7 @@
         android:layout_marginTop="48dp"
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
-        android:text="Здесь отображены невыполненные на текущий момент привычки.\n\nЗажмите привычку на 3 секнды, чтобы закрыть ее."
+        android:text="@string/habits_spotlight"
         android:textColor="@color/colorTgWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icArrow" />

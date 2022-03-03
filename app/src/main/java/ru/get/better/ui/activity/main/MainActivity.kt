@@ -55,6 +55,15 @@ import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.*
 import java.util.*
+import android.app.AlarmManager
+
+import ru.get.better.di.AppModule_ContextFactory.context
+
+import android.app.PendingIntent
+import android.content.Context
+
+import android.content.Intent
+import ru.get.better.push.NotificationReceiver
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -127,6 +136,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         subscribePushTopic()
         setupBottomSheets()
+
+        initNotificationReceiver()
     }
 
     var isTrackerTimerRunning = false
@@ -247,6 +258,21 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         return super.dispatchTouchEvent(event)
     }
 
+    private fun initNotificationReceiver() {
+        val notifyIntent = Intent(this, NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            2,
+            notifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (
+                    1000 * 60 * 60 * 24).toLong(), pendingIntent
+        )
+    }
+
     override fun onImagesPicked(photos: ArrayList<Uri>) {
         val media = arrayListOf<Media>()
         photos.map { media.add(Media(it)) }
@@ -353,7 +379,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openGallery()
             } else {
-                showFail("Нет доступа к галерее")
+                showFail(getString(R.string.warning_gallery_disabled))
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -628,7 +654,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         if (e.note.regularity == Regularity.Weekly.id) R.color.colorTgWhite else R.color.colorTgText
                     )
                 )
-
 
                 var selectedIndex = 0
                 for (i in icon.adapter.values.indices) {

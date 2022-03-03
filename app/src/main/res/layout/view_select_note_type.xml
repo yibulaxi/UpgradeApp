@@ -61,7 +61,7 @@
                         android:layout_gravity="center"
                         android:layout_margin="30dp"
                         android:gravity="center"
-                        android:text="Что добавить в \nдневник?"
+                        android:text="@string/what_add_in_diary"
                         android:textColor="@color/colorTgWhite" />
                 </com.google.android.material.card.MaterialCardView>
 
@@ -104,7 +104,7 @@
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Запись"
+                                    android:text="@string/note"
                                     android:textColor="@color/colorTgWhite" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -140,7 +140,7 @@
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Трекер"
+                                    android:text="@string/tracker"
                                     android:textColor="@color/colorTgWhite" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -176,7 +176,7 @@
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Цель"
+                                    android:text="@string/goal"
                                     android:textColor="@color/colorTgWhite" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -213,7 +213,7 @@
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Привычка"
+                                    android:text="@string/habit"
                                     android:textColor="@color/colorTgWhite" />
 
                             </androidx.appcompat.widget.LinearLayoutCompat>

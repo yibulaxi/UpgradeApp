@@ -16,7 +16,7 @@
         android:layout_marginTop="48dp"
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
-        android:text="Это колесо жизни, отображающее твой прогресс. \nТы можешь изменять их, удалять либо добавлять свои."
+        android:text="@string/wheel_spotlight"
         android:textColor="@color/colorTgWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -431,7 +431,7 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                             isActiveNow = true
                         )
                     } else {
-                        showFail("Одновременно может быть активен только 1 трекер")
+                        showFail(getString(R.string.warning_only_1_active_tracker))
                     }
                 }
 
@@ -635,7 +635,7 @@ fun MainActivity.setupAddHabitBottomSheet() {
                 }
                 editAmount.text?.length == 0
                         || editAmount.text.toString().toInt() == 0 -> {
-                    showFail("Укажите кол-во выполнений")
+                    showFail(getString(R.string.warning_edit_repeat_amount))
                 }
                 else -> {
                     setDiaryNote(

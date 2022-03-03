@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="16dp"
         android:gravity="center"
         android:letterSpacing="0.2"
-        android:text="Ожидайте в следующем обновлении!"
+        android:text="@string/next_update"
         android:textColor="@color/colorTgWhite" />
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import ru.get.better.R
@@ -28,6 +29,7 @@ class NotificationHelper(private val mContext: Context) {
         filter: String?,
         section: String?
     ) {
+
         /**Creates an explicit intent for an Activity in your app */
         val resultIntent = Intent(mContext, MainActivity::class.java)
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -44,7 +46,7 @@ class NotificationHelper(private val mContext: Context) {
 
         val resultPendingIntent = PendingIntent.getActivity(
             mContext,
-            0 /* Request code */, resultIntent,
+            2 /* Request code */, resultIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
@@ -64,6 +66,6 @@ class NotificationHelper(private val mContext: Context) {
             mBuilder?.setChannelId(mContext.getString(R.string.default_notification_channel_id))
         }
 //        if (App.preferences.userId != 0)
-//            mNotificationManager?.notify(0 /* Request Code */, mBuilder?.build())
+            mNotificationManager?.notify(2 /* Request Code */, mBuilder?.build())
     }
 }

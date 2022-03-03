@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.greenrobot.eventbus.EventBus
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemListMetricBinding
 import ru.get.better.event.ShowAddInterestDialogEvent
@@ -41,8 +42,8 @@ class MetricListViewHolder(
                 )
             )
 
-            binding.title.text = "Создай новую сферу интересов"
-            binding.description.text = "Подстраивай колесо жизни под себя"
+            binding.title.text = App.resourcesProvider.getString(R.string.create_new_interest_title)
+            binding.description.text = App.resourcesProvider.getString(R.string.create_new_interest_description)
 
             binding.value.isVisible = false
 
@@ -59,7 +60,7 @@ class MetricListViewHolder(
             )
             ImageViewCompat.setImageTintList(binding.icon, null)
 
-            binding.title.text = interest.name ?: context.getString(interest.nameRes!!)
+            binding.title.text = interest.name
 
             binding.description.text = interest.description
 

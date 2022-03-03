@@ -64,7 +64,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:letterSpacing="0.1"
-                android:text="Добавить запись"
+                android:text="@string/add_post"
                 android:textColor="@color/colorTgWhite"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +84,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_edittext"
                 android:gravity="start"
-                android:hint="Например, утренняя зарядка, прочитана глава книги, новое знакомство"
+                android:hint="@string/add_post_example"
                 android:letterSpacing="0.1"
                 android:maxLength="2000"
                 android:padding="12dp"
@@ -245,7 +245,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:letterSpacing="0.2"
-                    android:text="Сохранить"
+                    android:text="@string/save"
                     android:textColor="@color/colorTgWhite"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

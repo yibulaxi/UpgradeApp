@@ -19,7 +19,7 @@
         android:letterSpacing="0.2"
         android:paddingHorizontal="16dp"
         android:paddingVertical="3dp"
-        android:text="Header"
+
         android:textColor="@color/colorTgWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

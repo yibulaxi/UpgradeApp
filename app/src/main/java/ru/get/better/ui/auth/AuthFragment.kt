@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
@@ -63,7 +64,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
 
                 } else {
                     Toast.makeText(
-                        requireContext(), "Authentication failed.",
+                        requireContext(), getString(R.string.authentication_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -72,7 +73,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
 
     private fun register(email: String, password: String, repeatPassword: String) {
         if (password != repeatPassword) {
-            EventBus.getDefault().post(ShowFailEvent("Пароли не совпадают"))
+            EventBus.getDefault().post(ShowFailEvent(getString(R.string.passwords_not_match)))
         }
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -86,7 +87,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
                     initNewUserData(user!!.uid, user.email!!.substringBefore("@"))
                 } else {
                     Toast.makeText(
-                        requireContext(), "Authentication failed.",
+                        requireContext(), getString(R.string.authentication_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -97,11 +98,17 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
         userId: String,
         login: String
     ) {
+
+        val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
+
         EventBus.getDefault()
             .post(
                 InitUserSettingsEvent(
                     userId = userId,
-                    login = login
+                    login = login,
+                    locale =
+                    if (locale == "ru" || locale == "ua" || locale == "kz" || locale == "be" || locale == "uk") "ru"
+                    else "en"
                 )
             )
 
@@ -131,9 +138,9 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
 
             when {
                 binding.email.text.isNullOrEmpty() -> EventBus.getDefault()
-                    .post(ShowFailEvent("Укажите email"))
+                    .post(ShowFailEvent(getString(R.string.entry_email)))
                 binding.password.text.isNullOrEmpty() -> EventBus.getDefault()
-                    .post(ShowFailEvent("Укажите пароль"))
+                    .post(ShowFailEvent(getString(R.string.entry_passwords)))
                 else -> {
                     Keyboard.hide(requireActivity())
                     login(
@@ -149,13 +156,13 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
 
             when {
                 binding.emailSignUp.text.isNullOrEmpty() -> EventBus.getDefault()
-                    .post(ShowFailEvent("Укажите email"))
+                    .post(ShowFailEvent(getString(R.string.entry_email)))
                 binding.passwordSignUp.text.isNullOrEmpty() -> EventBus.getDefault()
-                    .post(ShowFailEvent("Укажите пароль"))
+                    .post(ShowFailEvent(getString(R.string.entry_passwords)))
                 binding.passwordSignUp.text.toString().length < 6 -> EventBus.getDefault()
-                    .post(ShowFailEvent("Пароль слишком короткий"))
+                    .post(ShowFailEvent(getString(R.string.password_too_short)))
                 binding.passwordRepeatSignUp.text.isNullOrEmpty() -> EventBus.getDefault()
-                    .post(ShowFailEvent("Укажите пароль повторно"))
+                    .post(ShowFailEvent(getString(R.string.repeat_password)))
                 else -> {
                     Keyboard.hide(requireActivity())
                     register(

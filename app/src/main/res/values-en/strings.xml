@@ -1,0 +1,336 @@
+<resources>
+    <string name="app_name">Get Better</string>
+    <string name="empty_text">Get Better</string>
+    <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
+
+    <string name="default_error_message">An error occurred while loading data. Try later.</string>
+
+    <string name="welcome_title">What is Get Better?</string>
+    <string name="welcome_short">What is Get Better?</string>
+    <string name="welcome_description">
+        This is an application that will help you determine which areas of your life need to be pumped in order to achieve harmony.
+        \n\nFirstly, let\'s determine your current level.
+        \n\nDo not rush to answer, be honest with yourself.
+        \n\nSwipe right ->
+    </string>
+
+    <string name="relationship_title">Relations</string>
+    <string name="relationship_short">Relationship with partner, love</string>
+    <string name="relationship_description">How many points would you rate your relationship with your loved one, close people, family?</string>
+    <string name="relationship_first_value">Great</string>
+    <string name="relationship_second_value">There are disagreements</string>
+    <string name="relationship_third_value">We often quarrel</string>
+    <string name="relationship_forth_value">No relationship</string>
+
+
+    <string name="health_title">Health</string>
+    <string name="health_short">Energy, health, wellness</string>
+    <string name="health_description">How many points would you rate your well-being? Do you play sports? What is your attitude towards health?</string>
+    <string name="health_first_value">Great</string>
+    <string name="health_second_value">I try to take care of myself</string>
+    <string name="health_third_value">I do sports occasionally</string>
+    <string name="health_forth_value">I don\'t take care of my health</string>
+
+    <string name="environment_title">Environment</string>
+    <string name="environment_short">Children, parents, relatives, close friends</string>
+    <string name="environment_description">How many points would you rate your relationship with parents, children, relatives, close friends?</string>
+    <string name="environment_first_value">Great</string>
+    <string name="environment_second_value">I maintain a good relationship</string>
+    <string name="environment_third_value">I don\'t have many friends</string>
+    <string name="environment_forth_value">I hardly talk to anyone</string>
+
+    <string name="finance_title">Finance</string>
+    <string name="finance_short">Income, expenses, liabilities, assets</string>
+    <string name="finance_description">How many points would you rate your income, assets? How well do you understand finance?</string>
+    <string name="finance_first_value">Great</string>
+    <string name="finance_second_value">Enough to delay</string>
+    <string name="finance_third_value">Sometimes there are difficulties</string>
+    <string name="finance_forth_value">I live paycheck to paycheck</string>
+
+    <string name="work_title">Work</string>
+    <string name="work_short">Place of work, professional skills, career growth</string>
+    <string name="work_description">How many points would you rate your place of work, professional skills, career growth?</string>
+    <string name="work_first_value">Great</string>
+    <string name="work_second_value">There is room to grow</string>
+    <string name="work_third_value">I feel like it\'s not mine</string>
+    <string name="work_forth_value">I hate my job</string>
+
+    <string name="chill_title">Rest</string>
+    <string name="chill_short">The brightness of life, communication, travel, entertainment, sleep</string>
+    <string name="chill_description">How many points would you rate the brightness of your life, communication, travel, entertainment, sleep quality?</string>
+    <string name="chill_first_value">Great</string>
+    <string name="chill_second_value">Sometimes I burn out, I don\'t get enough rest</string>
+    <string name="chill_third_value">Rarely able to escape to rest</string>
+    <string name="chill_forth_value">My life is monotonous</string>
+
+    <string name="creation_title">Creation</string>
+    <string name="creation_short">Realization of potential, hobby, personal development</string>
+    <string name="creation_description">How many points would you rate the realization of your potential, hobbies, personal development?</string>
+    <string name="creation_first_value">Great</string>
+    <string name="creation_second_value">Something is still missing</string>
+    <string name="creation_third_value">It\'s hard to do just one thing</string>
+    <string name="creation_forth_value">I\'m not interested in anything</string>
+
+    <string name="spirit_title">Spirituality</string>
+    <string name="spirit_short">Emotions, state of mind, meditation</string>
+    <string name="spirit_description">How many points would you rate your emotions, state of mind? Do you practice meditation?\n\nAfter all ratings, click "Save"</string>
+    <string name="spirit_first_value">Great</string>
+    <string name="spirit_second_value">I keep myself fit</string>
+    <string name="spirit_third_value">Often I catch negative emotions</string>
+    <string name="spirit_forth_value">Emotionally burnt out</string>
+
+    <string name="metric_info"><![CDATA[This graph shows which areas of your life are already at a good level, and which areas need to be pumped.
+
+        <br/><br/>To make the wheel round, you need to align the values - reduce the importance of one or do something in other areas. Keep regular entries in the diary section. So you can clearly see the results.]]></string>
+
+
+    <string name="diary_info"><![CDATA[
+    Each time you add an event to your diary, you gain or lose points towards your current level. For example, I did exercises - plus 0.1 to health. Closed an important deal - plus 0.1 to work. Etc
+
+    <br><br>
+   Every day, with due effort, the wheel will straighten its edges more and more. That\'s the point of Get Better.
+
+    <br><br>
+    Do not forget to regularly multiply bright events and do not neglect areas that require attention.
+]]></string>
+
+    <string name="amount_max">Incredible!\nThe sphere has been worked out to the maximum.\nNow you can pay attention to other spheres.</string>
+
+    <string name="delete">Delete</string>
+
+    <string-array name="interest_values">
+        <item>I do not have it</item>
+        <item>Terrible</item>
+        <item>Badly</item>
+        <item>So-so</item>
+        <item>Below the average</item>
+        <item>Medium</item>
+        <item>Above the average</item>
+        <item>Not bad</item>
+        <item>Good</item>
+        <item>Great</item>
+        <item>Ideally</item>
+    </string-array>
+
+    <string-array name="difficulty_values">
+        <item>Low</item>
+        <item>Normal</item>
+        <item>High</item>
+        <item>Hardcore</item>
+    </string-array>
+
+    <string-array name="achievements_tabs">
+        <item>Tasks</item>
+        <item>Achievements</item>
+    </string-array>
+
+    <string name="picker_app_name">Picker</string>
+    <string name="picker_gallery">Gallery</string>
+    <string name="picker_camera">Camera</string>
+    <string name="picker_select">Select</string>
+    <string name="picker_media_permissions_hint">Grant permission to\access the gallery</string>
+    <string name="picker_empty_media">Gallery is empty</string>
+    <string name="picker_allow">Allow</string>
+    <string name="picker_select_photo">Select photo</string>
+    <string name="picker_no_camera">Camera unavailable</string>
+    <plurals name="picker_selected_count">
+        <item quantity="one">%d photo selected</item>
+        <item quantity="other">%d photos selected</item>
+    </plurals>
+    <plurals name="picker_max_selection_reached">
+        <item quantity="one">You can choose only %d photo</item>
+        <item quantity="other">You can choose only %d photo</item>
+    </plurals>
+
+    <string name="enter_note_text">Enter the text of the entry</string>
+    <string name="go_auth">Log in first</string>
+    <string name="note_created">Note added</string>
+    <string name="error_happened">An error has occurred</string>
+    <string name="signup_success">You have successfully registered</string>
+    <string name="signin_success">You have successfully logged in</string>
+    <string name="signin_error">Authorisation Error</string>
+    <string name="soon">Soon</string>
+    <string name="diary">Diary</string>
+    <string name="diary_empty_text">This is where your diary posts will be. Each of them will pump your wheel of life. Try adding the first entry</string>
+    <string name="wheel">Wheel</string>
+    <string name="list">List</string>
+    <string name="current_wheel">Current</string>
+    <string name="start_wheel">Primary</string>
+
+    <string-array name="faq_title">
+        <item>
+            Why should I value my areas of life?
+        </item>
+        <item>
+            How to choose a goal?
+        </item>
+        <item>
+            How to make a recurring task?
+        </item>
+        <item>
+            Where to begin?
+        </item>
+        <item>
+            How does post evaluation work?
+        </item>
+        <item>
+            What is 10 out of 10?
+        </item>
+        <item>
+            What to expect in the future?
+        </item>
+
+    </string-array>
+
+    <string-array name="faq_text">
+        <item>
+           Here you get 3 strategic advantages over yesterday\'s self:\n\n
+             1. You roughly imagined for yourself what 10 out of 10 is in a particular area
+             \n\n2. You realized that there is room to develop and grow, what to improve right now
+             \n\n3. You saw which areas you lag behind the rest, and this does not allow you to be completely perfect
+        </item>
+        <item>
+           Remember what 10 out of 10 is for the area you are setting a goal for.
+            \n\nNow visualize it. What can you do today to make this picture/feeling a little closer to you in reality?
+            \n\nIf you dream of perfect health, your goal could be "run a marathon in 2022", or anything that brings you closer to your desired 10 out of 10.
+            \n\nWe recommend that you move towards your goal in stages, like "run 5 km in 30 minutes", then "run 10 km in 55 minutes". So you will have a feeling of victory much more often, and this is an insanely important component of moving forward.
+        </item>
+        <item>
+            To do this, you can select the date of the first execution and select the record type "habit", specifying the repetition interval.
+             \n\nWhen a "habit" is completed, it will reappear on the desired date.
+             \n\nWe already know how to make this more convenient and will include it in future updates, including the ability to select days of the week.
+        </item>
+        <item>
+          Start by rating all areas of your life from 1 to 10 on a satisfaction scale.
+             \n\n1 means you are very dissatisfied, it couldn\'t get any worse, and 10 is an ideal, almost unattainable, but still possible.
+             \n\nYou can also create your own spheres of life by customizing the wheel for yourself.
+        </item>
+        <item>
+           When creating or editing a post, you may notice a slider.
+             Here you can choose whether the recording improves, worsens or does not affect the performance of your area of life.
+             \n\nThe indicator changes according to the selected difficulty level in the settings.
+        </item>
+        <item>
+          Let\'s take us as an example: for us, 10 out of 10 in Career is "Get Better use more, Facebook feed for an hour, we have a huge office in the heart of Silicon Valley, we have helped more than 1 billion people live the life they want, and launched powerful wave.
+             \n\nThis is not a goal, give yourself free rein, this is your beacon, you can dream big here. At the same time, 10 out of 10 in the Friends realm might sound like "2 real friends we see every week."
+             \n\nYou get the idea, 10 depends on your ambitions in this area, and individually for you personally.
+        </item>
+        <item>
+            A lot of everything. Follow our updates in the telegram group or write to the developers personally. You can find this functionality on the settings screen.
+        </item>
+    </string-array>
+
+
+    <string-array name="locale_values">
+        <item>Russian</item>
+        <item>English</item>
+    </string-array>
+
+    <string name="achievement_create_each_type_note">Write notes of each type</string>
+    <string name="achievement_complete_1_habit">Complete 1 habit</string>
+    <string name="achievement_get_50_efficiency">Reach 50% efficiency</string>
+    <string name="achievement_create_notes_30_days">Post notes 3 days in a row</string>
+    <string name="achievement_get_70_efficiency">Reach 70% efficiency</string>
+    <string name="achievement_complete_3_habit">Complete 3 habits</string>
+    <string name="achievement_create_50_notes">Post 50 notes</string>
+    <string name="achievement_get_100_efficiency">Reach 100% efficiency</string>
+    <string name="achievement_create_100_notes">Post 100 notes</string>
+    <string name="achievement_create_notes_7_days">Post notes 7 days in a row</string>
+    <string name="achievement_create_200_notes">Post 200 notes</string>
+    <string name="achievement_create_notes_21_days">Post notes 21 in a row</string>
+    <string name="achievement_get_10_points_interest">Score 10 in any interest</string>
+    <string name="achievement_complete_9_habits">Complete 9 habits</string>
+
+    <string name="warning_only_1_active_tracker">Only 1 tracker can be active at a time</string>
+    <string name="warning_edit_repeat_amount">Specify the number of executions</string>
+    <string name="warning_gallery_disabled">No access to gallery</string>
+    <string name="authentication_failed">Authorisation Error</string>
+    <string name="passwords_not_match">Passwords do not match</string>
+    <string name="entry_email">Enter email</string>
+    <string name="entry_passwords">Enter password</string>
+    <string name="password_too_short">Password is too short</string>
+
+    <string name="waste_time">Duration: %02d:%02d:%02d</string>
+
+    <string name="create_new_interest_title">Create a new area of interest</string>
+    <string name="create_new_interest_description">Customize the Wheel of Life</string>
+
+    <string name="wrote_notes">Posts written - </string>
+    <string name="start_value">Initial value - </string>
+    <string name="current_value">Present value - </string>
+
+    <string name="create">Create</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="create_interest">Creating an interest</string>
+    <string name="edit_interest">Edit an interest</string>
+    <string name="entry_title_interest">Enter the title</string>
+    <string name="entry_description_interest">Enter a description</string>
+
+    <string name="saved">Saved!</string>
+    <string name="deleted">Deleted!</string>
+
+    <string name="version">Version </string>
+    <string name="winner_name">Winner</string>
+
+    <string name="tracker_date_title">start:</string>
+    <string name="stop_tracker">finish</string>
+
+    <string name="add_interest_name">Name</string>
+    <string name="add_interest_description">Description</string>
+
+    <string name="level">level</string>
+    <string name="efficiency">efficiency</string>
+
+    <string name="every_day">Every day</string>
+    <string name="start">Begin</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="email_example">test@upgrade.ru</string>
+    <string name="password_example">********</string>
+    <string name="enter">Login</string>
+    <string name="register">Register</string>
+
+    <string name="metric_notes">notes</string>
+    <string name="metric_average_point">GPA</string>
+    <string name="metric_days">days</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="push_notifications_title">Push-notifications</string>
+    <string name="locale_title">Language</string>
+    <string name="system">System</string>
+    <string name="difficulty_title">Difficulty</string>
+    <string name="about_app">About app</string>
+    <string name="often_questions_title">FAQ</string>
+    <string name="rate_app">Rate the app</string>
+    <string name="write_developer">Write to the developer</string>
+    <string name="app_description">GetBetter is an app that helps you determine which spheres you need to improve in order to achieve harmony.</string>
+    <string name="next_update">Look out for the next update!</string>
+    <string name="completed">Done</string>
+
+    <string name="habits_spotlight">Habits that have not yet been completed are displayed here.\n\nHold a habit for 3 seconds to close it.</string>
+    <string name="addpost_spotlight">In order to develop your wheel of life, you need to add entries about your life to the diary.\n\nThese can be goals, habits, ordinary entries describing bright events, or tracking time for some event.</string>
+    <string name="wheel_spotlight">This is the wheel of life, showing your progress. \nYou can change them, delete them, or add your own.</string>
+    <string name="add_post">Add note</string>
+    <string name="add_goal">Add goal</string>
+    <string name="add_tracker">Add time tracker</string>
+    <string name="tracker_title">Name of the time tracker</string>
+    <string name="goal_title">Name of the goal</string>
+    <string name="add_habit">Add habit</string>
+    <string name="habit_repeat_amount">Number of executions</string>
+    <string name="habit_every_day">Daily</string>
+    <string name="habit_every_week">Weekly</string>
+    <string name="add_post_example">For example, morning exercises, a chapter of a book was read, a new acquaintance</string>
+    <string name="what_add_in_diary">What to add to the \ndiary?</string>
+
+    <string name="note">Note</string>
+    <string name="tracker">Tracker</string>
+    <string name="goal">Goal</string>
+    <string name="habit">Habit</string>
+
+    <string name="hello">Hello,</string>
+</resources>

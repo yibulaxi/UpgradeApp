@@ -64,7 +64,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:letterSpacing="0.1"
-                android:text="Добавить привычку"
+                android:text="@string/add_habit"
                 android:textColor="@color/colorTgWhite"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +84,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_edittext"
                 android:gravity="start"
-                android:hint="Название цели"
+                android:hint="@string/goal_title"
                 android:letterSpacing="0.1"
                 android:lines="1"
                 android:maxLength="30"
@@ -105,7 +105,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_edittext"
                 android:gravity="start"
-                android:hint="Кол-во выполнений"
+                android:hint="@string/habit_repeat_amount"
                 android:inputType="number"
                 android:letterSpacing="0.1"
                 android:lines="1"
@@ -143,7 +143,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="Ежедневно"
+                    android:text="@string/habit_every_day"
                     android:textColor="@color/colorTgWhite" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
@@ -157,7 +157,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="Еженедельно"
+                    android:text="@string/habit_every_week"
                     android:textColor="@color/colorTgText" />
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
@@ -275,7 +275,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:letterSpacing="0.2"
-                    android:text="Сохранить"
+                    android:text="@string/save"
                     android:textColor="@color/colorWhite"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

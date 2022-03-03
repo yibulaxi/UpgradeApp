@@ -188,7 +188,6 @@
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
                             android:textColor="@color/colorTgWhite" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -196,7 +195,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
-                            android:text="записей"
+                            android:text="@string/metric_notes"
                             android:textColor="@color/colorTgText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -215,7 +214,6 @@
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
                             android:textColor="@color/colorTgWhite" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -223,7 +221,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
-                            android:text="средний балл"
+                            android:text="@string/metric_average_point"
                             android:textColor="@color/colorTgText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -242,7 +240,6 @@
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="27"
                             android:textColor="@color/colorTgWhite" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -250,7 +247,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
-                            android:text="дней"
+                            android:text="@string/metric_days"
                             android:textColor="@color/colorTgText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textColor="@color/colorTgText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +70,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="test@upgrade.ru"
+                    android:hint="@string/email_example"
                     android:inputType="textEmailAddress"
                     android:letterSpacing="0.1"
                     android:lines="2"
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Password"
+                    android:text="@string/password"
                     android:textColor="@color/colorTgText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/email" />
@@ -101,7 +101,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="********"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:letterSpacing="0.1"
                     android:lines="2"
@@ -126,7 +126,7 @@
                     android:gravity="center"
                     android:onClick="@{handler::signInClicked}"
                     android:paddingVertical="8dp"
-                    android:text="Войти"
+                    android:text="@string/enter"
                     android:textColor="@color/colorTgPrimary"
                     app:layout_constraintTop_toBottomOf="@id/password" />
 
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textColor="@color/colorTgText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -173,7 +173,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="test@upgrade.ru"
+                    android:hint="@string/email_example"
                     android:inputType="textEmailAddress"
                     android:letterSpacing="0.1"
                     android:lines="2"
@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Password"
+                    android:text="@string/password"
                     android:textColor="@color/colorTgText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/emailSignUp" />
@@ -204,7 +204,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="********"
+                    android:hint="@string/password_example"
                     android:inputType="textPassword"
                     android:letterSpacing="0.1"
                     android:lines="2"
@@ -222,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Repeat password"
+                    android:text="@string/repeat_password"
                     android:textColor="@color/colorTgText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/passwordSignUp" />
@@ -235,7 +235,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="********"
+                    android:hint="@string/password_example"
                     android:inputType="textPassword"
                     android:letterSpacing="0.1"
                     android:lines="2"
@@ -260,7 +260,7 @@
                     android:gravity="center"
                     android:onClick="@{handler::signUpClicked}"
                     android:paddingVertical="8dp"
-                    android:text="Зарегистрироваться"
+                    android:text="@string/register"
                     android:textColor="@color/colorTgPrimary"
                     app:layout_constraintTop_toBottomOf="@id/passwordRepeatSignUp" />
 
@@ -291,7 +291,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:text="Войти"
+                android:text="@string/enter"
                 android:textColor="@color/colorTgWhite" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -320,7 +320,7 @@
                 android:layout_margin="16dp"
 
                 android:gravity="center"
-                android:text="Зарегистрироваться"
+                android:text="@string/register"
                 android:textColor="@color/colorTgWhite" />
         </com.google.android.material.card.MaterialCardView>
 

@@ -27,7 +27,7 @@ class UserSettings(
     val isPushAvailable: Boolean? = true,
 
     @ColumnInfo(name = "greeting")
-    val greeting: String? = "UPGRADE",
+    val greeting: String? = "GET BETTER",
 
     @ColumnInfo(name = "dateRegistration")
     val dateRegistration: String? = null,

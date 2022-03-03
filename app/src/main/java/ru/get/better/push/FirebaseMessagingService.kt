@@ -3,6 +3,7 @@ package ru.get.better.push
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.android.AndroidInjection
+import ru.get.better.App
 import timber.log.Timber
 
 class FirebaseMessagingService : FirebaseMessagingService() {
@@ -52,7 +53,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
-//        App.preferences.pushToken = token
+        App.preferences.pushToken = token
         Timber.d("Token pushed. $token")
 
 //        repo.sendToken(token, androidId)

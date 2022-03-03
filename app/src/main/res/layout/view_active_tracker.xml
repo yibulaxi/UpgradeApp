@@ -44,7 +44,6 @@
                 android:layout_marginTop="16dp"
                 android:gravity="end"
                 android:letterSpacing="0.1"
-                android:text="name interest"
                 android:textColor="@color/colorTgWhite"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +65,7 @@
                     android:layout_marginEnd="16dp"
                     android:gravity="end"
                     android:letterSpacing="0.1"
-                    android:text="начало:"
+                    android:text="@string/tracker_date_title"
                     android:textColor="@color/colorTgText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -77,7 +76,6 @@
                     android:layout_marginEnd="16dp"
                     android:gravity="end"
                     android:letterSpacing="0.1"
-                    android:text="17326948:"
                     android:textColor="@color/colorTgText" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -132,7 +130,7 @@
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
                     android:letterSpacing="0.3"
-                    android:text="закончить"
+                    android:text="@string/stop_tracker"
                     android:textAllCaps="true"
                     android:textColor="@color/colorTgWhite"
                     app:layout_constraintBottom_toBottomOf="parent"

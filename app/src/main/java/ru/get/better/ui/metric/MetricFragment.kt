@@ -193,7 +193,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     private fun setupDetailInterestBottomSheet(interest: Interest) {
         with(binding.interestDetailBottomSheet) {
             userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
-                title.text = interest.name ?: getString(interest.nameRes!!)
+                title.text = interest.name
                 amount.text =
                     String.format("%.2f", interest.currentValue)
                         .replace(".", ",")
@@ -203,14 +203,14 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 notesAmount.isVisible =
                     notes.any { it.interest!!.interestId == interest.id }
                 notesAmount.text =
-                    "Написано постов - " +
+                    getString(R.string.wrote_notes) +
                             notes.filter { it.interest!!.interestId == interest.id }.size
 
                 startValue.text =
-                    "Начальное значение - " + String.format("%.2f", interest.startValue)
+                    getString(R.string.start_value) + String.format("%.2f", interest.startValue)
                         .replace(".", ",")
                 currentValue.text =
-                    "Текущее значение - " + String.format("%.2f", interest.currentValue)
+                    getString(R.string.current_value) + String.format("%.2f", interest.currentValue)
                         .replace(".", ",")
 
                 edit.setOnClickListener {
@@ -224,11 +224,11 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     private fun showAddInterestDialog() {
         val view: View = layoutInflater.inflate(R.layout.dialog_alert_add_interest, null)
         val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
-        alertDialogBuilder.setPositiveButton("Создать", null)
-        alertDialogBuilder.setNegativeButton("Отменить", null)
+        alertDialogBuilder.setPositiveButton(getString(R.string.create), null)
+        alertDialogBuilder.setNegativeButton(getString(R.string.cancel), null)
 
         val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.setTitle("Создание сферы")
+        alertDialog.setTitle(getString(R.string.create_interest))
 
         alertDialog.setCancelable(false)
 
@@ -255,9 +255,9 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 when {
                     view.interestName.text.isNullOrEmpty() -> EventBus.getDefault()
-                        .post(ShowFailEvent("Введите название"))
+                        .post(ShowFailEvent(getString(R.string.entry_title_interest)))
                     view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault()
-                        .post(ShowFailEvent("Введите описание"))
+                        .post(ShowFailEvent(getString(R.string.entry_description_interest)))
                     else -> {
                         val interest = UserCustomInterest(
                             id = System.currentTimeMillis().toString() + UUID.randomUUID()
@@ -291,16 +291,16 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     private fun showEditInterestDialog(interest: Interest) {
         val view: View = layoutInflater.inflate(R.layout.dialog_alert_edit_interest, null)
         val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
-        alertDialogBuilder.setPositiveButton("Сохранить", null)
-        alertDialogBuilder.setNegativeButton("Удалить", null)
+        alertDialogBuilder.setPositiveButton(getString(R.string.save), null)
+        alertDialogBuilder.setNegativeButton(getString(R.string.delete), null)
 
         val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.setTitle("Редактирование сферы")
+        alertDialog.setTitle(getString(R.string.edit_interest))
         alertDialog.setCancelable(true)
 
-        view.interestName.setText(interest.name ?: getString(interest.nameRes!!))
+        view.interestName.setText(interest.name)
         view.interestDescription.setText(
-            interest.description ?: getString(interest.descriptionRes!!)
+            interest.description
         )
 
         val iconValues = arrayListOf(
@@ -341,15 +341,15 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 when {
                     view.interestName.text.isNullOrEmpty() -> EventBus.getDefault()
-                        .post(ShowFailEvent("Введите название"))
+                        .post(ShowFailEvent(getString(R.string.entry_title_interest)))
                     view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault()
-                        .post(ShowFailEvent("Введите описание"))
+                        .post(ShowFailEvent(getString(R.string.entry_description_interest)))
                     else -> {
                         interest.name = view.interestName.text.toString()
                         interest.description = view.interestDescription.text.toString()
 
                         userInterestsViewModel.updateInterest(interest) {
-                            EventBus.getDefault().post(ShowSuccessEvent("Сохранено!"))
+                            EventBus.getDefault().post(ShowSuccessEvent(getString(R.string.saved)))
                         }
 
                         adapter.updateInterestById(interest)
@@ -361,7 +361,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
                 userInterestsViewModel.deleteInterest(interest) {
-                    EventBus.getDefault().post(ShowSuccessEvent("Удалено!"))
+                    EventBus.getDefault().post(ShowSuccessEvent(getString(R.string.deleted)))
                 }
 
                 adapter.deleteInterestById(interest.id)

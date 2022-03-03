@@ -104,10 +104,8 @@ class UserInterestsViewModel @Inject constructor(
             /*System.currentTimeMillis().toString() + java.util.UUID.randomUUID().toString()*/
             id to hashMapOf<String, String>(
                 UserInterestsTable().tableFields[UserInterestsFields.Id]!! to id,
-                UserInterestsTable().tableFields[UserInterestsFields.Name]!! to (name
-                    ?: App.resourcesProvider.getString(nameRes!!)),
-                UserInterestsTable().tableFields[UserInterestsFields.Description]!! to (description
-                    ?: App.resourcesProvider.getString(descriptionRes!!)),
+                UserInterestsTable().tableFields[UserInterestsFields.Name]!! to name!!,
+                UserInterestsTable().tableFields[UserInterestsFields.Description]!! to description!!,
                 UserInterestsTable().tableFields[UserInterestsFields.StartValue]!! to startValue.toString(),
                 UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]!! to currentValue.toString(),
                 UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]!! to System.currentTimeMillis()

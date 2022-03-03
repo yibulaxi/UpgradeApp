@@ -3,6 +3,7 @@ package ru.get.better.ui.splash
 import android.animation.Animator
 import android.app.Activity
 import android.os.Bundle
+import androidx.core.os.ConfigurationCompat
 import androidx.fragment.app.viewModels
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -20,6 +21,7 @@ import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.UserSettingsViewModel
+import java.util.*
 
 class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     R.layout.fragment_splash,
@@ -54,13 +56,36 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             userSettingsViewModel
                 .getUserSettingsById(App.preferences.uid!!)
                 .observeOnce(this) {
-                    animateText = it?.greeting ?: "GET BETTER"
+                    animateText = it?.let {
+                        App.resourcesProvider.getString(
+                            R.string.hello
+                        ) + " " + it.login
+                    } ?: "GET BETTER"
                     start()
                 }
         }
     }
 
+    private fun setupLocale() {
+        if (App.preferences.isFirstLaunch || App.preferences.locale.isNullOrEmpty()) {
+            App.preferences.isFirstLaunch = false
+
+            val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
+            App.preferences.locale =
+                if (locale == "ru" || locale == "ua" || locale == "kz" || locale == "be" || locale == "uk") "ru"
+                else "en"
+        }
+
+        Locale.setDefault(Locale(App.preferences.locale ?: "ru"))
+        val resources = requireActivity().resources
+        val config = resources.configuration
+        config.setLocale(Locale(App.preferences.locale ?: "ru"))
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
     private fun start() {
+        setupLocale()
+
         binding.animationView.imageAssetsFolder = "images"
         binding.animationView.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationEnd(animation: Animator?) {
@@ -124,7 +149,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
                 if (response!!.isNewUser) {
                     onSignUpSuccess()
-                    initNewUserData(user.uid, user.displayName ?: "Победитель")
+                    initNewUserData(user.uid, user.displayName ?: getString(R.string.winner_name))
                 } else {
 //                    App.preferences.isInterestsInitialized = true
                     onSignInSuccess()
@@ -143,11 +168,17 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         userId: String,
         login: String
     ) {
+
+        val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
+
         EventBus.getDefault()
             .post(
                 InitUserSettingsEvent(
                     userId = userId,
-                    login = login
+                    login = login,
+                    locale =
+                    if (locale == "ru" || locale == "ua" || locale == "kz" || locale == "be" || locale == "uk") "ru"
+                    else "en"
                 )
             )
 

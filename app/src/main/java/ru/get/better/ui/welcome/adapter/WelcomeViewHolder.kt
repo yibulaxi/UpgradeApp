@@ -108,9 +108,8 @@ class WelcomeViewHolder(
             }
         }
 
-        binding.title.text = interest.name ?: context.getString(interest.nameRes!!)
-        binding.description.text =
-            interest.description ?: context.getString(interest.descriptionRes!!)
+        binding.title.text = interest.name
+        binding.description.text = interest.description
 
         binding.startBtn.setOnClickListener {
             EventBus.getDefault().post(SwipeViewPagerEvent(0))

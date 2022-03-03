@@ -1,5 +1,8 @@
 package ru.get.better.model
 
+import ru.get.better.App
+import ru.get.better.R
+
 data class Achievement(
     val achievementId: String,
     val datetime: String? = null,
@@ -29,72 +32,72 @@ fun getInitialAchievements() =
     listOf<Achievement>(
         Achievement(
             achievementId = AchievementId.CreateEachTypeNote.id,
-            title = "Написать записи каждого типа",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_create_each_type_note, App.preferences.locale?: "ru"),
             experience = 1
         ),
         Achievement(
             achievementId = AchievementId.Complete1Habit.id,
-            title = "Освоить 1 привычку",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_complete_1_habit, App.preferences.locale?: "ru"),
             experience = 2
         ),
         Achievement(
             achievementId = AchievementId.Get50Efficiency.id,
-            title = "Набрать 50% эффективности",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_get_50_efficiency, App.preferences.locale?: "ru"),
             experience = 4
         ),
         Achievement(
             achievementId = AchievementId.CreateNotes3Days.id,
-            title = "Писать записи 3 дня подряд",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_create_notes_30_days, App.preferences.locale?: "ru"),
             experience = 2
         ),
         Achievement(
             achievementId = AchievementId.Get70Efficiency.id,
-            title = "Набрать 70% эффективности",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_get_70_efficiency, App.preferences.locale?: "ru"),
             experience = 6
         ),
         Achievement(
             achievementId = AchievementId.Complete3Habit.id,
-            title = "Освоить 3 привычки",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_complete_3_habit, App.preferences.locale?: "ru"),
             experience = 7
         ),
         Achievement(
             achievementId = AchievementId.Create50Notes.id,
-            title = "Создать 50 записей",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_create_50_notes, App.preferences.locale?: "ru"),
             experience = 11
         ),
         Achievement(
             achievementId = AchievementId.Get100Efficiency.id,
-            title = "Набрать 100% эффективности",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_get_100_efficiency, App.preferences.locale?: "ru"),
             experience = 17
         ),
         Achievement(
             achievementId = AchievementId.Create100Notes.id,
-            title = "Создать 100 записей",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_create_100_notes, App.preferences.locale?: "ru"),
             experience = 19
         ),
         Achievement(
             achievementId = AchievementId.CreateNotes7Days.id,
-            title = "Писать записи 7 дней подряд",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_create_notes_7_days, App.preferences.locale?: "ru"),
             experience = 14
         ),
         Achievement(
             achievementId = AchievementId.Create200Notes.id,
-            title = "Создать 200 записей",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_create_200_notes, App.preferences.locale?: "ru"),
             experience = 27
         ),
         Achievement(
             achievementId = AchievementId.CreateNotes21Days.id,
-            title = "Писать записи 21 день подряд",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_create_notes_21_days, App.preferences.locale?: "ru"),
             experience = 13
         ),
         Achievement(
             achievementId = AchievementId.Get10PointsInterest.id,
-            title = "Набрать 10 в любой сфере",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_get_10_points_interest, App.preferences.locale?: "ru"),
             experience = 9
         ),
         Achievement(
             achievementId = AchievementId.Complete9Habit.id,
-            title = "Освоить 9 привычек",
+            title = App.resourcesProvider.getStringLocale(R.string.achievement_complete_9_habits, App.preferences.locale?: "ru"),
             experience = 15
         ),
     )

@@ -16,7 +16,7 @@
         android:layout_marginTop="48dp"
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
-        android:text="Чтобы развивать свое колесо жизни, необходимо добавлять записи о своей жизни в дневник.\n\nЭто могу быть цели, привычки, обычные записи, описывающие яркие события, либо трекинг времени на какое-то событие."
+        android:text="@string/addpost_spotlight"
         android:textColor="@color/colorTgWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

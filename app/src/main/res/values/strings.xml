@@ -219,4 +219,117 @@
             Много всего. Следи за нашими обновлениями в группе телеграмм либо напиши лично разработчикам. Данный функционал ты можешь найти на экране настроек.
         </item>
     </string-array>
+
+    <string-array name="locale_values">
+        <item>Русский</item>
+        <item>Английский</item>
+    </string-array>
+
+    <string name="achievement_create_each_type_note">Написать записи каждого типа</string>
+    <string name="achievement_complete_1_habit">Освоить 1 привычку</string>
+    <string name="achievement_get_50_efficiency">Набрать 50% эффективности</string>
+    <string name="achievement_create_notes_30_days">Писать записи 3 дня подряд</string>
+    <string name="achievement_get_70_efficiency">Набрать 70% эффективности</string>
+    <string name="achievement_complete_3_habit">Освоить 3 привычки</string>
+    <string name="achievement_create_50_notes">Создать 50 записей</string>
+    <string name="achievement_get_100_efficiency">Набрать 100% эффективности</string>
+    <string name="achievement_create_100_notes">Создать 100 записей</string>
+    <string name="achievement_create_notes_7_days">Писать записи 7 дней подряд</string>
+    <string name="achievement_create_200_notes">Создать 200 записей</string>
+    <string name="achievement_create_notes_21_days">Писать записи 21 день подряд</string>
+    <string name="achievement_get_10_points_interest">Набрать 10 в любой сфере</string>
+    <string name="achievement_complete_9_habits">Освоить 9 привычек</string>
+
+    <string name="warning_only_1_active_tracker">Одновременно может быть активен только 1 трекер</string>
+    <string name="warning_edit_repeat_amount">Укажите кол-во выполнений</string>
+    <string name="warning_gallery_disabled">Нет доступа к галерее</string>
+    <string name="authentication_failed">Ошибка авторизации</string>
+    <string name="passwords_not_match">Пароли не совпадают</string>
+    <string name="entry_email">Укажите email</string>
+    <string name="entry_passwords">Укажите пароль</string>
+    <string name="password_too_short">Пароль слишком короткий</string>
+    <string name="repeat_password">Укажите пароль повторно</string>
+
+    <string name="waste_time">Продолжительность: %02d:%02d:%02d</string>
+
+    <string name="create_new_interest_title">Создай новую сферу интересов</string>
+    <string name="create_new_interest_description">Подстраивай колесо жизни под себя</string>
+
+    <string name="wrote_notes">Написано постов - </string>
+    <string name="start_value">Начальное значение - </string>
+    <string name="current_value">Текущее значение - </string>
+
+    <string name="create">Создать</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отменить</string>
+
+    <string name="create_interest">Создание сферы</string>
+    <string name="edit_interest">Редактирование сферы</string>
+    <string name="entry_title_interest">Введите название</string>
+    <string name="entry_description_interest">Введите описание</string>
+
+    <string name="saved">Сохранено!</string>
+    <string name="deleted">Удалено!</string>
+
+    <string name="version">Версия </string>
+    <string name="winner_name">Победитель</string>
+
+    <string name="tracker_date_title">начало:</string>
+    <string name="stop_tracker">закончить</string>
+
+    <string name="add_interest_name">Название</string>
+    <string name="add_interest_description">Описание</string>
+
+    <string name="level">уровень</string>
+    <string name="efficiency">эффективность</string>
+
+    <string name="every_day">Каждый день</string>
+    <string name="start">Начать</string>
+
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="email_example">test@upgrade.ru</string>
+    <string name="password_example">********</string>
+    <string name="enter">Войти</string>
+    <string name="register">Зарегистрироваться</string>
+
+    <string name="metric_notes">записей</string>
+    <string name="metric_average_point">средний балл</string>
+    <string name="metric_days">дней</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="logout">Выйти</string>
+    <string name="push_notifications_title">Push-уведомления</string>
+    <string name="locale_title">Язык приложения</string>
+    <string name="system">Системный</string>
+    <string name="difficulty_title">Уровень сложности</string>
+    <string name="about_app">О приложении</string>
+    <string name="often_questions_title">Частые вопросы</string>
+    <string name="rate_app">Оценить приложение</string>
+    <string name="write_developer">Написать разработчику</string>
+    <string name="app_description">GetBetter - это приложение, которое помогает тебе определить, какие сферы следует прокачать, чтобы добиться гармонии.</string>
+    <string name="next_update">Ожидайте в следующем обновлении!</string>
+    <string name="completed">Выполнено</string>
+
+    <string name="habits_spotlight">Здесь отображены невыполненные на текущий момент привычки.\n\nЗажмите привычку на 3 секнды, чтобы закрыть ее.</string>
+    <string name="addpost_spotlight">Чтобы развивать свое колесо жизни, необходимо добавлять записи о своей жизни в дневник.\n\nЭто могу быть цели, привычки, обычные записи, описывающие яркие события, либо трекинг времени на какое-то событие.</string>
+    <string name="wheel_spotlight">Это колесо жизни, отображающее твой прогресс. \nТы можешь изменять их, удалять либо добавлять свои.</string>
+    <string name="add_post">Добавить запись</string>
+    <string name="add_goal">Добавить цель</string>
+    <string name="add_tracker">Добавить трекер времени</string>
+    <string name="tracker_title">Название трекера времени</string>
+    <string name="goal_title">Название цели</string>
+    <string name="add_habit">Добавить привычку</string>
+    <string name="habit_repeat_amount">Кол-во выполнений</string>
+    <string name="habit_every_day">Ежедневно</string>
+    <string name="habit_every_week">Еженедельно</string>
+    <string name="add_post_example">Например, утренняя зарядка, прочитана глава книги, новое знакомство</string>
+    <string name="what_add_in_diary">Что добавить в \nдневник?</string>
+
+    <string name="note">Запись</string>
+    <string name="tracker">Трекер</string>
+    <string name="goal">Цель</string>
+    <string name="habit">Привычка</string>
+
+    <string name="hello">Привет,</string>
 </resources>

@@ -41,7 +41,6 @@
                     android:layout_gravity="start"
                     android:gravity="start"
                     android:letterSpacing="0.1"
-                    android:text="123454"
                     android:textColor="@color/colorTgWhite"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +53,6 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="6dp"
                     android:gravity="start"
-                    android:text="132543"
                     android:textColor="@color/colorTgText"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"

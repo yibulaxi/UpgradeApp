@@ -53,7 +53,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="уровень"
+                    android:text="@string/level"
                     android:textColor="@color/colorTgWhite" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -86,7 +86,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="эффективность"
+                    android:text="@string/efficiency"
                     android:textColor="@color/colorTgWhite" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>

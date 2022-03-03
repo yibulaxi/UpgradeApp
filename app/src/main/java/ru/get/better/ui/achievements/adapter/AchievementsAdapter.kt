@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lriccardo.timelineview.TimelineAdapter
 import com.lriccardo.timelineview.TimelineView
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.model.Achievement
 
@@ -21,6 +22,7 @@ class AchievementsAdapter(var items: List<Achievement>) :
 
     override fun onBindViewHolder(holder: AchievementsViewHolder, position: Int) {
         holder.title.text = items[position].title
+
 
 //        when(items[position].achievementId) {
 //            holder.checkBlock.isVisible =

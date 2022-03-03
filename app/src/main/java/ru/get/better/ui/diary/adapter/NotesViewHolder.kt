@@ -106,7 +106,6 @@ class NotesViewHolder(
 //        }
 
         binding.container.setOnClickListener {
-            Log.d("keke_pos", position.toString())
             EventBus.getDefault().post(ShowNoteDetailEvent(position))
         }
 

@@ -4,7 +4,9 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.firebase.ui.auth.AuthUI
@@ -13,16 +15,20 @@ import com.google.firebase.ktx.Firebase
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.BuildConfig
+import ru.get.better.R
 import ru.get.better.databinding.FragmentSettingsBinding
 import ru.get.better.event.UpdateDifficultyEvent
+import ru.get.better.event.UpdateLocaleEvent
 import ru.get.better.model.AllLogo
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
+import ru.get.better.util.LocaleUtils
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.SettingsViewModel
 import ru.get.better.vm.UserDiaryViewModel
 import ru.get.better.vm.UserSettingsViewModel
 import timber.log.Timber
+import java.util.*
 
 
 class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding>(
@@ -32,6 +38,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 ) {
 
     private var allowChangeDifficulty = false
+    private var allowChangeLocale = false
 
     private val userSettingsViewModel: UserSettingsViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(
@@ -48,11 +55,38 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        binding.version.text = "Версия " + BuildConfig.VERSION_NAME
+        binding.version.text = getString(R.string.version) + " " +  BuildConfig.VERSION_NAME
 
         binding.difficultySpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             if (allowChangeDifficulty)
                 EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
+        }
+
+        binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+            if (allowChangeLocale) {
+//                EventBus.getDefault().post(
+//                    UpdateLocaleEvent(
+//                        if (newIndex == 0) "ru"
+//                        else "en"
+//                    )
+//                )
+
+                App.preferences.locale =
+                    if (newIndex == 0) "ru"
+                    else "en"
+
+                val locale = Locale(
+                    if (newIndex == 0) "ru"
+                    else "en"
+                )
+                Locale.setDefault(locale)
+                val resources = requireActivity().resources
+                val config = resources.configuration
+                config.setLocale(locale)
+                resources.updateConfiguration(config, resources.displayMetrics)
+
+                Navigator.refresh(this@SettingsFragment)
+            }
         }
 
         binding.icon.setImageResource(AllLogo().getRandomLogo())
@@ -66,17 +100,28 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                     binding.difficultySpinner.dismiss()
                 }
                 allowChangeDifficulty = true
+
+                setupLocaleSpinner(App.preferences.locale)
             })
+    }
+
+    private fun setupLocaleSpinner(locale: String?) {
+        binding.localeSpinner.setOnSpinnerOutsideTouchListener { view, motionEvent ->
+            binding.localeSpinner.dismiss()
+        }
+
+        if (!locale.isNullOrEmpty()) {
+            binding.localeSpinner.selectItemByIndex(
+                if (locale == "ru") 0
+                else 1
+            )
+        }
+        allowChangeLocale = true
     }
 
     override fun onViewModelReady(viewModel: SettingsViewModel) {
 
     }
-
-    private fun getUserData() {
-        val user = Firebase.auth.currentUser
-    }
-
 
     inner class Handler {
 

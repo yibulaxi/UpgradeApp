@@ -6,8 +6,10 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
+import ru.get.better.R
 import ru.get.better.event.InitUserSettingsEvent
 import ru.get.better.event.UpdateDifficultyEvent
+import ru.get.better.event.UpdateLocaleEvent
 import ru.get.better.model.UserSettings
 import ru.get.better.repo.UserSettingsRepository
 import ru.get.better.rest.UserSettingsFields
@@ -97,6 +99,20 @@ class UserSettingsViewModel @Inject constructor(
             .addOnFailureListener { }
     }
 
+    private fun updateLocale(locale: String) {
+        val data = hashMapOf(
+            UserSettingsTable().tableFields[UserSettingsFields.Locale] to locale
+        )
+
+        cloudFirestoreDatabase.collection(UserSettingsTable().tableName)
+            .document(App.preferences.uid!!)
+            .update(data as Map<String, Any>)
+            .addOnSuccessListener {
+                getUserSettings()
+            }
+            .addOnFailureListener { }
+    }
+
     private fun updateDifficulty(difficulty: Int) {
         val data = hashMapOf(
             UserSettingsTable().tableFields[UserSettingsFields.Difficulty] to difficulty
@@ -136,6 +152,11 @@ class UserSettingsViewModel @Inject constructor(
     }
 
     @Subscribe
+    fun onUpdateLocaleEvent(e: UpdateLocaleEvent) {
+        updateLocale(e.locale)
+    }
+
+    @Subscribe
     fun onInitUserSettingsEvent(e: InitUserSettingsEvent) {
 
         val userSettings = hashMapOf(
@@ -145,13 +166,13 @@ class UserSettingsViewModel @Inject constructor(
             UserSettingsTable().tableFields[UserSettingsFields.Password] to "",
             UserSettingsTable().tableFields[UserSettingsFields.Difficulty] to 1.toString(),
             UserSettingsTable().tableFields[UserSettingsFields.IsPushAvailable] to true,
-            UserSettingsTable().tableFields[UserSettingsFields.Greeting] to "Привет, " + e.login,
+            UserSettingsTable().tableFields[UserSettingsFields.Greeting] to e.login,
             UserSettingsTable().tableFields[UserSettingsFields.DateRegistration] to System.currentTimeMillis()
                 .toString(),
             UserSettingsTable().tableFields[UserSettingsFields.DateLastLogin] to System.currentTimeMillis()
                 .toString(),
             UserSettingsTable().tableFields[UserSettingsFields.Avatar] to "",
-            UserSettingsTable().tableFields[UserSettingsFields.Locale] to "",
+            UserSettingsTable().tableFields[UserSettingsFields.Locale] to e.locale,
             "is_interests_initialized" to false,
             UserSettingsTable().tableFields[UserSettingsFields.IsMetricWheelSpotlightShown] to false,
             UserSettingsTable().tableFields[UserSettingsFields.IsDiaryHabitsSpotlightShown] to false,
