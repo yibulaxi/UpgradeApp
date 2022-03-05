@@ -317,7 +317,7 @@
     <color name="colorViewDetailInterestCurrentValueText">#717a8a</color>
     <color name="colorViewDetailInterestEditBackgroundTint">#1f2f3f</color>
     <color name="colorViewDetailInterestEditTint">#f6fcff</color>
-    
+
     <color name="colorViewGoalAddTitleText">#f6fcff</color>
     <color name="colorViewGoalAddEditTextText">#717a8a</color>
     <color name="colorViewGoalAddEditTextHint">#DFE6F1</color>
@@ -436,7 +436,7 @@
     <color name="colorSecondaryThemeUpgrade">#8092a0</color>
     <color name="colorSecondaryVariantThemeUpgrade">#8092a0</color>
     <color name="colorOnSecondaryThemeUpgrade">#FF000000</color>
-    <!--    <color name="teal_200">#FF03DAC5</color>-->
+<!--    <color name="teal_200">#FF03DAC5</color>-->
 <!--    <color name="teal_700">#FF018786</color>-->
 <!--    <color name="colorBlack">#FF000000</color>-->
 <!--    <color name="colorWhite">#FFFFFFFF</color>-->
@@ -468,50 +468,3 @@
 <!--    <color name="colorRedDark">#780707</color>-->
 
 </resources>
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<resources>-->
-
-<!--    <color name="teal_200">#FF03DAC5</color>-->
-<!--    <color name="teal_700">#FF018786</color>-->
-<!--    <color name="colorBlack">#FFFFFFFF</color>-->
-<!--    <color name="colorWhite">#1a2430</color>-->
-<!--    <color name="colorPrimary">#FFFFFFFF</color>-->
-<!--    <color name="colorAccent">#FFFFFFFF</color>-->
-<!--    <color name="colorPrimaryDark">#FFFFFFFF</color>-->
-<!--    <color name="colorText">#2D2D2D</color>-->
-<!--    <color name="colorPrimaryRed">#FF0000</color>-->
-<!--    <color name="colorPrimaryGreen">#00FF00</color>-->
-<!--    <color name="colorLightGray">#BCBABE</color>-->
-<!--    <color name="colorGray">#767D88</color>-->
-<!--    <color name="colorPurple">#4b2751</color>-->
-<!--    <color name="colorPurpleDark">#301934</color>-->
-<!--    <color name="colorBlueLight">#A1AACA</color>-->
-<!--    <color name="colorBlue">#606FA6</color>-->
-<!--    <color name="coloBlurBackground">#4D8092A0</color>-->
-<!--    <color name="custom_wheel_highlight_bg_color">#113700B3</color>-->
-
-<!--    <color name="colorTgPrimary">#F1F1F2</color>-->
-<!--    <color name="colorTgPrimaryDark">#FDFFFF</color>-->
-<!--    <color name="colorTgGray">#D4DDE1</color>-->
-<!--    <color name="colorTgGrayDark">#B9C4C9</color>-->
-
-<!--    <color name="colorTgBlue">#90AFC5</color>-->
-
-<!--    <color name="colorTgWhite">#003B46</color>-->
-
-<!--    <color name="colorTgText">#717a8a</color>-->
-<!--    <color name="colorTgRed">#de6d63</color>-->
-
-<!--    <color name="colorGreenDark">#298729</color>-->
-<!--    <color name="colorRedDark">#780707</color>-->
-
-<!--&lt;!&ndash;-->
-<!--хлопок #FDFFFF #F9F9FF-->
-<!--пергамент #F1DCC9-->
-<!--теплый #E1B16A-->
-<!--туман #C9D1C8-->
-
-<!--&ndash;&gt;-->
-
-<!--</resources>-->

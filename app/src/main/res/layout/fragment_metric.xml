@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@color/colorTgPrimaryDark"
+        android:background="@color/colorFragmentMetricBackground"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
 
@@ -55,10 +55,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
-                android:backgroundTint="@color/colorTgPrimary"
-                app:customDividerColor="@color/colorTgPrimary"
-                app:customShadowColor="@color/colorTgPrimary"
-                app:customSliderColor="@color/colorTgGray"
+                android:backgroundTint="@color/colorFragmentMetricStateControlGroupBackgroundTint"
+                app:customDividerColor="@color/colorFragmentMetricStateControlGroupCustomDivider"
+                app:customShadowColor="@color/colorFragmentMetricStateControlGroupCustomShadow"
+                app:customSliderColor="@color/colorFragmentMetricStateControlGroupCustomSlider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -79,7 +79,7 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/wheel"
-                    android:textColor="@color/colorTgWhite" />
+                    android:textColor="@color/colorFragmentMetricWheelStateText" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/listState"
@@ -97,7 +97,7 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/list"
-                    android:textColor="@color/colorTgText" />
+                    android:textColor="@color/colorFragmentMetricListStateText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
@@ -108,10 +108,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="92dp"
-                android:backgroundTint="@color/colorTgPrimary"
-                app:customDividerColor="@color/colorTgPrimary"
-                app:customShadowColor="@color/colorTgPrimary"
-                app:customSliderColor="@color/colorTgGray"
+                android:backgroundTint="@color/colorFragmentMetricRadarStateControlGroupBackgroundTint"
+                app:customDividerColor="@color/colorFragmentMetricRadarStateControlGroupCustomDivider"
+                app:customShadowColor="@color/colorFragmentMetricRadarStateControlGroupCustomShadow"
+                app:customSliderColor="@color/colorFragmentMetricRadarStateControlGroupCustomSlider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -132,7 +132,7 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/current_wheel"
-                    android:textColor="@color/colorTgWhite" />
+                    android:textColor="@color/colorFragmentMetricCurrentStateText" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/startState"
@@ -150,7 +150,7 @@
                     android:paddingEnd="5dp"
                     android:paddingBottom="2dp"
                     android:text="@string/start_wheel"
-                    android:textColor="@color/colorTgText" />
+                    android:textColor="@color/colorFragmentMetricStartStateText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
@@ -161,7 +161,7 @@
                 android:layout_marginTop="100dp"
                 android:alpha="0"
                 android:animateLayoutChanges="true"
-                android:background="@color/colorTgPrimaryDark"
+                android:background="@color/colorFragmentMetricListBackground"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/metricStateControlGroup">
@@ -188,7 +188,7 @@
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorTgWhite" />
+                            android:textColor="@color/colorFragmentMetricDiaryAmountText" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
@@ -196,7 +196,7 @@
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
                             android:text="@string/metric_notes"
-                            android:textColor="@color/colorTgText" />
+                            android:textColor="@color/colorFragmentMetricDiaryAmountTitleText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -214,7 +214,7 @@
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorTgWhite" />
+                            android:textColor="@color/colorFragmentMetricAverageAmountText" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
@@ -222,7 +222,7 @@
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
                             android:text="@string/metric_average_point"
-                            android:textColor="@color/colorTgText" />
+                            android:textColor="@color/colorFragmentMetricAverageAmountTitleText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -240,7 +240,7 @@
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorTgWhite" />
+                            android:textColor="@color/colorFragmentMetricDaysAmountText" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text14.Light"
@@ -248,7 +248,7 @@
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
                             android:text="@string/metric_days"
-                            android:textColor="@color/colorTgText" />
+                            android:textColor="@color/colorFragmentMetricDaysAmountTitleText" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -274,7 +274,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{handler::onInfoClicked}"
                 android:src="@drawable/ic_info"
-                android:tint="@color/colorTgGrayDark"
+                android:tint="@color/colorFragmentMetricInfoTint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -295,7 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0"
-                android:background="@color/coloBlurBackground" />
+                android:background="@color/colorBlur" />
 
             <include
                 android:id="@+id/interestDetailBottomSheet"

@@ -4,7 +4,7 @@
 
     <stroke
         android:width="1dp"
-        android:color="@color/colorTgPrimaryDark" />
-    <solid android:color="@color/colorTgWhite" />
+        android:color="@color/colorBgEditTextStroke" />
+    <solid android:color="@color/colorBgEditTextSolid" />
     <corners android:radius="6dp" />
 </shape>

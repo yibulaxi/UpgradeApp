@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
-        android:background="@color/colorWhite"
-        android:backgroundTint="@color/colorTgPrimary"
+        android:background="@color/colorViewActiveTrackerBackground"
+        android:backgroundTint="@color/colorViewActiveTrackerBackgroundTint"
         android:clickable="true"
         android:elevation="8dp"
         android:focusable="true"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="16dp"
                 android:gravity="end"
                 android:letterSpacing="0.1"
-                android:textColor="@color/colorTgWhite"
+                android:textColor="@color/colorViewActiveTrackerInterestNameText"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +66,7 @@
                     android:gravity="end"
                     android:letterSpacing="0.1"
                     android:text="@string/tracker_date_title"
-                    android:textColor="@color/colorTgText" />
+                    android:textColor="@color/colorViewActiveTrackerDateTitleText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/trackerDate"
@@ -76,7 +76,7 @@
                     android:layout_marginEnd="16dp"
                     android:gravity="end"
                     android:letterSpacing="0.1"
-                    android:textColor="@color/colorTgText" />
+                    android:textColor="@color/colorViewActiveTrackerDateText" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:letterSpacing="0.2"
                     android:text="02:30"
-                    android:textColor="@color/colorTgWhite"
+                    android:textColor="@color/colorViewActiveTrackerTimerText"
                     android:textSize="40sp" />
 
                 <TextView
@@ -104,10 +104,9 @@
                     style="@style/Text14.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:letterSpacing="0.2"
                     android:text="02:30"
-                    android:textColor="@color/colorTgWhite" />
+                    android:textColor="@color/colorViewActiveTrackerTrackerTitleText" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -132,7 +131,7 @@
                     android:letterSpacing="0.3"
                     android:text="@string/stop_tracker"
                     android:textAllCaps="true"
-                    android:textColor="@color/colorTgWhite"
+                    android:textColor="@color/colorViewActiveTrackerStopTrackerText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

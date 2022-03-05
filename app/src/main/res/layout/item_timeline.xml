@@ -9,7 +9,7 @@
         android:layout_height="72dp"
         android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="16dp"
-        android:backgroundTint="@color/colorTgPrimary"
+        android:backgroundTint="@color/colorItemTimelineBackgroundTint"
         android:checkable="true"
         android:clickable="true"
         android:focusable="true"
@@ -41,7 +41,7 @@
                     android:layout_gravity="start"
                     android:gravity="start"
                     android:letterSpacing="0.1"
-                    android:textColor="@color/colorTgWhite"
+                    android:textColor="@color/colorItemTimelineTitleText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="6dp"
                     android:gravity="start"
-                    android:textColor="@color/colorTgText"
+                    android:textColor="@color/colorItemTimelineSubtitleText"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/title" />
@@ -63,7 +63,7 @@
                 android:id="@+id/checkBlock"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@color/colorGreenDark"
+                android:background="@color/colorItemTimelineCheckBlockBackground"
                 android:paddingHorizontal="8dp"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -76,7 +76,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorTgWhite" />
+                    app:tint="@color/colorItemTimelineIcCheckTint" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,8 @@
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/ic_plus_small.xml" value="0.2234375" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/plus_icon_bg.xml" value="0.2234375" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/ed242d627c9eae0e774462ea49b60811/jetified-ChiliPhotoPicker-0.3.1/res/drawable/ic_picker_cancel.xml" value="0.2708333333333333" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2324074074074074" />
+        <entry key="app/src/main/res/drawable/achievements.xml" value="0.2324074074074074" />
         <entry key="app/src/main/res/drawable/achievments.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/add_post.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/background_bottom_sheet.xml" value="0.33611111111111114" />
@@ -79,7 +81,7 @@
         <entry key="app/src/main/res/layout/item_task.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_timeline.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_simple_custom_snackbar.xml" value="0.19947916666666668" />
-        <entry key="app/src/main/res/layout/notes_list_header_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/notes_list_header_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/radar_markerview.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/screen_progress.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/settings_spinner_row.xml" value="0.35833333333333334" />

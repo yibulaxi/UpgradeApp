@@ -2,13 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.Upgrade" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorBlueLight</item>
-        <item name="colorPrimaryVariant">@color/colorBlueLight</item>
-        <item name="colorOnPrimary">@color/colorWhite</item>
+        <item name="colorPrimary">@color/colorPrimaryThemeUpgrade</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariantThemeUpgrade</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryThemeUpgrade</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorTgGray</item>
-        <item name="colorSecondaryVariant">@color/colorTgGray</item>
-        <item name="colorOnSecondary">@color/colorBlack</item>
+        <item name="colorSecondary">@color/colorSecondaryThemeUpgrade</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariantThemeUpgrade</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryThemeUpgrade</item>
         <!-- Status bar color. -->
         <!-- Customize your theme here. -->
 

@@ -38,7 +38,7 @@ class MetricListViewHolder(
             ImageViewCompat.setImageTintList(
                 binding.icon,
                 ColorStateList.valueOf(
-                    ContextCompat.getColor(context, R.color.colorTgWhite)
+                    ContextCompat.getColor(context, R.color.colorMetricListCreateInterestTint)
                 )
             )
 

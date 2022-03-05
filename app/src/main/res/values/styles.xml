@@ -3,21 +3,21 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryStyles</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkStyles</item>
+        <item name="colorAccent">@color/colorAccentStyles</item>
 
-        <item name="colorControlNormal">@color/colorLightGray</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorControlNormalStyles</item>
+        <item name="colorControlActivated">@color/colorPrimaryStyles</item>
 
 
     </style>
 
     <style name="AuthUITheme" parent="AppTheme">
-        <item name="colorPrimary">@color/colorTgPrimary</item>
-        <item name="colorPrimaryDark">@color/colorTgPrimaryDark</item>
-        <item name="colorAccent">@color/colorTgPrimary</item>
-        <item name="colorSecondary">@color/colorTgPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryAuthUITheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkAuthUITheme</item>
+        <item name="colorAccent">@color/colorAccentAuthUITheme</item>
+        <item name="colorSecondary">@color/colorSecondaryAuthUITheme</item>
         <!--        <item name="android:buttonStyle">@style/buttonStyle</item>-->
     </style>
 
@@ -37,20 +37,20 @@
 
 
     <style name="buttonStyle" parent="MaterialTextButton">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextButtonStyle</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MaterialTextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textAppearance">@style/Text16.Light</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextMaterialTextButtonStyle</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/colorTgPrimary</item>
-        <item name="android:textColor">@color/colorTgWhite</item>
+        <item name="android:background">@color/colorBackgroundDialogTheme</item>
+        <item name="android:textColor">@color/colorTextDialogTheme</item>
     </style>
 
     <style name="DialogStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
@@ -75,12 +75,12 @@
     <!-- Base -->
     <style name="TextView">
         <item name="android:fontFamily">@font/sf_font_family</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/colorTextTextViewStyles</item>
     </style>
 
     <style name="TextView.Regular">
         <item name="android:fontFamily">@font/sf_ui_display_light</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/colorTextTextViewStyles</item>
     </style>
 
     <style name="TextView.Light" parent="TextView">
@@ -131,7 +131,7 @@
     </style>
 
     <style name="Text24.SemiBold.Primary.Red" parent="Text24.SemiBold">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
     <!-- 24 ends -->
 
@@ -151,7 +151,7 @@
     </style>
 
     <style name="Text21.SemiBold.White" parent="Text21.SemiBold">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>
     </style>
     <!-- 21 ends -->
 
@@ -168,7 +168,7 @@
 
 
     <style name="Text18.Light.Gray" parent="Text18.Light">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text18.Bold" parent="TextView.Bold">
@@ -180,7 +180,7 @@
     </style>
 
     <style name="Text18.Medium.Gray" parent="Text18.Medium">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text18.Medium.Primary" parent="Text18.Medium">
@@ -188,7 +188,7 @@
     </style>
 
     <style name="Text18.Medium.PrimaryRed" parent="Text18.Medium">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
 
     <style name="Text18.SemiBold" parent="TextView.SemiBold">
@@ -219,7 +219,7 @@
     </style>
 
     <style name="Text16.Medium.Red" parent="Text16.Medium">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
 
     <style name="Text16.Light" parent="TextView.Light">
@@ -232,7 +232,7 @@
 
 
     <style name="Text16.Light.Gray" parent="Text16.Light">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text16.Light.Primary" parent="Text16.Light">
@@ -240,7 +240,7 @@
     </style>
 
     <style name="Text16.SemiBold.Gray" parent="Text16.SemiBold">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text16.SemiBold.Primary" parent="Text16.SemiBold">
@@ -248,12 +248,12 @@
     </style>
 
     <style name="Text16.SemiBold.PrimaryRed" parent="Text16.SemiBold">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
 
 
     <style name="Text16.Medium.White" parent="Text16.Medium">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>
     </style>
 
     <!-- 16 ends-->
@@ -272,7 +272,7 @@
     </style>
 
     <style name="Text14.Medium.White" parent="Text14.Medium">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>
     </style>
 
     <style name="Text14.SemiBold" parent="TextView.SemiBold">
@@ -281,7 +281,7 @@
 
     <style name="Text14.Medium.Grey" parent="TextView.Medium">
         <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text14.Medium.Primary" parent="Text14.Medium">
@@ -293,15 +293,15 @@
     </style>
 
     <style name="Text14.Light.Gray" parent="Text14.Light">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text14.Light.White" parent="Text14.Light">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>
     </style>
 
     <style name="Text14.Light.Red" parent="Text14.Light">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
 
     <style name="Text14.Light.Primary" parent="Text14.Light">
@@ -320,7 +320,7 @@
 
     <style name="Text13.Medium.Gray" parent="TextView.Medium">
         <item name="android:textSize">@dimen/text_size_13</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text13.Medium.Primary" parent="Text13.Medium">
@@ -328,7 +328,7 @@
     </style>
 
     <style name="Text13.Light.Red" parent="TextView.Light">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
         <item name="android:textSize">@dimen/text_size_13</item>
     </style>
 
@@ -350,11 +350,11 @@
 
 
     <style name="Text12.Light.Gray" parent="TextView.Light">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text12.Light.Red" parent="TextView.Light">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
 
@@ -372,16 +372,16 @@
     </style>
 
     <style name="Text12.Medium.Gray" parent="Text12.Medium">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
 
     <style name="Text12.Medium.Grey" parent="Text12.Medium">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text12.Medium.White" parent="Text12.Medium">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>
     </style>
 
     <!-- 12 ends -->
@@ -389,12 +389,12 @@
     <!-- 11 -->
     <style name="Text11.Medium.Grey" parent="TextView.Medium">
         <item name="android:textSize">@dimen/text_size_11</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text11.Medium.Red" parent="TextView.Medium">
         <item name="android:textSize">@dimen/text_size_11</item>
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
 
     <style name="Text11.Medium" parent="TextView.Medium">
@@ -404,20 +404,20 @@
 
     <style name="Text11.Light.Black" parent="TextView.Light">
         <item name="android:textSize">@dimen/text_size_11</item>
-        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textColor">@color/colorTextBlackTextViewStyles</item>
     </style>
 
     <style name="Text11.Grey" parent="TextView">
         <item name="android:textSize">@dimen/text_size_11</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text11.Medium.Gray" parent="Text11.Medium">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text11.Light.Gray" parent="TextView.Light">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
         <item name="android:textSize">@dimen/text_size_11</item>
     </style>
 
@@ -442,20 +442,20 @@
     </style>
 
     <style name="Text10.Light.Gray" parent="Text10.Light">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text10.Medium.Gray" parent="Text10.Medium">
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text10.Light.Red" parent="Text10.Light">
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
 
     <style name="Text10.Medium.White" parent="TextView.Medium">
         <item name="android:textSize">@dimen/text_size_10</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>
     </style>
     <!-- 10 ends -->
 
@@ -470,18 +470,18 @@
 
     <style name="Text9.Light.Red" parent="TextView.Light">
         <item name="android:textSize">@dimen/text_size_9</item>
-        <item name="android:textColor">@color/colorPrimaryRed</item>
+        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>
     </style>
 
     <style name="Text9.Light.Gray" parent="TextView.Light">
         <item name="android:textSize">@dimen/text_size_9</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
 
     <style name="Text8.Medium.Gray" parent="Text10.Medium">
         <item name="android:textSize">@dimen/text_size_10</item>
-        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>
     </style>
 
     <style name="Text8.Light" parent="TextView.Light">

@@ -117,10 +117,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        StatusBarUtil.setColor(this, resources.getColor(R.color.colorTgPrimary))
+        StatusBarUtil.setColor(this, resources.getColor(R.color.colorStatusBar))
         StatusBarUtil.setDarkMode(this)
 
-        window.navigationBarColor = resources.getColor(R.color.colorTgPrimaryDark)
+        window.navigationBarColor = resources.getColor(R.color.colorNavigationBar)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 
         navController = findNavController(R.id.nav_host_fragment)
@@ -644,14 +644,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 dailyPoint.setTextColor(
                     ContextCompat.getColor(
                         this@MainActivity,
-                        if (e.note.regularity == Regularity.Daily.id) R.color.colorTgWhite else R.color.colorTgText
+                        if (e.note.regularity == Regularity.Daily.id) R.color.colorAddHabitRegularityPointActiveText
+                        else R.color.colorAddHabitRegularityPointInactiveText
                     )
                 )
 
                 weeklyPoint.setTextColor(
                     ContextCompat.getColor(
                         this@MainActivity,
-                        if (e.note.regularity == Regularity.Weekly.id) R.color.colorTgWhite else R.color.colorTgText
+                        if (e.note.regularity == Regularity.Weekly.id) R.color.colorAddHabitRegularityPointActiveText
+                        else R.color.colorAddHabitRegularityPointInactiveText
                     )
                 )
 
@@ -738,7 +740,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
             if (image?.url != null)
                 Picasso.with(this@MainActivity).load(image.url).into(view)
-        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorTgPrimary))
+        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorFullScreenMediaBackground))
             .withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
     }
 
@@ -762,7 +764,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 RippleEffect(
                     100f,
                     200f,
-                    ContextCompat.getColor(this, R.color.colorTgPrimary)
+                    ContextCompat.getColor(this, R.color.colorSpotlightTarget)
                 )
             )
             .setOverlay(addPostTargetLayout)
@@ -770,7 +772,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         val spotlight = Spotlight.Builder(this)
             .setTargets(addPostTarget)
-            .setBackgroundColor(ContextCompat.getColor(this, R.color.colorTgPrimaryDark))
+            .setBackgroundColor(ContextCompat.getColor(this, R.color.colorSpotlightBackground))
             .setDuration(1000L)
             .setAnimation(DecelerateInterpolator(2f))
             .setContainer(binding.container)

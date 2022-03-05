@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorTgPrimaryDark"
+        android:background="@color/colorFragmentSplashBackground"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
 
@@ -42,7 +42,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:letterSpacing="0.3"
-            android:textColor="@color/colorTgWhite"
+            android:textColor="@color/colorFragmentSplashLogoTextText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_view" />

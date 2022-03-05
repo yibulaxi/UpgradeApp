@@ -17,7 +17,7 @@
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
         android:text="@string/wheel_spotlight"
-        android:textColor="@color/colorTgWhite"
+        android:textColor="@color/colorTargetMetricWheelTitleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,6 +28,6 @@
         android:src="@drawable/ic_target_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        app:tint="@color/colorTgWhite" />
+        app:tint="@color/colorTargetMetricWheelTint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

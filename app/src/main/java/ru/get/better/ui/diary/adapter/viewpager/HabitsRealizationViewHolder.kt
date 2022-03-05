@@ -29,8 +29,8 @@ class HabitsRealizationViewHolder(
             binding.cardView,
             ColorStateList.valueOf(
                 if (dateCompletion.datesCompletionIsCompleted!!)
-                    ContextCompat.getColor(context, R.color.colorTgPrimaryDark)
-                else ContextCompat.getColor(context, R.color.colorTgGray)
+                    ContextCompat.getColor(context, R.color.habitDateCompleted)
+                else ContextCompat.getColor(context, R.color.habitDateIncompleted)
             )
         )
     }

@@ -17,7 +17,7 @@
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
         android:text="@string/habits_spotlight"
-        android:textColor="@color/colorTgWhite"
+        android:textColor="@color/colorTargetDiaryHabitsTitleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icArrow" />
 
@@ -32,6 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/colorTgWhite" />
+        app:tint="@color/colorTargetDiaryHabitsIcArrowTint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

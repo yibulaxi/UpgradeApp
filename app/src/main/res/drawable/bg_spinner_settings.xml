@@ -4,5 +4,5 @@
     <padding
         android:bottom="8dp"
         android:top="8dp" />
-    <solid android:color="@color/colorBlueLight" />
+    <solid android:color="@color/colorBgSpinnerSettingsSolid" />
 </shape>

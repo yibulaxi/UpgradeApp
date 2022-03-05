@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:backgroundTint="@color/colorTgPrimary"
+        android:backgroundTint="@color/colorItemNoteBackgroundTint"
         android:clickable="true"
         android:elevation="4dp"
         android:focusable="true"
@@ -51,7 +51,7 @@
                     android:ellipsize="end"
                     android:lines="2"
                     android:maxLines="2"
-                    android:textColor="@color/colorTgWhite"
+                    android:textColor="@color/colorItemNoteTitleText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/description"
                     app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:gravity="end"
-                    android:textColor="@color/colorTgText"
+                    android:textColor="@color/colorItemNoteDescriptionText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -88,7 +88,7 @@
                 android:src="@drawable/ic_goal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/colorTgWhite" />
+                app:tint="@color/colorItemNoteNoteTypeTint" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

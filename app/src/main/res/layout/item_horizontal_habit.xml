@@ -22,7 +22,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="6dp"
-            android:backgroundTint="@color/colorTgPrimary"
+            android:backgroundTint="@color/colorItemHorizontalHabitBackgroundTint"
             android:clickable="true"
             android:elevation="6dp"
             android:focusable="true"
@@ -48,7 +48,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTgText"
+                    android:textColor="@color/colorItemHorizontalHabitText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -63,7 +63,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
-            android:textColor="@color/colorTgText"
+            android:textColor="@color/colorItemHorizontalHabitTitleText"
             app:layout_constraintEnd_toEndOf="@id/cardView"
             app:layout_constraintStart_toStartOf="@id/cardView"
             app:layout_constraintTop_toBottomOf="@id/cardView" />
@@ -74,7 +74,7 @@
             android:layout_height="60dp"
             android:layout_margin="6dp"
             android:alpha="0"
-            android:backgroundTint="@color/colorTgBlue"
+            android:backgroundTint="@color/colorItemHorizontalHabitCompleteBlockBackgroundTint"
             app:cardCornerRadius="90dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="12dp"
                 android:src="@drawable/ic_check"
-                android:tint="@color/colorTgWhite" />
+                android:tint="@color/colorItemHorizontalHabitTint" />
 
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

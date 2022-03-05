@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.res.Configuration
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import lv.chi.photopicker.ChiliPhotoPicker
@@ -12,7 +11,6 @@ import ru.get.better.di.AppModule
 import ru.get.better.di.DaggerAppComponent
 import ru.get.better.rest.di.RetrofitModule
 import ru.get.better.util.GlideImageLoader
-import ru.get.better.util.LocaleUtils
 import ru.get.better.util.Preferences
 import ru.get.better.util.ResourcesProvider
 import timber.log.Timber

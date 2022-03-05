@@ -143,7 +143,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 RippleEffect(
                     100f,
                     200f,
-                    ContextCompat.getColor(requireContext(), R.color.colorTgPrimary)
+                    ContextCompat.getColor(requireContext(), R.color.colorWheelSpotlightTarget)
                 )
             )
             .setOverlay(wheelTargetLayout)
@@ -154,7 +154,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             .setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.colorTgPrimaryDark
+                    R.color.colorWheelSpotlightBackground
                 )
             )
             .setDuration(1000L)
@@ -442,14 +442,16 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 wheelState.setTextColor(
                     ContextCompat.getColor(
                         context!!,
-                        if (it == 0) R.color.colorTgWhite else R.color.colorTgText
+                        if (it == 0) R.color.colorMetricControlGroupActiveText
+                        else R.color.colorMetricControlGroupInactiveText
                     )
                 )
 
                 listState.setTextColor(
                     ContextCompat.getColor(
                         context!!,
-                        if (it == 1) R.color.colorTgWhite else R.color.colorTgText
+                        if (it == 1) R.color.colorMetricControlGroupActiveText
+                        else R.color.colorMetricControlGroupInactiveText
                     )
                 )
 
@@ -494,14 +496,16 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             binding.currentState.setTextColor(
                 ContextCompat.getColor(
                     context!!,
-                    if (it == 0) R.color.colorTgWhite else R.color.colorTgText
+                    if (it == 0) R.color.colorRadarControlGroupActiveText
+                    else R.color.colorRadarControlGroupInactiveText
                 )
             )
 
             binding.startState.setTextColor(
                 ContextCompat.getColor(
                     context!!,
-                    if (it == 1) R.color.colorTgWhite else R.color.colorTgText
+                    if (it == 1) R.color.colorRadarControlGroupActiveText
+                    else R.color.colorRadarControlGroupInactiveText
                 )
             )
 
@@ -516,10 +520,10 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         binding.radarChart.setExtraOffsets(50f, 50f, 50f, 50f)
 
         binding.radarChart.webLineWidth = 0.5f
-        binding.radarChart.webColor = ContextCompat.getColor(requireContext(), R.color.colorTgText)
+        binding.radarChart.webColor = ContextCompat.getColor(requireContext(), R.color.colorChartWeb)
         binding.radarChart.webLineWidthInner = 0.5f
         binding.radarChart.webColorInner =
-            ContextCompat.getColor(requireContext(), R.color.colorTgText)
+            ContextCompat.getColor(requireContext(), R.color.colorChartWebInner)
         binding.radarChart.webAlpha = 100
 
         setChartData()
@@ -538,14 +542,14 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                     binding.wheelState.setTextColor(
                         ContextCompat.getColor(
                             context!!,
-                            R.color.colorTgText
+                            R.color.colorMetricControlGroupInactiveText
                         )
                     )
 
                     binding.listState.setTextColor(
                         ContextCompat.getColor(
                             context!!,
-                            R.color.colorTgWhite
+                            R.color.colorMetricControlGroupActiveText
                         )
                     )
 
@@ -625,18 +629,18 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         set0.setDrawHighlightIndicators(false)
 
         val rdsCurrent = RadarDataSet(entries1, "Current")
-        rdsCurrent.color = ContextCompat.getColor(context!!, R.color.colorBlue)
-        rdsCurrent.fillColor = ContextCompat.getColor(context!!, R.color.colorBlueLight)
+        rdsCurrent.color = ContextCompat.getColor(context!!, R.color.colorRdsCurrent)
+        rdsCurrent.fillColor = ContextCompat.getColor(context!!, R.color.colorRdsCurrentFill)
         rdsCurrent.setDrawFilled(true)
         rdsCurrent.fillAlpha = 180
         rdsCurrent.lineWidth = 1f
-        rdsCurrent.valueTextColor = ContextCompat.getColor(context!!, R.color.colorTgWhite)
+        rdsCurrent.valueTextColor = ContextCompat.getColor(context!!, R.color.colorRdsCurrentValueText)
         rdsCurrent.isDrawHighlightCircleEnabled = false
         rdsCurrent.setDrawHighlightIndicators(false)
 
         val rdsDefault = RadarDataSet(entries2, "Default")
-        rdsDefault.color = ContextCompat.getColor(context!!, R.color.colorPurpleDark)
-        rdsDefault.fillColor = ContextCompat.getColor(context!!, R.color.colorPurple)
+        rdsDefault.color = ContextCompat.getColor(context!!, R.color.colorRdsDefault)
+        rdsDefault.fillColor = ContextCompat.getColor(context!!, R.color.colorRdsDefaultFill)
         rdsDefault.setDrawFilled(true)
         rdsDefault.fillAlpha = 180
         rdsDefault.lineWidth = 1f

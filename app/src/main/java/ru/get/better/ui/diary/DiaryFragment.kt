@@ -302,7 +302,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 RippleEffect(
                     100f,
                     200f,
-                    ContextCompat.getColor(requireContext(), R.color.colorTgPrimary)
+                    ContextCompat.getColor(requireContext(), R.color.colorHabitsSpotlightTarget)
                 )
             )
             .setOverlay(habitsTargetLayout)
@@ -310,7 +310,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
         val spotlight = Spotlight.Builder(requireActivity())
             .setTargets(habitsTarget)
-            .setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTgPrimary))
+            .setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorHabitsSpotlightBackground))
             .setDuration(1000L)
             .setAnimation(DecelerateInterpolator(2f))
             .setContainer(binding.container)

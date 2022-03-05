@@ -13,6 +13,6 @@
         android:gravity="center"
         android:letterSpacing="0.2"
         android:text="@string/next_update"
-        android:textColor="@color/colorTgWhite" />
+        android:textColor="@color/colorItemTaskText" />
 
 </RelativeLayout>

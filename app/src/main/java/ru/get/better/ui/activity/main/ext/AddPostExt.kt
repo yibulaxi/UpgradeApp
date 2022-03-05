@@ -26,7 +26,6 @@ import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 fun MainActivity.setupBottomSheets() {
     addPostBehavior.addBottomSheetCallback(object :
         BottomSheetBehavior.BottomSheetCallback() {
@@ -470,8 +469,8 @@ fun MainActivity.setupTrackerSheet() {
         }
 
         if (activeTracker != null) {
-            val firstColor = resources.getColor(R.color.colorTgGray)
-            val secondColor = resources.getColor(R.color.colorTgPrimary)
+            val firstColor = resources.getColor(R.color.colorActiveTrackerFirstColor)
+            val secondColor = resources.getColor(R.color.colorActiveTrackerSecondColor)
 
             val colorAnimationFromFirstToSecond =
                 ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
@@ -613,14 +612,16 @@ fun MainActivity.setupAddHabitBottomSheet() {
             dailyPoint.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    if (it == 0) R.color.colorTgWhite else R.color.colorTgText
+                    if (it == 0) R.color.colorAddHabitRegularityPointActiveText
+                    else R.color.colorAddHabitRegularityPointInactiveText
                 )
             )
 
             weeklyPoint.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    if (it == 1) R.color.colorTgWhite else R.color.colorTgText
+                    if (it == 1) R.color.colorAddHabitRegularityPointActiveText
+                    else R.color.colorAddHabitRegularityPointInactiveText
                 )
             )
         }

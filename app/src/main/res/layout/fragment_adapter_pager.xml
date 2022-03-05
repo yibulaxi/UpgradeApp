@@ -17,7 +17,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorTgPrimaryDark">
+        android:background="@color/colorFragmentAdapterPagerBackground">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontalBottomGuideLine"
@@ -34,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:gravity="start"
-            android:textColor="@color/colorTgWhite"
+            android:textColor="@color/colorFragmentAdapterPagerTitleText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +50,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="start"
             android:letterSpacing="0.1"
-            android:textColor="@color/colorTgText"
+            android:textColor="@color/colorFragmentAdapterPagerDescriptionText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
@@ -109,7 +109,7 @@
                         android:layout_gravity="center"
                         android:padding="16dp"
                         android:text="@string/every_day"
-                        android:textColor="@color/colorTgWhite" />
+                        android:textColor="@color/colorFragmentAdapterPagerFirstValueText" />
                 </FrameLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -119,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/colorPrimaryGreen"
+                android:backgroundTint="@color/colorFragmentAdapterPagerSecondValueBackgroundTint"
                 android:clickable="true"
                 android:elevation="6dp"
                 android:focusable="true"
@@ -139,7 +139,7 @@
                         android:layout_gravity="center"
                         android:padding="16dp"
                         android:text="@string/every_day"
-                        android:textColor="@color/colorTgWhite" />
+                        android:textColor="@color/colorFragmentAdapterPagerSecondValueText" />
                 </FrameLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -149,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/colorPrimaryGreen"
+                android:backgroundTint="@color/colorFragmentAdapterPagerThirdValueBackgroundTint"
                 android:clickable="true"
                 android:elevation="6dp"
                 android:focusable="true"
@@ -169,7 +169,7 @@
                         android:layout_gravity="center"
                         android:padding="16dp"
                         android:text="@string/every_day"
-                        android:textColor="@color/colorTgWhite" />
+                        android:textColor="@color/colorFragmentAdapterPagerThirdValueText" />
                 </FrameLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -198,7 +198,7 @@
                         android:layout_gravity="center"
                         android:padding="16dp"
                         android:text="@string/every_day"
-                        android:textColor="@color/colorTgWhite" />
+                        android:textColor="@color/colorFragmentAdapterPagerForthValueText" />
                 </FrameLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -235,7 +235,7 @@
                 android:gravity="center"
                 android:letterSpacing="0.2"
                 android:text="@string/start"
-                android:textColor="@color/colorTgWhite"
+                android:textColor="@color/colorFragmentAdapterPagerTvMessageText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

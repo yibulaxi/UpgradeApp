@@ -85,8 +85,8 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
                                 lineWidth = 12f,
                                 padding = 24f,
                                 position = TimelineDecorator.Position.Left,
-                                indicatorColor = resources.getColor(R.color.colorTgPrimary),
-                                lineColor = resources.getColor(R.color.colorTgPrimary),
+                                indicatorColor = resources.getColor(R.color.colorAchievementsIndicator),
+                                lineColor = resources.getColor(R.color.colorAchievementsLine),
                                 lineStyle = TimelineView.LineStyle.Normal,
                                 indicatorStyle = TimelineView.IndicatorStyle.Checked
                             )

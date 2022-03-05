@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:letterSpacing="0.2"
                 android:text="@string/save"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorFragmentWelcomeTvMessageText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

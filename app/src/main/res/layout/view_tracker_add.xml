@@ -64,7 +64,7 @@
                 android:gravity="center"
                 android:letterSpacing="0.1"
                 android:text="@string/add_tracker"
-                android:textColor="@color/colorTgWhite"
+                android:textColor="@color/colorViewTrackerAddTitleText"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ru.get.better.ui.view.CustomWheelPickerView
@@ -89,8 +89,8 @@
                 android:maxLength="30"
                 android:maxLines="1"
                 android:padding="12dp"
-                android:textColor="@color/colorTgText"
-                android:textColorHint="@color/colorLightGray"
+                android:textColor="@color/colorViewTrackerAddEditTextText"
+                android:textColorHint="@color/colorViewTrackerAddEditTextHint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toBottomOf="@id/title" />
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textColor="@color/colorTgText"
+                android:textColor="@color/colorViewTrackerAddDateText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/icon" />
 
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="0/2000"
-                android:textColor="@color/colorTgText"
+                android:textColor="@color/colorViewTrackerAddLengthText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/icon" />
 
@@ -122,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/colorTgText"
+                android:background="@color/colorViewTrackerAddSeparatorBackground"
                 app:layout_constraintTop_toBottomOf="@id/date" />
 
             <com.alanvan.segmented_control.SegmentedControlGroup
@@ -132,10 +132,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorTgPrimary"
-                app:customDividerColor="@color/colorTgPrimary"
-                app:customShadowColor="@color/colorTgPrimary"
-                app:customSliderColor="@color/colorTgGray"
+                android:backgroundTint="@color/colorViewTrackerAddPointsStateControlGroupBackgroundTint"
+                app:customDividerColor="@color/colorViewTrackerAddPointsStateControlGroupCustomDivider"
+                app:customShadowColor="@color/colorViewTrackerAddPointsStateControlGroupCustomShadow"
+                app:customSliderColor="@color/colorViewTrackerAddPointsStateControlGroupCustomSlider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator">
@@ -151,7 +151,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:lines="1"
                     android:text="+"
-                    android:textColor="@color/colorPrimaryGreen" />
+                    android:textColor="@color/colorViewTrackerAddPositivePointText" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/zeroPoint"
@@ -164,7 +164,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:text="0"
-                    android:textColor="@color/colorTgWhite" />
+                    android:textColor="@color/colorViewTrackerAddZeroPointText" />
 
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/negativePoint"
@@ -177,7 +177,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:text="-"
-                    android:textColor="@color/colorTgRed" />
+                    android:textColor="@color/colorViewTrackerAddNegativePointText" />
 
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
@@ -211,7 +211,7 @@
                     android:gravity="center"
                     android:letterSpacing="0.2"
                     android:text="@string/save"
-                    android:textColor="@color/colorTgWhite"
+                    android:textColor="@color/colorViewTrackerAddTvMessageText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

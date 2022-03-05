@@ -60,7 +60,7 @@
                 android:gravity="center"
                 android:letterSpacing="0.1"
                 android:text="@string/add_post"
-                android:textColor="@color/colorTgWhite"
+                android:textColor="@color/colorViewDetailInterestTitleText"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/colorTgWhite"
+                android:textColor="@color/colorViewDetailInterestAmountText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/amount_max"
-                android:textColor="@color/colorTgText"
+                android:textColor="@color/colorViewDetailInterestAmountMaxText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amount" />
 
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/colorTgText"
+                android:textColor="@color/colorViewDetailInterestNotesAmountText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amountMax" />
 
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/colorTgText"
+                android:textColor="@color/colorViewDetailInterestStartValueText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/notesAmount" />
 
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/colorTgText"
+                android:textColor="@color/colorViewDetailInterestCurrentValueText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/startValue" />
 
@@ -121,7 +121,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="6dp"
-                android:backgroundTint="@color/colorTgPrimary"
+                android:backgroundTint="@color/colorViewDetailInterestEditBackgroundTint"
                 android:clickable="true"
                 android:clipChildren="false"
                 android:clipToPadding="false"
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_edit"
-                    android:tint="@color/colorTgWhite" />
+                    android:tint="@color/colorViewDetailInterestEditTint" />
 
             </androidx.cardview.widget.CardView>
 

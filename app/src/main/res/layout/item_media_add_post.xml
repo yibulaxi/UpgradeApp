@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundedCorners"
-            app:strokeColor="@color/colorBlueLight"
+            app:strokeColor="@color/colorItemMediaAddPostIconStroke"
             app:strokeWidth="1dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

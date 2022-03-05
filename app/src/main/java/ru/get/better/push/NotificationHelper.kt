@@ -52,7 +52,7 @@ class NotificationHelper(private val mContext: Context) {
 
         mBuilder = NotificationCompat.Builder(mContext)
             .setSmallIcon(R.drawable.ic_launcher_notification)
-            .setColor(ContextCompat.getColor(mContext, R.color.colorWhite))
+            .setColor(ContextCompat.getColor(mContext, R.color.colorNotification))
             .setContentTitle(title)
             .setContentText(message)
             .setAutoCancel(true)

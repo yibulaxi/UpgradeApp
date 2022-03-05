@@ -23,7 +23,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorTgPrimaryDark"
+            android:background="@color/colorFragmentDiaryBackground"
             android:fitsSystemWindows="true"
 
             tools:context=".ui.activity.main.MainActivity">
@@ -41,7 +41,7 @@
                     android:layout_marginTop="16dp"
                     android:letterSpacing="0.2"
                     android:text="@string/diary"
-                    android:textColor="@color/colorTgWhite"
+                    android:textColor="@color/colorFragmentDiaryTitleText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +54,7 @@
                     android:layout_marginTop="24dp"
                     android:letterSpacing="0.1"
                     android:text="@string/diary_empty_text"
-                    android:textColor="@color/colorTgText"
+                    android:textColor="@color/colorFragmentDiaryEmptyTextText"
                     app:layout_constraintTop_toBottomOf="@id/title" />
 
                 <com.airbnb.lottie.LottieAnimationView
@@ -106,7 +106,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{handler::onInfoClicked}"
                     android:src="@drawable/ic_info"
-                    android:tint="@color/colorTgGrayDark"
+                    android:tint="@color/colorFragmentDiaryInfoTint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -117,7 +117,7 @@
             android:id="@+id/blur"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/coloBlurBackground"
+            android:background="@color/colorBlur"
             android:onClick="@{handler::onBlurClicked}"
             android:visibility="gone" />
 
