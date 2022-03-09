@@ -49,27 +49,30 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:backgroundTint="@color/colorViewSelectNoteTypeBackgroundTint">
-
+                    >
+<!--android:backgroundTint="@color/colorViewSelectNoteTypeBackgroundTint"-->
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/titleText"
                         style="@style/Text24.Light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="30dp"
                         android:gravity="center"
-                        android:text="@string/what_add_in_diary"
-                        android:textColor="@color/colorViewSelectNoteTypeTitleText" />
+                         />
+<!--                    android:textColor="@color/colorViewSelectNoteTypeTitleText"-->
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/selectTypeContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorViewSelectNoteTypeSelectTypeContainerBackgroundTint">
+                    >
+<!--                    android:backgroundTint="@color/colorViewSelectNoteTypeSelectTypeContainerBackgroundTint"-->
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
@@ -80,13 +83,12 @@
                             android:id="@+id/noteType"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
-                            android:backgroundTint="@color/colorViewSelectNoteTypeNoteTypeBackgroundTint"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
-
+<!--android:backgroundTint="@color/colorViewSelectNoteTypeNoteTypeBackgroundTint"-->
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -95,18 +97,21 @@
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/icDiary"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:src="@drawable/diary"
-                                    app:tint="@color/colorViewSelectNoteTypeNoteTypeTint" />
-
+                                     />
+<!--app:tint="@color/colorViewSelectNoteTypeNoteTypeTint"-->
                                 <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/diaryTitle"
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/note"
-                                    android:textColor="@color/colorViewSelectNoteTypeNoteTypeText" />
 
+                                     />
+
+<!--android:textColor="@color/colorViewSelectNoteTypeNoteTypeText"-->
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </com.google.android.material.card.MaterialCardView>
@@ -116,13 +121,12 @@
                             android:layout_width="90dp"
                             android:layout_height="90dp"
                             android:layout_marginStart="12dp"
-                            android:backgroundTint="@color/colorViewSelectNoteTypeTrackerTypeBackgroundTint"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground"
                             app:layout_constraintStart_toEndOf="@id/noteType"
                             app:layout_constraintTop_toTopOf="parent">
-
+<!--android:backgroundTint="@color/colorViewSelectNoteTypeTrackerTypeBackgroundTint"-->
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -131,18 +135,21 @@
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/icTracker"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:src="@drawable/ic_tracker"
-                                    app:tint="@color/colorViewSelectNoteTypeTrackerTypeTint" />
+                                    android:src="@drawable/ic_tracker_light"
+                                    />
+<!--                                app:tint="@color/colorViewSelectNoteTypeTrackerTypeTint" -->
 
                                 <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/trackerTitle"
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/tracker"
-                                    android:textColor="@color/colorViewSelectNoteTypeTrackerTypeText" />
 
+                                     />
+<!--android:textColor="@color/colorViewSelectNoteTypeTrackerTypeText"-->
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </com.google.android.material.card.MaterialCardView>
@@ -152,13 +159,12 @@
                             android:layout_width="90dp"
                             android:layout_height="90dp"
                             android:layout_marginTop="12dp"
-                            android:backgroundTint="@color/colorViewSelectNoteTypeGoalTypeBackgroundTint"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/noteType">
-
+<!--android:backgroundTint="@color/colorViewSelectNoteTypeGoalTypeBackgroundTint"-->
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -167,18 +173,19 @@
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/icGoal"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:src="@drawable/ic_goal"
-                                    app:tint="@color/colorViewSelectNoteTypeGoalTypeTint" />
-
+                                    />
+<!--app:tint="@color/colorViewSelectNoteTypeGoalTypeTint" -->
                                 <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/goalTitle"
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/goal"
-                                    android:textColor="@color/colorViewSelectNoteTypeGoalTypeText" />
-
+                                    />
+<!--android:textColor="@color/colorViewSelectNoteTypeGoalTypeText" -->
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </com.google.android.material.card.MaterialCardView>
@@ -189,13 +196,12 @@
                             android:layout_height="90dp"
                             android:layout_marginStart="12dp"
                             android:layout_marginTop="12dp"
-                            android:backgroundTint="@color/colorViewSelectNoteTypeHabitTypeBackgroundTint"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackground"
                             app:layout_constraintStart_toEndOf="@id/goalType"
                             app:layout_constraintTop_toBottomOf="@id/trackerType">
-
+<!--android:backgroundTint="@color/colorViewSelectNoteTypeHabitTypeBackgroundTint"-->
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -204,18 +210,20 @@
                                 android:orientation="vertical">
 
                                 <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/icHabit"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:src="@drawable/ic_habit"
-                                    app:tint="@color/colorViewSelectNoteTypeHabitTypeTint" />
-
+                                    />
+<!--app:tint="@color/colorViewSelectNoteTypeHabitTypeTint" -->
                                 <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/habitTitle"
                                     style="@style/Text14.Light"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/habit"
-                                    android:textColor="@color/colorViewSelectNoteTypeHabitTypeText" />
 
+                                    />
+<!--android:textColor="@color/colorViewSelectNoteTypeHabitTypeText" -->
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                         </com.google.android.material.card.MaterialCardView>

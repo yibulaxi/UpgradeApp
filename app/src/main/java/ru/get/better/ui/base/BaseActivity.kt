@@ -14,7 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.EventBusException
+import org.greenrobot.eventbus.Subscribe
 import ru.get.better.BR
+import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.util.ext.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -69,6 +71,16 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
         proceedWithOnCreate(savedInstanceState)
     }
 
+
+    open fun updateThemeAndLocale() {
+
+    }
+
+    @Subscribe
+    fun onUpdateThemeEvent(e: UpdateThemeEvent) {
+        updateThemeAndLocale()
+    }
+
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return false
     }
@@ -112,6 +124,7 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
     }
 
     protected open fun onLayoutReady(savedInstanceState: Bundle?) {
+        updateThemeAndLocale()
         // Empty for optional override
     }
 

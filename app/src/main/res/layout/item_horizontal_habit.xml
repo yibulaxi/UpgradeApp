@@ -22,7 +22,6 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="6dp"
-            android:backgroundTint="@color/colorItemHorizontalHabitBackgroundTint"
             android:clickable="true"
             android:elevation="6dp"
             android:focusable="true"
@@ -32,7 +31,7 @@
             app:cardUseCompatPadding="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
+<!--android:backgroundTint="@color/colorItemHorizontalHabitBackgroundTint"-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
@@ -46,11 +45,12 @@
                     android:layout_margin="12dp" />
 
                 <TextView
+                    android:id="@+id/iconTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorItemHorizontalHabitText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+<!--                android:textColor="@color/colorItemHorizontalHabitText"-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -63,29 +63,29 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
-            android:textColor="@color/colorItemHorizontalHabitTitleText"
             app:layout_constraintEnd_toEndOf="@id/cardView"
             app:layout_constraintStart_toStartOf="@id/cardView"
             app:layout_constraintTop_toBottomOf="@id/cardView" />
-
+<!--android:textColor="@color/colorItemHorizontalHabitTitleText"-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/completeBlock"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="6dp"
             android:alpha="0"
-            android:backgroundTint="@color/colorItemHorizontalHabitCompleteBlockBackgroundTint"
             app:cardCornerRadius="90dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
+<!--android:backgroundTint="@color/colorItemHorizontalHabitCompleteBlockBackgroundTint"-->
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icCheck"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="12dp"
                 android:src="@drawable/ic_check"
-                android:tint="@color/colorItemHorizontalHabitTint" />
+                />
+<!--            android:tint="@color/colorItemHorizontalHabitTint" -->
 
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

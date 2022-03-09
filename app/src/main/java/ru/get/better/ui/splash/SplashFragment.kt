@@ -2,7 +2,9 @@ package ru.get.better.ui.splash
 
 import android.animation.Animator
 import android.app.Activity
+import android.content.res.Configuration
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.fragment.app.viewModels
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -16,6 +18,7 @@ import ru.get.better.databinding.FragmentSplashBinding
 import ru.get.better.event.ChangeNavViewVisibilityEvent
 import ru.get.better.event.InitUserSettingsEvent
 import ru.get.better.event.LoadMainEvent
+import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.view.SimpleCustomSnackbar
@@ -57,13 +60,27 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 .getUserSettingsById(App.preferences.uid!!)
                 .observeOnce(this) {
                     animateText = it?.let {
-                        App.resourcesProvider.getString(
-                            R.string.hello
+                        App.resourcesProvider.getStringLocale(
+                            R.string.hello, App.preferences.locale?: "ru"
                         ) + " " + it.login
                     } ?: "GET BETTER"
                     start()
                 }
         }
+    }
+
+    override fun updateThemeAndLocale() {
+        binding.splashContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashBackground
+            else R.color.colorLightFragmentSplashBackground
+        ))
+
+        binding.logoText.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashLogoTextText
+            else R.color.colorLightFragmentSplashLogoTextText
+        ))
     }
 
     private fun setupLocale() {
@@ -83,7 +100,30 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
+    private fun setupInitTheme() {
+        if (App.preferences.isFirstLaunch) {
+            EventBus.getDefault().post(
+                UpdateThemeEvent(
+                    when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                        Configuration.UI_MODE_NIGHT_NO -> false
+                        Configuration.UI_MODE_NIGHT_YES -> true
+                        Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+                        else -> false
+                    }
+                )
+            )
+        } else {
+//            EventBus.getDefault().post(
+//                UpdateThemeEvent(
+//                    App.preferences.isDarkTheme
+//                )
+//            )
+        }
+
+    }
+
     private fun start() {
+        setupInitTheme()
         setupLocale()
 
         binding.animationView.imageAssetsFolder = "images"
@@ -194,8 +234,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             null,
             R.drawable.ic_check,
             null,
-            R.drawable.snack_success_gradient,
-            R.drawable.snack_success_gradient,
+            R.drawable.snack_success_gradient_light,
+            R.drawable.snack_success_gradient_light,
         )?.show()
     }
 
@@ -208,8 +248,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             null,
             R.drawable.ic_check,
             null,
-            R.drawable.snack_success_gradient,
-            R.drawable.snack_success_gradient,
+            R.drawable.snack_success_gradient_light,
+            R.drawable.snack_success_gradient_light,
         )?.show()
     }
 
@@ -222,8 +262,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             null,
             R.drawable.ic_close,
             null,
-            R.drawable.snack_warning_gradient,
-            R.drawable.snack_warning_gradient,
+            R.drawable.snack_warning_gradient_light,
+            R.drawable.snack_warning_gradient_light,
         )?.show()
     }
 

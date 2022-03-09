@@ -1,10 +1,13 @@
 package ru.get.better.ui.activity.main.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemMediaAddPostBinding
 import ru.get.better.model.Media
@@ -25,6 +28,14 @@ class AddPostMediaViewHolder(
                 .load(media.url)
                 .placeholder(R.drawable.ic_add_media)
                 .into(binding.icon)
+
+        binding.icon.strokeColor = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemMediaAddPostIconStroke
+                else R.color.colorLightItemMediaAddPostIconStroke
+            )
+        )
 
     }
 

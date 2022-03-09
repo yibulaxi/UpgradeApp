@@ -15,11 +15,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/authContaienr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorFragmentAuthBackground"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
+<!--        android:background="@color/colorFragmentAuthBackground"-->
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
@@ -37,15 +38,14 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
             android:alpha="0"
-            android:background="@color/colorFragmentAuthSignInBlockBackground"
-            android:backgroundTint="@color/colorFragmentAuthSignInBlockBackgroundTint"
             android:elevation="16dp"
             android:visibility="gone"
             app:cardCornerRadius="12dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
+<!--android:background="@color/colorFragmentAuthSignInBlockBackground"
+            android:backgroundTint="@color/colorFragmentAuthSignInBlockBackgroundTint"-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -57,30 +57,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/email"
-                    android:textColor="@color/colorFragmentAuthEmailTitleText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorFragmentAuthEmailTitleText"-->
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/email"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="@string/email_example"
                     android:inputType="textEmailAddress"
                     android:letterSpacing="0.1"
                     android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="12dp"
-                    android:textColor="@color/colorFragmentAuthEmailText"
-                    android:textColorHint="@color/colorFragmentAuthEmailHint"
                     app:layout_constraintTop_toBottomOf="@id/emailTitle" />
-
+<!--                android:background="@drawable/bg_edittext_light"-->
+<!--android:textColor="@color/colorFragmentAuthEmailText"
+                    android:textColorHint="@color/colorFragmentAuthEmailHint"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/passwordTitle"
                     style="@style/Text12.Light"
@@ -88,30 +84,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="@string/password"
-                    android:textColor="@color/colorFragmentAuthPasswordTitleText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/email" />
-
+<!--android:textColor="@color/colorFragmentAuthPasswordTitleText"-->
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/password"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:letterSpacing="0.1"
                     android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="12dp"
-                    android:textColor="@color/colorFragmentAuthPasswordText"
-                    android:textColorHint="@color/colorFragmentAuthPasswordHint"
                     app:layout_constraintTop_toBottomOf="@id/passwordTitle" />
-
+<!--                android:background="@drawable/bg_edittext_light"-->
+<!--android:textColor="@color/colorFragmentAuthPasswordText"
+                    android:textColorHint="@color/colorFragmentAuthPasswordHint"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/signInButton"
                     style="@style/Text14.Light"
@@ -119,17 +111,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="36dp"
-                    android:background="@color/colorFragmentAuthSignInButtonBackground"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:onClick="@{handler::signInClicked}"
                     android:paddingVertical="8dp"
-                    android:text="@string/enter"
-                    android:textColor="@color/colorFragmentAuthSignInButtonText"
                     app:layout_constraintTop_toBottomOf="@id/password" />
-
+<!--android:background="@color/colorFragmentAuthSignInButtonBackground"
+android:textColor="@color/colorFragmentAuthSignInButtonText"-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -140,15 +130,14 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
             android:alpha="0"
-            android:background="@color/colorFragmentAuthSignUpBlockBackground"
-            android:backgroundTint="@color/colorFragmentAuthSignUpBlockBackgroundTint"
             android:elevation="16dp"
             android:visibility="gone"
             app:cardCornerRadius="12dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
+<!--android:background="@color/colorFragmentAuthSignUpBlockBackground"
+            android:backgroundTint="@color/colorFragmentAuthSignUpBlockBackgroundTint"-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -160,30 +149,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/email"
-                    android:textColor="@color/colorFragmentAuthEmailTitleSignUpText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorFragmentAuthEmailTitleSignUpText"-->
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/emailSignUp"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="@string/email_example"
                     android:inputType="textEmailAddress"
                     android:letterSpacing="0.1"
                     android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="12dp"
-                    android:textColor="@color/colorFragmentAuthEmailSignUpText"
-                    android:textColorHint="@color/colorFragmentAuthEmailSignUpHint"
                     app:layout_constraintTop_toBottomOf="@id/emailTitleSignUp" />
-
+<!--                android:background="@drawable/bg_edittext_light"-->
+<!--android:textColor="@color/colorFragmentAuthEmailSignUpText"
+                    android:textColorHint="@color/colorFragmentAuthEmailSignUpHint"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/passwordTitleSignUp"
                     style="@style/Text12.Light"
@@ -191,29 +176,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="@string/password"
-                    android:textColor="@color/colorFragmentAuthPasswordTitleSignUpText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/emailSignUp" />
-
+<!--android:textColor="@color/colorFragmentAuthPasswordTitleSignUpText"-->
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/passwordSignUp"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="@string/password_example"
                     android:inputType="textPassword"
                     android:letterSpacing="0.1"
                     android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="12dp"
-                    android:textColor="@color/colorFragmentAuthPasswordSignUpText"
-                    android:textColorHint="@color/colorFragmentAuthPasswordSignUpHint"
                     app:layout_constraintTop_toBottomOf="@id/passwordTitleSignUp" />
+<!--                android:background="@drawable/bg_edittext_light"-->
+<!--android:textColor="@color/colorFragmentAuthPasswordSignUpText"
+                    android:textColorHint="@color/colorFragmentAuthPasswordSignUpHint"-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/passwordRepeatTitleSignUp"
@@ -222,30 +204,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="@string/repeat_password"
-                    android:textColor="@color/colorFragmentAuthRepeatPasswordTitleSignUpText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/passwordSignUp" />
-
+<!--android:textColor="@color/colorFragmentAuthRepeatPasswordTitleSignUpText"-->
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/passwordRepeatSignUp"
                     style="@style/Text14.Light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_edittext"
                     android:gravity="start"
-                    android:hint="@string/password_example"
                     android:inputType="textPassword"
                     android:letterSpacing="0.1"
                     android:lines="2"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="12dp"
-                    android:textColor="@color/colorFragmentAuthRepeatPasswordSignUpText"
-                    android:textColorHint="@color/colorFragmentAuthRepeatPasswordSignUpHint"
                     app:layout_constraintTop_toBottomOf="@id/passwordRepeatTitleSignUp" />
-
+<!--                android:background="@drawable/bg_edittext_light"-->
+<!--android:textColor="@color/colorFragmentAuthRepeatPasswordSignUpText"
+                    android:textColorHint="@color/colorFragmentAuthRepeatPasswordSignUpHint"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/signUpButton"
                     style="@style/Text14.Light"
@@ -253,17 +231,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="36dp"
-                    android:background="@color/colorFragmentAuthSignUpButtonBackground"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:onClick="@{handler::signUpClicked}"
                     android:paddingVertical="8dp"
-                    android:text="@string/register"
-                    android:textColor="@color/colorFragmentAuthSignUpButtonText"
                     app:layout_constraintTop_toBottomOf="@id/passwordRepeatSignUp" />
-
+<!--
+android:background="@color/colorFragmentAuthSignUpButtonBackground"
+                    android:textColor="@color/colorFragmentAuthSignUpButtonText"
+-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -273,8 +251,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@color/colorFragmentAuthSignInBackground"
-            android:backgroundTint="@color/colorFragmentAuthSignInBackgroundTint"
             android:clickable="true"
             android:elevation="8dp"
             android:focusable="true"
@@ -283,16 +259,18 @@
             app:cardCornerRadius="12dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toTopOf="@id/signUp">
-
+<!--android:background="@color/colorFragmentAuthSignInBackground"
+            android:backgroundTint="@color/colorFragmentAuthSignInBackgroundTint"-->
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/signInTitle"
                 style="@style/Text14.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:text="@string/enter"
-                android:textColor="@color/colorFragmentAuthSignInText" />
+                 />
+<!--            android:textColor="@color/colorFragmentAuthSignInText"-->
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -301,8 +279,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@color/colorFragmentAuthSignUpBackground"
-            android:backgroundTint="@color/colorFragmentAuthSignUpBackgroundTint"
             android:clickable="true"
             android:elevation="8dp"
             android:focusable="true"
@@ -311,16 +287,18 @@
             app:cardCornerRadius="12dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toBottomOf="parent">
-
+<!--android:background="@color/colorFragmentAuthSignUpBackground"
+            android:backgroundTint="@color/colorFragmentAuthSignUpBackgroundTint"-->
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/signUpTitle"
                 style="@style/Text14.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:text="@string/register"
-                android:textColor="@color/colorFragmentAuthSignUpText" />
+                />
+<!--            android:textColor="@color/colorFragmentAuthSignUpText" -->
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

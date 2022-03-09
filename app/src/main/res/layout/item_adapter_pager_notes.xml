@@ -17,9 +17,8 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/colorItemAdapterPagerNotesBackgroundTint"
         app:cardUseCompatPadding="true">
-
+<!--android:backgroundTint="@color/colorItemAdapterPagerNotesBackgroundTint"-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
@@ -40,10 +39,9 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_goal"
-                android:tint="@color/colorItemAdapterPagerNotesNoteTypeTint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:tint="@color/colorItemAdapterPagerNotesNoteTypeTint"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/interestName"
                 style="@style/Text16.Light"
@@ -52,11 +50,10 @@
                 android:layout_marginStart="12dp"
                 android:gravity="end"
                 android:letterSpacing="0.1"
-                android:textColor="@color/colorItemAdapterPagerNotesInterestNameText"
                 app:layout_constraintBottom_toBottomOf="@id/noteType"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorItemAdapterPagerNotesInterestNameText"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/amount"
                 style="@style/Text12.Light"
@@ -67,11 +64,10 @@
                 android:paddingVertical="2dp"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:textColor="@color/colorItemAdapterPagerNotesAmountText"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/icon" />
-
+<!--android:textColor="@color/colorItemAdapterPagerNotesAmountText"-->
             <!--            <View-->
             <!--                android:id="@+id/separator"-->
             <!--                android:layout_width="match_parent"-->
@@ -107,7 +103,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:letterSpacing="0.1"
-                        android:textColor="@color/colorItemAdapterPagerNotesTextText" />
+                        />
+<!--                    android:textColor="@color/colorItemAdapterPagerNotesTextText" -->
 
                     <TextView
                         android:id="@+id/wasteTime"
@@ -116,15 +113,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="6dp"
-                        android:background="@drawable/bg_waste_time"
                         android:gravity="end"
                         android:letterSpacing="0.1"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="8dp"
-                        android:textColor="@color/colorItemAdapterPagerNotesWasteTimeText"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent" />
-
+<!--                    android:background="@drawable/bg_waste_time_light"-->
+<!--android:textColor="@color/colorItemAdapterPagerNotesWasteTimeText"-->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/habitsRealizationBlock"
                         android:layout_width="match_parent"
@@ -137,25 +133,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:letterSpacing="0.1"
-                            android:text="@string/completed"
-                            android:textColor="@color/colorItemAdapterPagerNotesHabitsRealizationTitleText"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorItemAdapterPagerNotesHabitsRealizationTitleText"-->
                         <TextView
                             android:id="@+id/habitsRealizationValue"
                             style="@style/Text14.Light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:background="@drawable/bg_habits_realization_value"
                             android:letterSpacing="0.1"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="6dp"
-                            android:textColor="@color/colorItemAdapterPagerNotesHabitsRealizationValueText"
                             app:layout_constraintStart_toEndOf="@id/habitsRealizationTitle"
                             app:layout_constraintTop_toTopOf="parent" />
+<!--                        android:background="@drawable/bg_habits_realization_value_light"-->
+<!--                        android:textColor="@color/colorItemAdapterPagerNotesHabitsRealizationValueText"-->
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -174,9 +168,9 @@
                         android:layout_marginTop="12dp"
                         android:gravity="end"
                         android:letterSpacing="0.1"
-                        android:textColor="@color/colorItemAdapterPagerNotesDateText"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/amount" />
+<!--                    android:textColor="@color/colorItemAdapterPagerNotesDateText"-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
 
@@ -185,7 +179,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="6dp"
-                android:backgroundTint="@color/colorItemAdapterPagerNotesEditBackgroundTint"
                 android:clickable="true"
                 android:clipChildren="false"
                 android:clipToPadding="false"
@@ -197,13 +190,15 @@
                 app:cardPreventCornerOverlap="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
-
+<!--android:backgroundTint="@color/colorItemAdapterPagerNotesEditBackgroundTint"-->
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_edit"
-                    android:tint="@color/colorItemAdapterPagerNotesEditTint" />
+                    />
+<!--                android:tint="@color/colorItemAdapterPagerNotesEditTint" -->
 
             </androidx.cardview.widget.CardView>
 

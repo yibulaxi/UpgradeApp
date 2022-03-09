@@ -5,11 +5,14 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.DimenRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.android.synthetic.main.fragment_welcome.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.FragmentWelcomeBinding
 import ru.get.better.event.*
@@ -34,25 +37,44 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
 
         binding.viewPager.offscreenPageLimit = 1
 
-        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
-        val currentItemHorizontalMarginPx =
-            resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
-        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
-        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
-            page.translationX = -pageTranslationX * position
-            // Next line scales the item's height. You can remove it if you don't want this effect
-            page.scaleY = 1 - (0.5f * kotlin.math.abs(position))
-            // If you want a fading effect uncomment the next line:
-            page.alpha = 0.15f + (1 - kotlin.math.abs(position))
-        }
-        binding.viewPager.setPageTransformer(pageTransformer)
-
-        val itemDecoration = HorizontalMarginItemDecoration(
-            context!!,
-            R.dimen.viewpager_current_item_horizontal_margin
-        )
-        binding.viewPager.addItemDecoration(itemDecoration)
+//        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
+//        val currentItemHorizontalMarginPx =
+//            resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
+//        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+//        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
+//            page.translationX = -pageTranslationX * position
+//            // Next line scales the item's height. You can remove it if you don't want this effect
+//            page.scaleY = 1 - (0.5f * kotlin.math.abs(position))
+//            // If you want a fading effect uncomment the next line:
+//            page.alpha = 0.15f + (1 - kotlin.math.abs(position))
+//        }
+//        binding.viewPager.setPageTransformer(pageTransformer)
+//
+//        val itemDecoration = HorizontalMarginItemDecoration(
+//            context!!,
+//            R.dimen.viewpager_current_item_horizontal_margin
+//        )
+//        binding.viewPager.addItemDecoration(itemDecoration)
         binding.viewPager.isUserInputEnabled = false
+    }
+
+    override fun updateThemeAndLocale() {
+
+        binding.tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
+
+        adapter.notifyDataSetChanged()
+
+        background.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        binding.tvMessage.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentWelcomeTvMessageText
+            else R.color.colorLightFragmentWelcomeTvMessageText
+        ))
     }
 
     @Subscribe

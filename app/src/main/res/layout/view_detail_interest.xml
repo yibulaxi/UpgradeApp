@@ -35,22 +35,28 @@
             android:id="@+id/container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/background_bottom_sheet"
-            android:padding="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/topGuideline">
-
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:padding="16dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+<!--android:background="@drawable/background_bottom_sheet_light"-->
             <View
                 android:id="@+id/viewHeader"
                 android:layout_width="60dp"
                 android:layout_height="4dp"
-                android:background="@drawable/snack_neutral_gradient"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:background="@drawable/snack_neutral_gradient_light"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/Text20.Medium"
@@ -59,21 +65,18 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:letterSpacing="0.1"
-                android:text="@string/add_post"
-                android:textColor="@color/colorViewDetailInterestTitleText"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toBottomOf="@id/viewHeader" />
+<!--android:textColor="@color/colorViewDetailInterestTitleText"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/amount"
-                style="@style/Text24.Medium"
+                style="@style/Text30.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/colorViewDetailInterestAmountText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
-
+<!--android:textColor="@color/colorViewDetailInterestAmountText"-->
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/amountMax"
@@ -81,47 +84,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/amount_max"
-                android:textColor="@color/colorViewDetailInterestAmountMaxText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amount" />
-
+<!--android:textColor="@color/colorViewDetailInterestAmountMaxText"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/notesAmount"
                 style="@style/Text14.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/colorViewDetailInterestNotesAmountText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amountMax" />
-
+<!--android:textColor="@color/colorViewDetailInterestNotesAmountText"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/startValue"
                 style="@style/Text14.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/colorViewDetailInterestStartValueText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/notesAmount" />
-
+<!--android:textColor="@color/colorViewDetailInterestStartValueText"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/currentValue"
                 style="@style/Text14.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/colorViewDetailInterestCurrentValueText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/startValue" />
-
+<!--android:textColor="@color/colorViewDetailInterestCurrentValueText"-->
             <androidx.cardview.widget.CardView
                 android:id="@+id/edit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="6dp"
-                android:backgroundTint="@color/colorViewDetailInterestEditBackgroundTint"
                 android:clickable="true"
                 android:clipChildren="false"
                 android:clipToPadding="false"
@@ -133,17 +130,18 @@
                 app:cardPreventCornerOverlap="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
-
+<!--android:backgroundTint="@color/colorViewDetailInterestEditBackgroundTint"-->
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_edit"
-                    android:tint="@color/colorViewDetailInterestEditTint" />
-
+                    />
+<!--android:tint="@color/colorViewDetailInterestEditTint"-->
             </androidx.cardview.widget.CardView>
 
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

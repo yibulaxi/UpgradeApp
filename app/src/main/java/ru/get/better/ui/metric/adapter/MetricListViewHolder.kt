@@ -28,6 +28,36 @@ class MetricListViewHolder(
     }
 
     fun bind(interest: Interest) {
+        binding.value.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_list_metric_value_dark
+            else R.drawable.bg_list_metric_value_light
+        )
+
+        binding.title.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricTitleText
+            else R.color.colorLightItemListMetricTitleText
+        ))
+
+        binding.description.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricDescriptionText
+            else R.color.colorLightItemListMetricDescriptionText
+        ))
+
+        binding.value.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricValueText
+            else R.color.colorLightItemListMetricValueText
+        ))
+
+        binding.separator.setBackgroundColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricSeparatorBackground
+            else R.color.colorLightItemListMetricSeparatorBackground
+        ))
+
         if (interest is EmptyInterest) {
             binding.icon.setImageDrawable(
                 AppCompatResources.getDrawable(
@@ -38,12 +68,16 @@ class MetricListViewHolder(
             ImageViewCompat.setImageTintList(
                 binding.icon,
                 ColorStateList.valueOf(
-                    ContextCompat.getColor(context, R.color.colorMetricListCreateInterestTint)
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricListCreateInterestTint
+                        else R.color.colorLightMetricListCreateInterestTint
+                    )
                 )
             )
 
-            binding.title.text = App.resourcesProvider.getString(R.string.create_new_interest_title)
-            binding.description.text = App.resourcesProvider.getString(R.string.create_new_interest_description)
+            binding.title.text = App.resourcesProvider.getStringLocale(R.string.create_new_interest_title, App.preferences.locale)
+            binding.description.text = App.resourcesProvider.getStringLocale(R.string.create_new_interest_description, App.preferences.locale)
 
             binding.value.isVisible = false
 
@@ -64,14 +98,25 @@ class MetricListViewHolder(
 
             binding.description.text = interest.description
 
-
             binding.value.text = String.format("%.2f", interest.currentValue)
                 .replace(".", ",")
 
             binding.value.background = when (interest.currentValue) {
-                0f -> AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient)
-                10f -> AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value)
-                else -> AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient)
+                0f -> AppCompatResources.getDrawable(
+                    context,
+                    if (App.preferences.isDarkTheme) R.drawable.snack_warning_gradient_dark
+                    else R.drawable.snack_warning_gradient_light
+                )
+                10f -> AppCompatResources.getDrawable(
+                    context,
+                    if (App.preferences.isDarkTheme) R.drawable.bg_list_metric_value_dark
+                    else R.drawable.bg_list_metric_value_light
+                )
+                else -> AppCompatResources.getDrawable(
+                    context,
+                    if (App.preferences.isDarkTheme) R.drawable.snack_success_gradient_dark
+                    else R.drawable.snack_success_gradient_light
+                )
             }
 
             binding.container.setOnClickListener {

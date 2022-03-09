@@ -13,497 +13,535 @@
             type="ru.get.better.ui.settings.SettingsFragment.Handler" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/title"
-            style="@style/Text24.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:letterSpacing="0.2"
-            android:text="@string/settings_title"
-            android:textColor="@color/colorFragmentSettingsTitleText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/colorFragmentSettingsLogoutBackgroundTint"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="@id/title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/title">
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settingsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="66dp">
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/logout"
-                style="@style/Text16.Light"
+                android:id="@+id/title"
+                style="@style/Text24.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_margin="16dp"
                 android:letterSpacing="0.2"
-                android:onClick="@{handler::onLogoutClicked}"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp"
-                android:text="@string/logout"
-                android:textColor="@color/colorFragmentSettingsLogoutText" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/userBlock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorFragmentSettingsUserBlockBackgroundTint"
-            app:cardCornerRadius="12dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintTop_toBottomOf="@id/title">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <!--android:textColor="@color/colorFragmentSettingsTitleText"-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/logoutContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="6dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/relationship_logo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintBottom_toBottomOf="@id/title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/title">
+                <!--            android:backgroundTint="@color/colorFragmentSettingsLogoutBackgroundTint"-->
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/name"
+                    android:id="@+id/logout"
                     style="@style/Text16.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:letterSpacing="0.1"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/icon"
-                    app:layout_constraintStart_toEndOf="@id/icon"
-                    app:layout_constraintTop_toTopOf="@id/icon" />
+                    android:gravity="center"
+                    android:letterSpacing="0.2"
+                    android:onClick="@{handler::onLogoutClicked}"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="6dp"
+                    />
+                <!--            android:textColor="@color/colorFragmentSettingsLogoutText"-->
+            </com.google.android.material.card.MaterialCardView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/generalBlock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="@color/colorFragmentSettingsGeneralBlockBackgroundTint"
-            app:cardCornerRadius="12dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintTop_toBottomOf="@id/userBlock">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/userBlock"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/title">
+                <!--android:backgroundTint="@color/colorFragmentSettingsUserBlockBackgroundTint"-->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/pushBlock"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="6dp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:paddingVertical="6dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/pushTitle"
-                        style="@style/Text16.Light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:paddingTop="6dp"
-                        android:text="@string/push_notifications_title"
-                        android:textColor="@color/colorFragmentSettingsPushTitleText"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/relationship_logo"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/pushValue"
-                        style="@style/Text12.Light"
+                        android:id="@+id/name"
+                        style="@style/Text16.Light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
                         android:letterSpacing="0.1"
-                        android:paddingBottom="8dp"
-                        android:text="@string/soon"
-                        android:textColor="@color/colorFragmentSettingsPushValueText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pushTitle" />
+                        app:layout_constraintBottom_toBottomOf="@id/icon"
+                        app:layout_constraintStart_toEndOf="@id/icon"
+                        app:layout_constraintTop_toTopOf="@id/icon" />
+                    <!--android:textColor="@color/colorFragmentSettingsPushTitleText"-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <View
-                    android:id="@+id/separatorLocale"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@color/colorFragmentSettingsSeparatorLocaleBackground"
-                    app:layout_constraintTop_toBottomOf="@id/pushBlock" />
-
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/generalBlock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/userBlock">
+                <!--android:backgroundTint="@color/colorFragmentSettingsGeneralBlockBackgroundTint"-->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/localeBlock"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="6dp"
-                    app:layout_constraintTop_toBottomOf="@id/pushBlock">
+                    android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/localeTitle"
-                        style="@style/Text16.Light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:paddingTop="6dp"
-                        android:text="@string/locale_title"
-                        android:textColor="@color/colorFragmentSettingsLocaleTitleText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.skydoves.powerspinner.PowerSpinnerView
-                        android:id="@+id/localeSpinner"
-                        style="@style/Text12.Light"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/themeBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="-10dp"
-                        android:layout_marginTop="-10dp"
-                        android:layout_marginEnd="-10dp"
-                        android:gravity="start|center_vertical"
-                        android:hint="@string/system"
-                        android:letterSpacing="0.1"
-                        android:padding="10dp"
-                        app:spinner_arrow_tint="@color/colorFragmentSettingsLocaleSpinnerArrowTint"
-                        android:textColor="@color/colorFragmentSettingsLocaleSpinnerText"
-                        android:textColorHint="@color/colorFragmentSettingsLocaleSpinnerHint"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/localeTitle"
-                        app:spinner_arrow_gravity="end"
-                        app:spinner_divider_color="@color/colorFragmentSettingsLocaleSpinnerDivider"
-                        app:spinner_divider_show="false"
-                        app:spinner_divider_size="0.4dp"
-                        app:spinner_item_array="@array/locale_values"
-                        app:spinner_popup_animation="fade"
-                        app:spinner_popup_background="@color/colorFragmentSettingsLocaleSpinnerPopupBackground" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/localeValue"
-                        style="@style/Text12.Light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:text="@string/system"
-                        android:textColor="@color/colorFragmentSettingsLocaleValueText"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/localeTitle" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/themeTitle"
+                            style="@style/Text16.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:paddingVertical="6dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--android:textColor="@color/colorFragmentSettingsPushTitleText"-->
+                        <com.suke.widget.SwitchButton
+                            android:id="@+id/themeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:padding="0dp"
+                            app:sb_checked="true"
+                            app:sb_button_color="#F1F1F2"
+                            app:sb_enable_effect="true"
+                            app:sb_shadow_effect="true"
+                            app:sb_uncheck_color="@android:color/transparent"
+                            app:sb_checked_color="#1a2430"
+                            app:sb_uncheckcircle_color="@android:color/transparent"
+                            app:sb_show_indicator="false"
+/>
+<!--
+                            app:sb_checked="false"
+                            app:sb_enable_effect="true"
+                            app:sb_shadow_effect="true"
+                            app:sb_show_indicator="false"
+                            app:sb_border_width="0dp"
+                            app:sb_checkline_width="0dp"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <View
-                    android:id="@+id/separator1"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@color/colorFragmentSettingsSeparator1Background"
-                    app:layout_constraintTop_toBottomOf="@id/localeBlock" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/difficultyBlock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="6dp"
-                    app:layout_constraintTop_toBottomOf="@id/localeBlock">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/difficultyTitle"
-                        style="@style/Text16.Light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:paddingTop="6dp"
-                        android:text="@string/difficulty_title"
-                        android:textColor="@color/colorFragmentSettingsDifficultyTitleText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.skydoves.powerspinner.PowerSpinnerView
-                        android:id="@+id/difficultySpinner"
-                        style="@style/Text12.Light"
+                    <View
+                        android:id="@+id/separatorTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/themeBlock" />
+                    <!--android:background="@color/colorFragmentSettingsSeparatorLocaleBackground"-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/pushBlock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="-10dp"
-                        android:layout_marginTop="-10dp"
-                        android:layout_marginEnd="-10dp"
-                        android:gravity="start|center_vertical"
-                        android:hint="@string/soon"
-                        app:spinner_arrow_tint="@color/colorFragmentSettingsDifficultySpinnerArrowTint"
-                        android:letterSpacing="0.1"
-                        android:padding="10dp"
-                        android:textColor="@color/colorFragmentSettingsDifficultySpinnerText"
-                        android:textColorHint="@color/colorFragmentSettingsDifficultySpinnerHint"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/difficultyTitle"
-                        app:spinner_arrow_gravity="end"
-                        app:spinner_divider_color="@color/colorFragmentSettingsDifficultySpinnerDivider"
-                        app:spinner_divider_show="false"
-                        app:spinner_divider_size="0.4dp"
-                        app:spinner_item_array="@array/difficulty_values"
-                        app:spinner_popup_animation="fade"
-                        app:spinner_popup_background="@color/colorFragmentSettingsDifficultySpinnerPopupBackground" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"
+                        app:layout_constraintTop_toBottomOf="@id/themeBlock">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/difficultyValue"
-                        style="@style/Text12.Light"
-                        android:layout_width="wrap_content"
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/pushTitle"
+                            style="@style/Text16.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:paddingTop="6dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--android:textColor="@color/colorFragmentSettingsPushTitleText"-->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/pushValue"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:paddingBottom="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/pushTitle" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsPushValueText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:id="@+id/separatorLocale"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/pushBlock" />
+                    <!--android:background="@color/colorFragmentSettingsSeparatorLocaleBackground"-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/localeBlock"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:text="@string/soon"
-                        android:textColor="@color/colorFragmentSettingsDifficultyValueText"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/difficultyTitle" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"
+                        app:layout_constraintTop_toBottomOf="@id/pushBlock">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/localeTitle"
+                            style="@style/Text16.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:paddingTop="6dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--android:textColor="@color/colorFragmentSettingsLocaleTitleText"-->
+                        <com.skydoves.powerspinner.PowerSpinnerView
+                            android:id="@+id/localeSpinner"
+                            style="@style/Text12.Light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-10dp"
+                            android:layout_marginTop="-10dp"
+                            android:layout_marginEnd="-10dp"
+                            android:gravity="start|center_vertical"
+                            android:letterSpacing="0.1"
+                            android:padding="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/localeTitle"
+                            app:spinner_arrow_gravity="end"
+                            app:spinner_divider_show="false"
+                            app:spinner_divider_size="0.4dp"
+                            app:spinner_item_array="@array/locale_values"
+                            app:spinner_popup_animation="fade" />
+                        <!--                    app:spinner_arrow_tint="@color/colorFragmentSettingsLocaleSpinnerArrowTint"
+                                                android:textColor="@color/colorFragmentSettingsLocaleSpinnerText"
+                                                android:textColorHint="@color/colorFragmentSettingsLocaleSpinnerHint"
+                                                app:spinner_divider_color="@color/colorFragmentSettingsLocaleSpinnerDivider"
+                                                app:spinner_popup_background="@color/colorFragmentSettingsLocaleSpinnerPopupBackground"-->
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/localeValue"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/localeTitle" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsLocaleValueText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:id="@+id/separator1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/localeBlock" />
+                    <!--android:background="@color/colorFragmentSettingsSeparator1Background"-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/difficultyBlock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="6dp"
+                        app:layout_constraintTop_toBottomOf="@id/localeBlock">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/difficultyTitle"
+                            style="@style/Text16.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:paddingTop="6dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--android:textColor="@color/colorFragmentSettingsDifficultyTitleText"-->
+                        <com.skydoves.powerspinner.PowerSpinnerView
+                            android:id="@+id/difficultySpinner"
+                            style="@style/Text12.Light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-10dp"
+                            android:layout_marginTop="-10dp"
+                            android:layout_marginEnd="-10dp"
+                            android:gravity="start|center_vertical"
+                            android:letterSpacing="0.1"
+                            android:padding="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/difficultyTitle"
+                            app:spinner_arrow_gravity="end"
+                            app:spinner_divider_show="false"
+                            app:spinner_divider_size="0.4dp"
+                            app:spinner_item_array="@array/difficulty_values"
+                            app:spinner_popup_animation="fade" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsDifficultySpinnerText"
+                                                app:spinner_arrow_tint="@color/colorFragmentSettingsDifficultySpinnerArrowTint"
+                                                android:textColorHint="@color/colorFragmentSettingsDifficultySpinnerHint"
+                                                app:spinner_popup_background="@color/colorFragmentSettingsDifficultySpinnerPopupBackground"
+                                                app:spinner_divider_color="@color/colorFragmentSettingsDifficultySpinnerDivider"-->
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/difficultyValue"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/difficultyTitle" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsDifficultyValueText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="@color/colorFragmentSettingsFooterBlockBackgroundTint"
-            app:cardCornerRadius="12dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintTop_toBottomOf="@id/generalBlock">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/footerBlock"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/footerBlockCard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/generalBlock">
+                <!--android:backgroundTint="@color/colorFragmentSettingsFooterBlockBackgroundTint"-->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/versionBlock"
+                    android:id="@+id/footerBlock"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/version"
-                        style="@style/Text12.Light"
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/versionBlock"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:text="@string/version"
-                        android:textColor="@color/colorFragmentSettingsVersionText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                <View
-                    android:id="@+id/separator2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@color/colorFragmentSettingsSeparatorBackground"
-                    app:layout_constraintTop_toBottomOf="@id/versionBlock" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/version"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsVersionText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/aboutBlock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:onClick="@{handler::onAboutClicked}"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/versionBlock">
+                    <View
+                        android:id="@+id/separator2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/versionBlock" />
+                    <!--                android:background="@color/colorFragmentSettingsSeparatorBackground"-->
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/about"
-                        style="@style/Text12.Light"
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/aboutBlock"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:text="@string/about_app"
-                        android:textColor="@color/colorFragmentSettingsAboutText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{handler::onAboutClicked}"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/versionBlock">
 
-                <View
-                    android:id="@+id/separator3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@color/colorFragmentSettingsSeparatorBackground"
-                    app:layout_constraintTop_toBottomOf="@id/aboutBlock" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/about"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsAboutText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/faqBlock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:onClick="@{handler::onFaqBlockClicked}"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/aboutBlock">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/faq"
-                        style="@style/Text12.Light"
-                        android:layout_width="wrap_content"
+                    <View
+                        android:id="@+id/separator3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/aboutBlock" />
+                    <!--android:background="@color/colorFragmentSettingsSeparatorBackground"-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/faqBlock"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:text="@string/often_questions_title"
-                        android:textColor="@color/colorFragmentSettingsFaqText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{handler::onFaqBlockClicked}"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/aboutBlock">
 
-                <View
-                    android:id="@+id/separator4"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@color/colorFragmentSettingsSeparatorBackground"
-                    app:layout_constraintTop_toBottomOf="@id/faqBlock" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/faq"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsFaqText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/rateBlock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:onClick="@{handler::onRateBlockClicked}"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/faqBlock">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/rate"
-                        style="@style/Text12.Light"
-                        android:layout_width="wrap_content"
+                    <View
+                        android:id="@+id/separator4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/faqBlock" />
+                    <!--android:background="@color/colorFragmentSettingsSeparatorBackground"-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/rateBlock"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:text="@string/rate_app"
-                        android:textColor="@color/colorFragmentSettingsRateText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{handler::onRateBlockClicked}"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/faqBlock">
 
-                <View
-                    android:id="@+id/separator5"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@color/colorFragmentSettingsSeparatorBackground"
-                    app:layout_constraintTop_toBottomOf="@id/rateBlock" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/rate"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsRateText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/writeBlock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:onClick="@{handler::onWriteBlockClicked}"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/separator5">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/write"
-                        style="@style/Text12.Light"
-                        android:layout_width="wrap_content"
+                    <View
+                        android:id="@+id/separator5"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/rateBlock" />
+                    <!--android:background="@color/colorFragmentSettingsSeparatorBackground"-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/writeBlock"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:letterSpacing="0.1"
-                        android:text="@string/write_developer"
-                        android:textColor="@color/colorFragmentSettingsWriteText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick="@{handler::onWriteBlockClicked}"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/separator5">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/write"
+                            style="@style/Text12.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <!--                    android:textColor="@color/colorFragmentSettingsWriteText"-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <View
-            android:id="@+id/blur"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorBlur"
-            android:onClick="@{handler::onBlurClicked}"
-            android:visibility="gone" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/aboutText"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <View
+                android:id="@+id/blur"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="16dp">
+                android:background="@color/colorLightBlur"
+                android:onClick="@{handler::onBlurClicked}"
+                android:visibility="gone" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/logo"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/logo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/aboutText"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text14.Light"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="@string/app_description"
-                    android:textColor="@color/colorFragmentSettingsAboutTextText"
-                    app:layout_constraintTop_toBottomOf="@id/logo" />
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/logo"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/logo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.card.MaterialCardView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/aboutTextTitle"
+                        style="@style/Text14.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.1"
+                        app:layout_constraintTop_toBottomOf="@id/logo" />
+                    <!--android:textColor="@color/colorFragmentSettingsAboutTextText"-->
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

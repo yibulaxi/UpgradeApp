@@ -3,6 +3,7 @@ package ru.get.better.ui.metric
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -30,9 +31,14 @@ import com.skydoves.balloon.*
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.Circle
+import kotlinx.android.synthetic.main.dialog_alert_add_interest.view.*
 import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.*
+import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.icon
+import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.interestDescription
+import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.interestName
 import kotlinx.android.synthetic.main.radar_markerview.view.*
 import kotlinx.android.synthetic.main.snackbar_success.view.*
+import kotlinx.android.synthetic.main.target_metric_wheel.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
@@ -127,6 +133,145 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     }
 
+    override fun updateThemeAndLocale() {
+        binding.wheelStateLight.text = App.resourcesProvider.getStringLocale(R.string.wheel)
+        binding.wheelStateDark.text = App.resourcesProvider.getStringLocale(R.string.wheel)
+
+        binding.listStateLight.text = App.resourcesProvider.getStringLocale(R.string.list)
+        binding.listStateDark.text = App.resourcesProvider.getStringLocale(R.string.list)
+
+        binding.currentStateLight.text = App.resourcesProvider.getStringLocale(R.string.current_wheel)
+        binding.currentStateDark.text = App.resourcesProvider.getStringLocale(R.string.current_wheel)
+
+        binding.startStateLight.text = App.resourcesProvider.getStringLocale(R.string.start_wheel)
+        binding.startStateDark.text = App.resourcesProvider.getStringLocale(R.string.start_wheel)
+
+        binding.diaryAmountTitle.text = App.resourcesProvider.getStringLocale(R.string.metric_notes)
+        binding.averageAmountTitle.text = App.resourcesProvider.getStringLocale(R.string.metric_average_point)
+        binding.daysAmountTitle.text = App.resourcesProvider.getStringLocale(R.string.metric_days)
+
+        if (::adapter.isInitialized)
+            adapter.notifyDataSetChanged()
+
+        setupChart()
+        setupList()
+        setupMetricControlGroup()
+
+        binding.container.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
+            else R.color.colorLightFragmentMetricBackground
+        ))
+
+        binding.metricStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+        binding.metricStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
+        binding.radarStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+        binding.radarStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
+        binding.wheelStateLight.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricWheelStateText
+            else R.color.colorLightFragmentMetricWheelStateText
+        ))
+
+        binding.wheelStateDark.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricWheelStateText
+            else R.color.colorLightFragmentMetricWheelStateText
+        ))
+
+        binding.listStateLight.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricListStateText
+            else R.color.colorLightFragmentMetricListStateText
+        ))
+
+        binding.listStateDark.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricListStateText
+            else R.color.colorLightFragmentMetricListStateText
+        ))
+
+        binding.currentStateLight.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricCurrentStateText
+            else R.color.colorLightFragmentMetricCurrentStateText
+        ))
+
+        binding.currentStateDark.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricCurrentStateText
+            else R.color.colorLightFragmentMetricCurrentStateText
+        ))
+
+        binding.startStateLight.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricStartStateText
+            else R.color.colorLightFragmentMetricStartStateText
+        ))
+
+        binding.startStateDark.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricStartStateText
+            else R.color.colorLightFragmentMetricStartStateText
+        ))
+
+        binding.list.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricListBackground
+            else R.color.colorLightFragmentMetricListBackground
+        ))
+
+        binding.diaryAmount.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricDiaryAmountText
+            else R.color.colorLightFragmentMetricDiaryAmountText
+        ))
+
+        binding.diaryAmountTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricDiaryAmountTitleText
+            else R.color.colorLightFragmentMetricDiaryAmountTitleText
+        ))
+
+        binding.averageAmount.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricAverageAmountText
+            else R.color.colorLightFragmentMetricAverageAmountText
+        ))
+
+        binding.averageAmountTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricAverageAmountTitleText
+            else R.color.colorLightFragmentMetricAverageAmountTitleText
+        ))
+
+        binding.daysAmount.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricDaysAmountText
+            else R.color.colorLightFragmentMetricDaysAmountText
+        ))
+
+        binding.daysAmountTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricDaysAmountTitleText
+            else R.color.colorLightFragmentMetricDaysAmountTitleText
+        ))
+
+        binding.info.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricInfoTint
+            else R.color.colorLightFragmentMetricInfoTint
+        ))
+
+        binding.backgroundImage.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkBlur
+            else R.color.colorLightBlur
+        ))
+    }
+
     @Subscribe
     fun onShowSpotlightEvent(e: ShowSpotlightEvent) {
         if (e.spotlightType == SpotlightType.MetricWheel)
@@ -136,6 +281,20 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     private fun showWheelSpotlight() {
         val wheelTargetLayout =
             layoutInflater.inflate(R.layout.target_metric_wheel, FrameLayout(requireContext()))
+
+        wheelTargetLayout.title.text = App.resourcesProvider.getStringLocale(R.string.wheel_spotlight)
+
+        wheelTargetLayout.title.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkTargetMetricWheelTitleText
+            else R.color.colorLightTargetMetricWheelTitleText
+        ))
+        wheelTargetLayout.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkTargetMetricWheelTint
+            else R.color.colorLightTargetMetricWheelTint
+        ))
+
         val wheelTarget = com.takusemba.spotlight.Target.Builder()
             .setAnchor(binding.wheelTarget)
             .setShape(Circle(400f))
@@ -143,7 +302,11 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 RippleEffect(
                     100f,
                     200f,
-                    ContextCompat.getColor(requireContext(), R.color.colorWheelSpotlightTarget)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.colorDarkWheelSpotlightTarget
+                        else R.color.colorLightWheelSpotlightTarget
+                    )
                 )
             )
             .setOverlay(wheelTargetLayout)
@@ -154,7 +317,8 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             .setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.colorWheelSpotlightBackground
+                    if (App.preferences.isDarkTheme) R.color.colorDarkWheelSpotlightBackground
+                    else R.color.colorLightWheelSpotlightBackground
                 )
             )
             .setDuration(1000L)
@@ -192,6 +356,70 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun setupDetailInterestBottomSheet(interest: Interest) {
         with(binding.interestDetailBottomSheet) {
+
+            title.text = App.resourcesProvider.getStringLocale(R.string.add_post)
+            amountMax.text = App.resourcesProvider.getStringLocale(R.string.amount_max)
+
+            container.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.background_bottom_sheet_dark
+                else R.drawable.background_bottom_sheet_light
+            )
+
+            viewHeader.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+                else R.drawable.snack_neutral_gradient_light
+            )
+
+            title.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestTitleText
+                else R.color.colorLightViewDetailInterestTitleText
+            ))
+
+            amount.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestAmountText
+                else R.color.colorLightViewDetailInterestAmountText
+            ))
+
+            amountMax.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestAmountMaxText
+                else R.color.colorLightViewDetailInterestAmountMaxText
+            ))
+
+            notesAmount.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestNotesAmountText
+                else R.color.colorLightViewDetailInterestNotesAmountText
+            ))
+
+            startValue.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestStartValueText
+                else R.color.colorLightViewDetailInterestStartValueText
+            ))
+
+            currentValue.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestCurrentValueText
+                else R.color.colorLightViewDetailInterestCurrentValueText
+            ))
+
+            edit.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestEditBackgroundTint
+                else R.color.colorLightViewDetailInterestEditBackgroundTint
+            ))
+
+            icEdit.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewDetailInterestEditTint
+                else R.color.colorLightViewDetailInterestEditTint
+            ))
+
             userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
                 title.text = interest.name
                 amount.text =
@@ -207,10 +435,10 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                             notes.filter { it.interest!!.interestId == interest.id }.size
 
                 startValue.text =
-                    getString(R.string.start_value) + String.format("%.2f", interest.startValue)
+                    getString(R.string.start_value) + " " + String.format("%.2f", interest.startValue)
                         .replace(".", ",")
                 currentValue.text =
-                    getString(R.string.current_value) + String.format("%.2f", interest.currentValue)
+                    getString(R.string.current_value) + " " + String.format("%.2f", interest.currentValue)
                         .replace(".", ",")
 
                 edit.setOnClickListener {
@@ -222,8 +450,14 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     }
 
     private fun showAddInterestDialog() {
-        val view: View = layoutInflater.inflate(R.layout.dialog_alert_add_interest, null)
-        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
+        val view: View = layoutInflater.inflate(
+            R.layout.dialog_alert_add_interest,
+            null
+        )
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(),
+            if (App.preferences.isDarkTheme) R.style.DialogThemeDark
+            else R.style.DialogThemeLight
+        )
         alertDialogBuilder.setPositiveButton(getString(R.string.create), null)
         alertDialogBuilder.setNegativeButton(getString(R.string.cancel), null)
 
@@ -244,6 +478,52 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 )
             )
         }
+
+        view.interestName.hint = App.resourcesProvider.getStringLocale(R.string.add_interest_name, App.preferences.locale)
+        view.interestDescription.hint = App.resourcesProvider.getStringLocale(R.string.add_interest_description, App.preferences.locale)
+
+        view.addInterestContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestBackground
+            else R.color.colorLightDialogAlertAddInterestBackground
+        ))
+
+        view.interestName.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        view.interestName.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameText
+            else R.color.colorLightDialogAlertAddInterestNameText
+        ))
+
+        view.interestName.setHintTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameHint
+            else R.color.colorLightDialogAlertAddInterestNameHint
+        ))
+
+        view.interestDescription.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        view.interestDescription.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestDescriptionText
+            else R.color.colorLightDialogAlertAddInterestDescriptionText
+        ))
+
+        view.interestDescription.setHintTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestDescriptionHint
+            else R.color.colorLightDialogAlertAddInterestDescriptionHint
+        ))
+
         view.icon.getRecycler().setItemViewCacheSize(AllLogo().logoList.size)
         view.icon.adapter.values = iconValues
 
@@ -289,14 +569,65 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     }
 
     private fun showEditInterestDialog(interest: Interest) {
-        val view: View = layoutInflater.inflate(R.layout.dialog_alert_edit_interest, null)
-        val alertDialogBuilder = AlertDialog.Builder(requireContext(), R.style.DialogTheme)
+        val view: View = layoutInflater.inflate(
+            R.layout.dialog_alert_edit_interest,
+            null
+        )
+        val alertDialogBuilder = AlertDialog.Builder(requireContext(),
+            if (App.preferences.isDarkTheme) R.style.DialogThemeDark
+            else R.style.DialogThemeLight
+        )
         alertDialogBuilder.setPositiveButton(getString(R.string.save), null)
         alertDialogBuilder.setNegativeButton(getString(R.string.delete), null)
 
         val alertDialog: AlertDialog = alertDialogBuilder.create()
         alertDialog.setTitle(getString(R.string.edit_interest))
         alertDialog.setCancelable(true)
+
+        view.editInterestContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertEditInterestBackground
+            else R.color.colorLightDialogAlertEditInterestBackground
+        ))
+
+        view.interestName.hint = App.resourcesProvider.getStringLocale(R.string.add_interest_name, App.preferences.locale)
+        view.interestDescription.hint = App.resourcesProvider.getStringLocale(R.string.add_interest_description, App.preferences.locale)
+
+        view.interestName.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        view.interestDescription.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        view.interestName.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertEditInterestNameText
+            else R.color.colorLightDialogAlertEditInterestNameText
+        ))
+
+        view.interestName.setHintTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertEditInterestNameHint
+            else R.color.colorLightDialogAlertEditInterestNameHint
+        ))
+
+        view.interestDescription.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertEditInterestDescriptionText
+            else R.color.colorLightDialogAlertEditInterestDescriptionText
+        ))
+
+        view.interestDescription.setHintTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertEditInterestDescriptionHint
+            else R.color.colorLightDialogAlertEditInterestDescriptionHint
+        ))
 
         view.interestName.setText(interest.name)
         view.interestDescription.setText(
@@ -435,23 +766,69 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun setupMetricControlGroup() {
         with(binding) {
-            wheelState.textSize = 12f
-            listState.textSize = 12f
+            wheelStateLight.textSize = 12f
+            wheelStateDark.textSize = 12f
+            listStateLight.textSize = 12f
+            listStateDark.textSize = 12f
 
-            metricStateControlGroup.setOnSelectedOptionChangeCallback {
-                wheelState.setTextColor(
+            metricStateControlGroupLight.setOnSelectedOptionChangeCallback {
+                wheelStateLight.setTextColor(
                     ContextCompat.getColor(
                         context!!,
-                        if (it == 0) R.color.colorMetricControlGroupActiveText
-                        else R.color.colorMetricControlGroupInactiveText
+                        if (it == 0) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                            else R.color.colorLightMetricControlGroupActiveText
+                        }
+                        else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                            else R.color.colorLightMetricControlGroupInactiveText
+                        }
                     )
                 )
 
-                listState.setTextColor(
+                listStateLight.setTextColor(
                     ContextCompat.getColor(
                         context!!,
-                        if (it == 1) R.color.colorMetricControlGroupActiveText
-                        else R.color.colorMetricControlGroupInactiveText
+                        if (it == 1) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                            else R.color.colorLightMetricControlGroupActiveText
+                        }
+                        else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                            else R.color.colorLightMetricControlGroupInactiveText
+                        }
+                    )
+                )
+
+                changeMetricListVisibility(it == 1)
+            }
+
+            metricStateControlGroupDark.setOnSelectedOptionChangeCallback {
+                wheelStateDark.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        if (it == 0) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                            else R.color.colorLightMetricControlGroupActiveText
+                        }
+                        else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                            else R.color.colorLightMetricControlGroupInactiveText
+                        }
+                    )
+                )
+
+                listStateDark.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        if (it == 1) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                            else R.color.colorLightMetricControlGroupActiveText
+                        }
+                        else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                            else R.color.colorLightMetricControlGroupInactiveText
+                        }
                     )
                 )
 
@@ -489,23 +866,70 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     }
 
     private fun setupRadarControlGroup() {
-        binding.currentState.textSize = 12f
-        binding.startState.textSize = 12f
+        binding.currentStateLight.textSize = 12f
+        binding.currentStateDark.textSize = 12f
+        binding.startStateLight.textSize = 12f
+        binding.startStateDark.textSize = 12f
 
-        binding.radarStateControlGroup.setOnSelectedOptionChangeCallback {
-            binding.currentState.setTextColor(
+        binding.radarStateControlGroupLight.setOnSelectedOptionChangeCallback {
+            binding.currentStateLight.setTextColor(
                 ContextCompat.getColor(
                     context!!,
-                    if (it == 0) R.color.colorRadarControlGroupActiveText
-                    else R.color.colorRadarControlGroupInactiveText
+                    if (it == 0) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupActiveText
+                        else R.color.colorLightRadarControlGroupActiveText
+                    }
+                    else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupInactiveText
+                        else R.color.colorLightRadarControlGroupInactiveText
+                    }
                 )
             )
 
-            binding.startState.setTextColor(
+            binding.startStateLight.setTextColor(
                 ContextCompat.getColor(
                     context!!,
-                    if (it == 1) R.color.colorRadarControlGroupActiveText
-                    else R.color.colorRadarControlGroupInactiveText
+                    if (it == 1) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupActiveText
+                        else R.color.colorLightRadarControlGroupActiveText
+                    }
+                    else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupInactiveText
+                        else R.color.colorLightRadarControlGroupInactiveText
+                    }
+                )
+            )
+
+            binding.radarChart.data.dataSets[2].isVisible = it == 1
+            binding.radarChart.invalidate()
+        }
+
+        binding.radarStateControlGroupDark.setOnSelectedOptionChangeCallback {
+            binding.currentStateDark.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    if (it == 0) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupActiveText
+                        else R.color.colorLightRadarControlGroupActiveText
+                    }
+                    else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupInactiveText
+                        else R.color.colorLightRadarControlGroupInactiveText
+                    }
+                )
+            )
+
+            binding.startStateDark.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    if (it == 1) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupActiveText
+                        else R.color.colorLightRadarControlGroupActiveText
+                    }
+                    else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkRadarControlGroupInactiveText
+                        else R.color.colorLightRadarControlGroupInactiveText
+                    }
                 )
             )
 
@@ -520,10 +944,18 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         binding.radarChart.setExtraOffsets(50f, 50f, 50f, 50f)
 
         binding.radarChart.webLineWidth = 0.5f
-        binding.radarChart.webColor = ContextCompat.getColor(requireContext(), R.color.colorChartWeb)
+        binding.radarChart.webColor = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkChartWeb
+            else R.color.colorLightChartWeb
+        )
         binding.radarChart.webLineWidthInner = 0.5f
         binding.radarChart.webColorInner =
-            ContextCompat.getColor(requireContext(), R.color.colorChartWebInner)
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkChartWebInner
+                else R.color.colorLightChartWebInner
+            )
         binding.radarChart.webAlpha = 100
 
         setChartData()
@@ -537,19 +969,38 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             object : PieRadarChartTouchListener(binding.radarChart) {
                 override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
 
-                    binding.metricStateControlGroup.setSelectedIndex(1, true)
+                    binding.metricStateControlGroupLight.setSelectedIndex(1, true)
+                    binding.metricStateControlGroupDark.setSelectedIndex(1, true)
 
-                    binding.wheelState.setTextColor(
+                    binding.wheelStateLight.setTextColor(
                         ContextCompat.getColor(
                             context!!,
-                            R.color.colorMetricControlGroupInactiveText
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                            else R.color.colorLightMetricControlGroupInactiveText
                         )
                     )
 
-                    binding.listState.setTextColor(
+                    binding.wheelStateDark.setTextColor(
                         ContextCompat.getColor(
                             context!!,
-                            R.color.colorMetricControlGroupActiveText
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                            else R.color.colorLightMetricControlGroupInactiveText
+                        )
+                    )
+
+                    binding.listStateLight.setTextColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                            else R.color.colorLightMetricControlGroupActiveText
+                        )
+                    )
+
+                    binding.listStateDark.setTextColor(
+                        ContextCompat.getColor(
+                            context!!,
+                            if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                            else R.color.colorLightMetricControlGroupActiveText
                         )
                     )
 
@@ -629,18 +1080,38 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         set0.setDrawHighlightIndicators(false)
 
         val rdsCurrent = RadarDataSet(entries1, "Current")
-        rdsCurrent.color = ContextCompat.getColor(context!!, R.color.colorRdsCurrent)
-        rdsCurrent.fillColor = ContextCompat.getColor(context!!, R.color.colorRdsCurrentFill)
+        rdsCurrent.color = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrent
+            else R.color.colorLightRdsCurrent
+        )
+        rdsCurrent.fillColor = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrentFill
+            else R.color.colorLightRdsCurrentFill
+        )
         rdsCurrent.setDrawFilled(true)
         rdsCurrent.fillAlpha = 180
         rdsCurrent.lineWidth = 1f
-        rdsCurrent.valueTextColor = ContextCompat.getColor(context!!, R.color.colorRdsCurrentValueText)
+        rdsCurrent.valueTextColor = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrentValueText
+            else R.color.colorLightRdsCurrentValueText
+        )
         rdsCurrent.isDrawHighlightCircleEnabled = false
         rdsCurrent.setDrawHighlightIndicators(false)
 
         val rdsDefault = RadarDataSet(entries2, "Default")
-        rdsDefault.color = ContextCompat.getColor(context!!, R.color.colorRdsDefault)
-        rdsDefault.fillColor = ContextCompat.getColor(context!!, R.color.colorRdsDefaultFill)
+        rdsDefault.color = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkRdsDefault
+            else R.color.colorLightRdsDefault
+        )
+        rdsDefault.fillColor = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkRdsDefaultFill
+            else R.color.colorLightRdsDefaultFill
+        )
         rdsDefault.setDrawFilled(true)
         rdsDefault.fillAlpha = 180
         rdsDefault.lineWidth = 1f

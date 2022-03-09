@@ -1,13 +1,15 @@
 package ru.get.better.ui.diary.adapter
 
 import android.content.Context
-import android.util.Log
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.greenrobot.eventbus.EventBus
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemNoteBinding
 import ru.get.better.event.ShowNoteDetailEvent
@@ -26,6 +28,30 @@ class NotesViewHolder(
     }
 
     fun bind(note: DiaryNote, position: Int) {
+
+        binding.cardView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteBackgroundTint
+            else R.color.colorLightItemNoteBackgroundTint
+        ))
+
+        binding.title.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteTitleText
+            else R.color.colorLightItemNoteTitleText
+        ))
+
+        binding.description.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteDescriptionText
+            else R.color.colorLightItemNoteDescriptionText
+        ))
+
+        binding.noteType.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteNoteTypeTint
+            else R.color.colorLightItemNoteNoteTypeTint
+        ))
 
 //        when (note.noteType) {
 //            NoteType.Note.id -> {
@@ -58,7 +84,7 @@ class NotesViewHolder(
                 )
                 NoteType.Tracker.id -> AppCompatResources.getDrawable(
                     context,
-                    R.drawable.ic_tracker
+                    R.drawable.ic_tracker_light
                 )
                 else -> AppCompatResources.getDrawable(context, R.drawable.diary)
             }

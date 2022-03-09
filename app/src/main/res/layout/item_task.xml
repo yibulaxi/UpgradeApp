@@ -5,6 +5,7 @@
 
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/taskTitle"
         style="@style/Text16.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,7 +13,6 @@
         android:layout_marginHorizontal="16dp"
         android:gravity="center"
         android:letterSpacing="0.2"
-        android:text="@string/next_update"
-        android:textColor="@color/colorItemTaskText" />
-
+         />
+<!--android:textColor="@color/colorItemTaskText"-->
 </RelativeLayout>

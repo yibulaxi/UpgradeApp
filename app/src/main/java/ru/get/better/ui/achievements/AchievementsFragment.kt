@@ -1,17 +1,21 @@
 package ru.get.better.ui.achievements
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.PagerAdapter
 import com.lriccardo.timelineview.TimelineDecorator
 import com.lriccardo.timelineview.TimelineView
 import kotlinx.android.synthetic.main.item_achievement.view.*
+import kotlinx.android.synthetic.main.item_task.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.FragmentAchievementsBinding
 import ru.get.better.event.ChangeProgressStateEvent
@@ -46,7 +50,7 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
 
-        view!!.post { setupViewPager() }
+//        view!!.post { updateTheme() }
     }
 
     override fun onViewModelReady(viewModel: UserAchievementsViewModel) {
@@ -62,6 +66,85 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
         }
     }
 
+    override fun updateThemeAndLocale() {
+        binding.lvlTitle.text = App.resourcesProvider.getStringLocale(R.string.level, App.preferences.locale)
+        binding.efficiencyTitle.text = App.resourcesProvider.getStringLocale(R.string.efficiency, App.preferences.locale)
+
+        achievementsAdapter.notifyDataSetChanged()
+        setupViewPager()
+
+        binding.achievementsContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
+            else R.color.colorLightFragmentMetricBackground
+        ))
+
+        binding.expChart.backgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsExpChartBackground
+                else R.color.colorLightFragmentAchievementsExpChartBackground
+            )
+        )
+
+        binding.lvlTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsExpChartTitleText
+                else R.color.colorLightFragmentAchievementsExpChartTitleText
+            )
+        )
+
+        binding.efficiencyChart.backgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsEfficiencyChartBackground
+                else R.color.colorLightFragmentAchievementsEfficiencyChartBackground
+            )
+        )
+        binding.efficiencyTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsEfficiencyChartTitleText
+                else R.color.colorLightFragmentAchievementsEfficiencyChartTitleText
+            )
+        )
+
+        binding.viewPagerFrame.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsViewPagerBackground
+                else R.color.colorLightFragmentAchievementsViewPagerBackground
+            )
+        )
+
+        binding.viewPagerView.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsViewSeparatorBackground
+                else R.color.colorLightFragmentAchievementsViewSeparatorBackground
+            )
+        )
+
+        binding.ntsCenter.activeColor = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenterActive
+            else R.color.colorLightFragmentAchievementsNtsCenterActive
+        )
+
+        binding.ntsCenter.inactiveColor = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenterInactive
+            else R.color.colorLightFragmentAchievementsNtsCenterInactive
+        )
+
+        binding.ntsCenter.stripColor = ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenter
+            else R.color.colorLightFragmentAchievementsNtsCenter
+        )
+    }
+
     private fun setupViewPager() {
         binding.viewPager.adapter = object : PagerAdapter() {
             override fun getCount(): Int {
@@ -72,6 +155,14 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
                 return when (position) {
                     0 -> {
                         val view = layoutInflater.inflate(R.layout.item_task, null)
+
+                        view.taskTitle.text = App.resourcesProvider.getStringLocale(R.string.next_update)
+                        view.taskTitle.setTextColor(ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.colorDarkItemTaskText
+                            else R.color.colorLightItemTaskText
+                        ))
+
                         container.addView(view)
                         view
                     }
@@ -85,8 +176,14 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
                                 lineWidth = 12f,
                                 padding = 24f,
                                 position = TimelineDecorator.Position.Left,
-                                indicatorColor = resources.getColor(R.color.colorAchievementsIndicator),
-                                lineColor = resources.getColor(R.color.colorAchievementsLine),
+                                indicatorColor = resources.getColor(
+                                    if (App.preferences.isDarkTheme) R.color.colorDarkAchievementsIndicator
+                                    else R.color.colorLightAchievementsIndicator
+                                ),
+                                lineColor = resources.getColor(
+                                    if (App.preferences.isDarkTheme) R.color.colorDarkAchievementsLine
+                                    else R.color.colorLightAchievementsLine
+                                ),
                                 lineStyle = TimelineView.LineStyle.Normal,
                                 indicatorStyle = TimelineView.IndicatorStyle.Checked
                             )

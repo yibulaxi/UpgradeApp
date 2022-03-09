@@ -112,10 +112,25 @@
         <item>Идеально</item>
     </string-array>
 
+
     <string-array name="difficulty_values">
         <item>Низкий</item>
         <item>Нормальный</item>
         <item>Высокий</item>
+        <item>Hardcore</item>
+    </string-array>
+
+    <string-array name="difficulty_values_ru">
+        <item>Низкий</item>
+        <item>Нормальный</item>
+        <item>Высокий</item>
+        <item>Hardcore</item>
+    </string-array>
+
+    <string-array name="difficulty_values_en">
+        <item>Low</item>
+        <item>Normal</item>
+        <item>High</item>
         <item>Hardcore</item>
     </string-array>
 
@@ -225,6 +240,16 @@
         <item>Английский</item>
     </string-array>
 
+    <string-array name="locale_values_ru">
+        <item>Русский</item>
+        <item>Английский</item>
+    </string-array>
+
+    <string-array name="locale_values_en">
+        <item>Russian</item>
+        <item>English</item>
+    </string-array>
+
     <string name="achievement_create_each_type_note">Написать записи каждого типа</string>
     <string name="achievement_complete_1_habit">Освоить 1 привычку</string>
     <string name="achievement_get_50_efficiency">Набрать 50% эффективности</string>
@@ -300,6 +325,7 @@
     <string name="settings_title">Настройки</string>
     <string name="logout">Выйти</string>
     <string name="push_notifications_title">Push-уведомления</string>
+    <string name="theme_title">Тема приложения</string>
     <string name="locale_title">Язык приложения</string>
     <string name="system">Системный</string>
     <string name="difficulty_title">Уровень сложности</string>

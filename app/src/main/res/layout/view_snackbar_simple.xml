@@ -10,21 +10,19 @@
         android:id="@+id/snack_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rect_primary"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground">
-
+<!--android:background="@drawable/rounded_rect_primary"-->
         <View
             android:id="@+id/background"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/snack_warning_gradient"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:background="@drawable/snack_warning_gradient_light"-->
         <Space
             android:id="@+id/space"
             android:layout_width="@dimen/activity_horizontal_margin"
@@ -41,8 +39,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorViewSnackbarSimpleIconTint" />
-
+            />
+<!--app:tint="@color/colorViewSnackbarSimpleIconTint"-->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/im_action_left"
             android:layout_width="35dp"
@@ -64,13 +62,12 @@
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:gravity="center"
-            android:textColor="@color/colorViewSnackbarSimpleTvMessageText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_action"
             app:layout_constraintLeft_toRightOf="@+id/im_action_left"
             app:layout_constraintStart_toEndOf="@+id/im_action_left"
             app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorViewSnackbarSimpleTvMessageText"-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_action"
             android:layout_width="wrap_content"
@@ -80,7 +77,6 @@
             android:paddingTop="10dp"
             android:paddingEnd="16dp"
             android:paddingBottom="10dp"
-            android:textColor="@color/colorViewSnackbarSimpleTvActionText"
             android:textSize="12sp"
             android:textStyle="bold"
             android:visibility="gone"
@@ -89,7 +85,7 @@
             app:layout_constraintLeft_toRightOf="@+id/tv_message"
             app:layout_constraintStart_toEndOf="@+id/tv_message"
             app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorViewSnackbarSimpleTvActionText"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

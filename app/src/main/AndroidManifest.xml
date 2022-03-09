@@ -22,10 +22,12 @@
         android:roundIcon="@drawable/logo"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Upgrade"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/Theme.UpgradeLight"
+        android:usesCleartextTraffic="true"
+        >
 
         <activity
+            android:configChanges="uiMode"
             android:name=".ui.activity.main.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan" />

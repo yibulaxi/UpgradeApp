@@ -1,11 +1,13 @@
 package ru.get.better.ui.diary.adapter.viewpager
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +36,86 @@ class NotesPagerViewHolder(
     }
 
     fun bind(note: DiaryNote) {
+        binding.habitsRealizationTitle.text = App.resourcesProvider.getStringLocale(R.string.completed)
+
+        binding.cardView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+            else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+        ))
+
+        binding.wasteTime.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_waste_time_dark
+            else R.drawable.bg_waste_time_light
+        )
+
+        binding.habitsRealizationValue.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_habits_realization_value_dark
+            else R.drawable.bg_habits_realization_value_light
+        )
+
+        binding.noteType.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesNoteTypeTint
+            else R.color.colorLightItemAdapterPagerNotesNoteTypeTint
+        ))
+
+        binding.interestName.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesInterestNameText
+            else R.color.colorLightItemAdapterPagerNotesInterestNameText
+        ))
+
+        binding.amount.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesAmountText
+            else R.color.colorLightItemAdapterPagerNotesAmountText
+        ))
+
+        binding.text.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesTextText
+            else R.color.colorLightItemAdapterPagerNotesTextText
+        ))
+
+        binding.wasteTime.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesWasteTimeText
+            else R.color.colorLightItemAdapterPagerNotesWasteTimeText
+        ))
+
+        binding.habitsRealizationTitle.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesHabitsRealizationTitleText
+            else R.color.colorLightItemAdapterPagerNotesHabitsRealizationTitleText
+        ))
+
+        binding.habitsRealizationValue.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesHabitsRealizationValueText
+            else R.color.colorLightItemAdapterPagerNotesHabitsRealizationValueText
+        ))
+
+        binding.date.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesDateText
+            else R.color.colorLightItemAdapterPagerNotesDateText
+        ))
+
+        binding.edit.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesEditBackgroundTint
+            else R.color.colorLightItemAdapterPagerNotesEditBackgroundTint
+        ))
+
+        binding.icEdit.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesEditTint
+            else R.color.colorLightItemAdapterPagerNotesEditTint
+        ))
+
         binding.text.text = Html.fromHtml(note.text)
 
         if (note.noteType == NoteType.HabitRealization.id) {
@@ -55,11 +137,11 @@ class NotesPagerViewHolder(
 
         when {
             note.changeOfPoints.toFloat() > 0 -> binding.amount.background =
-                AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient)
+                AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient_light)
             note.changeOfPoints.toFloat() < 0 -> binding.amount.background =
-                AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient)
+                AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient_light)
             else -> binding.amount.background =
-                AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value)
+                AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value_light)
         }
 
         binding.noteType.setImageDrawable(
@@ -73,7 +155,7 @@ class NotesPagerViewHolder(
                 )
                 NoteType.Tracker.id -> AppCompatResources.getDrawable(
                     context,
-                    R.drawable.ic_tracker
+                    R.drawable.ic_tracker_light
                 )
                 else -> AppCompatResources.getDrawable(context, R.drawable.diary)
             }
@@ -150,7 +232,7 @@ class NotesPagerViewHolder(
             val seconds = (trackerTime / 1000) % 60
 
             binding.wasteTime.text = String.format(
-                App.resourcesProvider.getString(R.string.waste_time),
+                App.resourcesProvider.getStringLocale(R.string.waste_time, App.preferences.locale),
                 hours, minutes, seconds
             )
         } else binding.wasteTime.isVisible = false

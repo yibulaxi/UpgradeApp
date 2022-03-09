@@ -16,11 +16,9 @@
         android:layout_marginTop="48dp"
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
-        android:text="@string/addpost_spotlight"
-        android:textColor="@color/colorTargetMenuAddpostTitleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorTargetMenuAddpostTitleText"-->
     <ImageView
         android:id="@+id/icArrow"
         android:layout_width="120dp"
@@ -31,6 +29,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/colorTargetMenuAddpostIcArrowTint" />
-
+         />
+<!--app:tint="@color/colorTargetMenuAddpostIcArrowTint"-->
 </androidx.constraintlayout.widget.ConstraintLayout>

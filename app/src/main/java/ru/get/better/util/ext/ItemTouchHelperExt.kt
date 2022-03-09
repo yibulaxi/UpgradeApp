@@ -15,6 +15,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.withTranslation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.model.NoteType
 import ru.get.better.ui.diary.adapter.NotesAdapter
@@ -45,7 +46,10 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
         }
 
         private fun init() {
-            background = ColorDrawable(ContextCompat.getColor(context!!, R.color.colorRemoveItemTouchHelperBackground))
+            background = ColorDrawable(ContextCompat.getColor(context!!,
+                if (App.Companion.preferences.isDarkTheme) R.color.colorDarkRemoveItemTouchHelperBackground
+                else R.color.colorLightRemoveItemTouchHelperBackground
+            ))
             initiated = true
         }
 

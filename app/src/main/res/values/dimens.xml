@@ -65,12 +65,14 @@
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_13">13sp</dimen>
     <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
     <dimen name="text_size_16">16sp</dimen>
     <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_19">19sp</dimen>
     <dimen name="text_size_20">20sp</dimen>
     <dimen name="text_size_22">22sp</dimen>
     <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_30">30sp</dimen>
 
     <dimen name="bottom_navigation_bar_size">56dp</dimen>
     <dimen name="card_elevation">6dp</dimen>

@@ -4,139 +4,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/trackerContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        android:background="@color/colorViewActiveTrackerBackground"
-        android:backgroundTint="@color/colorViewActiveTrackerBackgroundTint"
-        android:clickable="true"
-        android:elevation="8dp"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="12dp"
-        app:cardUseCompatPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.5"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:id="@+id/trackerContainer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginHorizontal="16dp"-->
+<!--        android:background="@color/colorViewActiveTrackerBackground"-->
+<!--        android:backgroundTint="@color/colorViewActiveTrackerBackgroundTint"-->
+<!--        android:clickable="true"-->
+<!--        android:elevation="8dp"-->
+<!--        android:focusable="true"-->
+<!--        android:foreground="?attr/selectableItemBackground"-->
+<!--        app:cardCornerRadius="12dp"-->
+<!--        app:cardUseCompatPadding="false"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintHeight_percent="0.5"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-            <androidx.constraintlayout.utils.widget.ImageFilterView
-                android:id="@+id/icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/chill_logo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <androidx.constraintlayout.utils.widget.ImageFilterView-->
+<!--                android:id="@+id/icon"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:src="@drawable/chill_logo"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/interestName"
-                style="@style/Text16.Light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="16dp"
-                android:gravity="end"
-                android:letterSpacing="0.1"
-                android:textColor="@color/colorViewActiveTrackerInterestNameText"
-                app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/interestName"-->
+<!--                style="@style/Text16.Light"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="12dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:gravity="end"-->
+<!--                android:letterSpacing="0.1"-->
+<!--                android:textColor="@color/colorViewActiveTrackerInterestNameText"-->
+<!--                app:layout_constraintStart_toEndOf="@id/icon"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+<!--            <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="end"-->
+<!--                android:orientation="vertical"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/dateTitle"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="end"
-                    android:letterSpacing="0.1"
-                    android:text="@string/tracker_date_title"
-                    android:textColor="@color/colorViewActiveTrackerDateTitleText" />
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:id="@+id/dateTitle"-->
+<!--                    style="@style/Text12.Light"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:gravity="end"-->
+<!--                    android:letterSpacing="0.1"-->
+<!--                    android:text="@string/tracker_date_title"-->
+<!--                    android:textColor="@color/colorViewActiveTrackerDateTitleText" />-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/trackerDate"
-                    style="@style/Text12.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="end"
-                    android:letterSpacing="0.1"
-                    android:textColor="@color/colorViewActiveTrackerDateText" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:id="@+id/trackerDate"-->
+<!--                    style="@style/Text12.Light"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:gravity="end"-->
+<!--                    android:letterSpacing="0.1"-->
+<!--                    android:textColor="@color/colorViewActiveTrackerDateText" />-->
+<!--            </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+<!--            <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="vertical"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
 
-                <TextView
-                    android:id="@+id/timer"
-                    style="@style/Text14.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.2"
-                    android:text="02:30"
-                    android:textColor="@color/colorViewActiveTrackerTimerText"
-                    android:textSize="40sp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/timer"-->
+<!--                    style="@style/Text14.Light"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:letterSpacing="0.2"-->
+<!--                    android:text="02:30"-->
+<!--                    android:textColor="@color/colorViewActiveTrackerTimerText"-->
+<!--                    android:textSize="40sp" />-->
 
-                <TextView
-                    android:id="@+id/trackerTitle"
-                    style="@style/Text14.Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.2"
-                    android:text="02:30"
-                    android:textColor="@color/colorViewActiveTrackerTrackerTitleText" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+<!--                <TextView-->
+<!--                    android:id="@+id/trackerTitle"-->
+<!--                    style="@style/Text14.Light"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:letterSpacing="0.2"-->
+<!--                    android:text="02:30"-->
+<!--                    android:textColor="@color/colorViewActiveTrackerTrackerTitleText" />-->
+<!--            </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_view_active_tracker_btn"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingTop="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/bg_view_active_tracker_btn_light"-->
+<!--                android:clickable="true"-->
+<!--                android:focusable="true"-->
+<!--                android:foreground="?attr/selectableItemBackground"-->
+<!--                android:paddingTop="16dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent">-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/stopTracker"
-                    style="@style/Text18.Light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center"
-                    android:letterSpacing="0.3"
-                    android:text="@string/stop_tracker"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorViewActiveTrackerStopTrackerText"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:id="@+id/stopTracker"-->
+<!--                    style="@style/Text18.Light"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="16dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:letterSpacing="0.3"-->
+<!--                    android:text="@string/stop_tracker"-->
+<!--                    android:textAllCaps="true"-->
+<!--                    android:textColor="@color/colorViewActiveTrackerStopTrackerText"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent" />-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--    </com.google.android.material.card.MaterialCardView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

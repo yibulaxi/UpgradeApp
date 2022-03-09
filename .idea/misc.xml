@@ -11,25 +11,46 @@
         <entry key="app/src/main/res/drawable/achievments.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/add_post.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/background_bottom_sheet.xml" value="0.33611111111111114" />
+        <entry key="app/src/main/res/drawable/background_bottom_sheet_dark.xml" value="0.2713541666666667" />
+        <entry key="app/src/main/res/drawable/background_bottom_sheet_light.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/bg_edittext.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/bg_edittext_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_habits_realization_value.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/bg_habits_realization_value_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_list_metric_value.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/bg_list_metric_value_night.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_logout.xml" value="0.240625" />
+        <entry key="app/src/main/res/drawable/bg_logout_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_media_add_post.xml" value="0.3148148148148148" />
+        <entry key="app/src/main/res/drawable/bg_media_add_post_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_progress.xml" value="0.2708333333333333" />
+        <entry key="app/src/main/res/drawable/bg_progress_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_spinner_settings.xml" value="0.3055555555555556" />
+        <entry key="app/src/main/res/drawable/bg_spinner_settings_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_splash_preview.xml" value="0.22083333333333333" />
+        <entry key="app/src/main/res/drawable/bg_splash_preview_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_sticky_header.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/bg_sticky_header_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_view_active_tracker_btn.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/drawable/bg_view_active_tracker_btn_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bg_waste_time.xml" value="0.22395833333333334" />
+        <entry key="app/src/main/res/drawable/bg_waste_time_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/bottom_nav_selector.xml" value="0.2708333333333333" />
+        <entry key="app/src/main/res/drawable/bottom_nav_selector_dark.xml" value="0.2713541666666667" />
+        <entry key="app/src/main/res/drawable/bottom_nav_selector_light.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/drawable/container_snackbar.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/container_snackbar_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/custom_wheel_highlight_bg.xml" value="0.2703125" />
+        <entry key="app/src/main/res/drawable/custom_wheel_highlight_bg_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/diary.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/gradient_welcome_first_value.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_first_value_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/gradient_welcome_forth_value.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_forth_value_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/gradient_welcome_second_value.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_second_value_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/gradient_welcome_third_value.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/gradient_welcome_third_value_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/ic_add_media.xml" value="0.31851851851851853" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2453125" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.2708333333333333" />
@@ -43,25 +64,31 @@
         <entry key="app/src/main/res/drawable/ic_plus_box.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_target_arrow.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_tracker.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/ic_tracker_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/rounded_rect_primary.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/settings.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/snack_neutral_gradient.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/snack_neutral_gradient_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/snack_success_gradient.xml" value="0.29322916666666665" />
+        <entry key="app/src/main/res/drawable/snack_success_gradient_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/snack_warning_gradient.xml" value="0.215625" />
+        <entry key="app/src/main/res/drawable/snack_warning_gradient_dark.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/drawable/tire.xml" value="0.215625" />
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_detail_tracker.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="app/src/main/res/layout/custom_wheel_picker_item.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/dialog_alert_add_interest.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_alert_add_interest_dark.xml" value="0.14635416666666667" />
         <entry key="app/src/main/res/layout/dialog_alert_edit_interest.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_alert_edit_interest_dark.xml" value="0.14635416666666667" />
         <entry key="app/src/main/res/layout/fragment_achievements.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_adapter_pager.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.3203125" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.35833333333333334" />
-        <entry key="app/src/main/res/layout/fragment_metric.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_metric.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_achievement.xml" value="0.2546875" />
@@ -73,31 +100,31 @@
         <entry key="app/src/main/res/layout/item_faq_subtitle.xml" value="0.2546875" />
         <entry key="app/src/main/res/layout/item_fullscreen_media.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/item_habit_realization.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/item_horizontal_habit.xml" value="0.75" />
+        <entry key="app/src/main/res/layout/item_horizontal_habit.xml" value="0.4369747899159664" />
         <entry key="app/src/main/res/layout/item_list_metric.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_media_add_post.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_note.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_notes_media.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_timeline.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_timeline.xml" value="0.22" />
         <entry key="app/src/main/res/layout/layout_simple_custom_snackbar.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/notes_list_header_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/radar_markerview.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/screen_progress.xml" value="0.19947916666666668" />
-        <entry key="app/src/main/res/layout/settings_spinner_row.xml" value="0.35833333333333334" />
+        <entry key="app/src/main/res/layout/settings_spinner_row.xml" value="0.2" />
         <entry key="app/src/main/res/layout/snackbar_success.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/target_diary_habits.xml" value="0.34270833333333334" />
         <entry key="app/src/main/res/layout/target_menu_addpost.xml" value="0.1" />
         <entry key="app/src/main/res/layout/target_metric_wheel.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_active_tracker.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.16" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/view_post_add.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_post_add.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.33" />
         <entry key="app/src/main/res/layout/view_snackbar_simple.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/view_tracker_add.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_tracker_add.xml" value="0.22" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32685185185185184" />
         <entry key="app/src/main/res/menu/menu_tracker_detail.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.337037037037037" />

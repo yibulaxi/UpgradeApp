@@ -40,22 +40,21 @@
             android:id="@+id/container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/background_bottom_sheet"
             android:padding="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/topGuideline">
-
+<!--android:background="@drawable/background_bottom_sheet_light"-->
             <View
                 android:id="@+id/viewHeader"
                 android:layout_width="60dp"
                 android:layout_height="4dp"
-                android:background="@drawable/snack_neutral_gradient"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:background="@drawable/snack_neutral_gradient_light"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/Text24.Medium"
@@ -64,10 +63,8 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:letterSpacing="0.1"
-                android:text="@string/add_habit"
-                android:textColor="@color/colorViewHabitAddTitleText"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toBottomOf="@id/viewHeader" />
+<!--android:textColor="@color/colorViewHabitAddTitleText"-->
             <ru.get.better.ui.view.CustomWheelPickerView
                 android:id="@+id/icon"
                 android:layout_width="120dp"
@@ -82,20 +79,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_edittext"
                 android:gravity="start"
-                android:hint="@string/goal_title"
                 android:letterSpacing="0.1"
                 android:lines="1"
                 android:maxLength="30"
                 android:maxLines="1"
                 android:padding="12dp"
-                android:textColor="@color/colorViewHabitAddEditTextText"
-                android:textColorHint="@color/colorViewHabitAddEditTextHint"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toBottomOf="@id/title" />
-
+<!--            android:textColor="@color/colorViewHabitAddEditTextText"
+                android:textColorHint="@color/colorViewHabitAddEditTextHint"-->
+<!--android:background="@drawable/bg_edittext_light"-->
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/editAmount"
                 style="@style/Text14.Light"
@@ -103,37 +99,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_edittext"
                 android:gravity="start"
-                android:hint="@string/habit_repeat_amount"
                 android:inputType="number"
                 android:letterSpacing="0.1"
                 android:lines="1"
                 android:maxLength="30"
                 android:maxLines="1"
                 android:padding="12dp"
-                android:textColor="@color/colorViewHabitAddEditAmountText"
-                android:textColorHint="@color/colorViewHabitAddEditAmountHint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toBottomOf="@id/editText" />
-
+<!--            android:textColor="@color/colorViewHabitAddEditAmountText"
+                android:textColorHint="@color/colorViewHabitAddEditAmountHint"-->
+<!--android:background="@drawable/bg_edittext_light"-->
             <com.alanvan.segmented_control.SegmentedControlGroup
-                android:id="@+id/regularityControlGroup"
+                android:id="@+id/regularityControlGroupLight"
                 style="@style/Text10.Light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorViewHabitAddRegularityControlGroupBackgroundTint"
-                app:customDividerColor="@color/colorViewHabitAddRegularityControlGroupCustomDivider"
-                app:customShadowColor="@color/colorViewHabitAddRegularityControlGroupCustomShadow"
-                app:customSliderColor="@color/colorViewHabitAddRegularityControlGroupCustomSlider"
+                android:backgroundTint="@color/colorLightViewHabitAddRegularityControlGroupBackgroundTint"
+                app:customDividerColor="@color/colorLightViewHabitAddRegularityControlGroupCustomDivider"
+                app:customShadowColor="@color/colorLightViewHabitAddRegularityControlGroupCustomShadow"
+                app:customSliderColor="@color/colorLightViewHabitAddRegularityControlGroupCustomSlider"
                 app:layout_constraintEnd_toEndOf="@id/editAmount"
                 app:layout_constraintStart_toStartOf="@id/editAmount"
                 app:layout_constraintTop_toBottomOf="@id/editAmount">
 
                 <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/dailyPoint"
+                    android:id="@+id/dailyPointLight"
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
@@ -143,11 +137,39 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="@string/habit_every_day"
-                    android:textColor="@color/colorViewHabitAddDailyPointText" />
+                    />
+<!--android:textColor="@color/colorViewHabitAddDailyPointText" -->
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/weeklyPointLight"
+                    style="@style/Text10.Medium"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:lines="1"
+                     />
+<!--                android:textColor="@color/colorViewHabitAddWeeklyPointText"-->
+            </com.alanvan.segmented_control.SegmentedControlGroup>
+
+            <com.alanvan.segmented_control.SegmentedControlGroup
+                android:id="@+id/regularityControlGroupDark"
+                style="@style/Text10.Light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorDarkViewHabitAddRegularityControlGroupBackgroundTint"
+                app:customDividerColor="@color/colorDarkViewHabitAddRegularityControlGroupCustomDivider"
+                app:customShadowColor="@color/colorDarkViewHabitAddRegularityControlGroupCustomShadow"
+                app:customSliderColor="@color/colorDarkViewHabitAddRegularityControlGroupCustomSlider"
+                app:layout_constraintEnd_toEndOf="@id/editAmount"
+                app:layout_constraintStart_toStartOf="@id/editAmount"
+                app:layout_constraintTop_toBottomOf="@id/editAmount">
 
                 <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/weeklyPoint"
+                    android:id="@+id/dailyPointDark"
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
@@ -157,8 +179,22 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="@string/habit_every_week"
-                    android:textColor="@color/colorViewHabitAddWeeklyPointText" />
+
+                    />
+                <!--android:textColor="@color/colorViewHabitAddDailyPointText" -->
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/weeklyPointDark"
+                    style="@style/Text10.Medium"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:lines="1"
+                    />
+                <!--                android:textColor="@color/colorViewHabitAddWeeklyPointText"-->
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -167,10 +203,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textColor="@color/colorViewHabitAddDateText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/icon" />
-
+<!--android:textColor="@color/colorViewHabitAddDateText"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/length"
                 style="@style/Text14.Light"
@@ -178,35 +213,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="0/2000"
-                android:textColor="@color/colorViewHabitAddLengthText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/icon" />
-
+<!--android:textColor="@color/colorViewHabitAddLengthText"-->
             <View
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/colorViewHabitAddSeparatorBackground"
                 app:layout_constraintTop_toBottomOf="@id/date" />
-
+<!--android:background="@color/colorViewHabitAddSeparatorBackground"-->
             <com.alanvan.segmented_control.SegmentedControlGroup
-                android:id="@+id/pointsStateControlGroup"
+                android:id="@+id/pointsStateControlGroupLight"
                 style="@style/Text10.Light"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorViewHabitAddPointsStateControlGroupBackgroundTint"
-                app:customDividerColor="@color/colorViewHabitAddPointsStateControlGroupCustomDivider"
-                app:customShadowColor="@color/colorViewHabitAddPointsStateControlGroupCustomShadow"
-                app:customSliderColor="@color/colorViewHabitAddPointsStateControlGroupCustomSlider"
+                android:backgroundTint="@color/colorLightViewHabitAddPointsStateControlGroupBackgroundTint"
+                app:customDividerColor="@color/colorLightViewHabitAddPointsStateControlGroupCustomDivider"
+                app:customShadowColor="@color/colorLightViewHabitAddPointsStateControlGroupCustomShadow"
+                app:customSliderColor="@color/colorLightViewHabitAddPointsStateControlGroupCustomSlider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator">
 
                 <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/positivePoint"
+                    android:id="@+id/positivePointLight"
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -216,10 +249,11 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:lines="1"
                     android:text="+"
-                    android:textColor="@color/colorViewHabitAddPositivePointText" />
+                    />
+<!--                android:textColor="@color/colorViewHabitAddPositivePointText" -->
 
                 <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/zeroPoint"
+                    android:id="@+id/zeroPointLight"
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -229,10 +263,10 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:text="0"
-                    android:textColor="@color/colorViewHabitAddZeroPointText" />
-
+                     />
+<!--android:textColor="@color/colorViewHabitAddZeroPointText"-->
                 <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/negativePoint"
+                    android:id="@+id/negativePointLight"
                     style="@style/Text10.Medium"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -242,8 +276,65 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:text="-"
-                    android:textColor="@color/colorViewHabitAddNegativePointText" />
+                     />
+<!--android:textColor="@color/colorViewHabitAddNegativePointText"-->
+            </com.alanvan.segmented_control.SegmentedControlGroup>
 
+            <com.alanvan.segmented_control.SegmentedControlGroup
+                android:id="@+id/pointsStateControlGroupDark"
+                style="@style/Text10.Light"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorDarkViewHabitAddPointsStateControlGroupBackgroundTint"
+                app:customDividerColor="@color/colorDarkViewHabitAddPointsStateControlGroupCustomDivider"
+                app:customShadowColor="@color/colorDarkViewHabitAddPointsStateControlGroupCustomShadow"
+                app:customSliderColor="@color/colorDarkViewHabitAddPointsStateControlGroupCustomSlider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator">
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/positivePointDark"
+                    style="@style/Text10.Medium"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:text="+"
+                    />
+                <!--                android:textColor="@color/colorViewHabitAddPositivePointText" -->
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/zeroPointDark"
+                    style="@style/Text10.Medium"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="0"
+                    />
+                <!--android:textColor="@color/colorViewHabitAddZeroPointText"-->
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/negativePointDark"
+                    style="@style/Text10.Medium"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="-"
+                    />
+                <!--android:textColor="@color/colorViewHabitAddNegativePointText"-->
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -262,12 +353,11 @@
                     android:id="@+id/background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/snack_neutral_gradient"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:background="@drawable/snack_neutral_gradient_light"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_message"
                     style="@style/Text18.Light"
@@ -275,13 +365,11 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:letterSpacing="0.2"
-                    android:text="@string/save"
-                    android:textColor="@color/colorViewHabitAddTvMessageText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorViewHabitAddTvMessageText"-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

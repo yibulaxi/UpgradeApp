@@ -3,6 +3,7 @@ package ru.get.better.ui.view
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -10,9 +11,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 
 import com.google.android.material.snackbar.ContentViewCallback
 import kotlinx.android.synthetic.main.view_snackbar_simple.view.*
+import ru.get.better.App
 import ru.get.better.R
 
 class SimpleCustomSnackbarView @JvmOverloads constructor(
@@ -37,6 +40,30 @@ class SimpleCustomSnackbarView @JvmOverloads constructor(
         this.layRoot = findViewById(R.id.snack_constraint)
         this.backgroundRoot = findViewById(R.id.background)
         this.icon = findViewById(R.id.icon)
+
+        this.backgroundRoot.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_warning_gradient_dark
+            else R.drawable.snack_warning_gradient_light
+        )
+
+        this.icon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleIconTint
+            else R.color.colorLightViewSnackbarSimpleIconTint
+        ))
+
+        this.tvMsg.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleTvMessageText
+            else R.color.colorLightViewSnackbarSimpleTvMessageText
+        ))
+
+        this.tvAction.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleTvActionText
+            else R.color.colorLightViewSnackbarSimpleTvActionText
+        ))
     }
 
     override fun animateContentIn(delay: Int, duration: Int) {

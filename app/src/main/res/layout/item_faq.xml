@@ -11,13 +11,13 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/faqContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorItemFaqBackgroundTint"
         app:cardCornerRadius="12dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintTop_toBottomOf="@id/generalBlock">
-
+<!--android:backgroundTint="@color/colorItemFaqBackgroundTint"-->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:foreground="?selectableItemBackground"
                 android:padding="16dp"
-                android:textColor="@color/colorItemFaqExpandButtonText" />
-
+                />
+<!--android:textColor="@color/colorItemFaqExpandButtonText" -->
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/expandable_layout"
                 android:layout_width="match_parent"
@@ -49,8 +49,8 @@
                     android:paddingHorizontal="16dp"
                     android:paddingBottom="16dp"
                     android:text="Content"
-                    android:textColor="@color/colorItemFaqExpandableLayoutTextText" />
-
+                     />
+<!--android:textColor="@color/colorItemFaqExpandableLayoutTextText"-->
             </net.cachapa.expandablelayout.ExpandableLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

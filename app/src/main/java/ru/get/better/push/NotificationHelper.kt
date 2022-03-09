@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.ui.activity.main.MainActivity
 import timber.log.Timber
@@ -52,7 +53,10 @@ class NotificationHelper(private val mContext: Context) {
 
         mBuilder = NotificationCompat.Builder(mContext)
             .setSmallIcon(R.drawable.ic_launcher_notification)
-            .setColor(ContextCompat.getColor(mContext, R.color.colorNotification))
+            .setColor(ContextCompat.getColor(mContext,
+                if (App.preferences.isDarkTheme) R.color.colorDarkNotification
+                else R.color.colorLightNotification
+            ))
             .setContentTitle(title)
             .setContentText(message)
             .setAutoCancel(true)

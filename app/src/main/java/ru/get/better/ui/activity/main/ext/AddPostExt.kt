@@ -2,6 +2,7 @@ package ru.get.better.ui.activity.main.ext
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.CountDownTimer
@@ -27,8 +28,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun MainActivity.setupBottomSheets() {
-    addPostBehavior.addBottomSheetCallback(object :
-        BottomSheetBehavior.BottomSheetCallback() {
+
+    val addPostCallback = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             binding.backgroundImage.alpha = slideOffset
         }
@@ -43,9 +44,12 @@ fun MainActivity.setupBottomSheets() {
                 binding.addPostBottomSheet.editText.requestFocus()
             }
         }
-    })
+    }
 
-    selectNoteTypeBehavior.addBottomSheetCallback(object :
+    kotlin.runCatching { addPostBehavior.removeBottomSheetCallback(addPostCallback) }
+    addPostBehavior.addBottomSheetCallback(addPostCallback)
+
+    val selectNoteTypeCallback = object :
         BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             binding.backgroundImage.alpha = slideOffset
@@ -70,9 +74,12 @@ fun MainActivity.setupBottomSheets() {
                 binding.backgroundImage.isEnabled = true
             }
         }
-    })
+    }
 
-    addGoalBehavior.addBottomSheetCallback(object :
+    kotlin.runCatching { selectNoteTypeBehavior.removeBottomSheetCallback(selectNoteTypeCallback) }
+    selectNoteTypeBehavior.addBottomSheetCallback(selectNoteTypeCallback)
+
+    val addGoalCallback = object :
         BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             binding.backgroundImage.alpha = slideOffset
@@ -97,9 +104,12 @@ fun MainActivity.setupBottomSheets() {
                 binding.backgroundImage.isEnabled = true
             }
         }
-    })
+    }
 
-    addTrackerBehavior.addBottomSheetCallback(object :
+    kotlin.runCatching { addGoalBehavior.removeBottomSheetCallback(addGoalCallback) }
+    addGoalBehavior.addBottomSheetCallback(addGoalCallback)
+
+    val addTrackerCallback = object :
         BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             binding.backgroundImage.alpha = slideOffset
@@ -124,9 +134,12 @@ fun MainActivity.setupBottomSheets() {
                 binding.backgroundImage.isEnabled = true
             }
         }
-    })
+    }
 
-    addHabitBehavior.addBottomSheetCallback(object :
+    kotlin.runCatching { addTrackerBehavior.removeBottomSheetCallback(addTrackerCallback) }
+    addTrackerBehavior.addBottomSheetCallback(addTrackerCallback)
+
+    val addHabitCallback = object :
         BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             binding.backgroundImage.alpha = slideOffset
@@ -151,11 +164,16 @@ fun MainActivity.setupBottomSheets() {
                 binding.backgroundImage.isEnabled = true
             }
         }
-    })
+    }
 
-    binding.backgroundImage.setOnClickListener {
-        if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+    kotlin.runCatching { addHabitBehavior.removeBottomSheetCallback(addHabitCallback) }
+    addHabitBehavior.addBottomSheetCallback(addHabitCallback)
+
+    if (!binding.backgroundImage.hasOnClickListeners()) {
+        binding.backgroundImage.setOnClickListener {
+            if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
         }
     }
 }
@@ -163,6 +181,102 @@ fun MainActivity.setupBottomSheets() {
 fun MainActivity.setupSelectNoteTypeBottomSheet() {
     val context = this
     with(binding.selectNoteTypeBottomSheet) {
+
+        titleText.text = App.resourcesProvider.getStringLocale(R.string.what_add_in_diary, App.preferences.locale)
+        diaryTitle.text = App.resourcesProvider.getStringLocale(R.string.note, App.preferences.locale)
+        trackerTitle.text = App.resourcesProvider.getStringLocale(R.string.tracker, App.preferences.locale)
+        goalTitle.text = App.resourcesProvider.getStringLocale(R.string.goal, App.preferences.locale)
+        habitTitle.text = App.resourcesProvider.getStringLocale(R.string.habit, App.preferences.locale)
+
+        title.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeBackgroundTint
+            else R.color.colorLightViewSelectNoteTypeBackgroundTint
+        ))
+
+        titleText.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeTitleText
+            else R.color.colorLightViewSelectNoteTypeTitleText
+        ))
+
+        selectTypeContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeSelectTypeContainerBackgroundTint
+            else R.color.colorLightViewSelectNoteTypeSelectTypeContainerBackgroundTint
+        ))
+
+        noteType.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeNoteTypeBackgroundTint
+            else R.color.colorLightViewSelectNoteTypeNoteTypeBackgroundTint
+        ))
+
+        icDiary.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeNoteTypeTint
+            else R.color.colorLightViewSelectNoteTypeNoteTypeTint
+        ))
+
+        diaryTitle.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeNoteTypeText
+            else R.color.colorLightViewSelectNoteTypeNoteTypeText
+        ))
+
+        trackerType.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeTrackerTypeBackgroundTint
+            else R.color.colorLightViewSelectNoteTypeTrackerTypeBackgroundTint
+        ))
+
+        icTracker.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeTrackerTypeTint
+            else R.color.colorLightViewSelectNoteTypeTrackerTypeTint
+        ))
+
+        trackerTitle.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeTrackerTypeText
+            else R.color.colorLightViewSelectNoteTypeTrackerTypeText
+        ))
+
+        goalType.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeGoalTypeBackgroundTint
+            else R.color.colorLightViewSelectNoteTypeGoalTypeBackgroundTint
+        ))
+
+        icGoal.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeGoalTypeTint
+            else R.color.colorLightViewSelectNoteTypeGoalTypeTint
+        ))
+
+        goalTitle.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeGoalTypeText
+            else R.color.colorLightViewSelectNoteTypeGoalTypeText
+        ))
+
+        habbitType.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeHabitTypeBackgroundTint
+            else R.color.colorLightViewSelectNoteTypeHabitTypeBackgroundTint
+        ))
+
+        icHabit.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeHabitTypeTint
+            else R.color.colorLightViewSelectNoteTypeHabitTypeTint
+        ))
+
+        habitTitle.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeHabitTypeText
+            else R.color.colorLightViewSelectNoteTypeHabitTypeText
+        ))
 
         noteType.setOnClickListener {
             selectNoteTypeBehavior.state =
@@ -175,7 +289,11 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addPostBottomSheet.editText.setText("")
             binding.addPostBottomSheet.editText.requestFocus()
 
-            binding.addPostBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            binding.addPostBottomSheet.pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+            binding.addPostBottomSheet.pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
+            binding.addPostBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
+            binding.addPostBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
 
             mediaAdapter = AddPostMediaAdapter(context, arrayListOf())
@@ -193,7 +311,11 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addTrackerBottomSheet.editText.setText("")
             binding.addTrackerBottomSheet.editText.requestFocus()
 
-            binding.addTrackerBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            binding.addTrackerBottomSheet.pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+            binding.addTrackerBottomSheet.pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
+            binding.addTrackerBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
+            binding.addTrackerBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
         }
 
@@ -208,7 +330,11 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addGoalBottomSheet.editText.setText("")
             binding.addGoalBottomSheet.editText.requestFocus()
 
-            binding.addGoalBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            binding.addGoalBottomSheet.pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+            binding.addGoalBottomSheet.pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
+            binding.addGoalBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
+            binding.addGoalBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
         }
 
@@ -224,7 +350,11 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addHabitBottomSheet.editAmount.setText("")
             binding.addHabitBottomSheet.editText.requestFocus()
 
-            binding.addHabitBottomSheet.pointsStateControlGroup.setSelectedIndex(0, true)
+            binding.addHabitBottomSheet.pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+            binding.addHabitBottomSheet.pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
+            binding.addHabitBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
+            binding.addHabitBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
         }
     }
@@ -233,6 +363,124 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 fun MainActivity.setupAddPostBottomSheet() {
     val context = this
     with(binding.addPostBottomSheet) {
+
+        title.text = App.resourcesProvider.getStringLocale(R.string.add_post)
+        editText.hint = App.resourcesProvider.getStringLocale(R.string.add_post_example)
+        tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
+
+        container.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.background_bottom_sheet_dark
+            else R.drawable.background_bottom_sheet_light
+        )
+
+        viewHeader.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        editText.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        background.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        title.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddTitleText
+            else R.color.colorLightViewPostAddTitleText
+        ))
+
+        editText.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextText
+            else R.color.colorLightViewPostAddEditTextText
+        ))
+
+        editText.setHintTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextHint
+            else R.color.colorLightViewPostAddEditTextHint
+        ))
+
+        addMedia.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddAddMediaBackgroundTint
+            else R.color.colorLightViewPostAddAddMediaBackgroundTint
+        ))
+
+        icAddMedia.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddAddMediaTint
+            else R.color.colorLightViewPostAddAddMediaTint
+        ))
+
+        date.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddDateText
+            else R.color.colorLightViewPostAddDateText
+        ))
+
+        length.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddLengthText
+            else R.color.colorLightViewPostAddLengthText
+        ))
+
+        separator.setBackgroundColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddSeparatorBackground
+            else R.color.colorLightViewPostAddSeparatorBackground
+        ))
+
+        positivePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddPositivePointText
+            else R.color.colorLightViewPostAddPositivePointText
+        ))
+
+        positivePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddPositivePointText
+            else R.color.colorLightViewPostAddPositivePointText
+        ))
+
+        zeroPointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddZeroPointText
+            else R.color.colorLightViewPostAddZeroPointText
+        ))
+
+        zeroPointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddZeroPointText
+            else R.color.colorLightViewPostAddZeroPointText
+        ))
+
+        negativePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddNegativePointText
+            else R.color.colorLightViewPostAddNegativePointText
+        ))
+
+        negativePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddNegativePointText
+            else R.color.colorLightViewPostAddNegativePointText
+        ))
+
+        tvMessage.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddTvMessageText
+            else R.color.colorLightViewPostAddTvMessageText
+        ))
 
         val itemCount = userInterestsViewModel.getInterests().size
 
@@ -271,7 +519,11 @@ fun MainActivity.setupAddPostBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/2000"
         }
 
-        pointsStateControlGroup.setOnSelectedOptionChangeCallback {
+        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
+            selectedDiffPointToAddPost = it
+        }
+
+        pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
             selectedDiffPointToAddPost = it
         }
 
@@ -313,6 +565,113 @@ fun MainActivity.setupAddGoalBottomSheet() {
     val context = this
     with(binding.addGoalBottomSheet) {
 
+        title.text = App.resourcesProvider.getStringLocale(R.string.add_goal)
+        editText.hint = App.resourcesProvider.getStringLocale(R.string.goal_title)
+        tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
+
+
+        container.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.background_bottom_sheet_dark
+            else R.drawable.background_bottom_sheet_light
+        )
+
+        viewHeader.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        editText.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        background.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        title.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddTitleText
+            else R.color.colorLightViewGoalAddTitleText
+        ))
+
+        editText.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddEditTextText
+            else R.color.colorLightViewGoalAddEditTextText
+        ))
+
+        editText.setHintTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddEditTextHint
+            else R.color.colorLightViewGoalAddEditTextHint
+        ))
+
+        date.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddDateText
+            else R.color.colorLightViewGoalAddDateText
+        ))
+
+        length.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddLengthText
+            else R.color.colorLightViewGoalAddLengthText
+        ))
+
+        separator.setBackgroundColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddSeparatorBackground
+            else R.color.colorLightViewGoalAddSeparatorBackground
+        ))
+
+        positivePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddPositivePointText
+            else R.color.colorLightViewGoalAddPositivePointText
+        ))
+
+        positivePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddPositivePointText
+            else R.color.colorLightViewGoalAddPositivePointText
+        ))
+
+        zeroPointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddZeroPointText
+            else R.color.colorLightViewGoalAddZeroPointText
+        ))
+
+        zeroPointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddZeroPointText
+            else R.color.colorLightViewGoalAddZeroPointText
+        ))
+
+        negativePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddNegativePointText
+            else R.color.colorLightViewGoalAddNegativePointText
+        ))
+
+        negativePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddNegativePointText
+            else R.color.colorLightViewGoalAddNegativePointText
+        ))
+
+        tvMessage.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddTvMessageText
+            else R.color.colorLightViewGoalAddTvMessageText
+        ))
+
         val itemCount = userInterestsViewModel.getInterests().size
 
         icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
@@ -350,7 +709,11 @@ fun MainActivity.setupAddGoalBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/2000"
         }
 
-        pointsStateControlGroup.setOnSelectedOptionChangeCallback {
+        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
+            selectedDiffPointToAddPost = it
+        }
+
+        pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
             selectedDiffPointToAddPost = it
         }
 
@@ -371,6 +734,112 @@ fun MainActivity.setupAddGoalBottomSheet() {
 fun MainActivity.setupAddTrackerBottomSheet() {
     val context = this
     with(binding.addTrackerBottomSheet) {
+
+        title.text = App.resourcesProvider.getStringLocale(R.string.add_tracker)
+        editText.hint = App.resourcesProvider.getStringLocale(R.string.tracker_title)
+        tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
+
+        container.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.background_bottom_sheet_dark
+            else R.drawable.background_bottom_sheet_light
+        )
+
+        viewHeader.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        editText.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        background.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        title.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddTitleText
+            else R.color.colorLightViewTrackerAddTitleText
+        ))
+
+        editText.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddEditTextText
+            else R.color.colorLightViewTrackerAddEditTextText
+        ))
+
+        editText.setHintTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddEditTextHint
+            else R.color.colorLightViewTrackerAddEditTextHint
+        ))
+
+        date.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddDateText
+            else R.color.colorLightViewTrackerAddDateText
+        ))
+
+        length.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddLengthText
+            else R.color.colorLightViewTrackerAddLengthText
+        ))
+
+        separator.setBackgroundColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddSeparatorBackground
+            else R.color.colorLightViewTrackerAddSeparatorBackground
+        ))
+
+        positivePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddPositivePointText
+            else R.color.colorLightViewTrackerAddPositivePointText
+        ))
+
+        positivePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddPositivePointText
+            else R.color.colorLightViewTrackerAddPositivePointText
+        ))
+
+        zeroPointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddZeroPointText
+            else R.color.colorLightViewTrackerAddZeroPointText
+        ))
+
+        zeroPointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddZeroPointText
+            else R.color.colorLightViewTrackerAddZeroPointText
+        ))
+
+        negativePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddNegativePointText
+            else R.color.colorLightViewTrackerAddNegativePointText
+        ))
+
+        negativePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddNegativePointText
+            else R.color.colorLightViewTrackerAddNegativePointText
+        ))
+
+        tvMessage.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddTvMessageText
+            else R.color.colorLightViewTrackerAddTvMessageText
+        ))
 
         val itemCount = userInterestsViewModel.getInterests().size
 
@@ -409,7 +878,11 @@ fun MainActivity.setupAddTrackerBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/2000"
         }
 
-        pointsStateControlGroup.setOnSelectedOptionChangeCallback {
+        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
+            selectedDiffPointToAddPost = it
+        }
+
+        pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
             selectedDiffPointToAddPost = it
         }
 
@@ -469,8 +942,14 @@ fun MainActivity.setupTrackerSheet() {
         }
 
         if (activeTracker != null) {
-            val firstColor = resources.getColor(R.color.colorActiveTrackerFirstColor)
-            val secondColor = resources.getColor(R.color.colorActiveTrackerSecondColor)
+            val firstColor = resources.getColor(
+                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerFirstColor
+                else R.color.colorLightActiveTrackerFirstColor
+            )
+            val secondColor = resources.getColor(
+                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerSecondColor
+                else R.color.colorLightActiveTrackerSecondColor
+            )
 
             val colorAnimationFromFirstToSecond =
                 ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
@@ -518,7 +997,7 @@ fun MainActivity.setupTrackerSheet() {
 
             binding.trackerTitle.text = activeTracker.text
             binding.trackerDate.text =
-                SimpleDateFormat("dd MMM, HH:mm", Locale("ru")).format(activeTracker.date.toLong())
+                SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(activeTracker.date.toLong())
             binding.trackerInterestName.text = activeTracker.interest!!.interestName
 
             binding.trackerIcon.setImageDrawable(
@@ -562,6 +1041,161 @@ fun MainActivity.setupAddHabitBottomSheet() {
     val context = this
     with(binding.addHabitBottomSheet) {
 
+        title.text = App.resourcesProvider.getStringLocale(R.string.add_habit)
+        editText.hint = App.resourcesProvider.getStringLocale(R.string.goal_title)
+        editAmount.hint = App.resourcesProvider.getStringLocale(R.string.habit_repeat_amount)
+
+        dailyPointLight.text = App.resourcesProvider.getStringLocale(R.string.habit_every_day)
+        dailyPointDark.text = App.resourcesProvider.getStringLocale(R.string.habit_every_day)
+        weeklyPointLight.text = App.resourcesProvider.getStringLocale(R.string.habit_every_week)
+        weeklyPointDark.text = App.resourcesProvider.getStringLocale(R.string.habit_every_week)
+
+        tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
+
+        container.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.background_bottom_sheet_dark
+            else R.drawable.background_bottom_sheet_light
+        )
+
+        viewHeader.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        editText.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        editAmount.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        background.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+            else R.drawable.snack_neutral_gradient_light
+        )
+
+        title.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddTitleText
+            else R.color.colorLightViewHabitAddTitleText
+        ))
+
+        editText.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddEditTextText
+            else R.color.colorLightViewHabitAddEditTextText
+        ))
+
+        editText.setHintTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddEditTextHint
+            else R.color.colorLightViewHabitAddEditTextHint
+        ))
+
+        editAmount.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddEditAmountText
+            else R.color.colorLightViewHabitAddEditAmountText
+        ))
+
+        editAmount.setHintTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddEditAmountHint
+            else R.color.colorLightViewHabitAddEditAmountHint
+        ))
+
+        dailyPointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddDailyPointText
+            else R.color.colorLightViewHabitAddDailyPointText
+        ))
+
+        dailyPointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddDailyPointText
+            else R.color.colorLightViewHabitAddDailyPointText
+        ))
+
+        weeklyPointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddWeeklyPointText
+            else R.color.colorLightViewHabitAddWeeklyPointText
+        ))
+
+        weeklyPointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddWeeklyPointText
+            else R.color.colorLightViewHabitAddWeeklyPointText
+        ))
+
+        date.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddDateText
+            else R.color.colorLightViewHabitAddDateText
+        ))
+
+        length.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddLengthText
+            else R.color.colorLightViewHabitAddLengthText
+        ))
+
+        separator.setBackgroundColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddSeparatorBackground
+            else R.color.colorLightViewHabitAddSeparatorBackground
+        ))
+
+        positivePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddPositivePointText
+            else R.color.colorLightViewHabitAddPositivePointText
+        ))
+
+        positivePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddPositivePointText
+            else R.color.colorLightViewHabitAddPositivePointText
+        ))
+
+        zeroPointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddZeroPointText
+            else R.color.colorLightViewHabitAddZeroPointText
+        ))
+
+        zeroPointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddZeroPointText
+            else R.color.colorLightViewHabitAddZeroPointText
+        ))
+
+        negativePointLight.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddNegativePointText
+            else R.color.colorLightViewHabitAddNegativePointText
+        ))
+
+        negativePointDark.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddNegativePointText
+            else R.color.colorLightViewHabitAddNegativePointText
+        ))
+
+        tvMessage.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkViewHabitAddTvMessageText
+            else R.color.colorLightViewHabitAddTvMessageText
+        ))
+
         val itemCount = userInterestsViewModel.getInterests().size
 
         icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
@@ -599,35 +1233,80 @@ fun MainActivity.setupAddHabitBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/2000"
         }
 
-        pointsStateControlGroup.setOnSelectedOptionChangeCallback {
+        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
             selectedDiffPointToAddPost = it
         }
 
-        regularityControlGroup.setOnSelectedOptionChangeCallback {
+         pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
+            selectedDiffPointToAddPost = it
+        }
+
+        regularityControlGroupLight.setOnSelectedOptionChangeCallback {
             selectedRegularityToAddHabit = when (it) {
                 0 -> Regularity.Daily
                 else -> Regularity.Weekly
             }
 
-            dailyPoint.setTextColor(
+            dailyPointLight.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    if (it == 0) R.color.colorAddHabitRegularityPointActiveText
-                    else R.color.colorAddHabitRegularityPointInactiveText
+                    if (it == 0)
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                        else R.color.colorLightAddHabitRegularityPointActiveText
+                    else
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                        else R.color.colorLightAddHabitRegularityPointInactiveText
                 )
             )
 
-            weeklyPoint.setTextColor(
+            weeklyPointLight.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    if (it == 1) R.color.colorAddHabitRegularityPointActiveText
-                    else R.color.colorAddHabitRegularityPointInactiveText
+                    if (it == 1)
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                        else R.color.colorLightAddHabitRegularityPointActiveText
+                    else
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                        else R.color.colorLightAddHabitRegularityPointInactiveText
                 )
             )
         }
 
-        dailyPoint.textSize = 10f
-        weeklyPoint.textSize = 10f
+        regularityControlGroupDark.setOnSelectedOptionChangeCallback {
+            selectedRegularityToAddHabit = when (it) {
+                0 -> Regularity.Daily
+                else -> Regularity.Weekly
+            }
+
+            dailyPointDark.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (it == 0)
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                        else R.color.colorLightAddHabitRegularityPointActiveText
+                    else
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                        else R.color.colorLightAddHabitRegularityPointInactiveText
+                )
+            )
+
+            weeklyPointDark.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (it == 1)
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                        else R.color.colorLightAddHabitRegularityPointActiveText
+                    else
+                        if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                        else R.color.colorLightAddHabitRegularityPointInactiveText
+                )
+            )
+        }
+
+        dailyPointLight.textSize = 10f
+        dailyPointDark.textSize = 10f
+        weeklyPointLight.textSize = 10f
+        weeklyPointDark.textSize = 10f
 
         addPost.setOnClickListener {
             when {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemHabitRealizationBinding
 import ru.get.better.model.DiaryNoteDatesCompletion
@@ -29,10 +30,24 @@ class HabitsRealizationViewHolder(
             binding.cardView,
             ColorStateList.valueOf(
                 if (dateCompletion.datesCompletionIsCompleted!!)
-                    ContextCompat.getColor(context, R.color.habitDateCompleted)
-                else ContextCompat.getColor(context, R.color.habitDateIncompleted)
+                    ContextCompat.getColor(
+                        context,
+                        if (App.Companion.preferences.isDarkTheme) R.color.colorDarkHabitDateCompleted
+                        else R.color.colorLightHabitDateCompleted
+                    )
+                else ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkHabitDateIncompleted
+                    else R.color.colorLightHabitDateIncompleted
+                )
             )
         )
+
+        binding.text.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemHabitRealizationTextText
+            else R.color.colorLightItemHabitRealizationTextText
+        ))
     }
 
     inner class Handler

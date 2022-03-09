@@ -1,6 +1,7 @@
 package ru.get.better.ui.faq
 
 import android.os.Bundle
+import kotlinx.android.synthetic.main.fragment_settings.*
 import ru.get.better.R
 import ru.get.better.databinding.FragmentFaqBinding
 import ru.get.better.ui.base.BaseFragment
@@ -19,11 +20,16 @@ class FaqFragment : BaseFragment<BaseViewModel, FragmentFaqBinding>(
         super.onLayoutReady(savedInstanceState)
 
         faqAdapter = FaqAdapter(
+            requireContext(),
             binding.recycler,
             initFaqs()
         )
         binding.recycler.adapter = faqAdapter
 
+    }
+
+    override fun updateThemeAndLocale() {
+        faqAdapter.notifyDataSetChanged()
     }
 
     private fun initFaqs(): List<Pair<String, String>> {

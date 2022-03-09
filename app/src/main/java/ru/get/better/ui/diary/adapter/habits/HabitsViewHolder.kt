@@ -5,14 +5,17 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
+import android.content.res.ColorStateList
 import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.greenrobot.eventbus.EventBus
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemHorizontalHabitBinding
 import ru.get.better.event.HabitRealizationCompletedEvent
@@ -34,6 +37,36 @@ class HabitsViewHolder(
 
     @SuppressLint("ClickableViewAccessibility")
     fun bind(habitRealization: DiaryNote) {
+        binding.cardView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitBackgroundTint
+            else R.color.colorLightItemHorizontalHabitBackgroundTint
+        ))
+
+        binding.iconTitle.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitText
+            else R.color.colorLightItemHorizontalHabitText
+        ))
+
+        binding.title.setTextColor(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitTitleText
+            else R.color.colorLightItemHorizontalHabitTitleText
+        ))
+
+        binding.completeBlock.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitCompleteBlockBackgroundTint
+            else R.color.colorLightItemHorizontalHabitCompleteBlockBackgroundTint
+        ))
+
+        binding.icCheck.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            context,
+            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitTint
+            else R.color.colorLightItemHorizontalHabitTint
+        ))
+
         binding.cardView.animation =
             AnimationUtils.loadAnimation(context, R.anim.scale)
 

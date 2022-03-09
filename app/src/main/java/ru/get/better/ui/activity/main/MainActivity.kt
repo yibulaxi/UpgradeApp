@@ -16,11 +16,9 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -57,13 +55,17 @@ import ru.get.better.vm.*
 import java.util.*
 import android.app.AlarmManager
 
-import ru.get.better.di.AppModule_ContextFactory.context
-
 import android.app.PendingIntent
 import android.content.Context
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import androidx.core.view.isVisible
+import androidx.navigation.ui.setupWithNavController
 import ru.get.better.push.NotificationReceiver
+import android.R.color
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.target_menu_addpost.view.*
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -116,11 +118,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-
-        StatusBarUtil.setColor(this, resources.getColor(R.color.colorStatusBar))
         StatusBarUtil.setDarkMode(this)
-
-        window.navigationBarColor = resources.getColor(R.color.colorNavigationBar)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 
         navController = findNavController(R.id.nav_host_fragment)
@@ -130,14 +128,148 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (binding.navView.selectedItemId == it.itemId) {
                 val navGraph = Navigation.findNavController(this, R.id.nav_host_fragment)
                 navGraph.popBackStack(it.itemId, false)
+
                 return@setOnNavigationItemReselectedListener
             }
         }
 
-        subscribePushTopic()
+//        subscribePushTopic()
+//        initNotificationReceiver()
+    }
+
+    override fun updateThemeAndLocale() {
+        StatusBarUtil.setColor(this, resources.getColor(
+            if (App.preferences.isDarkTheme) R.color.colorDarkStatusBar
+            else R.color.colorLightStatusBar
+        ))
+
+        window.navigationBarColor = resources.getColor(
+            if (App.preferences.isDarkTheme) R.color.colorDarkNavigationBar
+            else R.color.colorLightNavigationBar
+        )
+
         setupBottomSheets()
 
-        initNotificationReceiver()
+        setupSelectNoteTypeBottomSheet()
+        setupAddPostBottomSheet()
+        setupAddGoalBottomSheet()
+        setupAddTrackerBottomSheet()
+        setupAddHabitBottomSheet()
+        setupTrackerSheet()
+
+        binding.dateTitle.text = App.resourcesProvider.getStringLocale(R.string.tracker_date_title, App.preferences.locale)
+        binding.stopTracker.text = App.resourcesProvider.getStringLocale(R.string.stop_tracker, App.preferences.locale)
+
+        val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
+        val colors = intArrayOf(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorChecked
+                else R.color.colorLightBottomNavSelectorChecked
+            ),
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                else R.color.colorLightBottomNavSelectorUnchecked
+            )
+        )
+        binding.navView.itemIconTintList = ColorStateList(states, colors)
+
+        binding.progressBar.background = ContextCompat.getDrawable(
+            this,
+            if (App.preferences.isDarkTheme) R.drawable.bg_progress_dark
+            else R.drawable.bg_progress_light
+        )
+
+        binding.navViewContainer.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
+                else R.color.colorLightNavViewContainerBackgroundTint
+            )
+        )
+
+        binding.navView.setBackgroundColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkNavViewBackground
+            else R.color.colorLightNavViewBackground
+        ))
+
+        binding.trackerFab.setImageResource(
+            if (App.preferences.isDarkTheme) R.drawable.ic_tracker_dark
+            else R.drawable.ic_tracker_light
+        )
+
+        binding.trackerFab.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerFabTint
+            else R.color.colorLightTrackerFabTint
+        ))
+
+        binding.trackerContainer.setBackgroundColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+            else R.color.colorLightTrackerContainerBackground
+        ))
+
+        binding.trackerContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+            else R.color.colorLightTrackerContainerBackground
+        ))
+
+        binding.trackerInterestName.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerInterestNameText
+            else R.color.colorLightTrackerInterestNameText
+        ))
+
+        binding.dateTitle.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateTitleText
+            else R.color.colorLightTrackerDateTitleText
+        ))
+
+        binding.trackerDate.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateText
+            else R.color.colorLightTrackerDateText
+        ))
+
+        binding.timer.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTimerText
+            else R.color.colorLightTrackerTimerText
+        ))
+
+        binding.trackerTitle.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTitleText
+            else R.color.colorLightTrackerTitleText
+        ))
+
+        binding.stopTrackerContainer.background = ContextCompat.getDrawable(
+            this,
+            if (App.preferences.isDarkTheme) R.drawable.bg_view_active_tracker_btn_dark
+            else R.drawable.bg_view_active_tracker_btn_light
+        )
+
+        binding.stopTracker.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerStopText
+            else R.color.colorLightTrackerStopText
+        ))
+
+        binding.backgroundImage.setBackgroundColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkBlur
+            else R.color.colorLightBlur
+        ))
+
+        binding.progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkProgressBarIndeterminateTint
+            else R.color.colorLightProgressBarIndeterminateTint
+        ))
     }
 
     var isTrackerTimerRunning = false
@@ -527,14 +659,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.date
 
+                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
                 when {
                     e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(2, true)
+                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+                        pointsStateControlGroupDark.setSelectedIndex(2, true)
                     }
                     e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(0, true)
+                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+                        pointsStateControlGroupDark.setSelectedIndex(0, true)
                     }
-                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
+                    else -> {
+                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+                    }
                 }
 
                 val urls = arrayListOf<Media>()
@@ -572,14 +712,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.date
 
+                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
                 when {
                     e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(2, true)
+                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+                        pointsStateControlGroupDark.setSelectedIndex(2, true)
                     }
                     e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(0, true)
+                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+                        pointsStateControlGroupDark.setSelectedIndex(0, true)
                     }
-                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
+                    else -> {
+                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+                    }
                 }
             }
         } else if (e.note.noteType == NoteType.Tracker.id) {
@@ -610,14 +758,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.date
 
+                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+
                 when {
                     e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(2, true)
+                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+                        pointsStateControlGroupDark.setSelectedIndex(2, true)
                     }
                     e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(0, true)
+                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+                        pointsStateControlGroupDark.setSelectedIndex(0, true)
                     }
-                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
+                    else -> {
+                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+                    }
                 }
             }
         } else if (e.note.noteType == NoteType.HabitRealization.id) {
@@ -632,8 +788,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 editAmount.setText(e.note.initialAmount.toString())
 
+                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
 
-                regularityControlGroup.setSelectedIndex(
+                regularityControlGroupLight.isVisible = !App.preferences.isDarkTheme
+                regularityControlGroupDark.isVisible = App.preferences.isDarkTheme
+
+                regularityControlGroupLight.setSelectedIndex(
                     index = when (e.note.regularity) {
                         Regularity.Daily.id -> 0
                         else -> 1
@@ -641,19 +802,65 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     shouldAnimate = true
                 )
 
-                dailyPoint.setTextColor(
+                regularityControlGroupDark.setSelectedIndex(
+                    index = when (e.note.regularity) {
+                        Regularity.Daily.id -> 0
+                        else -> 1
+                    },
+                    shouldAnimate = true
+                )
+
+                dailyPointLight.setTextColor(
                     ContextCompat.getColor(
                         this@MainActivity,
-                        if (e.note.regularity == Regularity.Daily.id) R.color.colorAddHabitRegularityPointActiveText
-                        else R.color.colorAddHabitRegularityPointInactiveText
+                        if (e.note.regularity == Regularity.Daily.id) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                            else R.color.colorLightAddHabitRegularityPointActiveText
+                        } else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                            else R.color.colorLightAddHabitRegularityPointInactiveText
+                        }
                     )
                 )
 
-                weeklyPoint.setTextColor(
+                dailyPointDark.setTextColor(
                     ContextCompat.getColor(
                         this@MainActivity,
-                        if (e.note.regularity == Regularity.Weekly.id) R.color.colorAddHabitRegularityPointActiveText
-                        else R.color.colorAddHabitRegularityPointInactiveText
+                        if (e.note.regularity == Regularity.Daily.id) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                            else R.color.colorLightAddHabitRegularityPointActiveText
+                        } else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                            else R.color.colorLightAddHabitRegularityPointInactiveText
+                        }
+                    )
+                )
+
+                weeklyPointLight.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity,
+                        if (e.note.regularity == Regularity.Weekly.id) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                            else R.color.colorLightAddHabitRegularityPointActiveText
+                        }
+                        else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                            else R.color.colorLightAddHabitRegularityPointInactiveText
+                        }
+                    )
+                )
+
+                weeklyPointDark.setTextColor(
+                    ContextCompat.getColor(
+                        this@MainActivity,
+                        if (e.note.regularity == Regularity.Weekly.id) {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
+                            else R.color.colorLightAddHabitRegularityPointActiveText
+                        }
+                        else {
+                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
+                            else R.color.colorLightAddHabitRegularityPointInactiveText
+                        }
                     )
                 )
 
@@ -677,12 +884,17 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 when {
                     e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(2, true)
+                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+                        pointsStateControlGroupDark.setSelectedIndex(2, true)
                     }
                     e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroup.setSelectedIndex(0, true)
+                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+                        pointsStateControlGroupDark.setSelectedIndex(0, true)
                     }
-                    else -> pointsStateControlGroup.setSelectedIndex(1, true)
+                    else -> {
+                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+                    }
                 }
             }
         }
@@ -740,7 +952,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
             if (image?.url != null)
                 Picasso.with(this@MainActivity).load(image.url).into(view)
-        }.withBackgroundColor(ContextCompat.getColor(this, R.color.colorFullScreenMediaBackground))
+        }.withBackgroundColor(ContextCompat.getColor(this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkFullScreenMediaBackground
+            else R.color.colorLightFullScreenMediaBackground
+        ))
             .withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
     }
 
@@ -754,9 +969,28 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         showFail(e.msg)
     }
 
+//    @Subscribe
+//    fun onUpdateThemeEvent(e: UpdateThemeEvent) {
+//        setAppTheme(e.isDarkTheme)
+//    }
+
     private fun showAddPostSpotlight() {
         val addPostTargetLayout =
             layoutInflater.inflate(R.layout.target_menu_addpost, FrameLayout(this))
+
+        addPostTargetLayout.title.text = App.resourcesProvider.getStringLocale(R.string.addpost_spotlight)
+
+        addPostTargetLayout.title.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTargetMenuAddpostTitleText
+            else R.color.colorLightTargetMenuAddpostTitleText
+        ))
+        addPostTargetLayout.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.colorDarkTargetMenuAddpostIcArrowTint
+            else R.color.colorLightTargetMenuAddpostIcArrowTint
+        ))
+
         val addPostTarget = com.takusemba.spotlight.Target.Builder()
             .setAnchor(binding.targetAddPost)
             .setShape(Circle(16f))
@@ -764,7 +998,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 RippleEffect(
                     100f,
                     200f,
-                    ContextCompat.getColor(this, R.color.colorSpotlightTarget)
+                    ContextCompat.getColor(this,
+                        if (App.preferences.isDarkTheme) R.color.colorDarkSpotlightTarget
+                        else R.color.colorLightSpotlightTarget
+                    )
                 )
             )
             .setOverlay(addPostTargetLayout)
@@ -772,7 +1009,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         val spotlight = Spotlight.Builder(this)
             .setTargets(addPostTarget)
-            .setBackgroundColor(ContextCompat.getColor(this, R.color.colorSpotlightBackground))
+            .setBackgroundColor(ContextCompat.getColor(this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkSpotlightBackground
+                else R.color.colorLightSpotlightBackground
+            ))
             .setDuration(1000L)
             .setAnimation(DecelerateInterpolator(2f))
             .setContainer(binding.container)
@@ -799,8 +1039,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 null,
                 R.drawable.ic_check,
                 null,
-                R.drawable.snack_success_gradient,
-                R.drawable.snack_success_gradient,
+                R.drawable.snack_success_gradient_light,
+                R.drawable.snack_success_gradient_light,
             )?.show()
         }
     }
@@ -815,7 +1055,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 null,
                 R.drawable.ic_close,
                 null,
-                R.drawable.snack_warning_gradient,
+                R.drawable.snack_warning_gradient_light,
             )?.show()
         }
     }

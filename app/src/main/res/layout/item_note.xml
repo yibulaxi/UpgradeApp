@@ -18,13 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:backgroundTint="@color/colorItemNoteBackgroundTint"
         android:clickable="true"
         android:elevation="4dp"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardUseCompatPadding="false">
-
+<!--android:backgroundTint="@color/colorItemNoteBackgroundTint"-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
@@ -51,12 +50,11 @@
                     android:ellipsize="end"
                     android:lines="2"
                     android:maxLines="2"
-                    android:textColor="@color/colorItemNoteTitleText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/description"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorItemNoteTitleText"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/description"
                     style="@style/Text8.Light"
@@ -64,9 +62,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:gravity="end"
-                    android:textColor="@color/colorItemNoteDescriptionText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+<!--                android:textColor="@color/colorItemNoteDescriptionText"-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,7 +86,8 @@
                 android:src="@drawable/ic_goal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/colorItemNoteNoteTypeTint" />
+                 />
+<!--            app:tint="@color/colorItemNoteNoteTypeTint"-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

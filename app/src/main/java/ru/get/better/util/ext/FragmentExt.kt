@@ -5,6 +5,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.skydoves.balloon.*
 
+import ru.get.better.App
+import ru.get.better.R
+
 fun Fragment.getBalloon(
     text: String,
 
@@ -22,8 +25,14 @@ fun Fragment.getBalloon(
         .setCornerRadius(4f)
         .setAlpha(0.9f)
         .setText(text)
-        .setTextColor(ContextCompat.getColor(context!!, ru.get.better.R.color.colorBalloonText))
+        .setTextColor(ContextCompat.getColor(context!!,
+            if (App.Companion.preferences.isDarkTheme) R.color.colorDarkBalloonText
+            else R.color.colorLightBalloonText
+        ))
         .setTextIsHtml(true)
-        .setBackgroundColor(ContextCompat.getColor(context!!, ru.get.better.R.color.colorBalloonBackground))
+        .setBackgroundColor(ContextCompat.getColor(context!!,
+            if (App.preferences.isDarkTheme) R.color.colorDarkBalloonBackground
+            else R.color.colorLightBalloonBackground
+        ))
         .setBalloonAnimation(BalloonAnimation.CIRCULAR)
         .build()

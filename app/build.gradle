@@ -183,6 +183,10 @@ dependencies {
 //   round charts
     implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
 
+//   switch button
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
+
+
 
 //    room
     def roomVersion = "2.3.0"

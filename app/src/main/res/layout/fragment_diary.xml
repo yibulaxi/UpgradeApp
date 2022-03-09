@@ -23,11 +23,9 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorFragmentDiaryBackground"
             android:fitsSystemWindows="true"
-
             tools:context=".ui.activity.main.MainActivity">
-
+<!--android:background="@color/colorFragmentDiaryBackground"-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -40,11 +38,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:letterSpacing="0.2"
-                    android:text="@string/diary"
-                    android:textColor="@color/colorFragmentDiaryTitleText"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+<!--android:textColor="@color/colorFragmentDiaryTitleText"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/emptyText"
                     style="@style/Text14.Light"
@@ -53,10 +49,8 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="24dp"
                     android:letterSpacing="0.1"
-                    android:text="@string/diary_empty_text"
-                    android:textColor="@color/colorFragmentDiaryEmptyTextText"
                     app:layout_constraintTop_toBottomOf="@id/title" />
-
+<!--android:textColor="@color/colorFragmentDiaryEmptyTextText"-->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/emptyAnim"
                     android:layout_width="match_parent"
@@ -106,9 +100,9 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{handler::onInfoClicked}"
                     android:src="@drawable/ic_info"
-                    android:tint="@color/colorFragmentDiaryInfoTint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+<!--                android:tint="@color/colorFragmentDiaryInfoTint"-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -117,10 +111,9 @@
             android:id="@+id/blur"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBlur"
             android:onClick="@{handler::onBlurClicked}"
             android:visibility="gone" />
-
+<!--android:background="@color/colorBlur"-->
         <include
             android:id="@+id/viewPagerBottomSheet"
             layout="@layout/view_notes_viewpager" />

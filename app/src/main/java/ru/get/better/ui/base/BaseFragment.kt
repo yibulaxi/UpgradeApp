@@ -20,10 +20,13 @@ import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.EventBusException
 import org.greenrobot.eventbus.Subscribe
+import ru.get.better.App
 import ru.get.better.BR
 import ru.get.better.R
+import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.glide.GlideApp
 import ru.get.better.navigation.Navigator
+import ru.get.better.ui.settings.SettingsFragment
 import ru.get.better.util.ext.getViewModel
 import ru.get.better.util.lazyErrorDelegate
 import timber.log.Timber
@@ -71,6 +74,22 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
             Timber.i(e)
         }
         Timber.d("${this@BaseFragment.javaClass.name}::OnStart")
+    }
+
+    open fun updateThemeAndLocale(withAnimation: Boolean = false) {
+
+    }
+
+    open fun updateThemeAndLocale() {
+
+    }
+
+    @Subscribe
+    fun onUpdateThemeEvent(e: UpdateThemeEvent) {
+        if (this is SettingsFragment) {
+            updateThemeAndLocale(e.withAnimation)
+        } else updateThemeAndLocale()
+
     }
 
     @Subscribe
@@ -142,6 +161,8 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     protected open fun onLayoutReady(savedInstanceState: Bundle?) {
+        updateThemeAndLocale()
+        updateThemeAndLocale(withAnimation = false)
         // Empty for optional override
     }
 
@@ -188,6 +209,17 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
             val objLayoutInflater: LayoutInflater =
                 it.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val snackView: View = objLayoutInflater.inflate(R.layout.snackbar_success, null)
+
+            snackView.content.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.container_snackbar_dark
+                else R.drawable.container_snackbar_light
+            )
+            snackView.textView.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkSnackbarSuccessText
+                else R.color.colorLightSnackbarSuccessText
+            ))
             snackView.imageView.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.logo))
             showSnackBarView(msg, snackView)
         }
@@ -214,7 +246,11 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
             layout.addView(snackView, 0)
 
             snackBar.view.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.container_snackbar)
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    if (App.Companion.preferences.isDarkTheme) R.drawable.container_snackbar_dark
+                    else R.drawable.container_snackbar_light
+                )
 
             snackBar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
             snackBar.show()

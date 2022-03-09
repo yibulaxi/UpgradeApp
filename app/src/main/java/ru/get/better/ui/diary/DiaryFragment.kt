@@ -1,5 +1,6 @@
 package ru.get.better.ui.diary
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import com.shuhart.stickyheader.StickyHeaderItemDecorator
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.RoundedRectangle
+import kotlinx.android.synthetic.main.target_diary_habits.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
@@ -108,6 +110,50 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
             }
         })
 
+    }
+
+    override fun updateThemeAndLocale() {
+        binding.title.text = App.resourcesProvider.getStringLocale(R.string.diary)
+        binding.emptyText.text = App.resourcesProvider.getStringLocale(R.string.diary_empty_text)
+
+        if (::adapter.isInitialized)
+            adapter.notifyDataSetChanged()
+
+        if (::habitsAdapter.isInitialized)
+            habitsAdapter.notifyDataSetChanged()
+
+        if (::pagerAdapter.isInitialized)
+            pagerAdapter.notifyDataSetChanged()
+
+        binding.container.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryBackground
+            else R.color.colorLightFragmentDiaryBackground
+        ))
+
+        binding.title.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryTitleText
+            else R.color.colorLightFragmentDiaryTitleText
+        ))
+
+        binding.emptyText.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryEmptyTextText
+            else R.color.colorLightFragmentDiaryEmptyTextText
+        ))
+
+        binding.info.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryInfoTint
+            else R.color.colorLightFragmentDiaryInfoTint
+        ))
+
+        binding.blur.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkBlur
+            else R.color.colorLightBlur
+        ))
     }
 
     @Subscribe
@@ -289,6 +335,20 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     private fun showHabitsSpotlight() {
         val habitsTargetLayout =
             layoutInflater.inflate(R.layout.target_diary_habits, FrameLayout(requireContext()))
+        habitsTargetLayout.title.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkTargetDiaryHabitsTitleText
+            else R.color.colorLightTargetDiaryHabitsTitleText
+        ))
+
+        habitsTargetLayout.title.text = App.resourcesProvider.getStringLocale(R.string.habits_spotlight)
+
+        habitsTargetLayout.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkTargetDiaryHabitsIcArrowTint
+            else R.color.colorLightTargetDiaryHabitsIcArrowTint
+        ))
+
         val habitsTarget = com.takusemba.spotlight.Target.Builder()
             .setAnchor(binding.habitsSpotlightView)
             .setShape(
@@ -302,7 +362,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 RippleEffect(
                     100f,
                     200f,
-                    ContextCompat.getColor(requireContext(), R.color.colorHabitsSpotlightTarget)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.colorDarkHabitsSpotlightTarget
+                        else R.color.colorLightHabitsSpotlightTarget
+                    )
                 )
             )
             .setOverlay(habitsTargetLayout)
@@ -310,7 +374,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
         val spotlight = Spotlight.Builder(requireActivity())
             .setTargets(habitsTarget)
-            .setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorHabitsSpotlightBackground))
+            .setBackgroundColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkHabitsSpotlightBackground
+                else R.color.colorLightHabitsSpotlightBackground
+            ))
             .setDuration(1000L)
             .setAnimation(DecelerateInterpolator(2f))
             .setContainer(binding.container)
