@@ -2,11 +2,7 @@ package ru.get.better.ui.activity.main.ext
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.findNavController
-import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
-import ru.get.better.R
-import ru.get.better.event.LoadMainEvent
 import ru.get.better.ui.activity.main.MainActivity
 
 fun MainActivity.setAppTheme(isDarkTheme: Boolean) {

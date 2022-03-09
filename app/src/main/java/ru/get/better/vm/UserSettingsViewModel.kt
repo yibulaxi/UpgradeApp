@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
-import ru.get.better.R
 import ru.get.better.event.InitUserSettingsEvent
 import ru.get.better.event.UpdateDifficultyEvent
 import ru.get.better.event.UpdateLocaleEvent

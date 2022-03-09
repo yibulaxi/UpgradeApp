@@ -1,13 +1,11 @@
 package ru.get.better.util
 
 import android.content.Context
-import androidx.annotation.StringRes
-import javax.inject.Inject
-import android.R.id
 import android.content.res.Configuration
-import android.content.res.Resources
+import androidx.annotation.StringRes
 import ru.get.better.App
 import java.util.*
+import javax.inject.Inject
 
 
 class ResourcesProvider @Inject constructor(

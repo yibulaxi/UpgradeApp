@@ -47,23 +47,29 @@ class SimpleCustomSnackbarView @JvmOverloads constructor(
             else R.drawable.snack_warning_gradient_light
         )
 
-        this.icon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleIconTint
-            else R.color.colorLightViewSnackbarSimpleIconTint
-        ))
+        this.icon.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleIconTint
+                else R.color.colorLightViewSnackbarSimpleIconTint
+            )
+        )
 
-        this.tvMsg.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleTvMessageText
-            else R.color.colorLightViewSnackbarSimpleTvMessageText
-        ))
+        this.tvMsg.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleTvMessageText
+                else R.color.colorLightViewSnackbarSimpleTvMessageText
+            )
+        )
 
-        this.tvAction.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleTvActionText
-            else R.color.colorLightViewSnackbarSimpleTvActionText
-        ))
+        this.tvAction.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewSnackbarSimpleTvActionText
+                else R.color.colorLightViewSnackbarSimpleTvActionText
+            )
+        )
     }
 
     override fun animateContentIn(delay: Int, duration: Int) {

@@ -21,7 +21,7 @@ class Preferences(context: Context) {
 
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
-        get() = sharedPreferences.getString(LOCALE, "ru")?: "ru"
+        get() = sharedPreferences.getString(LOCALE, "ru") ?: "ru"
 
     var pushToken: String?
         set(value) = sharedPreferences.edit().putString(PUSH_TOKEN, value).apply()

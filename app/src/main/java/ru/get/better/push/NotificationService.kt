@@ -1,21 +1,13 @@
 package ru.get.better.push
 
 import android.app.IntentService
-import android.app.Notification
-import androidx.core.app.NotificationManagerCompat
-
-import android.app.PendingIntent
-
-import ru.get.better.ui.activity.main.MainActivity
-
 import android.content.Intent
 import android.util.Log
-import ru.get.better.R
 
 
 class NotificationService(name: String?) : IntentService(name) {
 
-    constructor(): this("servicerykdtr")
+    constructor() : this("servicerykdtr")
 
     private val notificationHelper: NotificationHelper by lazy {
         NotificationHelper(

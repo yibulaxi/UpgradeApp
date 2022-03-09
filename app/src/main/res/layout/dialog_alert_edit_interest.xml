@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:id="@+id/editInterestContainer"
-    >
-<!--android:background="@color/colorLightDialogAlertEditInterestBackground"-->
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--android:background="@color/colorLightDialogAlertEditInterestBackground"-->
     <ru.get.better.ui.view.CustomWheelPickerView
         android:id="@+id/icon"
         android:layout_width="120dp"
@@ -29,9 +28,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent" />
-<!--    android:textColor="@color/colorLightDialogAlertEditInterestNameText"
-        android:textColorHint="@color/colorLightDialogAlertEditInterestNameHint"-->
-<!--android:background="@drawable/bg_edittext_light"-->
+    <!--    android:textColor="@color/colorLightDialogAlertEditInterestNameText"
+            android:textColorHint="@color/colorLightDialogAlertEditInterestNameHint"-->
+    <!--android:background="@drawable/bg_edittext_light"-->
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/interestDescription"
         style="@style/Text14.Light"
@@ -49,8 +48,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toBottomOf="@id/interestName" />
-<!--    android:textColor="@color/colorLightDialogAlertEditInterestDescriptionText"
-        android:textColorHint="@color/colorLightDialogAlertEditInterestDescriptionHint"-->
-<!--    android:background="@drawable/bg_edittext_light"-->
+    <!--    android:textColor="@color/colorLightDialogAlertEditInterestDescriptionText"
+            android:textColorHint="@color/colorLightDialogAlertEditInterestDescriptionHint"-->
+    <!--    android:background="@drawable/bg_edittext_light"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

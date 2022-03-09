@@ -29,29 +29,37 @@ class NotesViewHolder(
 
     fun bind(note: DiaryNote, position: Int) {
 
-        binding.cardView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteBackgroundTint
-            else R.color.colorLightItemNoteBackgroundTint
-        ))
+        binding.cardView.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteBackgroundTint
+                else R.color.colorLightItemNoteBackgroundTint
+            )
+        )
 
-        binding.title.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteTitleText
-            else R.color.colorLightItemNoteTitleText
-        ))
+        binding.title.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteTitleText
+                else R.color.colorLightItemNoteTitleText
+            )
+        )
 
-        binding.description.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteDescriptionText
-            else R.color.colorLightItemNoteDescriptionText
-        ))
+        binding.description.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteDescriptionText
+                else R.color.colorLightItemNoteDescriptionText
+            )
+        )
 
-        binding.noteType.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteNoteTypeTint
-            else R.color.colorLightItemNoteNoteTypeTint
-        ))
+        binding.noteType.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteNoteTypeTint
+                else R.color.colorLightItemNoteNoteTypeTint
+            )
+        )
 
 //        when (note.noteType) {
 //            NoteType.Note.id -> {

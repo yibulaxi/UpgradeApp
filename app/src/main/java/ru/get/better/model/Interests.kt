@@ -68,9 +68,16 @@ interface DefaultInterest : Interest {
 
     companion object : DefaultInterest {
         override val id = "0"
-        override var name: String? = App.Companion.resourcesProvider.getStringLocale(R.string.welcome_title, App.preferences.locale)
-        override var description: String? = App.resourcesProvider.getStringLocale(R.string.welcome_description, App.preferences.locale)
-        override val shortDescription = App.resourcesProvider.getStringLocale(R.string.welcome_short, App.preferences.locale)
+        override var name: String? = App.Companion.resourcesProvider.getStringLocale(
+            R.string.welcome_title,
+            App.preferences.locale
+        )
+        override var description: String? = App.resourcesProvider.getStringLocale(
+            R.string.welcome_description,
+            App.preferences.locale
+        )
+        override val shortDescription =
+            App.resourcesProvider.getStringLocale(R.string.welcome_short, App.preferences.locale)
 
         override var startValue: Float? = 5f
         override var currentValue: Float? = 5f
@@ -99,9 +106,12 @@ interface DefaultInterest : Interest {
 
 class Work : DefaultInterest {
     override val id = "1"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.work_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.work_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.work_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.work_title, App.preferences.locale)
+    override var description: String? =
+        App.resourcesProvider.getStringLocale(R.string.work_description, App.preferences.locale)
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.work_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f
@@ -116,9 +126,12 @@ class Work : DefaultInterest {
 
 class Spirit : DefaultInterest {
     override val id = "2"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.spirit_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.spirit_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.spirit_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.spirit_title, App.preferences.locale)
+    override var description: String? =
+        App.resourcesProvider.getStringLocale(R.string.spirit_description, App.preferences.locale)
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.spirit_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f
@@ -133,9 +146,12 @@ class Spirit : DefaultInterest {
 
 class Chill : DefaultInterest {
     override val id = "3"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.chill_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.chill_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.chill_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.chill_title, App.preferences.locale)
+    override var description: String? =
+        App.resourcesProvider.getStringLocale(R.string.chill_description, App.preferences.locale)
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.chill_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f
@@ -150,9 +166,14 @@ class Chill : DefaultInterest {
 
 class Relationship : DefaultInterest {
     override val id = "4"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.relationship_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.relationship_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.relationship_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.relationship_title, App.preferences.locale)
+    override var description: String? = App.resourcesProvider.getStringLocale(
+        R.string.relationship_description,
+        App.preferences.locale
+    )
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.relationship_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f
@@ -167,9 +188,12 @@ class Relationship : DefaultInterest {
 
 class Health : DefaultInterest {
     override val id = "5"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.health_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.health_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.health_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.health_title, App.preferences.locale)
+    override var description: String? =
+        App.resourcesProvider.getStringLocale(R.string.health_description, App.preferences.locale)
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.health_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f
@@ -184,9 +208,12 @@ class Health : DefaultInterest {
 
 class Finance : DefaultInterest {
     override val id = "6"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.finance_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.finance_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.finance_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.finance_title, App.preferences.locale)
+    override var description: String? =
+        App.resourcesProvider.getStringLocale(R.string.finance_description, App.preferences.locale)
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.finance_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f
@@ -201,9 +228,14 @@ class Finance : DefaultInterest {
 
 class Environment : DefaultInterest {
     override val id = "7"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.environment_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.environment_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.environment_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.environment_title, App.preferences.locale)
+    override var description: String? = App.resourcesProvider.getStringLocale(
+        R.string.environment_description,
+        App.preferences.locale
+    )
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.environment_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f
@@ -218,9 +250,12 @@ class Environment : DefaultInterest {
 
 class Creation : DefaultInterest {
     override val id = "8"
-    override var name: String? = App.resourcesProvider.getStringLocale(R.string.creation_title, App.preferences.locale)
-    override var description: String? = App.resourcesProvider.getStringLocale(R.string.creation_description, App.preferences.locale)
-    override val shortDescription = App.resourcesProvider.getStringLocale(R.string.creation_short, App.preferences.locale)
+    override var name: String? =
+        App.resourcesProvider.getStringLocale(R.string.creation_title, App.preferences.locale)
+    override var description: String? =
+        App.resourcesProvider.getStringLocale(R.string.creation_description, App.preferences.locale)
+    override val shortDescription =
+        App.resourcesProvider.getStringLocale(R.string.creation_short, App.preferences.locale)
 
     override var currentValue: Float? = 5f
     override var startValue: Float? = 5f

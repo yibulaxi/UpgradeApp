@@ -46,10 +46,13 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
         }
 
         private fun init() {
-            background = ColorDrawable(ContextCompat.getColor(context!!,
-                if (App.Companion.preferences.isDarkTheme) R.color.colorDarkRemoveItemTouchHelperBackground
-                else R.color.colorLightRemoveItemTouchHelperBackground
-            ))
+            background = ColorDrawable(
+                ContextCompat.getColor(
+                    context!!,
+                    if (App.Companion.preferences.isDarkTheme) R.color.colorDarkRemoveItemTouchHelperBackground
+                    else R.color.colorLightRemoveItemTouchHelperBackground
+                )
+            )
             initiated = true
         }
 

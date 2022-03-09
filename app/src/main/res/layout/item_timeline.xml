@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-<!--android:backgroundTint="@color/colorItemTimelineBackgroundTint"-->
+        <!--android:backgroundTint="@color/colorItemTimelineBackgroundTint"-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -45,7 +45,7 @@
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-<!--android:textColor="@color/colorItemTimelineTitleText"-->
+                <!--android:textColor="@color/colorItemTimelineTitleText"-->
                 <TextView
                     android:id="@+id/subtitle"
                     style="@style/Text12.Light"
@@ -58,7 +58,7 @@
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/title" />
-<!--android:textColor="@color/colorItemTimelineSubtitleText"-->
+                <!--android:textColor="@color/colorItemTimelineSubtitleText"-->
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +68,7 @@
                 android:paddingHorizontal="8dp"
 
                 app:layout_constraintEnd_toEndOf="parent">
-<!--android:background="@color/colorItemTimelineCheckBlockBackground"-->
+                <!--android:background="@color/colorItemTimelineCheckBlockBackground"-->
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/icCheck"
                     android:layout_width="32dp"
@@ -79,8 +79,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
 
-                     />
-<!--app:tint="@color/colorItemTimelineIcCheckTint"-->
+                    />
+                <!--app:tint="@color/colorItemTimelineIcCheckTint"-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

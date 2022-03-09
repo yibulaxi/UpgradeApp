@@ -1,6 +1,5 @@
 package ru.get.better.ui.achievements.adapter
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View.INVISIBLE
@@ -10,16 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.lriccardo.timelineview.TimelineAdapter
 import com.lriccardo.timelineview.TimelineView
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
 import ru.get.better.R
-import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.model.Achievement
 
 class AchievementsAdapter(
     var items: List<Achievement>,
-    ) : TimelineAdapter, RecyclerView.Adapter<AchievementsViewHolder>() {
+) : TimelineAdapter, RecyclerView.Adapter<AchievementsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AchievementsViewHolder {
         val view = LayoutInflater.from(parent.context)

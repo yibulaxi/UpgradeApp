@@ -122,7 +122,7 @@
         <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.16" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_post_add.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_snackbar_simple.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_tracker_add.xml" value="0.22" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32685185185185184" />

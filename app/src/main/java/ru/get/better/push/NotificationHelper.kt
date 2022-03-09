@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import ru.get.better.App
@@ -53,10 +52,13 @@ class NotificationHelper(private val mContext: Context) {
 
         mBuilder = NotificationCompat.Builder(mContext)
             .setSmallIcon(R.drawable.ic_launcher_notification)
-            .setColor(ContextCompat.getColor(mContext,
-                if (App.preferences.isDarkTheme) R.color.colorDarkNotification
-                else R.color.colorLightNotification
-            ))
+            .setColor(
+                ContextCompat.getColor(
+                    mContext,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkNotification
+                    else R.color.colorLightNotification
+                )
+            )
             .setContentTitle(title)
             .setContentText(message)
             .setAutoCancel(true)
@@ -70,6 +72,6 @@ class NotificationHelper(private val mContext: Context) {
             mBuilder?.setChannelId(mContext.getString(R.string.default_notification_channel_id))
         }
 //        if (App.preferences.userId != 0)
-            mNotificationManager?.notify(2 /* Request Code */, mBuilder?.build())
+        mNotificationManager?.notify(2 /* Request Code */, mBuilder?.build())
     }
 }

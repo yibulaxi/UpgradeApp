@@ -2,471 +2,470 @@
 <resources>
 
 
+    <!--    <color name="colorDarkStatusBar">#1f2f3f</color>-->
+    <!--    <color name="colorDarkNavigationBar">#1a2430</color>-->
+    <!--    <color name="colorDarkNotification">#f6fcff</color>-->
 
-<!--    <color name="colorDarkStatusBar">#1f2f3f</color>-->
-<!--    <color name="colorDarkNavigationBar">#1a2430</color>-->
-<!--    <color name="colorDarkNotification">#f6fcff</color>-->
+    <!--    <color name="colorDarkAchievementsIndicator">#1f2f3f</color>-->
+    <!--    <color name="colorDarkAchievementsLine">#1f2f3f</color>-->
 
-<!--    <color name="colorDarkAchievementsIndicator">#1f2f3f</color>-->
-<!--    <color name="colorDarkAchievementsLine">#1f2f3f</color>-->
+    <!--    <color name="colorDarkActiveTrackerFirstColor">#8092a0</color>-->
+    <!--    <color name="colorDarkActiveTrackerSecondColor">#1f2f3f</color>-->
 
-<!--    <color name="colorDarkActiveTrackerFirstColor">#8092a0</color>-->
-<!--    <color name="colorDarkActiveTrackerSecondColor">#1f2f3f</color>-->
+    <!--    <color name="colorDarkAddHabitRegularityPointActiveText">#f6fcff</color>-->
+    <!--    <color name="colorDarkAddHabitRegularityPointInactiveText">#717a8a</color>-->
 
-<!--    <color name="colorDarkAddHabitRegularityPointActiveText">#f6fcff</color>-->
-<!--    <color name="colorDarkAddHabitRegularityPointInactiveText">#717a8a</color>-->
+    <!--    <color name="colorDarkFullScreenMediaBackground">#1f2f3f</color>-->
 
-<!--    <color name="colorDarkFullScreenMediaBackground">#1f2f3f</color>-->
+    <!--    <color name="colorDarkSpotlightTarget">#1f2f3f</color>-->
+    <!--    <color name="colorDarkSpotlightBackground">#1a2430</color>-->
 
-<!--    <color name="colorDarkSpotlightTarget">#1f2f3f</color>-->
-<!--    <color name="colorDarkSpotlightBackground">#1a2430</color>-->
+    <!--    <color name="habitDateCompleted">#1a2430</color>-->
+    <!--    <color name="habitDateIncompleted">#8092a0</color>-->
 
-<!--    <color name="habitDateCompleted">#1a2430</color>-->
-<!--    <color name="habitDateIncompleted">#8092a0</color>-->
+    <!--    <color name="colorDarkHabitsSpotlightTarget">#1f2f3f</color>-->
+    <!--    <color name="colorDarkHabitsSpotlightBackground">#1f2f3f</color>-->
 
-<!--    <color name="colorDarkHabitsSpotlightTarget">#1f2f3f</color>-->
-<!--    <color name="colorDarkHabitsSpotlightBackground">#1f2f3f</color>-->
+    <!--    <color name="colorDarkMetricListCreateInterestTint">#f6fcff</color>-->
 
-<!--    <color name="colorDarkMetricListCreateInterestTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkWheelSpotlightTarget">#1f2f3f</color>-->
+    <!--    <color name="colorDarkWheelSpotlightBackground">#1a2430</color>-->
 
-<!--    <color name="colorDarkWheelSpotlightTarget">#1f2f3f</color>-->
-<!--    <color name="colorDarkWheelSpotlightBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkMetricControlGroupActiveText">#f6fcff</color>-->
+    <!--    <color name="colorDarkMetricControlGroupInactiveText">#717a8a</color>-->
 
-<!--    <color name="colorDarkMetricControlGroupActiveText">#f6fcff</color>-->
-<!--    <color name="colorDarkMetricControlGroupInactiveText">#717a8a</color>-->
+    <!--    <color name="colorDarkRadarControlGroupActiveText">#f6fcff</color>-->
+    <!--    <color name="colorDarkRadarControlGroupInactiveText">#717a8a</color>-->
 
-<!--    <color name="colorDarkRadarControlGroupActiveText">#f6fcff</color>-->
-<!--    <color name="colorDarkRadarControlGroupInactiveText">#717a8a</color>-->
+    <!--    <color name="colorDarkChartWeb">#717a8a</color>-->
+    <!--    <color name="colorDarkChartWebInner">#717a8a</color>-->
 
-<!--    <color name="colorDarkChartWeb">#717a8a</color>-->
-<!--    <color name="colorDarkChartWebInner">#717a8a</color>-->
+    <!--    <color name="colorDarkRdsCurrent">#606FA6</color>-->
+    <!--    <color name="colorDarkRdsCurrentFill">#A1AACA</color>-->
+    <!--    <color name="colorDarkRdsCurrentValueText">#f6fcff</color>-->
 
-<!--    <color name="colorDarkRdsCurrent">#606FA6</color>-->
-<!--    <color name="colorDarkRdsCurrentFill">#A1AACA</color>-->
-<!--    <color name="colorDarkRdsCurrentValueText">#f6fcff</color>-->
+    <!--    <color name="colorDarkRdsDefault">#301934</color>-->
+    <!--    <color name="colorDarkRdsDefaultFill">#4b2751</color>-->
 
-<!--    <color name="colorDarkRdsDefault">#301934</color>-->
-<!--    <color name="colorDarkRdsDefaultFill">#4b2751</color>-->
+    <!--    <color name="colorDarkBalloonText">#f6fcff</color>-->
+    <!--    <color name="colorDarkBalloonBackground">#1f2f3f</color>-->
 
-<!--    <color name="colorDarkBalloonText">#f6fcff</color>-->
-<!--    <color name="colorDarkBalloonBackground">#1f2f3f</color>-->
+    <!--    <color name="colorDarkRemoveItemTouchHelperBackground">#FF0000</color>-->
 
-<!--    <color name="colorDarkRemoveItemTouchHelperBackground">#FF0000</color>-->
+    <!--    <color name="colorDarkBackgroundBottomSheet">#1a2430</color>-->
 
-<!--    <color name="colorDarkBackgroundBottomSheet">#1a2430</color>-->
+    <!--    <color name="colorDarkBgEditTextStroke">#1a2430</color>-->
+    <!--    <color name="colorDarkBgEditTextSolid">#f6fcff</color>-->
 
-<!--    <color name="colorDarkBgEditTextStroke">#1a2430</color>-->
-<!--    <color name="colorDarkBgEditTextSolid">#f6fcff</color>-->
+    <!--    <color name="colorDarkBgHabitsRealizationValueSolid">#1a2430</color>-->
 
-<!--    <color name="colorDarkBgHabitsRealizationValueSolid">#1a2430</color>-->
-
-<!--    <color name="colorDarkBgListMetricValueGradientEnd">#30678d</color>-->
-
-<!--    <color name="colorDarkBgLogoutSolid">#1f2f3f</color>-->
-
-<!--    <color name="colorDarkBgMediaAddPostStroke">#A1AACA</color>-->
-
-<!--    <color name="colorDarkBgProgressSolid">#1f2f3f</color>-->
-<!--    <color name="colorDarkBgSpinnerSettingsSolid">#A1AACA</color>-->
-
-<!--    <color name="colorDarkBgSplashPreview">#1a2430</color>-->
-<!--    <color name="colorDarkBgStickyHeaderSolid">#1a2430</color>-->
-<!--    <color name="colorDarkBgViewActiveTrackerBtnSolid">#30678d</color>-->
-<!--    <color name="colorDarkBgWasteTimeSolid">#1a2430</color>-->
-
-<!--    <color name="colorDarkBottomNavSelectorChecked">#DFE6F1</color>-->
-<!--    <color name="colorDarkBottomNavSelectorUnchecked">#8092a0</color>-->
-
-<!--    <color name="colorDarkContainerSnackbarSolid">#f6fcff</color>-->
-<!--    <color name="colorDarkCustomWheelHighlightBgSolid">#A1AACA</color>-->
-
-<!--    <color name="colorDarkGradientWelcomeFirstValueEnd">#298729</color>-->
-<!--    <color name="colorDarkGradientWelcomeFirstValueStart">#A1AACA</color>-->
-<!--    <color name="colorDarkGradientWelcomeForthValueStart">#780707</color>-->
-<!--    <color name="colorDarkGradientWelcomeForthValueEnd">#A1AACA</color>-->
-<!--    <color name="colorDarkGradientWelcomeSecondValueEnd">#FF5722</color>-->
-<!--    <color name="colorDarkGradientWelcomeSecondValueStart">#298729</color>-->
-<!--    <color name="colorDarkGradientWelcomeThirdValueStart">#FF5722</color>-->
-<!--    <color name="colorDarkGradientWelcomeThirdValueEnd">#780707</color>-->
-
-<!--    <color name="colorDarkIcTrackerFill">#f6fcff</color>-->
-
-<!--    <color name="colorDarkSnackNeutralGradientEnd">#1f2f3f</color>-->
-<!--    <color name="colorDarkSnackNeutralGradientStart">#8092a0</color>-->
-<!--    <color name="colorDarkSnackSuccessGradientEnd">#00FF00</color>-->
-<!--    <color name="colorDarkSnackSuccessGradientStart">#A1AACA</color>-->
-<!--    <color name="colorDarkSnackWarningGradientStart">#A1AACA</color>-->
-<!--    <color name="colorDarkSnackWarningGradientEnd">#de6d63</color>-->
-
-<!--    <color name="colorDarkNavViewContainerBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkNavViewBackground">#1f2f3f</color>-->
-
-<!--    <color name="colorDarkTrackerFabTint">#f6fcff</color>-->
-<!--    <color name="colorDarkTrackerContainerBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkTrackerContainerBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkTrackerInterestNameText">#f6fcff</color>-->
-<!--    <color name="colorDarkTrackerDateTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkTrackerDateText">#717a8a</color>-->
-<!--    <color name="colorDarkTrackerTimerText">#f6fcff</color>-->
-<!--    <color name="colorDarkTrackerTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkTrackerStopText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkBlur">#4D8092A0</color>-->
-<!--    <color name="colorDarkProgressBarIndeterminateTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkDialogAlertAddInterestBackground">#1f2f3f</color>-->
-<!--    <color name="colorDarkDialogAlertAddInterestNameText">#717a8a</color>-->
-<!--    <color name="colorDarkDialogAlertAddInterestNameHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkDialogAlertAddInterestDescriptionText">#717a8a</color>-->
-<!--    <color name="colorDarkDialogAlertAddInterestDescriptionHint">#DFE6F1</color>-->
-
-<!--    <color name="colorDarkDialogAlertEditInterestBackground">#1f2f3f</color>-->
-<!--    <color name="colorDarkDialogAlertEditInterestNameText">#717a8a</color>-->
-<!--    <color name="colorDarkDialogAlertEditInterestNameHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkDialogAlertEditInterestDescriptionText">#717a8a</color>-->
-<!--    <color name="colorDarkDialogAlertEditInterestDescriptionHint">#DFE6F1</color>-->
-
-<!--    <color name="colorDarkFragmentAchievementsExpChartBackground">#233543</color>-->
-<!--    <color name="colorDarkFragmentAchievementsEfficiencyChartBackground">#233543</color>-->
-<!--    <color name="colorDarkFragmentAchievementsExpChartTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAchievementsEfficiencyChartTitleText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkFragmentAchievementsViewPagerBackground">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentAchievementsViewSeparatorBackground">#1a2430</color>-->
-
-<!--    <color name="colorDarkFragmentAchievementsNtsCenterActive">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAchievementsNtsCenterInactive">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAchievementsNtsCenter">#30678d</color>-->
-
-<!--    <color name="colorDarkFragmentAdapterPagerBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerDescriptionText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerFirstValueText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerSecondValueBackgroundTint">#00FF00</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerSecondValueText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerThirdValueBackgroundTint">#00FF00</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerThirdValueText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerForthValueText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAdapterPagerTvMessageText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkFragmentAuthBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentAuthSignInBlockBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAuthSignInBlockBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentAuthEmailTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthEmailText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthEmailHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentAuthPasswordTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthPasswordText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthPasswordHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentAuthSignInButtonBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAuthSignInButtonText">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentAuthSignUpBlockBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAuthSignUpBlockBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentAuthEmailTitleSignUpText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthEmailSignUpText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthEmailSignUpHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentAuthPasswordTitleSignUpText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthPasswordSignUpText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthPasswordSignUpHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentAuthRepeatPasswordTitleSignUpText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthRepeatPasswordSignUpText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentAuthRepeatPasswordSignUpHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentAuthSignUpButtonBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAuthSignUpButtonText">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentAuthSignInBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAuthSignInBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentAuthSignInText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAuthSignUpBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentAuthSignUpBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentAuthSignUpText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkFragmentDiaryBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentDiaryTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentDiaryEmptyTextText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentDiaryInfoTint">#233543</color>-->
-
-<!--    <color name="colorDarkFragmentMetricBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentMetricStateControlGroupBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentMetricStateControlGroupCustomDivider">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentMetricStateControlGroupCustomShadow">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentMetricStateControlGroupCustomSlider">#8092a0</color>-->
-<!--    <color name="colorDarkFragmentMetricWheelStateText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentMetricListStateText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentMetricRadarStateControlGroupBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentMetricRadarStateControlGroupCustomDivider">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentMetricRadarStateControlGroupCustomShadow">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentMetricRadarStateControlGroupCustomSlider">#8092a0</color>-->
-<!--    <color name="colorDarkFragmentMetricCurrentStateText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentMetricStartStateText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentMetricListBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentMetricDiaryAmountText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentMetricDiaryAmountTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentMetricAverageAmountText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentMetricAverageAmountTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentMetricDaysAmountText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentMetricDaysAmountTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentMetricInfoTint">#233543</color>-->
-
-<!--    <color name="colorDarkFragmentSettingsTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsLogoutBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentSettingsLogoutText">#717a8a</color>-->
-<!--    <color name="colorDarkFragmentSettingsUserBlockBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentSettingsGeneralBlockBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentSettingsPushTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsPushValueText">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentSettingsSeparatorLocaleBackground">#8092a0</color>-->
-<!--    <color name="colorDarkFragmentSettingsLocaleTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsLocaleSpinnerArrowTint">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsLocaleSpinnerText">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentSettingsLocaleSpinnerHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentSettingsLocaleSpinnerDivider">#8092a0</color>-->
-<!--    <color name="colorDarkFragmentSettingsLocaleSpinnerPopupBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentSettingsLocaleValueText">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentSettingsSeparator1Background">#8092a0</color>-->
-<!--    <color name="colorDarkFragmentSettingsDifficultyTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsDifficultySpinnerArrowTint">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsDifficultySpinnerText">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentSettingsDifficultySpinnerHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentSettingsDifficultySpinnerDivider">#8092a0</color>-->
-<!--    <color name="colorDarkFragmentSettingsDifficultySpinnerPopupBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentSettingsDifficultyValueText">#DFE6F1</color>-->
-<!--    <color name="colorDarkFragmentSettingsFooterBlockBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkFragmentSettingsVersionText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsAboutText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsFaqText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsRateText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsWriteText">#f6fcff</color>-->
-<!--    <color name="colorDarkFragmentSettingsSeparatorBackground">#8092a0</color>-->
-<!--    <color name="colorDarkFragmentSettingsAboutTextText">#717a8a</color>-->
-
-<!--    <color name="colorDarkFragmentSplashBackground">#1a2430</color>-->
-<!--    <color name="colorDarkFragmentSplashLogoTextText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkFragmentWelcomeTvMessageText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkItemAdapterPagerNotesBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesNoteTypeTint">#8092a0</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesInterestNameText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesAmountText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesTextText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesWasteTimeText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesHabitsRealizationTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesHabitsRealizationValueText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesDateText">#717a8a</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesEditBackgroundTint">#1a2430</color>-->
-<!--    <color name="colorDarkItemAdapterPagerNotesEditTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkItemFaqBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkItemFaqExpandButtonText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemFaqExpandableLayoutTextText">#717a8a</color>-->
-
-<!--    <color name="colorDarkItemHabitRealizationBackgroundTint">#8092a0</color>-->
-<!--    <color name="colorDarkItemHabitRealizationTextText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkItemHorizontalHabitBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkItemHorizontalHabitText">#717a8a</color>-->
-<!--    <color name="colorDarkItemHorizontalHabitTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkItemHorizontalHabitCompleteBlockBackgroundTint">#30678d</color>-->
-<!--    <color name="colorDarkItemHorizontalHabitTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkItemListMetricTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemListMetricDescriptionText">#717a8a</color>-->
-<!--    <color name="colorDarkItemListMetricValueText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemListMetricSeparatorBackground">#8092a0</color>-->
-
-<!--    <color name="colorDarkItemMediaAddPostIconStroke">#A1AACA</color>-->
-
-<!--    <color name="colorDarkItemNoteBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkItemNoteTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemNoteDescriptionText">#717a8a</color>-->
-<!--    <color name="colorDarkItemNoteNoteTypeTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkItemTaskText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkItemTimelineBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkItemTimelineTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkItemTimelineSubtitleText">#717a8a</color>-->
-<!--    <color name="colorDarkItemTimelineCheckBlockBackground">#298729</color>-->
-<!--    <color name="colorDarkItemTimelineIcCheckTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkNotesListHeaderItemText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkSnackbarSuccessText">#717a8a</color>-->
-
-<!--    <color name="colorDarkTargetDiaryHabitsTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkTargetDiaryHabitsIcArrowTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkTargetMenuAddpostTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkTargetMenuAddpostIcArrowTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkTargetMetricWheelTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkTargetMetricWheelTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewActiveTrackerBackground">#f6fcff</color>-->
-<!--    <color name="colorDarkViewActiveTrackerBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewActiveTrackerInterestNameText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewActiveTrackerDateTitleText">#717a8a</color>-->
-<!--    <color name="colorDarkViewActiveTrackerDateText">#717a8a</color>-->
-<!--    <color name="colorDarkViewActiveTrackerTimerText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewActiveTrackerTrackerTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewActiveTrackerStopTrackerText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewDetailInterestTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewDetailInterestAmountText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewDetailInterestAmountMaxText">#717a8a</color>-->
-<!--    <color name="colorDarkViewDetailInterestNotesAmountText">#717a8a</color>-->
-<!--    <color name="colorDarkViewDetailInterestStartValueText">#717a8a</color>-->
-<!--    <color name="colorDarkViewDetailInterestCurrentValueText">#717a8a</color>-->
-<!--    <color name="colorDarkViewDetailInterestEditBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewDetailInterestEditTint">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewGoalAddTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewGoalAddEditTextText">#717a8a</color>-->
-<!--    <color name="colorDarkViewGoalAddEditTextHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkViewGoalAddDateText">#717a8a</color>-->
-<!--    <color name="colorDarkViewGoalAddLengthText">#717a8a</color>-->
-<!--    <color name="colorDarkViewGoalAddSeparatorBackground">#717a8a</color>-->
-<!--    <color name="colorDarkViewGoalAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewGoalAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewGoalAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewGoalAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
-<!--    <color name="colorDarkViewGoalAddPositivePointText">#00FF00</color>-->
-<!--    <color name="colorDarkViewGoalAddZeroPointText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewGoalAddNegativePointText">#de6d63</color>-->
-<!--    <color name="colorDarkViewGoalAddTvMessageText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewHabitAddTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewHabitAddEditTextText">#717a8a</color>-->
-<!--    <color name="colorDarkViewHabitAddEditTextHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkViewHabitAddEditAmountText">#717a8a</color>-->
-<!--    <color name="colorDarkViewHabitAddEditAmountHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkViewHabitAddRegularityControlGroupBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewHabitAddRegularityControlGroupCustomDivider">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewHabitAddRegularityControlGroupCustomShadow">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewHabitAddRegularityControlGroupCustomSlider">#8092a0</color>-->
-<!--    <color name="colorDarkViewHabitAddDailyPointText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewHabitAddWeeklyPointText">#717a8a</color>-->
-<!--    <color name="colorDarkViewHabitAddDateText">#767D88</color>-->
-<!--    <color name="colorDarkViewHabitAddLengthText">#767D88</color>-->
-<!--    <color name="colorDarkViewHabitAddSeparatorBackground">#DFE6F1</color>-->
-<!--    <color name="colorDarkViewHabitAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewHabitAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewHabitAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewHabitAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
-<!--    <color name="colorDarkViewHabitAddPositivePointText">#00FF00</color>-->
-<!--    <color name="colorDarkViewHabitAddZeroPointText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewHabitAddNegativePointText">#de6d63</color>-->
-<!--    <color name="colorDarkViewHabitAddTvMessageText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewPostAddTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewPostAddEditTextText">#717a8a</color>-->
-<!--    <color name="colorDarkViewPostAddEditTextHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkViewPostAddAddMediaBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewPostAddAddMediaTint">#f6fcff</color>-->
-<!--    <color name="colorDarkViewPostAddDateText">#717a8a</color>-->
-<!--    <color name="colorDarkViewPostAddLengthText">#717a8a</color>-->
-<!--    <color name="colorDarkViewPostAddSeparatorBackground">#717a8a</color>-->
-<!--    <color name="colorDarkViewPostAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewPostAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewPostAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewPostAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
-<!--    <color name="colorDarkViewPostAddPositivePointText">#00FF00</color>-->
-<!--    <color name="colorDarkViewPostAddZeroPointText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewPostAddNegativePointText">#de6d63</color>-->
-<!--    <color name="colorDarkViewPostAddTvMessageText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewSelectNoteTypeBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeSelectTypeContainerBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeNoteTypeBackgroundTint">#8092a0</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeNoteTypeTint">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeNoteTypeText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeTrackerTypeBackgroundTint">#8092a0</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeTrackerTypeTint">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeTrackerTypeText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeGoalTypeBackgroundTint">#8092a0</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeGoalTypeTint">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeGoalTypeText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeHabitTypeBackgroundTint">#8092a0</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeHabitTypeTint">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSelectNoteTypeHabitTypeText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewSnackbarSimpleIconTint">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSnackbarSimpleTvMessageText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewSnackbarSimpleTvActionText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkViewTrackerAddTitleText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewTrackerAddEditTextText">#717a8a</color>-->
-<!--    <color name="colorDarkViewTrackerAddEditTextHint">#DFE6F1</color>-->
-<!--    <color name="colorDarkViewTrackerAddDateText">#717a8a</color>-->
-<!--    <color name="colorDarkViewTrackerAddLengthText">#717a8a</color>-->
-<!--    <color name="colorDarkViewTrackerAddSeparatorBackground">#717a8a</color>-->
-<!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
-<!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
-<!--    <color name="colorDarkViewTrackerAddPositivePointText">#00FF00</color>-->
-<!--    <color name="colorDarkViewTrackerAddZeroPointText">#f6fcff</color>-->
-<!--    <color name="colorDarkViewTrackerAddNegativePointText">#de6d63</color>-->
-<!--    <color name="colorDarkViewTrackerAddTvMessageText">#f6fcff</color>-->
-
-<!--    <color name="colorDarkControlNormalStyles">#DFE6F1</color>-->
-<!--    <color name="colorDarkPrimaryStyles">#FFFFFFFF</color>-->
-<!--    <color name="colorDarkPrimaryDarkStyles">#FFFFFFFF</color>-->
-<!--    <color name="colorDarkAccentStyles">#FFFFFFFF</color>-->
-
-<!--    <color name="colorDarkPrimaryAuthUITheme">#1f2f3f</color>-->
-<!--    <color name="colorDarkPrimaryDarkAuthUITheme">#1a2430</color>-->
-<!--    <color name="colorDarkAccentAuthUITheme">#1f2f3f</color>-->
-<!--    <color name="colorDarkSecondaryAuthUITheme">#1f2f3f</color>-->
-
-<!--    <color name="colorDarkTextButtonStyle">#FF0000</color>-->
-<!--    <color name="colorDarkTextMaterialTextButtonStyle">#767D88</color>-->
-
-<!--    <color name="colorDarkBackgroundDialogTheme">#1f2f3f</color>-->
-<!--    <color name="colorDarkTextDialogTheme">#f6fcff</color>-->
-
-<!--    <color name="colorDarkTextTextViewStyles">#2D2D2D</color>-->
-<!--    <color name="colorDarkTextRedTextViewStyles">#FF0000</color>-->
-<!--    <color name="colorDarkTextWhiteTextViewStyles">#f6fcff</color>-->
-<!--    <color name="colorDarkTextGrayTextViewStyles">#767D88</color>-->
-<!--    <color name="colorDarkTextBlackTextViewStyles">#FF000000</color>-->
-
-<!--    <color name="colorDarkPrimaryThemeUpgrade">#A1AACA</color>-->
-<!--    <color name="colorDarkPrimaryVariantThemeUpgrade">#A1AACA</color>-->
-<!--    <color name="colorDarkOnPrimaryThemeUpgrade">#f6fcff</color>-->
-<!--    <color name="colorDarkSecondaryThemeUpgrade">#8092a0</color>-->
-<!--    <color name="colorDarkSecondaryVariantThemeUpgrade">#8092a0</color>-->
-<!--    <color name="colorDarkOnSecondaryThemeUpgrade">#FF000000</color>-->
-<!--    <color name="teal_200">#FF03DAC5</color>-->
-<!--    <color name="teal_700">#FF018786</color>-->
-<!--    <color name="colorDarkBlack">#FF000000</color>-->
-<!--    <color name="colorDarkWhite">#FFFFFFFF</color>-->
-<!--    <color name="colorDarkPrimary">#FFFFFFFF</color>-->
-<!--    <color name="colorDarkAccent">#FFFFFFFF</color>-->
-<!--    <color name="colorDarkPrimaryDark">#FFFFFFFF</color>-->
-<!--    <color name="colorDarkText">#2D2D2D</color>-->
-<!--    <color name="colorDarkPrimaryRed">#FF0000</color>-->
-<!--    <color name="colorDarkPrimaryGreen">#00FF00</color>-->
-<!--    <color name="colorDarkLightGray">#DFE6F1</color>-->
-<!--    <color name="colorDarkGray">#767D88</color>-->
-<!--    <color name="colorDarkPurple">#4b2751</color>-->
-<!--    <color name="colorDarkPurpleDark">#301934</color>-->
-<!--    <color name="colorDarkBlueLight">#A1AACA</color>-->
-<!--    <color name="colorDarkBlue">#606FA6</color>-->
-<!--    <color name="coloBlurBackground">#4D8092A0</color>-->
-<!--    <color name="custom_wheel_highlight_bg_color">#113700B3</color>-->
-
-<!--    <color name="colorDarkTgPrimary">#1f2f3f</color>-->
-<!--    <color name="colorDarkTgPrimaryDark">#1a2430</color>-->
-<!--    <color name="colorDarkTgGray">#8092a0</color>-->
-<!--    <color name="colorDarkTgGrayDark">#233543</color>-->
-<!--    <color name="colorDarkTgBlue">#30678d</color>-->
-<!--    <color name="colorDarkTgWhite">#f6fcff</color>-->
-<!--    <color name="colorDarkTgText">#717a8a</color>-->
-<!--    <color name="colorDarkTgRed">#de6d63</color>-->
-
-<!--    <color name="colorDarkGreenDark">#298729</color>-->
-<!--    <color name="colorDarkRedDark">#780707</color>-->
+    <!--    <color name="colorDarkBgListMetricValueGradientEnd">#30678d</color>-->
+
+    <!--    <color name="colorDarkBgLogoutSolid">#1f2f3f</color>-->
+
+    <!--    <color name="colorDarkBgMediaAddPostStroke">#A1AACA</color>-->
+
+    <!--    <color name="colorDarkBgProgressSolid">#1f2f3f</color>-->
+    <!--    <color name="colorDarkBgSpinnerSettingsSolid">#A1AACA</color>-->
+
+    <!--    <color name="colorDarkBgSplashPreview">#1a2430</color>-->
+    <!--    <color name="colorDarkBgStickyHeaderSolid">#1a2430</color>-->
+    <!--    <color name="colorDarkBgViewActiveTrackerBtnSolid">#30678d</color>-->
+    <!--    <color name="colorDarkBgWasteTimeSolid">#1a2430</color>-->
+
+    <!--    <color name="colorDarkBottomNavSelectorChecked">#DFE6F1</color>-->
+    <!--    <color name="colorDarkBottomNavSelectorUnchecked">#8092a0</color>-->
+
+    <!--    <color name="colorDarkContainerSnackbarSolid">#f6fcff</color>-->
+    <!--    <color name="colorDarkCustomWheelHighlightBgSolid">#A1AACA</color>-->
+
+    <!--    <color name="colorDarkGradientWelcomeFirstValueEnd">#298729</color>-->
+    <!--    <color name="colorDarkGradientWelcomeFirstValueStart">#A1AACA</color>-->
+    <!--    <color name="colorDarkGradientWelcomeForthValueStart">#780707</color>-->
+    <!--    <color name="colorDarkGradientWelcomeForthValueEnd">#A1AACA</color>-->
+    <!--    <color name="colorDarkGradientWelcomeSecondValueEnd">#FF5722</color>-->
+    <!--    <color name="colorDarkGradientWelcomeSecondValueStart">#298729</color>-->
+    <!--    <color name="colorDarkGradientWelcomeThirdValueStart">#FF5722</color>-->
+    <!--    <color name="colorDarkGradientWelcomeThirdValueEnd">#780707</color>-->
+
+    <!--    <color name="colorDarkIcTrackerFill">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkSnackNeutralGradientEnd">#1f2f3f</color>-->
+    <!--    <color name="colorDarkSnackNeutralGradientStart">#8092a0</color>-->
+    <!--    <color name="colorDarkSnackSuccessGradientEnd">#00FF00</color>-->
+    <!--    <color name="colorDarkSnackSuccessGradientStart">#A1AACA</color>-->
+    <!--    <color name="colorDarkSnackWarningGradientStart">#A1AACA</color>-->
+    <!--    <color name="colorDarkSnackWarningGradientEnd">#de6d63</color>-->
+
+    <!--    <color name="colorDarkNavViewContainerBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkNavViewBackground">#1f2f3f</color>-->
+
+    <!--    <color name="colorDarkTrackerFabTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkTrackerContainerBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkTrackerContainerBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkTrackerInterestNameText">#f6fcff</color>-->
+    <!--    <color name="colorDarkTrackerDateTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkTrackerDateText">#717a8a</color>-->
+    <!--    <color name="colorDarkTrackerTimerText">#f6fcff</color>-->
+    <!--    <color name="colorDarkTrackerTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkTrackerStopText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkBlur">#4D8092A0</color>-->
+    <!--    <color name="colorDarkProgressBarIndeterminateTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkDialogAlertAddInterestBackground">#1f2f3f</color>-->
+    <!--    <color name="colorDarkDialogAlertAddInterestNameText">#717a8a</color>-->
+    <!--    <color name="colorDarkDialogAlertAddInterestNameHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkDialogAlertAddInterestDescriptionText">#717a8a</color>-->
+    <!--    <color name="colorDarkDialogAlertAddInterestDescriptionHint">#DFE6F1</color>-->
+
+    <!--    <color name="colorDarkDialogAlertEditInterestBackground">#1f2f3f</color>-->
+    <!--    <color name="colorDarkDialogAlertEditInterestNameText">#717a8a</color>-->
+    <!--    <color name="colorDarkDialogAlertEditInterestNameHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkDialogAlertEditInterestDescriptionText">#717a8a</color>-->
+    <!--    <color name="colorDarkDialogAlertEditInterestDescriptionHint">#DFE6F1</color>-->
+
+    <!--    <color name="colorDarkFragmentAchievementsExpChartBackground">#233543</color>-->
+    <!--    <color name="colorDarkFragmentAchievementsEfficiencyChartBackground">#233543</color>-->
+    <!--    <color name="colorDarkFragmentAchievementsExpChartTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAchievementsEfficiencyChartTitleText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkFragmentAchievementsViewPagerBackground">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentAchievementsViewSeparatorBackground">#1a2430</color>-->
+
+    <!--    <color name="colorDarkFragmentAchievementsNtsCenterActive">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAchievementsNtsCenterInactive">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAchievementsNtsCenter">#30678d</color>-->
+
+    <!--    <color name="colorDarkFragmentAdapterPagerBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerDescriptionText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerFirstValueText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerSecondValueBackgroundTint">#00FF00</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerSecondValueText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerThirdValueBackgroundTint">#00FF00</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerThirdValueText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerForthValueText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAdapterPagerTvMessageText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkFragmentAuthBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignInBlockBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignInBlockBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentAuthEmailTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthEmailText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthEmailHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentAuthPasswordTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthPasswordText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthPasswordHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignInButtonBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignInButtonText">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignUpBlockBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignUpBlockBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentAuthEmailTitleSignUpText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthEmailSignUpText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthEmailSignUpHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentAuthPasswordTitleSignUpText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthPasswordSignUpText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthPasswordSignUpHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentAuthRepeatPasswordTitleSignUpText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthRepeatPasswordSignUpText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentAuthRepeatPasswordSignUpHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignUpButtonBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignUpButtonText">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignInBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignInBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignInText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignUpBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignUpBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentAuthSignUpText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkFragmentDiaryBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentDiaryTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentDiaryEmptyTextText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentDiaryInfoTint">#233543</color>-->
+
+    <!--    <color name="colorDarkFragmentMetricBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentMetricStateControlGroupBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentMetricStateControlGroupCustomDivider">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentMetricStateControlGroupCustomShadow">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentMetricStateControlGroupCustomSlider">#8092a0</color>-->
+    <!--    <color name="colorDarkFragmentMetricWheelStateText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentMetricListStateText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentMetricRadarStateControlGroupBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentMetricRadarStateControlGroupCustomDivider">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentMetricRadarStateControlGroupCustomShadow">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentMetricRadarStateControlGroupCustomSlider">#8092a0</color>-->
+    <!--    <color name="colorDarkFragmentMetricCurrentStateText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentMetricStartStateText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentMetricListBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentMetricDiaryAmountText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentMetricDiaryAmountTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentMetricAverageAmountText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentMetricAverageAmountTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentMetricDaysAmountText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentMetricDaysAmountTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentMetricInfoTint">#233543</color>-->
+
+    <!--    <color name="colorDarkFragmentSettingsTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLogoutBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLogoutText">#717a8a</color>-->
+    <!--    <color name="colorDarkFragmentSettingsUserBlockBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentSettingsGeneralBlockBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentSettingsPushTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsPushValueText">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentSettingsSeparatorLocaleBackground">#8092a0</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLocaleTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLocaleSpinnerArrowTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLocaleSpinnerText">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLocaleSpinnerHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLocaleSpinnerDivider">#8092a0</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLocaleSpinnerPopupBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentSettingsLocaleValueText">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentSettingsSeparator1Background">#8092a0</color>-->
+    <!--    <color name="colorDarkFragmentSettingsDifficultyTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsDifficultySpinnerArrowTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsDifficultySpinnerText">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentSettingsDifficultySpinnerHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentSettingsDifficultySpinnerDivider">#8092a0</color>-->
+    <!--    <color name="colorDarkFragmentSettingsDifficultySpinnerPopupBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentSettingsDifficultyValueText">#DFE6F1</color>-->
+    <!--    <color name="colorDarkFragmentSettingsFooterBlockBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkFragmentSettingsVersionText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsAboutText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsFaqText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsRateText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsWriteText">#f6fcff</color>-->
+    <!--    <color name="colorDarkFragmentSettingsSeparatorBackground">#8092a0</color>-->
+    <!--    <color name="colorDarkFragmentSettingsAboutTextText">#717a8a</color>-->
+
+    <!--    <color name="colorDarkFragmentSplashBackground">#1a2430</color>-->
+    <!--    <color name="colorDarkFragmentSplashLogoTextText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkFragmentWelcomeTvMessageText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkItemAdapterPagerNotesBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesNoteTypeTint">#8092a0</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesInterestNameText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesAmountText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesTextText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesWasteTimeText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesHabitsRealizationTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesHabitsRealizationValueText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesDateText">#717a8a</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesEditBackgroundTint">#1a2430</color>-->
+    <!--    <color name="colorDarkItemAdapterPagerNotesEditTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkItemFaqBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkItemFaqExpandButtonText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemFaqExpandableLayoutTextText">#717a8a</color>-->
+
+    <!--    <color name="colorDarkItemHabitRealizationBackgroundTint">#8092a0</color>-->
+    <!--    <color name="colorDarkItemHabitRealizationTextText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkItemHorizontalHabitBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkItemHorizontalHabitText">#717a8a</color>-->
+    <!--    <color name="colorDarkItemHorizontalHabitTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkItemHorizontalHabitCompleteBlockBackgroundTint">#30678d</color>-->
+    <!--    <color name="colorDarkItemHorizontalHabitTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkItemListMetricTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemListMetricDescriptionText">#717a8a</color>-->
+    <!--    <color name="colorDarkItemListMetricValueText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemListMetricSeparatorBackground">#8092a0</color>-->
+
+    <!--    <color name="colorDarkItemMediaAddPostIconStroke">#A1AACA</color>-->
+
+    <!--    <color name="colorDarkItemNoteBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkItemNoteTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemNoteDescriptionText">#717a8a</color>-->
+    <!--    <color name="colorDarkItemNoteNoteTypeTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkItemTaskText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkItemTimelineBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkItemTimelineTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkItemTimelineSubtitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkItemTimelineCheckBlockBackground">#298729</color>-->
+    <!--    <color name="colorDarkItemTimelineIcCheckTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkNotesListHeaderItemText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkSnackbarSuccessText">#717a8a</color>-->
+
+    <!--    <color name="colorDarkTargetDiaryHabitsTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkTargetDiaryHabitsIcArrowTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkTargetMenuAddpostTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkTargetMenuAddpostIcArrowTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkTargetMetricWheelTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkTargetMetricWheelTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewActiveTrackerBackground">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewActiveTrackerBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewActiveTrackerInterestNameText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewActiveTrackerDateTitleText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewActiveTrackerDateText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewActiveTrackerTimerText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewActiveTrackerTrackerTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewActiveTrackerStopTrackerText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewDetailInterestTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewDetailInterestAmountText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewDetailInterestAmountMaxText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewDetailInterestNotesAmountText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewDetailInterestStartValueText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewDetailInterestCurrentValueText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewDetailInterestEditBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewDetailInterestEditTint">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewGoalAddTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewGoalAddEditTextText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewGoalAddEditTextHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkViewGoalAddDateText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewGoalAddLengthText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewGoalAddSeparatorBackground">#717a8a</color>-->
+    <!--    <color name="colorDarkViewGoalAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewGoalAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewGoalAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewGoalAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
+    <!--    <color name="colorDarkViewGoalAddPositivePointText">#00FF00</color>-->
+    <!--    <color name="colorDarkViewGoalAddZeroPointText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewGoalAddNegativePointText">#de6d63</color>-->
+    <!--    <color name="colorDarkViewGoalAddTvMessageText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewHabitAddTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewHabitAddEditTextText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewHabitAddEditTextHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkViewHabitAddEditAmountText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewHabitAddEditAmountHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkViewHabitAddRegularityControlGroupBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewHabitAddRegularityControlGroupCustomDivider">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewHabitAddRegularityControlGroupCustomShadow">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewHabitAddRegularityControlGroupCustomSlider">#8092a0</color>-->
+    <!--    <color name="colorDarkViewHabitAddDailyPointText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewHabitAddWeeklyPointText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewHabitAddDateText">#767D88</color>-->
+    <!--    <color name="colorDarkViewHabitAddLengthText">#767D88</color>-->
+    <!--    <color name="colorDarkViewHabitAddSeparatorBackground">#DFE6F1</color>-->
+    <!--    <color name="colorDarkViewHabitAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewHabitAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewHabitAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewHabitAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
+    <!--    <color name="colorDarkViewHabitAddPositivePointText">#00FF00</color>-->
+    <!--    <color name="colorDarkViewHabitAddZeroPointText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewHabitAddNegativePointText">#de6d63</color>-->
+    <!--    <color name="colorDarkViewHabitAddTvMessageText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewPostAddTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewPostAddEditTextText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewPostAddEditTextHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkViewPostAddAddMediaBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewPostAddAddMediaTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewPostAddDateText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewPostAddLengthText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewPostAddSeparatorBackground">#717a8a</color>-->
+    <!--    <color name="colorDarkViewPostAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewPostAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewPostAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewPostAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
+    <!--    <color name="colorDarkViewPostAddPositivePointText">#00FF00</color>-->
+    <!--    <color name="colorDarkViewPostAddZeroPointText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewPostAddNegativePointText">#de6d63</color>-->
+    <!--    <color name="colorDarkViewPostAddTvMessageText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewSelectNoteTypeBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeSelectTypeContainerBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeNoteTypeBackgroundTint">#8092a0</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeNoteTypeTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeNoteTypeText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeTrackerTypeBackgroundTint">#8092a0</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeTrackerTypeTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeTrackerTypeText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeGoalTypeBackgroundTint">#8092a0</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeGoalTypeTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeGoalTypeText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeHabitTypeBackgroundTint">#8092a0</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeHabitTypeTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSelectNoteTypeHabitTypeText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewSnackbarSimpleIconTint">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSnackbarSimpleTvMessageText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewSnackbarSimpleTvActionText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkViewTrackerAddTitleText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewTrackerAddEditTextText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewTrackerAddEditTextHint">#DFE6F1</color>-->
+    <!--    <color name="colorDarkViewTrackerAddDateText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewTrackerAddLengthText">#717a8a</color>-->
+    <!--    <color name="colorDarkViewTrackerAddSeparatorBackground">#717a8a</color>-->
+    <!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupBackgroundTint">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupCustomDivider">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupCustomShadow">#1f2f3f</color>-->
+    <!--    <color name="colorDarkViewTrackerAddPointsStateControlGroupCustomSlider">#8092a0</color>-->
+    <!--    <color name="colorDarkViewTrackerAddPositivePointText">#00FF00</color>-->
+    <!--    <color name="colorDarkViewTrackerAddZeroPointText">#f6fcff</color>-->
+    <!--    <color name="colorDarkViewTrackerAddNegativePointText">#de6d63</color>-->
+    <!--    <color name="colorDarkViewTrackerAddTvMessageText">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkControlNormalStyles">#DFE6F1</color>-->
+    <!--    <color name="colorDarkPrimaryStyles">#FFFFFFFF</color>-->
+    <!--    <color name="colorDarkPrimaryDarkStyles">#FFFFFFFF</color>-->
+    <!--    <color name="colorDarkAccentStyles">#FFFFFFFF</color>-->
+
+    <!--    <color name="colorDarkPrimaryAuthUITheme">#1f2f3f</color>-->
+    <!--    <color name="colorDarkPrimaryDarkAuthUITheme">#1a2430</color>-->
+    <!--    <color name="colorDarkAccentAuthUITheme">#1f2f3f</color>-->
+    <!--    <color name="colorDarkSecondaryAuthUITheme">#1f2f3f</color>-->
+
+    <!--    <color name="colorDarkTextButtonStyle">#FF0000</color>-->
+    <!--    <color name="colorDarkTextMaterialTextButtonStyle">#767D88</color>-->
+
+    <!--    <color name="colorDarkBackgroundDialogTheme">#1f2f3f</color>-->
+    <!--    <color name="colorDarkTextDialogTheme">#f6fcff</color>-->
+
+    <!--    <color name="colorDarkTextTextViewStyles">#2D2D2D</color>-->
+    <!--    <color name="colorDarkTextRedTextViewStyles">#FF0000</color>-->
+    <!--    <color name="colorDarkTextWhiteTextViewStyles">#f6fcff</color>-->
+    <!--    <color name="colorDarkTextGrayTextViewStyles">#767D88</color>-->
+    <!--    <color name="colorDarkTextBlackTextViewStyles">#FF000000</color>-->
+
+    <!--    <color name="colorDarkPrimaryThemeUpgrade">#A1AACA</color>-->
+    <!--    <color name="colorDarkPrimaryVariantThemeUpgrade">#A1AACA</color>-->
+    <!--    <color name="colorDarkOnPrimaryThemeUpgrade">#f6fcff</color>-->
+    <!--    <color name="colorDarkSecondaryThemeUpgrade">#8092a0</color>-->
+    <!--    <color name="colorDarkSecondaryVariantThemeUpgrade">#8092a0</color>-->
+    <!--    <color name="colorDarkOnSecondaryThemeUpgrade">#FF000000</color>-->
+    <!--    <color name="teal_200">#FF03DAC5</color>-->
+    <!--    <color name="teal_700">#FF018786</color>-->
+    <!--    <color name="colorDarkBlack">#FF000000</color>-->
+    <!--    <color name="colorDarkWhite">#FFFFFFFF</color>-->
+    <!--    <color name="colorDarkPrimary">#FFFFFFFF</color>-->
+    <!--    <color name="colorDarkAccent">#FFFFFFFF</color>-->
+    <!--    <color name="colorDarkPrimaryDark">#FFFFFFFF</color>-->
+    <!--    <color name="colorDarkText">#2D2D2D</color>-->
+    <!--    <color name="colorDarkPrimaryRed">#FF0000</color>-->
+    <!--    <color name="colorDarkPrimaryGreen">#00FF00</color>-->
+    <!--    <color name="colorDarkLightGray">#DFE6F1</color>-->
+    <!--    <color name="colorDarkGray">#767D88</color>-->
+    <!--    <color name="colorDarkPurple">#4b2751</color>-->
+    <!--    <color name="colorDarkPurpleDark">#301934</color>-->
+    <!--    <color name="colorDarkBlueLight">#A1AACA</color>-->
+    <!--    <color name="colorDarkBlue">#606FA6</color>-->
+    <!--    <color name="coloBlurBackground">#4D8092A0</color>-->
+    <!--    <color name="custom_wheel_highlight_bg_color">#113700B3</color>-->
+
+    <!--    <color name="colorDarkTgPrimary">#1f2f3f</color>-->
+    <!--    <color name="colorDarkTgPrimaryDark">#1a2430</color>-->
+    <!--    <color name="colorDarkTgGray">#8092a0</color>-->
+    <!--    <color name="colorDarkTgGrayDark">#233543</color>-->
+    <!--    <color name="colorDarkTgBlue">#30678d</color>-->
+    <!--    <color name="colorDarkTgWhite">#f6fcff</color>-->
+    <!--    <color name="colorDarkTgText">#717a8a</color>-->
+    <!--    <color name="colorDarkTgRed">#de6d63</color>-->
+
+    <!--    <color name="colorDarkGreenDark">#298729</color>-->
+    <!--    <color name="colorDarkRedDark">#780707</color>-->
 
 </resources>

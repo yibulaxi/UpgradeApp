@@ -76,7 +76,10 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
         Timber.d("${this@BaseFragment.javaClass.name}::OnStart")
     }
 
-    open fun updateThemeAndLocale(withAnimation: Boolean = false) {
+    open fun updateThemeAndLocale(
+        withAnimation: Boolean = false,
+        withTextAnimation: Boolean = false
+    ) {
 
     }
 
@@ -87,7 +90,10 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     @Subscribe
     fun onUpdateThemeEvent(e: UpdateThemeEvent) {
         if (this is SettingsFragment) {
-            updateThemeAndLocale(e.withAnimation)
+            updateThemeAndLocale(
+                e.withAnimation,
+                e.withTextAnimation
+            )
         } else updateThemeAndLocale()
 
     }
@@ -162,7 +168,7 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
 
     protected open fun onLayoutReady(savedInstanceState: Bundle?) {
         updateThemeAndLocale()
-        updateThemeAndLocale(withAnimation = false)
+        updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
         // Empty for optional override
     }
 
@@ -215,11 +221,13 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
                 if (App.preferences.isDarkTheme) R.drawable.container_snackbar_dark
                 else R.drawable.container_snackbar_light
             )
-            snackView.textView.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkSnackbarSuccessText
-                else R.color.colorLightSnackbarSuccessText
-            ))
+            snackView.textView.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkSnackbarSuccessText
+                    else R.color.colorLightSnackbarSuccessText
+                )
+            )
             snackView.imageView.setImageDrawable(ContextCompat.getDrawable(it, R.drawable.logo))
             showSnackBarView(msg, snackView)
         }

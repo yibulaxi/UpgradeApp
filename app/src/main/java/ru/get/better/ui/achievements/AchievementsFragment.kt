@@ -1,6 +1,5 @@
 package ru.get.better.ui.achievements
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -67,17 +66,21 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
     }
 
     override fun updateThemeAndLocale() {
-        binding.lvlTitle.text = App.resourcesProvider.getStringLocale(R.string.level, App.preferences.locale)
-        binding.efficiencyTitle.text = App.resourcesProvider.getStringLocale(R.string.efficiency, App.preferences.locale)
+        binding.lvlTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.level, App.preferences.locale)
+        binding.efficiencyTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.efficiency, App.preferences.locale)
 
         achievementsAdapter.notifyDataSetChanged()
         setupViewPager()
 
-        binding.achievementsContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
-            else R.color.colorLightFragmentMetricBackground
-        ))
+        binding.achievementsContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
+                else R.color.colorLightFragmentMetricBackground
+            )
+        )
 
         binding.expChart.backgroundColor(
             ContextCompat.getColor(
@@ -156,12 +159,15 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
                     0 -> {
                         val view = layoutInflater.inflate(R.layout.item_task, null)
 
-                        view.taskTitle.text = App.resourcesProvider.getStringLocale(R.string.next_update)
-                        view.taskTitle.setTextColor(ContextCompat.getColor(
-                            requireContext(),
-                            if (App.preferences.isDarkTheme) R.color.colorDarkItemTaskText
-                            else R.color.colorLightItemTaskText
-                        ))
+                        view.taskTitle.text =
+                            App.resourcesProvider.getStringLocale(R.string.next_update)
+                        view.taskTitle.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                if (App.preferences.isDarkTheme) R.color.colorDarkItemTaskText
+                                else R.color.colorLightItemTaskText
+                            )
+                        )
 
                         container.addView(view)
                         view

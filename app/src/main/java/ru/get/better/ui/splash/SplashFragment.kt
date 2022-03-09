@@ -61,7 +61,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 .observeOnce(this) {
                     animateText = it?.let {
                         App.resourcesProvider.getStringLocale(
-                            R.string.hello, App.preferences.locale?: "ru"
+                            R.string.hello, App.preferences.locale ?: "ru"
                         ) + " " + it.login
                     } ?: "GET BETTER"
                     start()
@@ -70,17 +70,21 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        binding.splashContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashBackground
-            else R.color.colorLightFragmentSplashBackground
-        ))
+        binding.splashContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashBackground
+                else R.color.colorLightFragmentSplashBackground
+            )
+        )
 
-        binding.logoText.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashLogoTextText
-            else R.color.colorLightFragmentSplashLogoTextText
-        ))
+        binding.logoText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashLogoTextText
+                else R.color.colorLightFragmentSplashLogoTextText
+            )
+        )
     }
 
     private fun setupLocale() {

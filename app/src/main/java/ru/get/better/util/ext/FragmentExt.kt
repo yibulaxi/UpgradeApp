@@ -25,14 +25,20 @@ fun Fragment.getBalloon(
         .setCornerRadius(4f)
         .setAlpha(0.9f)
         .setText(text)
-        .setTextColor(ContextCompat.getColor(context!!,
-            if (App.Companion.preferences.isDarkTheme) R.color.colorDarkBalloonText
-            else R.color.colorLightBalloonText
-        ))
+        .setTextColor(
+            ContextCompat.getColor(
+                context!!,
+                if (App.Companion.preferences.isDarkTheme) R.color.colorDarkBalloonText
+                else R.color.colorLightBalloonText
+            )
+        )
         .setTextIsHtml(true)
-        .setBackgroundColor(ContextCompat.getColor(context!!,
-            if (App.preferences.isDarkTheme) R.color.colorDarkBalloonBackground
-            else R.color.colorLightBalloonBackground
-        ))
+        .setBackgroundColor(
+            ContextCompat.getColor(
+                context!!,
+                if (App.preferences.isDarkTheme) R.color.colorDarkBalloonBackground
+                else R.color.colorLightBalloonBackground
+            )
+        )
         .setBalloonAnimation(BalloonAnimation.CIRCULAR)
         .build()

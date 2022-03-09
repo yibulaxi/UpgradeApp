@@ -5,32 +5,24 @@ import android.animation.ValueAnimator
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
 import ru.get.better.BuildConfig
 import ru.get.better.R
 import ru.get.better.databinding.FragmentSettingsBinding
 import ru.get.better.event.UpdateDifficultyEvent
-import ru.get.better.event.UpdateLocaleEvent
 import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.model.AllLogo
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
-import ru.get.better.util.LocaleUtils
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.SettingsViewModel
 import ru.get.better.vm.UserDiaryViewModel
@@ -65,7 +57,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        binding.version.text = getString(R.string.version) + " " +  BuildConfig.VERSION_NAME
+//        requireView().post {
+        binding.version.text = getString(R.string.version) + " " + BuildConfig.VERSION_NAME
 
         setupThemeSwitch()
 
@@ -95,7 +88,10 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 resources.updateConfiguration(config, resources.displayMetrics)
 
                 EventBus.getDefault().post(
-                    UpdateThemeEvent(App.preferences.isDarkTheme)
+                    UpdateThemeEvent(
+                        isDarkTheme = App.preferences.isDarkTheme,
+                        withTextAnimation = true
+                    )
                 )
 
             }
@@ -117,6 +113,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
                 setupLocaleSpinner(App.preferences.locale)
             })
+//        }
+
     }
 
     private fun setupThemeSwitch() {
@@ -150,118 +148,365 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
     }
 
-    private val updateThemeDuration = 1000L
-    override fun updateThemeAndLocale(withAnimation: Boolean) {
+    private val updateThemeDuration = 700L
+    private val updateTextDuration = 500L
+    override fun updateThemeAndLocale(
+        withAnimation: Boolean,
+        withTextAnimation: Boolean
+    ) {
 
         if (!withAnimation) {
-            binding.title.text = App.resourcesProvider.getStringLocale(R.string.settings_title)
-            binding.logout.text = App.resourcesProvider.getStringLocale(R.string.logout)
+            if (withTextAnimation) {
+                binding.title.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.title.text =
+                            App.resourcesProvider.getStringLocale(R.string.settings_title)
+                        binding.title.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.themeTitle.text = App.resourcesProvider.getStringLocale(R.string.theme_title)
+                binding.logout.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.logout.text = App.resourcesProvider.getStringLocale(R.string.logout)
+                        binding.logout.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.pushTitle.text =
-                App.resourcesProvider.getStringLocale(R.string.push_notifications_title)
-            binding.pushValue.text = App.resourcesProvider.getStringLocale(R.string.soon)
+                binding.themeTitle.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.themeTitle.text =
+                            App.resourcesProvider.getStringLocale(R.string.theme_title)
+                        binding.themeTitle.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.localeTitle.text = App.resourcesProvider.getStringLocale(R.string.locale_title)
-            binding.localeSpinner.hint = App.resourcesProvider.getStringLocale(R.string.system)
-            binding.localeValue.text = App.resourcesProvider.getStringLocale(R.string.system)
+                binding.pushTitle.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.pushTitle.text =
+                            App.resourcesProvider.getStringLocale(R.string.push_notifications_title)
+                        binding.pushTitle.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.difficultyTitle.text =
-                App.resourcesProvider.getStringLocale(R.string.difficulty_title)
-            binding.difficultySpinner.hint = App.resourcesProvider.getStringLocale(R.string.soon)
-            binding.difficultyValue.text = App.resourcesProvider.getStringLocale(R.string.soon)
+                binding.pushValue.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.pushValue.text =
+                            App.resourcesProvider.getStringLocale(R.string.soon)
+                        binding.pushValue.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.version.text = App.resourcesProvider.getStringLocale(R.string.version)
-            binding.about.text = App.resourcesProvider.getStringLocale(R.string.about_app)
-            binding.faq.text = App.resourcesProvider.getStringLocale(R.string.often_questions_title)
-            binding.rate.text = App.resourcesProvider.getStringLocale(R.string.rate_app)
-            binding.write.text = App.resourcesProvider.getStringLocale(R.string.write_developer)
-            binding.aboutTextTitle.text =
-                App.resourcesProvider.getStringLocale(R.string.app_description)
+                binding.localeTitle.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.localeTitle.text =
+                            App.resourcesProvider.getStringLocale(R.string.locale_title)
+                        binding.localeTitle.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.difficultySpinner.setItems(R.array.difficulty_values)
-            binding.localeSpinner.setItems(R.array.locale_values)
+                binding.localeSpinner.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.localeSpinner.hint =
+                            App.resourcesProvider.getStringLocale(R.string.system)
+                        binding.localeSpinner.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.difficultySpinner.selectItemByIndex(currentDifficulty)
+                binding.localeValue.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.localeValue.text =
+                            App.resourcesProvider.getStringLocale(R.string.system)
+                        binding.localeValue.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-            binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem -> }
-            binding.localeSpinner.selectItemByIndex(
-                if (App.preferences.locale == "ru") 0
-                else 1
-            )
-            binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
-                if (allowChangeLocale) {
+                binding.difficultyTitle.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.difficultyTitle.text =
+                            App.resourcesProvider.getStringLocale(R.string.difficulty_title)
+                        binding.difficultyTitle.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
+                binding.difficultySpinner.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.difficultySpinner.hint =
+                            App.resourcesProvider.getStringLocale(R.string.soon)
+                        binding.difficultySpinner.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
+                binding.difficultyValue.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.difficultyValue.text =
+                            App.resourcesProvider.getStringLocale(R.string.soon)
+                        binding.difficultyValue.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-                    App.preferences.locale =
-                        if (newIndex == 0) "ru"
-                        else "en"
+                binding.version.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.version.text =
+                            App.resourcesProvider.getStringLocale(R.string.version)
+                        binding.version.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-                    val locale = Locale(
-                        if (newIndex == 0) "ru"
-                        else "en"
-                    )
-                    Locale.setDefault(locale)
-                    val resources = requireActivity().resources
-                    val config = resources.configuration
-                    config.setLocale(locale)
-                    resources.updateConfiguration(config, resources.displayMetrics)
+                binding.about.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.about.text =
+                            App.resourcesProvider.getStringLocale(R.string.about_app)
+                        binding.about.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
-                    EventBus.getDefault().post(
-                        UpdateThemeEvent(App.preferences.isDarkTheme)
-                    )
+                binding.faq.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.faq.text =
+                            App.resourcesProvider.getStringLocale(R.string.often_questions_title)
+                        binding.faq.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
 
+                binding.rate.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.rate.text = App.resourcesProvider.getStringLocale(R.string.rate_app)
+                        binding.rate.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+                    }
+
+                binding.write.animate()
+                    .alpha(0f)
+                    .setDuration(updateTextDuration)
+                    .withEndAction {
+                        binding.write.text =
+                            App.resourcesProvider.getStringLocale(R.string.write_developer)
+                        binding.write.animate()
+                            .alpha(1f)
+                            .duration = updateTextDuration
+
+                        binding.aboutTextTitle.text =
+                            App.resourcesProvider.getStringLocale(R.string.app_description)
+
+                        binding.difficultySpinner.setItems(R.array.difficulty_values)
+                        binding.localeSpinner.setItems(R.array.locale_values)
+
+                        binding.difficultySpinner.selectItemByIndex(currentDifficulty)
+
+                        binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem -> }
+                        binding.localeSpinner.selectItemByIndex(
+                            if (App.preferences.locale == "ru") 0
+                            else 1
+                        )
+                        binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+                            if (allowChangeLocale) {
+
+                                App.preferences.locale =
+                                    if (newIndex == 0) "ru"
+                                    else "en"
+
+                                val locale = Locale(
+                                    if (newIndex == 0) "ru"
+                                    else "en"
+                                )
+                                Locale.setDefault(locale)
+                                val resources = requireActivity().resources
+                                val config = resources.configuration
+                                config.setLocale(locale)
+                                resources.updateConfiguration(config, resources.displayMetrics)
+
+                                EventBus.getDefault().post(
+                                    UpdateThemeEvent(
+                                        isDarkTheme = App.preferences.isDarkTheme,
+                                        withTextAnimation = true
+                                    )
+                                )
+
+                            }
+                        }
+                    }
+            } else {
+                binding.title.text = App.resourcesProvider.getStringLocale(R.string.settings_title)
+                binding.logout.text = App.resourcesProvider.getStringLocale(R.string.logout)
+                binding.themeTitle.text =
+                    App.resourcesProvider.getStringLocale(R.string.theme_title)
+                binding.pushTitle.text =
+                    App.resourcesProvider.getStringLocale(R.string.push_notifications_title)
+                binding.pushValue.text = App.resourcesProvider.getStringLocale(R.string.soon)
+                binding.localeTitle.text =
+                    App.resourcesProvider.getStringLocale(R.string.locale_title)
+                binding.localeSpinner.hint = App.resourcesProvider.getStringLocale(R.string.system)
+                binding.localeValue.text = App.resourcesProvider.getStringLocale(R.string.system)
+                binding.difficultyTitle.text =
+                    App.resourcesProvider.getStringLocale(R.string.difficulty_title)
+                binding.difficultySpinner.hint =
+                    App.resourcesProvider.getStringLocale(R.string.soon)
+                binding.difficultyValue.text = App.resourcesProvider.getStringLocale(R.string.soon)
+                binding.version.text = App.resourcesProvider.getStringLocale(R.string.version)
+                binding.about.text = App.resourcesProvider.getStringLocale(R.string.about_app)
+                binding.faq.text =
+                    App.resourcesProvider.getStringLocale(R.string.often_questions_title)
+                binding.rate.text = App.resourcesProvider.getStringLocale(R.string.rate_app)
+                binding.write.text = App.resourcesProvider.getStringLocale(R.string.write_developer)
+
+                binding.aboutTextTitle.text =
+                    App.resourcesProvider.getStringLocale(R.string.app_description)
+
+                binding.difficultySpinner.setItems(R.array.difficulty_values)
+                binding.localeSpinner.setItems(R.array.locale_values)
+
+                binding.difficultySpinner.selectItemByIndex(currentDifficulty)
+
+                binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem -> }
+                binding.localeSpinner.selectItemByIndex(
+                    if (App.preferences.locale == "ru") 0
+                    else 1
+                )
+                binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
+                    if (allowChangeLocale) {
+
+                        App.preferences.locale =
+                            if (newIndex == 0) "ru"
+                            else "en"
+
+                        val locale = Locale(
+                            if (newIndex == 0) "ru"
+                            else "en"
+                        )
+                        Locale.setDefault(locale)
+                        val resources = requireActivity().resources
+                        val config = resources.configuration
+                        config.setLocale(locale)
+                        resources.updateConfiguration(config, resources.displayMetrics)
+
+                        EventBus.getDefault().post(
+                            UpdateThemeEvent(
+                                isDarkTheme = App.preferences.isDarkTheme,
+                                withTextAnimation = true
+                            )
+                        )
+
+                    }
                 }
             }
+
+
         }
 
-        binding.separatorTheme.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorLocaleBackground
-            else R.color.colorLightFragmentSettingsSeparatorLocaleBackground
-        ))
+        updateTheme(withAnimation)
 
-        binding.separatorLocale.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorLocaleBackground
-            else R.color.colorLightFragmentSettingsSeparatorLocaleBackground
-        ))
 
-        binding.separator1.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparator1Background
-            else R.color.colorLightFragmentSettingsSeparator1Background
-        ))
+    }
 
-        binding.separator2.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
-            else R.color.colorLightFragmentSettingsSeparatorBackground
-        ))
+    private fun updateTheme(
+        withAnimation: Boolean
+    ) {
+        binding.separatorTheme.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorLocaleBackground
+                else R.color.colorLightFragmentSettingsSeparatorLocaleBackground
+            )
+        )
 
-        binding.separator3.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
-            else R.color.colorLightFragmentSettingsSeparatorBackground
-        ))
+        binding.separatorLocale.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorLocaleBackground
+                else R.color.colorLightFragmentSettingsSeparatorLocaleBackground
+            )
+        )
 
-        binding.separator4.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
-            else R.color.colorLightFragmentSettingsSeparatorBackground
-        ))
+        binding.separator1.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparator1Background
+                else R.color.colorLightFragmentSettingsSeparator1Background
+            )
+        )
 
-        binding.separator5.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
-            else R.color.colorLightFragmentSettingsSeparatorBackground
-        ))
+        binding.separator2.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
+                else R.color.colorLightFragmentSettingsSeparatorBackground
+            )
+        )
 
-        binding.aboutTextTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsAboutTextText
-            else R.color.colorLightFragmentSettingsAboutTextText
-        ))
+        binding.separator3.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
+                else R.color.colorLightFragmentSettingsSeparatorBackground
+            )
+        )
+
+        binding.separator4.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
+                else R.color.colorLightFragmentSettingsSeparatorBackground
+            )
+        )
+
+        binding.separator5.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsSeparatorBackground
+                else R.color.colorLightFragmentSettingsSeparatorBackground
+            )
+        )
+
+        binding.aboutTextTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsAboutTextText
+                else R.color.colorLightFragmentSettingsAboutTextText
+            )
+        )
 
         binding.localeSpinner.arrowTint = ContextCompat.getColor(
             requireContext(),
@@ -269,17 +514,21 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             else R.color.colorLightFragmentSettingsLocaleSpinnerArrowTint
         )
 
-        binding.localeSpinner.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerText
-            else R.color.colorLightFragmentSettingsLocaleSpinnerText
-        ))
+        binding.localeSpinner.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerText
+                else R.color.colorLightFragmentSettingsLocaleSpinnerText
+            )
+        )
 
-        binding.localeSpinner.setHintTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerHint
-            else R.color.colorLightFragmentSettingsLocaleSpinnerHint
-        ))
+        binding.localeSpinner.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerHint
+                else R.color.colorLightFragmentSettingsLocaleSpinnerHint
+            )
+        )
 
         binding.localeSpinner.dividerColor = ContextCompat.getColor(
             requireContext(),
@@ -299,17 +548,21 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             else R.color.colorLightFragmentSettingsLocaleSpinnerArrowTint
         )
 
-        binding.difficultySpinner.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerText
-            else R.color.colorLightFragmentSettingsLocaleSpinnerText
-        ))
+        binding.difficultySpinner.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerText
+                else R.color.colorLightFragmentSettingsLocaleSpinnerText
+            )
+        )
 
-        binding.difficultySpinner.setHintTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerHint
-            else R.color.colorLightFragmentSettingsLocaleSpinnerHint
-        ))
+        binding.difficultySpinner.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleSpinnerHint
+                else R.color.colorLightFragmentSettingsLocaleSpinnerHint
+            )
+        )
 
         binding.difficultySpinner.dividerColor = ContextCompat.getColor(
             requireContext(),
@@ -344,11 +597,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             titleTextColorAnimation.start()
         } else {
-            binding.title.setTextColor(ContextCompat.getColor(
+            binding.title.setTextColor(
+                ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsTitleText
                     else R.color.colorLightFragmentSettingsTitleText
-                ))
+                )
+            )
         }
 
         if (withAnimation) {
@@ -373,11 +628,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             logoutContainerBackgroundTintAnimation.start()
         } else {
-            binding.logoutContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLogoutBackgroundTint
-                else R.color.colorLightFragmentSettingsLogoutBackgroundTint
-            ))
+            binding.logoutContainer.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLogoutBackgroundTint
+                    else R.color.colorLightFragmentSettingsLogoutBackgroundTint
+                )
+            )
         }
 
         if (withAnimation) {
@@ -400,11 +657,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             logoutTextColorAnimation.start()
         } else {
-            binding.logout.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLogoutText
-                else R.color.colorLightFragmentSettingsLogoutText
-            ))
+            binding.logout.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLogoutText
+                    else R.color.colorLightFragmentSettingsLogoutText
+                )
+            )
         }
 
         if (withAnimation) {
@@ -429,11 +688,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             userBlockBackgroundTintAnimation.start()
         } else {
-            binding.userBlock.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsUserBlockBackgroundTint
-                else R.color.colorLightFragmentSettingsUserBlockBackgroundTint
-            ))
+            binding.userBlock.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsUserBlockBackgroundTint
+                    else R.color.colorLightFragmentSettingsUserBlockBackgroundTint
+                )
+            )
         }
 
         if (withAnimation) {
@@ -456,11 +717,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             nameTextColorAnimation.start()
         } else {
-            binding.name.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
-                else R.color.colorLightFragmentSettingsPushTitleText
-            ))
+            binding.name.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
+                    else R.color.colorLightFragmentSettingsPushTitleText
+                )
+            )
         }
 
         if (withAnimation) {
@@ -485,11 +748,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             generalBlockBackgroundTintAnimation.start()
         } else {
-            binding.generalBlock.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsGeneralBlockBackgroundTint
-                else R.color.colorLightFragmentSettingsGeneralBlockBackgroundTint
-            ))
+            binding.generalBlock.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsGeneralBlockBackgroundTint
+                    else R.color.colorLightFragmentSettingsGeneralBlockBackgroundTint
+                )
+            )
         }
 
         if (withAnimation) {
@@ -515,29 +780,37 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             themeTitleAnimation.start()
         } else {
-            binding.themeTitle.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
-                else R.color.colorLightFragmentSettingsPushTitleText
-            ))
+            binding.themeTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
+                    else R.color.colorLightFragmentSettingsPushTitleText
+                )
+            )
 
-            binding.pushTitle.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
-                else R.color.colorLightFragmentSettingsPushTitleText
-            ))
+            binding.pushTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
+                    else R.color.colorLightFragmentSettingsPushTitleText
+                )
+            )
 
-            binding.localeTitle.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
-                else R.color.colorLightFragmentSettingsPushTitleText
-            ))
+            binding.localeTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
+                    else R.color.colorLightFragmentSettingsPushTitleText
+                )
+            )
 
-            binding.difficultyTitle.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
-                else R.color.colorLightFragmentSettingsPushTitleText
-            ))
+            binding.difficultyTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
+                    else R.color.colorLightFragmentSettingsPushTitleText
+                )
+            )
         }
 
         if (withAnimation) {
@@ -561,17 +834,21 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             pushValueTextColorAnimation.start()
         } else {
-            binding.pushValue.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushValueText
-                else R.color.colorLightFragmentSettingsPushValueText
-            ))
+            binding.pushValue.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushValueText
+                    else R.color.colorLightFragmentSettingsPushValueText
+                )
+            )
 
-            binding.difficultyValue.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushValueText
-                else R.color.colorLightFragmentSettingsPushValueText
-            ))
+            binding.difficultyValue.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushValueText
+                    else R.color.colorLightFragmentSettingsPushValueText
+                )
+            )
         }
 
         if (withAnimation) {
@@ -594,11 +871,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             localeValueTextColorAnimation.start()
         } else {
-            binding.localeValue.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleValueText
-                else R.color.colorDarkFragmentSettingsLocaleValueText
-            ))
+            binding.localeValue.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLocaleValueText
+                    else R.color.colorDarkFragmentSettingsLocaleValueText
+                )
+            )
         }
 
         if (withAnimation) {
@@ -623,11 +902,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             footerBlockCardBackgroundTintAnimation.start()
         } else {
-            binding.footerBlockCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsFooterBlockBackgroundTint
-                else R.color.colorLightFragmentSettingsFooterBlockBackgroundTint
-            ))
+            binding.footerBlockCard.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsFooterBlockBackgroundTint
+                    else R.color.colorLightFragmentSettingsFooterBlockBackgroundTint
+                )
+            )
         }
 
         if (withAnimation) {
@@ -654,35 +935,45 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             footerBlockTextColorAnimation.start()
         } else {
-            binding.version.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
-                else R.color.colorLightFragmentSettingsVersionText
-            ))
+            binding.version.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
+                    else R.color.colorLightFragmentSettingsVersionText
+                )
+            )
 
-            binding.about.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
-                else R.color.colorLightFragmentSettingsVersionText
-            ))
+            binding.about.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
+                    else R.color.colorLightFragmentSettingsVersionText
+                )
+            )
 
-            binding.faq.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
-                else R.color.colorLightFragmentSettingsVersionText
-            ))
+            binding.faq.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
+                    else R.color.colorLightFragmentSettingsVersionText
+                )
+            )
 
-            binding.rate.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
-                else R.color.colorLightFragmentSettingsVersionText
-            ))
+            binding.rate.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
+                    else R.color.colorLightFragmentSettingsVersionText
+                )
+            )
 
-            binding.write.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
-                else R.color.colorLightFragmentSettingsVersionText
-            ))
+            binding.write.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsVersionText
+                    else R.color.colorLightFragmentSettingsVersionText
+                )
+            )
         }
 
         if (withAnimation) {
@@ -705,11 +996,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
             containerBackgroundAnimation.start()
         } else {
-            binding.settingsContainer.setBackgroundColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
-                else R.color.colorLightFragmentMetricBackground
-            ))
+            binding.settingsContainer.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
+                    else R.color.colorLightFragmentMetricBackground
+                )
+            )
         }
 
     }

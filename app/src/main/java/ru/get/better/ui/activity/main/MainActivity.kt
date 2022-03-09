@@ -2,7 +2,12 @@ package ru.get.better.ui.activity.main
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.Rect
 import android.net.Uri
 import android.os.AsyncTask
@@ -16,9 +21,11 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -30,9 +37,11 @@ import com.stfalcon.imageviewer.StfalconImageViewer
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.Circle
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
+import kotlinx.android.synthetic.main.target_menu_addpost.view.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import kotlinx.android.synthetic.main.view_select_note_type.*
 import lv.chi.photopicker.PhotoPickerFragment
@@ -45,6 +54,7 @@ import ru.get.better.databinding.ActivityMainBinding
 import ru.get.better.event.*
 import ru.get.better.model.*
 import ru.get.better.navigation.Navigator
+import ru.get.better.push.NotificationReceiver
 import ru.get.better.rest.UserSettingsFields
 import ru.get.better.ui.activity.main.adapter.AddPostMediaAdapter
 import ru.get.better.ui.activity.main.ext.*
@@ -53,19 +63,6 @@ import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.*
 import java.util.*
-import android.app.AlarmManager
-
-import android.app.PendingIntent
-import android.content.Context
-
-import android.content.Intent
-import android.content.res.ColorStateList
-import androidx.core.view.isVisible
-import androidx.navigation.ui.setupWithNavController
-import ru.get.better.push.NotificationReceiver
-import android.R.color
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.target_menu_addpost.view.*
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -97,9 +94,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
     }
 
-    val selectNoteTypeBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-        BottomSheetBehavior.from(binding.selectNoteTypeBottomSheet.bottomSheetContainer)
-    }
+//    val selectNoteTypeBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+//        BottomSheetBehavior.from(binding.selectNoteTypeBottomSheet.bottomSheetContainer)
+//    }
 
     private var isAnySpotlightActiveNow: Boolean = false
 
@@ -138,10 +135,12 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        StatusBarUtil.setColor(this, resources.getColor(
-            if (App.preferences.isDarkTheme) R.color.colorDarkStatusBar
-            else R.color.colorLightStatusBar
-        ))
+        StatusBarUtil.setColor(
+            this, resources.getColor(
+                if (App.preferences.isDarkTheme) R.color.colorDarkStatusBar
+                else R.color.colorLightStatusBar
+            )
+        )
 
         window.navigationBarColor = resources.getColor(
             if (App.preferences.isDarkTheme) R.color.colorDarkNavigationBar
@@ -157,8 +156,12 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         setupAddHabitBottomSheet()
         setupTrackerSheet()
 
-        binding.dateTitle.text = App.resourcesProvider.getStringLocale(R.string.tracker_date_title, App.preferences.locale)
-        binding.stopTracker.text = App.resourcesProvider.getStringLocale(R.string.stop_tracker, App.preferences.locale)
+        binding.dateTitle.text = App.resourcesProvider.getStringLocale(
+            R.string.tracker_date_title,
+            App.preferences.locale
+        )
+        binding.stopTracker.text =
+            App.resourcesProvider.getStringLocale(R.string.stop_tracker, App.preferences.locale)
 
         val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
         val colors = intArrayOf(
@@ -182,70 +185,89 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
 
         binding.navViewContainer.backgroundTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(this,
+            ContextCompat.getColor(
+                this,
                 if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
                 else R.color.colorLightNavViewContainerBackgroundTint
             )
         )
 
-        binding.navView.setBackgroundColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkNavViewBackground
-            else R.color.colorLightNavViewBackground
-        ))
+        binding.navView.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkNavViewBackground
+                else R.color.colorLightNavViewBackground
+            )
+        )
 
         binding.trackerFab.setImageResource(
             if (App.preferences.isDarkTheme) R.drawable.ic_tracker_dark
             else R.drawable.ic_tracker_light
         )
 
-        binding.trackerFab.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerFabTint
-            else R.color.colorLightTrackerFabTint
-        ))
+        binding.trackerFab.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerFabTint
+                else R.color.colorLightTrackerFabTint
+            )
+        )
 
-        binding.trackerContainer.setBackgroundColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
-            else R.color.colorLightTrackerContainerBackground
-        ))
+        binding.trackerContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+                else R.color.colorLightTrackerContainerBackground
+            )
+        )
 
-        binding.trackerContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
-            else R.color.colorLightTrackerContainerBackground
-        ))
+        binding.trackerContainer.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+                else R.color.colorLightTrackerContainerBackground
+            )
+        )
 
-        binding.trackerInterestName.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerInterestNameText
-            else R.color.colorLightTrackerInterestNameText
-        ))
+        binding.trackerInterestName.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerInterestNameText
+                else R.color.colorLightTrackerInterestNameText
+            )
+        )
 
-        binding.dateTitle.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateTitleText
-            else R.color.colorLightTrackerDateTitleText
-        ))
+        binding.dateTitle.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateTitleText
+                else R.color.colorLightTrackerDateTitleText
+            )
+        )
 
-        binding.trackerDate.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateText
-            else R.color.colorLightTrackerDateText
-        ))
+        binding.trackerDate.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateText
+                else R.color.colorLightTrackerDateText
+            )
+        )
 
-        binding.timer.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTimerText
-            else R.color.colorLightTrackerTimerText
-        ))
+        binding.timer.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTimerText
+                else R.color.colorLightTrackerTimerText
+            )
+        )
 
-        binding.trackerTitle.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTitleText
-            else R.color.colorLightTrackerTitleText
-        ))
+        binding.trackerTitle.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTitleText
+                else R.color.colorLightTrackerTitleText
+            )
+        )
 
         binding.stopTrackerContainer.background = ContextCompat.getDrawable(
             this,
@@ -253,23 +275,29 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             else R.drawable.bg_view_active_tracker_btn_light
         )
 
-        binding.stopTracker.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTrackerStopText
-            else R.color.colorLightTrackerStopText
-        ))
+        binding.stopTracker.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerStopText
+                else R.color.colorLightTrackerStopText
+            )
+        )
 
-        binding.backgroundImage.setBackgroundColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkBlur
-            else R.color.colorLightBlur
-        ))
+        binding.backgroundImage.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkBlur
+                else R.color.colorLightBlur
+            )
+        )
 
-        binding.progressBar.indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkProgressBarIndeterminateTint
-            else R.color.colorLightProgressBarIndeterminateTint
-        ))
+        binding.progressBar.indeterminateTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkProgressBarIndeterminateTint
+                else R.color.colorLightProgressBarIndeterminateTint
+            )
+        )
     }
 
     var isTrackerTimerRunning = false
@@ -290,8 +318,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
             addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//        if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+//            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+        if (binding.selectNoteTypeBottomSheet.title.translationY == 0f)
+            hideSelectNoteTypeView()
 
         if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
             addGoalBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -329,14 +360,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     }
                     return false
                 }
-            } else if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            } else if (binding.selectNoteTypeBottomSheet.title.translationY == 0f) {
                 val outRect = Rect()
 
                 binding.selectNoteTypeBottomSheet.container.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                     binding.selectNoteTypeBottomSheet.container.post {
-                        selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                        hideSelectNoteTypeView()
+//                        selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
                     return false
                 }
@@ -593,7 +625,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.isVisible = true
 
         binding.navView.menu.getItem(2).setOnMenuItemClickListener {
-            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            showSelectNoteTypeView()
+//            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
             return@setOnMenuItemClickListener true
         }
@@ -842,8 +875,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         if (e.note.regularity == Regularity.Weekly.id) {
                             if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
                             else R.color.colorLightAddHabitRegularityPointActiveText
-                        }
-                        else {
+                        } else {
                             if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
                             else R.color.colorLightAddHabitRegularityPointInactiveText
                         }
@@ -856,8 +888,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         if (e.note.regularity == Regularity.Weekly.id) {
                             if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
                             else R.color.colorLightAddHabitRegularityPointActiveText
-                        }
-                        else {
+                        } else {
                             if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
                             else R.color.colorLightAddHabitRegularityPointInactiveText
                         }
@@ -952,10 +983,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
             if (image?.url != null)
                 Picasso.with(this@MainActivity).load(image.url).into(view)
-        }.withBackgroundColor(ContextCompat.getColor(this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkFullScreenMediaBackground
-            else R.color.colorLightFullScreenMediaBackground
-        ))
+        }.withBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkFullScreenMediaBackground
+                else R.color.colorLightFullScreenMediaBackground
+            )
+        )
             .withTransitionFrom(e.imageView).show().setCurrentPosition(e.position)
     }
 
@@ -978,18 +1012,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         val addPostTargetLayout =
             layoutInflater.inflate(R.layout.target_menu_addpost, FrameLayout(this))
 
-        addPostTargetLayout.title.text = App.resourcesProvider.getStringLocale(R.string.addpost_spotlight)
+        addPostTargetLayout.title.text =
+            App.resourcesProvider.getStringLocale(R.string.addpost_spotlight)
 
-        addPostTargetLayout.title.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTargetMenuAddpostTitleText
-            else R.color.colorLightTargetMenuAddpostTitleText
-        ))
-        addPostTargetLayout.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.colorDarkTargetMenuAddpostIcArrowTint
-            else R.color.colorLightTargetMenuAddpostIcArrowTint
-        ))
+        addPostTargetLayout.title.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTargetMenuAddpostTitleText
+                else R.color.colorLightTargetMenuAddpostTitleText
+            )
+        )
+        addPostTargetLayout.icArrow.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkTargetMenuAddpostIcArrowTint
+                else R.color.colorLightTargetMenuAddpostIcArrowTint
+            )
+        )
 
         val addPostTarget = com.takusemba.spotlight.Target.Builder()
             .setAnchor(binding.targetAddPost)
@@ -998,7 +1037,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 RippleEffect(
                     100f,
                     200f,
-                    ContextCompat.getColor(this,
+                    ContextCompat.getColor(
+                        this,
                         if (App.preferences.isDarkTheme) R.color.colorDarkSpotlightTarget
                         else R.color.colorLightSpotlightTarget
                     )
@@ -1009,10 +1049,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         val spotlight = Spotlight.Builder(this)
             .setTargets(addPostTarget)
-            .setBackgroundColor(ContextCompat.getColor(this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkSpotlightBackground
-                else R.color.colorLightSpotlightBackground
-            ))
+            .setBackgroundColor(
+                ContextCompat.getColor(
+                    this,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkSpotlightBackground
+                    else R.color.colorLightSpotlightBackground
+                )
+            )
             .setDuration(1000L)
             .setAnimation(DecelerateInterpolator(2f))
             .setContainer(binding.container)

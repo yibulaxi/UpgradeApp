@@ -12,7 +12,6 @@
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="16dp"
         android:gravity="center"
-        android:letterSpacing="0.2"
-         />
-<!--android:textColor="@color/colorItemTaskText"-->
+        android:letterSpacing="0.2" />
+    <!--android:textColor="@color/colorItemTaskText"-->
 </RelativeLayout>

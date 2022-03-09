@@ -34,29 +34,37 @@ class MetricListViewHolder(
             else R.drawable.bg_list_metric_value_light
         )
 
-        binding.title.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricTitleText
-            else R.color.colorLightItemListMetricTitleText
-        ))
+        binding.title.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricTitleText
+                else R.color.colorLightItemListMetricTitleText
+            )
+        )
 
-        binding.description.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricDescriptionText
-            else R.color.colorLightItemListMetricDescriptionText
-        ))
+        binding.description.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricDescriptionText
+                else R.color.colorLightItemListMetricDescriptionText
+            )
+        )
 
-        binding.value.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricValueText
-            else R.color.colorLightItemListMetricValueText
-        ))
+        binding.value.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricValueText
+                else R.color.colorLightItemListMetricValueText
+            )
+        )
 
-        binding.separator.setBackgroundColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricSeparatorBackground
-            else R.color.colorLightItemListMetricSeparatorBackground
-        ))
+        binding.separator.setBackgroundColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemListMetricSeparatorBackground
+                else R.color.colorLightItemListMetricSeparatorBackground
+            )
+        )
 
         if (interest is EmptyInterest) {
             binding.icon.setImageDrawable(
@@ -76,8 +84,14 @@ class MetricListViewHolder(
                 )
             )
 
-            binding.title.text = App.resourcesProvider.getStringLocale(R.string.create_new_interest_title, App.preferences.locale)
-            binding.description.text = App.resourcesProvider.getStringLocale(R.string.create_new_interest_description, App.preferences.locale)
+            binding.title.text = App.resourcesProvider.getStringLocale(
+                R.string.create_new_interest_title,
+                App.preferences.locale
+            )
+            binding.description.text = App.resourcesProvider.getStringLocale(
+                R.string.create_new_interest_description,
+                App.preferences.locale
+            )
 
             binding.value.isVisible = false
 

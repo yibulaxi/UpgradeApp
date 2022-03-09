@@ -13,7 +13,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground">
-<!--android:background="@drawable/rounded_rect_primary"-->
+        <!--android:background="@drawable/rounded_rect_primary"-->
         <View
             android:id="@+id/background"
             android:layout_width="0dp"
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-<!--android:background="@drawable/snack_warning_gradient_light"-->
+        <!--android:background="@drawable/snack_warning_gradient_light"-->
         <Space
             android:id="@+id/space"
             android:layout_width="@dimen/activity_horizontal_margin"
@@ -38,9 +38,8 @@
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-<!--app:tint="@color/colorViewSnackbarSimpleIconTint"-->
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--app:tint="@color/colorViewSnackbarSimpleIconTint"-->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/im_action_left"
             android:layout_width="35dp"
@@ -67,7 +66,7 @@
             app:layout_constraintLeft_toRightOf="@+id/im_action_left"
             app:layout_constraintStart_toEndOf="@+id/im_action_left"
             app:layout_constraintTop_toTopOf="parent" />
-<!--android:textColor="@color/colorViewSnackbarSimpleTvMessageText"-->
+        <!--android:textColor="@color/colorViewSnackbarSimpleTvMessageText"-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_action"
             android:layout_width="wrap_content"
@@ -85,7 +84,7 @@
             app:layout_constraintLeft_toRightOf="@+id/tv_message"
             app:layout_constraintStart_toEndOf="@+id/tv_message"
             app:layout_constraintTop_toTopOf="parent" />
-<!--android:textColor="@color/colorViewSnackbarSimpleTvActionText"-->
+        <!--android:textColor="@color/colorViewSnackbarSimpleTvActionText"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

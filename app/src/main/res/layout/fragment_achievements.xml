@@ -44,9 +44,8 @@
                     app:pcv_orientation="counter_clockwise"
                     app:pcv_progress="100"
                     app:pcv_startAngle="90"
-                    app:pcv_textSize="@dimen/text_size_16"
-                    />
-<!--app:pcv_backgroundColor="@color/colorFragmentAchievementsExpChartBackground"/-->
+                    app:pcv_textSize="@dimen/text_size_16" />
+                <!--app:pcv_backgroundColor="@color/colorFragmentAchievementsExpChartBackground"/-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/lvlTitle"
                     style="@style/Text12.Light"
@@ -56,8 +55,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
 
-                     />
-<!--android:textColor="@color/colorFragmentAchievementsExpChartTitleText"-->
+                    />
+                <!--android:textColor="@color/colorFragmentAchievementsExpChartTitleText"-->
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -79,9 +78,8 @@
                     app:pcv_orientation="counter_clockwise"
                     app:pcv_progress="100"
                     app:pcv_startAngle="90"
-                    app:pcv_textSize="@dimen/text_size_16"
-                    />
-<!--app:pcv_backgroundColor="@color/colorFragmentAchievementsEfficiencyChartBackground"-->
+                    app:pcv_textSize="@dimen/text_size_16" />
+                <!--app:pcv_backgroundColor="@color/colorFragmentAchievementsEfficiencyChartBackground"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/efficiencyTitle"
                     style="@style/Text12.Light"
@@ -89,9 +87,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="12dp"
-                     />
-<!--android:textColor="@color/colorFragmentAchievementsEfficiencyChartTitleText"-->
+                    android:layout_marginBottom="12dp" />
+                <!--android:textColor="@color/colorFragmentAchievementsEfficiencyChartTitleText"-->
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -107,18 +104,16 @@
                 android:id="@+id/viewPagerFrame"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_weight="1"
-                >
-<!--android:background="@color/colorFragmentAchievementsViewPagerBackground"-->
+                android:layout_weight="1">
+                <!--android:background="@color/colorFragmentAchievementsViewPagerBackground"-->
 
                 <View
                     android:id="@+id/viewPagerView"
                     android:layout_width="match_parent"
                     android:layout_height="4dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="18dp"
-                     />
-<!--android:background="@color/colorFragmentAchievementsViewSeparatorBackground"-->
+                    android:layout_marginTop="18dp" />
+                <!--android:background="@color/colorFragmentAchievementsViewSeparatorBackground"-->
 
                 <com.gigamole.navigationtabstrip.NavigationTabStrip
                     android:id="@+id/nts_center"
@@ -135,9 +130,9 @@
                     app:nts_titles="@array/achievements_tabs"
                     app:nts_type="point"
                     app:nts_weight="7dp" />
-<!--app:nts_active_color="@color/colorFragmentAchievementsNtsCenterActive"
-                    app:nts_color="@color/colorFragmentAchievementsNtsCenter"
-                    app:nts_inactive_color="@color/colorFragmentAchievementsNtsCenterInactive"-->
+                <!--app:nts_active_color="@color/colorFragmentAchievementsNtsCenterActive"
+                                    app:nts_color="@color/colorFragmentAchievementsNtsCenter"
+                                    app:nts_inactive_color="@color/colorFragmentAchievementsNtsCenterInactive"-->
 
             </FrameLayout>
 

@@ -48,7 +48,7 @@
                 android:layout_marginStart="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-<!--android:textColor="@color/colorItemListMetricTitleText"-->
+            <!--android:textColor="@color/colorItemListMetricTitleText"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/description"
                 style="@style/Text12.Light"
@@ -59,7 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
-<!--android:textColor="@color/colorItemListMetricDescriptionText"-->
+            <!--android:textColor="@color/colorItemListMetricDescriptionText"-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -72,8 +72,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-<!--        android:background="@drawable/bg_list_metric_value_light"-->
-<!--android:textColor="@color/colorItemListMetricValueText"-->
+        <!--        android:background="@drawable/bg_list_metric_value_light"-->
+        <!--android:textColor="@color/colorItemListMetricValueText"-->
         <View
             android:id="@+id/separator"
             android:layout_width="0dp"
@@ -83,6 +83,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/value"
             app:layout_constraintStart_toEndOf="@id/icon" />
-<!--        android:background="@color/colorItemListMetricSeparatorBackground"-->
+        <!--        android:background="@color/colorItemListMetricSeparatorBackground"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -183,11 +183,13 @@ class NotesAdapter(
 
     override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder?, headerPosition: Int) {
 
-        (holder as HeaderViewHolder).textView.setTextColor(ContextCompat.getColor(
-            context!!,
-            if (App.preferences.isDarkTheme) R.color.colorDarkNotesListHeaderItemText
-            else R.color.colorLightNotesListHeaderItemText
-        ))
+        (holder as HeaderViewHolder).textView.setTextColor(
+            ContextCompat.getColor(
+                context!!,
+                if (App.preferences.isDarkTheme) R.color.colorDarkNotesListHeaderItemText
+                else R.color.colorLightNotesListHeaderItemText
+            )
+        )
         (holder as HeaderViewHolder).textView.text = datesSet.elementAt(headerPosition)
     }
 
@@ -204,11 +206,13 @@ class NotesAdapter(
                     else R.drawable.bg_sticky_header_light
                 )
 
-                (holder as HeaderViewHolder).textView.setTextColor(ContextCompat.getColor(
-                    context!!,
-                    if (App.preferences.isDarkTheme) R.color.colorDarkNotesListHeaderItemText
-                    else R.color.colorLightNotesListHeaderItemText
-                ))
+                (holder as HeaderViewHolder).textView.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        if (App.preferences.isDarkTheme) R.color.colorDarkNotesListHeaderItemText
+                        else R.color.colorLightNotesListHeaderItemText
+                    )
+                )
                 (holder as HeaderViewHolder).textView.text = items!![position].sectionName()
             }
             Section.ITEM -> {
@@ -222,11 +226,13 @@ class NotesAdapter(
                 )
             }
             else -> {
-                (holder as HeaderViewHolder).textView.setTextColor(ContextCompat.getColor(
-                    context!!,
-                    if (App.preferences.isDarkTheme) R.color.colorDarkNotesListHeaderItemText
-                    else R.color.colorLightNotesListHeaderItemText
-                ))
+                (holder as HeaderViewHolder).textView.setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        if (App.preferences.isDarkTheme) R.color.colorDarkNotesListHeaderItemText
+                        else R.color.colorLightNotesListHeaderItemText
+                    )
+                )
                 (holder as HeaderViewHolder).textView.text = "Custom header"
             }
         }

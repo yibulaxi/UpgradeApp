@@ -23,7 +23,7 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardUseCompatPadding="false">
-<!--android:backgroundTint="@color/colorItemNoteBackgroundTint"-->
+        <!--android:backgroundTint="@color/colorItemNoteBackgroundTint"-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                     app:layout_constraintEnd_toStartOf="@id/description"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-<!--android:textColor="@color/colorItemNoteTitleText"-->
+                <!--android:textColor="@color/colorItemNoteTitleText"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/description"
                     style="@style/Text8.Light"
@@ -64,7 +64,7 @@
                     android:gravity="end"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
-<!--                android:textColor="@color/colorItemNoteDescriptionText"-->
+                <!--                android:textColor="@color/colorItemNoteDescriptionText"-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,9 +85,8 @@
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_goal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                 />
-<!--            app:tint="@color/colorItemNoteNoteTypeTint"-->
+                app:layout_constraintTop_toTopOf="parent" />
+            <!--            app:tint="@color/colorItemNoteNoteTypeTint"-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

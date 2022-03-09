@@ -37,35 +37,45 @@ class HabitsViewHolder(
 
     @SuppressLint("ClickableViewAccessibility")
     fun bind(habitRealization: DiaryNote) {
-        binding.cardView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitBackgroundTint
-            else R.color.colorLightItemHorizontalHabitBackgroundTint
-        ))
+        binding.cardView.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitBackgroundTint
+                else R.color.colorLightItemHorizontalHabitBackgroundTint
+            )
+        )
 
-        binding.iconTitle.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitText
-            else R.color.colorLightItemHorizontalHabitText
-        ))
+        binding.iconTitle.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitText
+                else R.color.colorLightItemHorizontalHabitText
+            )
+        )
 
-        binding.title.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitTitleText
-            else R.color.colorLightItemHorizontalHabitTitleText
-        ))
+        binding.title.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitTitleText
+                else R.color.colorLightItemHorizontalHabitTitleText
+            )
+        )
 
-        binding.completeBlock.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitCompleteBlockBackgroundTint
-            else R.color.colorLightItemHorizontalHabitCompleteBlockBackgroundTint
-        ))
+        binding.completeBlock.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitCompleteBlockBackgroundTint
+                else R.color.colorLightItemHorizontalHabitCompleteBlockBackgroundTint
+            )
+        )
 
-        binding.icCheck.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitTint
-            else R.color.colorLightItemHorizontalHabitTint
-        ))
+        binding.icCheck.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemHorizontalHabitTint
+                else R.color.colorLightItemHorizontalHabitTint
+            )
+        )
 
         binding.cardView.animation =
             AnimationUtils.loadAnimation(context, R.anim.scale)

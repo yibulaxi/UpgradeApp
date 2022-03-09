@@ -1,7 +1,6 @@
 package ru.get.better.ui.faq
 
 import android.os.Bundle
-import kotlinx.android.synthetic.main.fragment_settings.*
 import ru.get.better.R
 import ru.get.better.databinding.FragmentFaqBinding
 import ru.get.better.ui.base.BaseFragment

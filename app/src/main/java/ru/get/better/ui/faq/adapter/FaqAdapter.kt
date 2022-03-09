@@ -52,23 +52,29 @@ class FaqAdapter(
             val position = adapterPosition
             val isSelected = position == selectedItem
 
-            faqContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.colorDarkItemFaqBackgroundTint
-                else R.color.colorLightItemFaqBackgroundTint
-            ))
+            faqContainer.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkItemFaqBackgroundTint
+                    else R.color.colorLightItemFaqBackgroundTint
+                )
+            )
 
-            expandButton.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.colorDarkItemFaqExpandButtonText
-                else R.color.colorLightItemFaqExpandButtonText
-            ))
+            expandButton.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkItemFaqExpandButtonText
+                    else R.color.colorLightItemFaqExpandButtonText
+                )
+            )
 
-            text.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.colorDarkItemFaqExpandableLayoutTextText
-                else R.color.colorLightItemFaqExpandableLayoutTextText
-            ))
+            text.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkItemFaqExpandableLayoutTextText
+                    else R.color.colorLightItemFaqExpandableLayoutTextText
+                )
+            )
 
             expandButton.text = faqs[position].first
 

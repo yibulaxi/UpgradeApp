@@ -36,13 +36,16 @@ class NotesPagerViewHolder(
     }
 
     fun bind(note: DiaryNote) {
-        binding.habitsRealizationTitle.text = App.resourcesProvider.getStringLocale(R.string.completed)
+        binding.habitsRealizationTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.completed)
 
-        binding.cardView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
-            else R.color.colorLightItemAdapterPagerNotesBackgroundTint
-        ))
+        binding.cardView.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
+        )
 
         binding.wasteTime.background = ContextCompat.getDrawable(
             context,
@@ -56,65 +59,85 @@ class NotesPagerViewHolder(
             else R.drawable.bg_habits_realization_value_light
         )
 
-        binding.noteType.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesNoteTypeTint
-            else R.color.colorLightItemAdapterPagerNotesNoteTypeTint
-        ))
+        binding.noteType.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesNoteTypeTint
+                else R.color.colorLightItemAdapterPagerNotesNoteTypeTint
+            )
+        )
 
-        binding.interestName.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesInterestNameText
-            else R.color.colorLightItemAdapterPagerNotesInterestNameText
-        ))
+        binding.interestName.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesInterestNameText
+                else R.color.colorLightItemAdapterPagerNotesInterestNameText
+            )
+        )
 
-        binding.amount.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesAmountText
-            else R.color.colorLightItemAdapterPagerNotesAmountText
-        ))
+        binding.amount.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesAmountText
+                else R.color.colorLightItemAdapterPagerNotesAmountText
+            )
+        )
 
-        binding.text.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesTextText
-            else R.color.colorLightItemAdapterPagerNotesTextText
-        ))
+        binding.text.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesTextText
+                else R.color.colorLightItemAdapterPagerNotesTextText
+            )
+        )
 
-        binding.wasteTime.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesWasteTimeText
-            else R.color.colorLightItemAdapterPagerNotesWasteTimeText
-        ))
+        binding.wasteTime.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesWasteTimeText
+                else R.color.colorLightItemAdapterPagerNotesWasteTimeText
+            )
+        )
 
-        binding.habitsRealizationTitle.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesHabitsRealizationTitleText
-            else R.color.colorLightItemAdapterPagerNotesHabitsRealizationTitleText
-        ))
+        binding.habitsRealizationTitle.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesHabitsRealizationTitleText
+                else R.color.colorLightItemAdapterPagerNotesHabitsRealizationTitleText
+            )
+        )
 
-        binding.habitsRealizationValue.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesHabitsRealizationValueText
-            else R.color.colorLightItemAdapterPagerNotesHabitsRealizationValueText
-        ))
+        binding.habitsRealizationValue.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesHabitsRealizationValueText
+                else R.color.colorLightItemAdapterPagerNotesHabitsRealizationValueText
+            )
+        )
 
-        binding.date.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesDateText
-            else R.color.colorLightItemAdapterPagerNotesDateText
-        ))
+        binding.date.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesDateText
+                else R.color.colorLightItemAdapterPagerNotesDateText
+            )
+        )
 
-        binding.edit.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesEditBackgroundTint
-            else R.color.colorLightItemAdapterPagerNotesEditBackgroundTint
-        ))
+        binding.edit.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesEditBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesEditBackgroundTint
+            )
+        )
 
-        binding.icEdit.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesEditTint
-            else R.color.colorLightItemAdapterPagerNotesEditTint
-        ))
+        binding.icEdit.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesEditTint
+                else R.color.colorLightItemAdapterPagerNotesEditTint
+            )
+        )
 
         binding.text.text = Html.fromHtml(note.text)
 

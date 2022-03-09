@@ -8,7 +8,6 @@ import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -70,11 +69,13 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
             else R.drawable.snack_neutral_gradient_light
         )
 
-        binding.tvMessage.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentWelcomeTvMessageText
-            else R.color.colorLightFragmentWelcomeTvMessageText
-        ))
+        binding.tvMessage.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentWelcomeTvMessageText
+                else R.color.colorLightFragmentWelcomeTvMessageText
+            )
+        )
     }
 
     @Subscribe

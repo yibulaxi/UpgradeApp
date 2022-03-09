@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             tools:context=".ui.activity.main.MainActivity">
-<!--android:background="@color/colorFragmentDiaryBackground"-->
+            <!--android:background="@color/colorFragmentDiaryBackground"-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -40,7 +40,7 @@
                     android:letterSpacing="0.2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-<!--android:textColor="@color/colorFragmentDiaryTitleText"-->
+                <!--android:textColor="@color/colorFragmentDiaryTitleText"-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/emptyText"
                     style="@style/Text14.Light"
@@ -50,7 +50,7 @@
                     android:layout_marginTop="24dp"
                     android:letterSpacing="0.1"
                     app:layout_constraintTop_toBottomOf="@id/title" />
-<!--android:textColor="@color/colorFragmentDiaryEmptyTextText"-->
+                <!--android:textColor="@color/colorFragmentDiaryEmptyTextText"-->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/emptyAnim"
                     android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                     android:src="@drawable/ic_info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-<!--                android:tint="@color/colorFragmentDiaryInfoTint"-->
+                <!--                android:tint="@color/colorFragmentDiaryInfoTint"-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -113,7 +113,7 @@
             android:layout_height="match_parent"
             android:onClick="@{handler::onBlurClicked}"
             android:visibility="gone" />
-<!--android:background="@color/colorBlur"-->
+        <!--android:background="@color/colorBlur"-->
         <include
             android:id="@+id/viewPagerBottomSheet"
             layout="@layout/view_notes_viewpager" />

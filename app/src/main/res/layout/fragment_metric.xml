@@ -21,7 +21,7 @@
         android:animateLayoutChanges="true"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
-<!--android:background="@color/colorFragmentMetricBackground"-->
+        <!--android:background="@color/colorFragmentMetricBackground"-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/chartContainer"
             android:layout_width="match_parent"
@@ -51,60 +51,59 @@
                 android:id="@+id/metricStateControlGroupBlock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="32dp">
-            <com.alanvan.segmented_control.SegmentedControlGroup
-                android:id="@+id/metricStateControlGroupLight"
-                style="@style/Text10.Light"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorLightFragmentMetricStateControlGroupBackgroundTint"
-                app:customDividerColor="@color/colorLightFragmentMetricStateControlGroupCustomDivider"
-                app:customShadowColor="@color/colorLightFragmentMetricStateControlGroupCustomShadow"
-                app:customSliderColor="@color/colorLightFragmentMetricStateControlGroupCustomSlider"
+                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/wheelStateLight"
+                <com.alanvan.segmented_control.SegmentedControlGroup
+                    android:id="@+id/metricStateControlGroupLight"
                     style="@style/Text10.Light"
-                    android:layout_width="100dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:letterSpacing="0.2"
-                    android:lines="1"
-                    android:paddingStart="5dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="2dp"
-                    />
-<!--                android:textColor="@color/colorFragmentMetricWheelStateText"-->
+                    android:backgroundTint="@color/colorLightFragmentMetricStateControlGroupBackgroundTint"
+                    app:customDividerColor="@color/colorLightFragmentMetricStateControlGroupCustomDivider"
+                    app:customShadowColor="@color/colorLightFragmentMetricStateControlGroupCustomShadow"
+                    app:customSliderColor="@color/colorLightFragmentMetricStateControlGroupCustomSlider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/listStateLight"
-                    style="@style/Text10.Light"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:letterSpacing="0.2"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="2dp"
-                     />
-<!--android:textColor="@color/colorFragmentMetricListStateText"-->
-            </com.alanvan.segmented_control.SegmentedControlGroup>
+                    <com.alanvan.segmented_control.SegmentedControlButton
+                        android:id="@+id/wheelStateLight"
+                        style="@style/Text10.Light"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:letterSpacing="0.2"
+                        android:lines="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="2dp" />
+                    <!--                android:textColor="@color/colorFragmentMetricWheelStateText"-->
+
+                    <com.alanvan.segmented_control.SegmentedControlButton
+                        android:id="@+id/listStateLight"
+                        style="@style/Text10.Light"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:letterSpacing="0.2"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="2dp" />
+                    <!--android:textColor="@color/colorFragmentMetricListStateText"-->
+                </com.alanvan.segmented_control.SegmentedControlGroup>
 
                 <com.alanvan.segmented_control.SegmentedControlGroup
                     android:id="@+id/metricStateControlGroupDark"
@@ -133,8 +132,7 @@
                         android:paddingStart="5dp"
                         android:paddingTop="2dp"
                         android:paddingEnd="5dp"
-                        android:paddingBottom="2dp"
-                        />
+                        android:paddingBottom="2dp" />
                     <!--                android:textColor="@color/colorFragmentMetricWheelStateText"-->
 
                     <com.alanvan.segmented_control.SegmentedControlButton
@@ -151,12 +149,12 @@
                         android:paddingStart="5dp"
                         android:paddingTop="2dp"
                         android:paddingEnd="5dp"
-                        android:paddingBottom="2dp"
-                        />
+                        android:paddingBottom="2dp" />
                     <!--android:textColor="@color/colorFragmentMetricListStateText"-->
                 </com.alanvan.segmented_control.SegmentedControlGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <com.alanvan.segmented_control.SegmentedControlGroup
                 android:id="@+id/radarStateControlGroupLight"
                 style="@style/Text10.Light"
@@ -186,9 +184,8 @@
                     android:paddingStart="5dp"
                     android:paddingTop="2dp"
                     android:paddingEnd="5dp"
-                    android:paddingBottom="2dp"
-                     />
-<!--android:textColor="@color/colorFragmentMetricCurrentStateText"-->
+                    android:paddingBottom="2dp" />
+                <!--android:textColor="@color/colorFragmentMetricCurrentStateText"-->
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/startStateLight"
                     style="@style/Text10.Light"
@@ -203,9 +200,8 @@
                     android:paddingStart="5dp"
                     android:paddingTop="2dp"
                     android:paddingEnd="5dp"
-                    android:paddingBottom="2dp"
-                     />
-<!--android:textColor="@color/colorFragmentMetricStartStateText"-->
+                    android:paddingBottom="2dp" />
+                <!--android:textColor="@color/colorFragmentMetricStartStateText"-->
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
             <com.alanvan.segmented_control.SegmentedControlGroup
@@ -237,8 +233,7 @@
                     android:paddingStart="5dp"
                     android:paddingTop="2dp"
                     android:paddingEnd="5dp"
-                    android:paddingBottom="2dp"
-                    />
+                    android:paddingBottom="2dp" />
                 <!--android:textColor="@color/colorFragmentMetricCurrentStateText"-->
                 <com.alanvan.segmented_control.SegmentedControlButton
                     android:id="@+id/startStateDark"
@@ -254,8 +249,7 @@
                     android:paddingStart="5dp"
                     android:paddingTop="2dp"
                     android:paddingEnd="5dp"
-                    android:paddingBottom="2dp"
-                    />
+                    android:paddingBottom="2dp" />
                 <!--android:textColor="@color/colorFragmentMetricStartStateText"-->
             </com.alanvan.segmented_control.SegmentedControlGroup>
 
@@ -269,7 +263,7 @@
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/metricStateControlGroupBlock">
-<!--android:background="@color/colorFragmentMetricListBackground"-->
+                <!--android:background="@color/colorFragmentMetricListBackground"-->
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/listData"
                     android:layout_width="match_parent"
@@ -291,17 +285,15 @@
                             android:id="@+id/diaryAmount"
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             />
-<!--android:textColor="@color/colorFragmentMetricDiaryAmountText"-->
+                            android:layout_height="wrap_content" />
+                        <!--android:textColor="@color/colorFragmentMetricDiaryAmountText"-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/diaryAmountTitle"
                             style="@style/Text14.Light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:letterSpacing="0.1"
-                            />
-<!--android:textColor="@color/colorFragmentMetricDiaryAmountTitleText" -->
+                            android:letterSpacing="0.1" />
+                        <!--android:textColor="@color/colorFragmentMetricDiaryAmountTitleText" -->
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -317,17 +309,15 @@
                             android:id="@+id/averageAmount"
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             />
-<!--android:textColor="@color/colorFragmentMetricAverageAmountText"-->
+                            android:layout_height="wrap_content" />
+                        <!--android:textColor="@color/colorFragmentMetricAverageAmountText"-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/averageAmountTitle"
                             style="@style/Text14.Light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:letterSpacing="0.1"
-                             />
-<!--android:textColor="@color/colorFragmentMetricAverageAmountTitleText"-->
+                            android:letterSpacing="0.1" />
+                        <!--android:textColor="@color/colorFragmentMetricAverageAmountTitleText"-->
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -343,17 +333,15 @@
                             android:id="@+id/daysAmount"
                             style="@style/Text20.Medium"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                             />
-<!--android:textColor="@color/colorFragmentMetricDaysAmountText"-->
+                            android:layout_height="wrap_content" />
+                        <!--android:textColor="@color/colorFragmentMetricDaysAmountText"-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/daysAmountTitle"
                             style="@style/Text14.Light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:letterSpacing="0.1"
-                            />
-<!--android:textColor="@color/colorFragmentMetricDaysAmountTitleText" -->
+                            android:letterSpacing="0.1" />
+                        <!--android:textColor="@color/colorFragmentMetricDaysAmountTitleText" -->
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -380,7 +368,7 @@
                 android:src="@drawable/ic_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-<!--android:tint="@color/colorFragmentMetricInfoTint"-->
+            <!--android:tint="@color/colorFragmentMetricInfoTint"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -397,9 +385,8 @@
                 android:id="@+id/backgroundImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0"
-                 />
-<!--android:background="@color/colorBlur"-->
+                android:alpha="0" />
+            <!--android:background="@color/colorBlur"-->
             <include
                 android:id="@+id/interestDetailBottomSheet"
                 layout="@layout/view_detail_interest" />

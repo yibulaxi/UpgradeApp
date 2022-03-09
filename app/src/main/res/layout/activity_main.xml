@@ -40,7 +40,7 @@
                 app:cardCornerRadius="12dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toBottomOf="parent">
-<!--android:backgroundTint="@color/colorNavViewContainerBackgroundTint"-->
+                <!--android:backgroundTint="@color/colorNavViewContainerBackgroundTint"-->
                 <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/nav_view"
                     android:layout_width="match_parent"
@@ -50,8 +50,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     tools:visibility="visible" />
-<!--                app:itemIconTint="@drawable/bottom_nav_selector_light"-->
-<!--                android:background="@color/colorNavViewBackground"-->
+                <!--                app:itemIconTint="@drawable/bottom_nav_selector_light"-->
+                <!--                android:background="@color/colorNavViewBackground"-->
             </androidx.cardview.widget.CardView>
 
             <View
@@ -96,10 +96,9 @@
                 app:elevation="10dp"
                 app:fabSize="mini"
                 app:layout_constraintBottom_toTopOf="@id/navViewContainer"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
-<!--            android:src="@drawable/ic_tracker_light"-->
-<!--            app:tint="@color/colorTrackerFabTint" -->
+                app:layout_constraintEnd_toEndOf="parent" />
+            <!--            android:src="@drawable/ic_tracker_light"-->
+            <!--            app:tint="@color/colorTrackerFabTint" -->
 
             <com.github.fabtransitionactivity.SheetLayout
                 android:id="@+id/trackerSheet"
@@ -131,8 +130,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHeight_percent="0.5"
                         app:layout_constraintTop_toTopOf="parent">
-<!--android:background="@color/colorTrackerContainerBackground"
-                        android:backgroundTint="@color/colorTrackerContainerBackgroundTint"-->
+                        <!--android:background="@color/colorTrackerContainerBackground"
+                                                android:backgroundTint="@color/colorTrackerContainerBackgroundTint"-->
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -159,7 +158,7 @@
                                 android:letterSpacing="0.1"
                                 app:layout_constraintStart_toEndOf="@id/trackerIcon"
                                 app:layout_constraintTop_toTopOf="parent" />
-<!--android:textColor="@color/colorTrackerInterestNameText"-->
+                            <!--android:textColor="@color/colorTrackerInterestNameText"-->
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -176,9 +175,8 @@
                                     android:layout_marginTop="16dp"
                                     android:layout_marginEnd="16dp"
                                     android:gravity="end"
-                                    android:letterSpacing="0.1"
-                                     />
-<!--                                android:textColor="@color/colorTrackerDateTitleText"-->
+                                    android:letterSpacing="0.1" />
+                                <!--                                android:textColor="@color/colorTrackerDateTitleText"-->
 
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/trackerDate"
@@ -187,9 +185,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="16dp"
                                     android:gravity="end"
-                                    android:letterSpacing="0.1"
-                                     />
-<!--                                android:textColor="@color/colorTrackerDateText"-->
+                                    android:letterSpacing="0.1" />
+                                <!--                                android:textColor="@color/colorTrackerDateText"-->
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                             <androidx.appcompat.widget.LinearLayoutCompat
@@ -210,7 +207,7 @@
                                     android:letterSpacing="0.2"
 
                                     android:textSize="40sp" />
-<!--android:textColor="@color/colorTrackerTimerText"-->
+                                <!--android:textColor="@color/colorTrackerTimerText"-->
                                 <TextView
                                     android:id="@+id/trackerTitle"
                                     style="@style/Text14.Light"
@@ -220,9 +217,8 @@
                                     android:layout_marginHorizontal="12dp"
                                     android:layout_marginTop="24dp"
                                     android:gravity="center"
-                                    android:letterSpacing="0.2"
-                                     />
-<!--                                android:textColor="@color/colorTrackerTitleText"-->
+                                    android:letterSpacing="0.2" />
+                                <!--                                android:textColor="@color/colorTrackerTitleText"-->
                             </androidx.appcompat.widget.LinearLayoutCompat>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -233,7 +229,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent">
-<!--android:background="@drawable/bg_view_active_tracker_btn_light"-->
+                                <!--android:background="@drawable/bg_view_active_tracker_btn_light"-->
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/stopTracker"
                                     style="@style/Text18.Light"
@@ -246,7 +242,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent" />
-<!--                                android:textColor="@color/colorTrackerStopText"-->
+                                <!--                                android:textColor="@color/colorTrackerStopText"-->
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -261,9 +257,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
-            android:visibility="gone"
-            android:contentDescription="" />
-<!--        android:background="@color/colorBlur"-->
+            android:contentDescription=""
+            android:visibility="gone" />
+        <!--        android:background="@color/colorBlur"-->
 
 
         <include
@@ -304,8 +300,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-<!--            android:background="@drawable/bg_progress_light"-->
-<!--            android:indeterminateTint="@color/colorProgressBarIndeterminateTint"-->
+            <!--            android:background="@drawable/bg_progress_light"-->
+            <!--            android:indeterminateTint="@color/colorProgressBarIndeterminateTint"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

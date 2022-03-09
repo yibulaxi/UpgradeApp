@@ -43,11 +43,13 @@ class HabitsRealizationViewHolder(
             )
         )
 
-        binding.text.setTextColor(ContextCompat.getColor(
-            context,
-            if (App.preferences.isDarkTheme) R.color.colorDarkItemHabitRealizationTextText
-            else R.color.colorLightItemHabitRealizationTextText
-        ))
+        binding.text.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemHabitRealizationTextText
+                else R.color.colorLightItemHabitRealizationTextText
+            )
+        )
     }
 
     inner class Handler

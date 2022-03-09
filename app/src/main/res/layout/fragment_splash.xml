@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
-<!--android:background="@color/colorFragmentSplashBackground"-->
+        <!--android:background="@color/colorFragmentSplashBackground"-->
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_view" />
-<!--android:textColor="@color/colorFragmentSplashLogoTextText"-->
+        <!--android:textColor="@color/colorFragmentSplashLogoTextText"-->
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator"
             android:layout_width="0dp"
