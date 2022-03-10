@@ -9,9 +9,12 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -62,6 +65,9 @@ import ru.get.better.vm.UserSettingsViewModel
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.util.*
 import kotlin.collections.ArrayList
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
+import ru.get.better.util.Keyboard
 
 
 class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
@@ -529,7 +535,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         alertDialogBuilder.setNegativeButton(getString(R.string.cancel), null)
 
         val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.setTitle(getString(R.string.create_interest))
+        alertDialog.setTitle(App.resourcesProvider.getStringLocale(R.string.create_interest))
 
         alertDialog.setCancelable(false)
 

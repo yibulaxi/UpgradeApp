@@ -130,8 +130,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
         }
 
-//        subscribePushTopic()
-//        initNotificationReceiver()
+        subscribePushTopic()
+        initNotificationReceiver()
     }
 
     override fun updateThemeAndLocale() {
@@ -692,23 +692,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.date
 
-                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
-
-                when {
-                    e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-                    }
-                    e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-                    }
-                    else -> {
-                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-                    }
-                }
+//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+//
+//                when {
+//                    e.note.changeOfPoints.toFloat() < 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
+//                    }
+//                    e.note.changeOfPoints.toFloat() > 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
+//                    }
+//                    else -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+//                    }
+//                }
 
                 val urls = arrayListOf<Media>()
                 for (url in e.note.media ?: arrayListOf()) {
@@ -745,23 +745,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.date
 
-                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
-
-                when {
-                    e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-                    }
-                    e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-                    }
-                    else -> {
-                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-                    }
-                }
+//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+//
+//                when {
+//                    e.note.changeOfPoints.toFloat() < 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
+//                    }
+//                    e.note.changeOfPoints.toFloat() > 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
+//                    }
+//                    else -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+//                    }
+//                }
             }
         } else if (e.note.noteType == NoteType.Tracker.id) {
             addTrackerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -791,23 +791,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.date
 
-                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
-
-                when {
-                    e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-                    }
-                    e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-                    }
-                    else -> {
-                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-                    }
-                }
+//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+//
+//                when {
+//                    e.note.changeOfPoints.toFloat() < 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
+//                    }
+//                    e.note.changeOfPoints.toFloat() > 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
+//                    }
+//                    else -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+//                    }
+//                }
             }
         } else if (e.note.noteType == NoteType.HabitRealization.id) {
             addHabitBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -821,8 +821,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 editAmount.setText(e.note.initialAmount.toString())
 
-                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
+//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
+//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
 
                 regularityControlGroupLight.isVisible = !App.preferences.isDarkTheme
                 regularityControlGroupDark.isVisible = App.preferences.isDarkTheme
@@ -913,20 +913,20 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.datetimeStart
 
-                when {
-                    e.note.changeOfPoints.toFloat() < 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-                    }
-                    e.note.changeOfPoints.toFloat() > 0f -> {
-                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-                    }
-                    else -> {
-                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-                    }
-                }
+//                when {
+//                    e.note.changeOfPoints.toFloat() < 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
+//                    }
+//                    e.note.changeOfPoints.toFloat() > 0f -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
+//                    }
+//                    else -> {
+//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
+//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
+//                    }
+//                }
             }
         }
     }

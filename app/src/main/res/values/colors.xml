@@ -11,7 +11,7 @@
     <color name="colorLightActiveTrackerFirstColor">#D4DDE1</color>
     <color name="colorLightActiveTrackerSecondColor">#F1F1F2</color>
 
-    <color name="colorLightAddHabitRegularityPointActiveText">#003B46</color>
+    <color name="colorLightAddHabitRegularityPointActiveText">#F1F1F2</color>
     <color name="colorLightAddHabitRegularityPointInactiveText">#717a8a</color> <!---->
 
     <color name="colorLightFullScreenMediaBackground">#F1F1F2</color>
@@ -54,7 +54,7 @@
     <color name="colorLightBackgroundBottomSheet">#FDFFFF</color>
 
     <color name="colorLightBgEditTextStroke">#FDFFFF</color>
-    <color name="colorLightBgEditTextSolid">#003B46</color>
+    <color name="colorLightBgEditTextSolid">#F1F1F2</color>
 
     <color name="colorLightBgHabitsRealizationValueSolid">#FDFFFF</color>
 
@@ -112,16 +112,16 @@
     <color name="colorLightBlur">#4D8092A0</color>
     <color name="colorLightProgressBarIndeterminateTint">#003B46</color>
 
-    <color name="colorLightDialogAlertAddInterestBackground">#F1F1F2</color>
-    <color name="colorLightDialogAlertAddInterestNameText">#FDFFFF</color>
+    <color name="colorLightDialogAlertAddInterestBackground">#FDFFFF</color>
+    <color name="colorLightDialogAlertAddInterestNameText">#1f2f3f</color>
     <color name="colorLightDialogAlertAddInterestNameHint">#717a8a</color>
-    <color name="colorLightDialogAlertAddInterestDescriptionText">#FDFFFF</color>
+    <color name="colorLightDialogAlertAddInterestDescriptionText">#1f2f3f</color>
     <color name="colorLightDialogAlertAddInterestDescriptionHint">#717a8a</color>
 
-    <color name="colorLightDialogAlertEditInterestBackground">#F1F1F2</color>
-    <color name="colorLightDialogAlertEditInterestNameText">#FDFFFF</color>
+    <color name="colorLightDialogAlertEditInterestBackground">#FDFFFF</color>
+    <color name="colorLightDialogAlertEditInterestNameText">#1f2f3f</color>
     <color name="colorLightDialogAlertEditInterestNameHint">#717a8a</color>
-    <color name="colorLightDialogAlertEditInterestDescriptionText">#FDFFFF</color>
+    <color name="colorLightDialogAlertEditInterestDescriptionText">#1f2f3f</color>
     <color name="colorLightDialogAlertEditInterestDescriptionHint">#717a8a</color>
 
     <color name="colorLightFragmentAchievementsExpChartBackground">#B9C4C9</color>
@@ -343,7 +343,7 @@
     <color name="colorLightViewHabitAddRegularityControlGroupCustomDivider">#F1F1F2</color>
     <color name="colorLightViewHabitAddRegularityControlGroupCustomShadow">#F1F1F2</color>
     <color name="colorLightViewHabitAddRegularityControlGroupCustomSlider">#8092a0</color>
-    <color name="colorLightViewHabitAddDailyPointText">#003B46</color>
+    <color name="colorLightViewHabitAddDailyPointText">#F1F1F2</color>
     <color name="colorLightViewHabitAddWeeklyPointText">#717a8a</color>
     <color name="colorLightViewHabitAddDateText">#767D88</color>
     <color name="colorLightViewHabitAddLengthText">#767D88</color>
@@ -358,7 +358,7 @@
     <color name="colorLightViewHabitAddTvMessageText">#FDFFFF</color>
 
     <color name="colorLightViewPostAddTitleText">#003B46</color>
-    <color name="colorLightViewPostAddEditTextText">#FDFFFF</color>
+    <color name="colorLightViewPostAddEditTextText">#1f2f3f</color>
     <color name="colorLightViewPostAddEditTextHint">#717a8a</color>
     <color name="colorLightViewPostAddAddMediaBackgroundTint">#F1F1F2</color>
     <color name="colorLightViewPostAddAddMediaTint">#003B46</color>
@@ -372,7 +372,7 @@
     <color name="colorLightViewPostAddPositivePointText">#00FF00</color>
     <color name="colorLightViewPostAddZeroPointText">#FDFFFF</color>
     <color name="colorLightViewPostAddNegativePointText">#de6d63</color>
-    <color name="colorLightViewPostAddTvMessageText">#FDFFFF</color>
+    <color name="colorLightViewPostAddTvMessageText">#1f2f3f</color>
 
     <color name="colorLightViewSelectNoteTypeBackgroundTint">#F1F1F2</color>
     <color name="colorLightViewSelectNoteTypeTitleText">#003B46</color>
@@ -422,7 +422,7 @@
     <color name="colorLightTextButtonStyle">#FF0000</color>
     <color name="colorLightTextMaterialTextButtonStyle">#767D88</color>
 
-    <color name="colorLightBackgroundDialogTheme">#F1F1F2</color>
+    <color name="colorLightBackgroundDialogTheme">#FDFFFF</color>
     <color name="colorLightTextDialogTheme">#003B46</color>
 
     <color name="colorLightTextTextViewStyles">#2D2D2D</color>
@@ -536,7 +536,7 @@
     <color name="colorDarkBackgroundBottomSheet">#1a2430</color>
 
     <color name="colorDarkBgEditTextStroke">#1a2430</color>
-    <color name="colorDarkBgEditTextSolid">#f6fcff</color>
+    <color name="colorDarkBgEditTextSolid">#1f2f3f</color>
 
     <color name="colorDarkBgHabitsRealizationValueSolid">#1a2430</color>
 
@@ -839,10 +839,10 @@
     <color name="colorDarkViewHabitAddTvMessageText">#f6fcff</color>
 
     <color name="colorDarkViewPostAddTitleText">#f6fcff</color>
-    <color name="colorDarkViewPostAddEditTextText">#717a8a</color>
-    <color name="colorDarkViewPostAddEditTextHint">#DFE6F1</color>
+    <color name="colorDarkViewPostAddEditTextText">#F1F1F2</color>
+    <color name="colorDarkViewPostAddEditTextHint">#717a8a</color>
     <color name="colorDarkViewPostAddAddMediaBackgroundTint">#1f2f3f</color>
-    <color name="colorDarkViewPostAddAddMediaTint">#f6fcff</color>
+    <color name="colorDarkViewPostAddAddMediaTint">#F1F1F2</color>
     <color name="colorDarkViewPostAddDateText">#717a8a</color>
     <color name="colorDarkViewPostAddLengthText">#717a8a</color>
     <color name="colorDarkViewPostAddSeparatorBackground">#717a8a</color>
