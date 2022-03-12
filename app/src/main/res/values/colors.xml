@@ -594,17 +594,17 @@
     <color name="colorDarkBlur">#4D8092A0</color>
     <color name="colorDarkProgressBarIndeterminateTint">#f6fcff</color>
 
-    <color name="colorDarkDialogAlertAddInterestBackground">#1f2f3f</color>
-    <color name="colorDarkDialogAlertAddInterestNameText">#717a8a</color>
-    <color name="colorDarkDialogAlertAddInterestNameHint">#DFE6F1</color>
-    <color name="colorDarkDialogAlertAddInterestDescriptionText">#717a8a</color>
-    <color name="colorDarkDialogAlertAddInterestDescriptionHint">#DFE6F1</color>
+    <color name="colorDarkDialogAlertAddInterestBackground">#1a2430</color>
+    <color name="colorDarkDialogAlertAddInterestNameText">#FDFFFF</color>
+    <color name="colorDarkDialogAlertAddInterestNameHint">#717a8a</color>
+    <color name="colorDarkDialogAlertAddInterestDescriptionText">#FDFFFF</color>
+    <color name="colorDarkDialogAlertAddInterestDescriptionHint">#717a8a</color>
 
-    <color name="colorDarkDialogAlertEditInterestBackground">#1f2f3f</color>
-    <color name="colorDarkDialogAlertEditInterestNameText">#717a8a</color>
-    <color name="colorDarkDialogAlertEditInterestNameHint">#DFE6F1</color>
-    <color name="colorDarkDialogAlertEditInterestDescriptionText">#717a8a</color>
-    <color name="colorDarkDialogAlertEditInterestDescriptionHint">#DFE6F1</color>
+    <color name="colorDarkDialogAlertEditInterestBackground">#1a2430</color>
+    <color name="colorDarkDialogAlertEditInterestNameText">#FDFFFF</color>
+    <color name="colorDarkDialogAlertEditInterestNameHint">#717a8a</color>
+    <color name="colorDarkDialogAlertEditInterestDescriptionText">#FDFFFF</color>
+    <color name="colorDarkDialogAlertEditInterestDescriptionHint">#717a8a</color>
 
     <color name="colorDarkFragmentAchievementsExpChartBackground">#233543</color>
     <color name="colorDarkFragmentAchievementsEfficiencyChartBackground">#233543</color>
@@ -903,7 +903,7 @@
     <color name="colorDarkTextButtonStyle">#FF0000</color>
     <color name="colorDarkTextMaterialTextButtonStyle">#767D88</color>
 
-    <color name="colorDarkBackgroundDialogTheme">#1f2f3f</color>
+    <color name="colorDarkBackgroundDialogTheme">#1a2430</color>
     <color name="colorDarkTextDialogTheme">#f6fcff</color>
 
     <color name="colorDarkTextTextViewStyles">#2D2D2D</color>

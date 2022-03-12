@@ -133,7 +133,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         subscribePushTopic()
-        initNotificationReceiver()
+//        initNotificationReceiver()
 
     }
 

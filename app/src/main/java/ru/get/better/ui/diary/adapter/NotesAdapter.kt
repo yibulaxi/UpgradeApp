@@ -190,6 +190,13 @@ class NotesAdapter(
                 else R.color.colorLightNotesListHeaderItemText
             )
         )
+
+        (holder as HeaderViewHolder).textView.background = ContextCompat.getDrawable(
+            context!!,
+            if (App.preferences.isDarkTheme) R.drawable.bg_sticky_header_dark
+            else R.drawable.bg_sticky_header_light
+        )
+
         (holder as HeaderViewHolder).textView.text = datesSet.elementAt(headerPosition)
     }
 

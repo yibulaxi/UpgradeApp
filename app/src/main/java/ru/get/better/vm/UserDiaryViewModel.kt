@@ -127,6 +127,7 @@ class UserDiaryViewModel @Inject constructor(
     }
 
     fun getDiary() {
+        Log.d("keke", "getDiary")
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
         cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
@@ -135,6 +136,7 @@ class UserDiaryViewModel @Inject constructor(
             .addOnSuccessListener {
                 setDiary(it) {
                     EventBus.getDefault().post(UpdateDiaryEvent(true))
+                    EventBus.getDefault().post(ChangeProgressStateEvent(isActive = false))
                 }
             }
             .addOnFailureListener {}
@@ -167,6 +169,7 @@ class UserDiaryViewModel @Inject constructor(
     fun setNote(
         note: DiaryNote
     ) {
+        Log.d("keke", "setNote")
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
         val data = hashMapOf(
@@ -192,8 +195,7 @@ class UserDiaryViewModel @Inject constructor(
                         Log.d("keke", "step1")
                         if (note.noteType == NoteType.Habit.id
                             && note.datesCompletion!!.none { it.datesCompletionIsCompleted == true }
-                        )
-                            amount = 0f
+                        ) amount = 0f
 
                         EventBus.getDefault()
                             .post(
