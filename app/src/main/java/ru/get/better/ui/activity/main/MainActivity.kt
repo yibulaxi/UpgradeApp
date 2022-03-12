@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -121,6 +122,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         navController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController!!)
 
+
         binding.navView.setOnNavigationItemReselectedListener {
             if (binding.navView.selectedItemId == it.itemId) {
                 val navGraph = Navigation.findNavController(this, R.id.nav_host_fragment)
@@ -132,6 +134,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         subscribePushTopic()
         initNotificationReceiver()
+
     }
 
     override fun updateThemeAndLocale() {
@@ -624,10 +627,37 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navViewContainer.isVisible = true
         binding.navView.isVisible = true
 
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(navController!!.graph.startDestination, false)
+            .build()
+
+        binding.navView.menu.getItem(0).setOnMenuItemClickListener {
+            navController!!.navigate(R.id.navigation_metric, null, options)
+            return@setOnMenuItemClickListener true
+        }
+
+        binding.navView.menu.getItem(1).setOnMenuItemClickListener {
+            navController!!.navigate(R.id.navigation_diary, null, options)
+            return@setOnMenuItemClickListener true
+        }
+
         binding.navView.menu.getItem(2).setOnMenuItemClickListener {
             showSelectNoteTypeView()
-//            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            return@setOnMenuItemClickListener true
+        }
 
+        binding.navView.menu.getItem(3).setOnMenuItemClickListener {
+            navController!!.navigate(R.id.navigation_achievements, null, options)
+            return@setOnMenuItemClickListener true
+        }
+
+        binding.navView.menu.getItem(4).setOnMenuItemClickListener {
+            navController!!.navigate(R.id.navigation_settings, null, options)
             return@setOnMenuItemClickListener true
         }
 

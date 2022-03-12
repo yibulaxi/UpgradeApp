@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
@@ -152,6 +153,15 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        exitTransition = MaterialFadeThrough().apply {
+//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+//        }
+//
+//
+//        enterTransition = MaterialFadeThrough().apply {
+//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+//        }
+
         registerBackPressedCallback()
 
         onLayoutReady(savedInstanceState)

@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.PagerAdapter
+import com.google.android.material.transition.MaterialFadeThrough
 import com.lriccardo.timelineview.TimelineDecorator
 import com.lriccardo.timelineview.TimelineView
 import kotlinx.android.synthetic.main.item_achievement.view.*
@@ -46,6 +47,8 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
+
+
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
 
@@ -60,10 +63,19 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
         observeOnView(viewModel.lvlPercentLiveData, ::observeLvlPercent)
         observeOnView(viewModel.efficiencyLiveData, ::observeEfficiency)
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            Thread.sleep(500)
+        }.invokeOnCompletion {
+            lifecycleScope.launch(Dispatchers.Main) {
+                viewModel.getAchievements()
+            }
+        }
+
         view!!.post {
-            lifecycleScope.launch(Dispatchers.IO) { viewModel.getAchievements() }
+//            lifecycleScope.launch(Dispatchers.IO) { viewModel.getAchievements() }
         }
     }
+
 
     override fun updateThemeAndLocale() {
         binding.lvlTitle.text =

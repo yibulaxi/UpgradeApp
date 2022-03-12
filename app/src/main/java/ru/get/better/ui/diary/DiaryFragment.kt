@@ -10,6 +10,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -18,6 +20,7 @@ import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.RoundedRectangle
 import kotlinx.android.synthetic.main.target_diary_habits.view.*
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
@@ -41,6 +44,11 @@ import ru.get.better.util.stickyheader.SectionItem
 import ru.get.better.vm.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlinx.coroutines.*
+import java.lang.Thread.sleep
+import java.util.concurrent.Executors
+import kotlin.coroutines.coroutineContext
 
 
 class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
@@ -82,10 +90,18 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
         EventBus.getDefault().post(TryShowSpotlightEvent(SpotlightType.DiaryHabits))
 
-        view!!.post {
-            setupDiary()
-            setupHabitsRealization()
+        lifecycleScope.launch(Dispatchers.IO) {
+            sleep(500)
+        }.invokeOnCompletion {
+            lifecycleScope.launch(Dispatchers.Main) {
+                setupLogic()
+            }
         }
+    }
+
+    private fun setupLogic() {
+        setupDiary()
+        setupHabitsRealization()
 
         viewPagerBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -109,7 +125,107 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 }
             }
         })
+    }
 
+    private fun observeDiary(notes: List<DiaryNote>) {
+        val notesWithoutHabits = notes.filter { it.noteType != NoteType.Habit.id }
+
+        val habits = notes.filter { it.noteType == NoteType.Habit.id }.getHabitsRealization()
+
+        Log.d("keke", "step3")
+        val allNotes = notesWithoutHabits.plus(habits)
+
+        if (allNotes.isEmpty()) {
+            binding.emptyText.isVisible = true
+            binding.emptyAnim.isVisible = true
+
+            binding.recycler.isVisible = false
+
+            EventBus.getDefault().post(ChangeProgressStateEvent(false))
+        } else {
+            binding.emptyText.isVisible = false
+            binding.emptyAnim.isVisible = false
+
+            binding.recycler.isVisible = true
+
+            Collections.sort(allNotes, DateComparator())
+            if (!::adapter.isInitialized) {
+                val datesSet = linkedSetOf<String>()
+                val formatter = SimpleDateFormat("MMMM, yyyy")
+
+                allNotes.forEach {
+                    val calendar = Calendar.getInstance()
+                    calendar.timeInMillis = it.date.toLong()
+                    datesSet.add(
+                        formatter.format(calendar.time)
+                    )
+                }
+
+                Collections.sort(datesSet.toList(), StringDateComparator())
+
+                adapter = NotesAdapter(
+                    context = requireContext(),
+                    datesSet = datesSet
+                )
+                binding.recycler.adapter = adapter
+
+                val decorator = StickyHeaderItemDecorator(adapter)
+                decorator.attachToRecyclerView(binding.recycler)
+
+                var section = -1
+                var sectionName = "--------------"
+
+                val items = arrayListOf<Section>()
+                for (i in allNotes.indices) {
+                    if (
+                        !formatter.format(allNotes[i].date.toLong())
+                            .contains(sectionName)
+                    ) {
+                        section++
+                        sectionName = datesSet.elementAt(section)
+                        items.add(SectionHeader(section, sectionName))
+                    }
+                    items.add(SectionItem(section, sectionName, allNotes[i]))
+                }
+
+                adapter.items = items
+
+                binding.recycler.setUpRemoveItemTouchHelper(
+                    R.string.delete,
+                    R.dimen.text_size_12,
+                    ::onItemInListSwiped
+                )
+
+            } else adapter.updateNotes(allNotes.toMutableList())
+
+            pagerAdapter = NotesPagerAdapter(context!!, allNotes.toMutableList())
+            binding.viewPagerBottomSheet.viewPager.adapter = pagerAdapter
+            binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
+
+            val nextItemVisiblePx =
+                resources.getDimension(R.dimen.diary_viewpager_next_item_visible)
+            val currentItemHorizontalMarginPx =
+                resources.getDimension(R.dimen.diary_viewpager_current_item_horizontal_margin)
+            val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+            val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
+                page.translationX = -pageTranslationX * position
+            }
+
+            binding.viewPagerBottomSheet.viewPager.setPageTransformer(pageTransformer)
+
+            val itemDecoration = WelcomeFragment.HorizontalMarginItemDecoration(
+                context!!,
+                R.dimen.diary_viewpager_current_item_horizontal_margin
+            )
+
+            if (binding.viewPagerBottomSheet.viewPager.itemDecorationCount == 0)
+                binding.viewPagerBottomSheet.viewPager.addItemDecoration(itemDecoration)
+
+
+            binding.viewPagerBottomSheet.viewPager.post {
+                EventBus.getDefault().post(ChangeProgressStateEvent(false))
+            }
+        }
     }
 
     override fun updateThemeAndLocale() {
@@ -209,107 +325,10 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
     private fun setupDiary() {
         userDiaryViewModel.getNotes().observe(this) { notes ->
-            val notesWithoutHabits = notes.filter { it.noteType != NoteType.Habit.id }
-
-            val habits = notes.filter { it.noteType == NoteType.Habit.id }.getHabitsRealization()
-
-            Log.d("keke", "step3")
-            val allNotes = notesWithoutHabits.plus(habits)
-
-
-            if (allNotes.isEmpty()) {
-                binding.emptyText.isVisible = true
-                binding.emptyAnim.isVisible = true
-
-                binding.recycler.isVisible = false
-
-                EventBus.getDefault().post(ChangeProgressStateEvent(false))
-            } else {
-                binding.emptyText.isVisible = false
-                binding.emptyAnim.isVisible = false
-
-                binding.recycler.isVisible = true
-
-                Collections.sort(allNotes, DateComparator())
-                if (!::adapter.isInitialized) {
-
-
-                    val datesSet = linkedSetOf<String>()
-                    val formatter = SimpleDateFormat("MMMM, yyyy")
-
-                    allNotes.forEach {
-                        val calendar = Calendar.getInstance()
-                        calendar.timeInMillis = it.date.toLong()
-                        datesSet.add(
-                            formatter.format(calendar.time)
-                        )
-                    }
-
-                    Collections.sort(datesSet.toList(), StringDateComparator())
-
-                    adapter = NotesAdapter(
-                        context = requireContext(),
-                        datesSet = datesSet
-                    )
-                    binding.recycler.adapter = adapter
-
-                    val decorator = StickyHeaderItemDecorator(adapter)
-                    decorator.attachToRecyclerView(binding.recycler)
-
-                    var section = -1
-                    var sectionName = "--------------"
-
-                    val items = arrayListOf<Section>()
-                    for (i in allNotes.indices) {
-                        if (
-                            !formatter.format(allNotes[i].date.toLong())
-                                .contains(sectionName)
-                        ) {
-                            section++
-                            sectionName = datesSet.elementAt(section)
-                            items.add(SectionHeader(section, sectionName))
-                        }
-                        items.add(SectionItem(section, sectionName, allNotes[i]))
-                    }
-
-                    adapter.items = items
-
-                    binding.recycler.setUpRemoveItemTouchHelper(
-                        R.string.delete,
-                        R.dimen.text_size_12,
-                        ::onItemInListSwiped
-                    )
-
-                } else adapter.updateNotes(allNotes.toMutableList())
-
-                pagerAdapter = NotesPagerAdapter(context!!, allNotes.toMutableList())
-                binding.viewPagerBottomSheet.viewPager.adapter = pagerAdapter
-                binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
-
-                val nextItemVisiblePx =
-                    resources.getDimension(R.dimen.diary_viewpager_next_item_visible)
-                val currentItemHorizontalMarginPx =
-                    resources.getDimension(R.dimen.diary_viewpager_current_item_horizontal_margin)
-                val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
-                val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
-                    page.translationX = -pageTranslationX * position
-                }
-
-                binding.viewPagerBottomSheet.viewPager.setPageTransformer(pageTransformer)
-
-                val itemDecoration = WelcomeFragment.HorizontalMarginItemDecoration(
-                    context!!,
-                    R.dimen.diary_viewpager_current_item_horizontal_margin
-                )
-
-                if (binding.viewPagerBottomSheet.viewPager.itemDecorationCount == 0)
-                    binding.viewPagerBottomSheet.viewPager.addItemDecoration(itemDecoration)
-
-
-                binding.viewPagerBottomSheet.viewPager.post {
-                    EventBus.getDefault().post(ChangeProgressStateEvent(false))
-                }
-            }
+//            lifecycleScope.launch(Dispatchers.IO) {
+                observeDiary(notes)
+//            }
+//
         }
     }
 

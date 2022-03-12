@@ -14,11 +14,14 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/faqContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
+            android:transitionGroup="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="72dp"

@@ -5,13 +5,19 @@ import android.animation.ValueAnimator
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.transition.Fade
+import android.transition.TransitionManager
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
@@ -56,6 +62,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+
 
 //        requireView().post {
         binding.version.text = getString(R.string.version) + " " + BuildConfig.VERSION_NAME

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_splash">
+    app:startDestination="@id/navigation_splash"
+    >
 
     <fragment
         android:id="@+id/navigation_splash"
@@ -17,49 +18,55 @@
         <action
             android:id="@+id/action_navigation_splash_to_navigation_auth"
             app:destination="@id/navigation_auth"
-            app:enterAnim="@animator/right_in"
-            app:exitAnim="@animator/right_out"
-            app:popEnterAnim="@animator/left_in"
-            app:popExitAnim="@animator/left_out" />
+            app:enterAnim="@anim/activity_open_translate_from_bottom"
+            app:exitAnim="@anim/activity_close_translate_to_bottom"
+            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+            app:popExitAnim="@anim/activity_close_translate_to_bottom"
+
+            />
         <action
             android:id="@+id/action_navigation_splash_to_navigation_metric"
             app:destination="@id/navigation_metric"
-            app:enterAnim="@animator/right_in"
-            app:exitAnim="@animator/right_out"
-            app:popEnterAnim="@animator/left_in"
-            app:popExitAnim="@animator/left_out" />
+            app:enterAnim="@anim/activity_open_translate_from_bottom"
+            app:exitAnim="@anim/activity_close_translate_to_bottom"
+            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+            app:popExitAnim="@anim/activity_close_translate_to_bottom" />
         <action
             android:id="@+id/action_navigation_splash_to_navigation_welcome"
             app:destination="@id/navigation_welcome"
-            app:enterAnim="@animator/right_in"
-            app:exitAnim="@animator/right_out"
-            app:popEnterAnim="@animator/left_in"
-            app:popExitAnim="@animator/left_out" />
+            app:enterAnim="@anim/activity_open_translate_from_bottom"
+            app:exitAnim="@anim/activity_close_translate_to_bottom"
+            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+            app:popExitAnim="@anim/activity_close_translate_to_bottom"/>
     </fragment>
 
     <fragment
         android:id="@+id/navigation_auth"
         android:name="ru.get.better.ui.auth.AuthFragment"
         android:label="AuthFragment"
+        app:enterAnim="@anim/activity_open_translate_from_bottom"
+        app:exitAnim="@anim/activity_close_translate_to_bottom"
+        app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+        app:popExitAnim="@anim/activity_close_translate_to_bottom"
         tools:layout="@layout/fragment_auth">
         <action
             android:id="@+id/action_navigation_auth_to_navigation_welcome"
             app:destination="@id/navigation_welcome"
-            app:enterAnim="@animator/right_in"
-            app:exitAnim="@animator/right_out"
-            app:popEnterAnim="@animator/left_in"
-            app:popExitAnim="@animator/left_out" />
+            app:enterAnim="@anim/activity_open_translate_from_bottom"
+            app:exitAnim="@anim/activity_close_translate_to_bottom"
+            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+            app:popExitAnim="@anim/activity_close_translate_to_bottom"/>
     </fragment>
 
     <fragment
         android:id="@+id/navigation_metric"
         android:name="ru.get.better.ui.metric.MetricFragment"
         android:label="MetricFragment"
-        app:enterAnim="@animator/right_in"
-        app:exitAnim="@animator/right_out"
-        app:popEnterAnim="@animator/left_in"
-        app:popExitAnim="@animator/left_out"
-        tools:layout="@layout/fragment_metric"></fragment>
+        app:enterAnim="@anim/activity_open_translate_from_bottom"
+        app:exitAnim="@anim/activity_close_translate_to_bottom"
+        app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+        app:popExitAnim="@anim/activity_close_translate_to_bottom"
+        tools:layout="@layout/fragment_metric"/>
 
     <fragment
         android:id="@+id/navigation_welcome"
@@ -69,25 +76,33 @@
         <action
             android:id="@+id/action_navigation_welcome_to_navigation_metric"
             app:destination="@id/navigation_metric"
-            app:enterAnim="@animator/right_in"
-            app:exitAnim="@animator/right_out"
-            app:popEnterAnim="@animator/left_in"
-            app:popExitAnim="@animator/left_out" />
+            app:enterAnim="@anim/activity_open_translate_from_bottom"
+            app:exitAnim="@anim/activity_close_translate_to_bottom"
+            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+            app:popExitAnim="@anim/activity_close_translate_to_bottom" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
         android:name="ru.get.better.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
-        app:enterAnim="@animator/right_in"
-        app:exitAnim="@animator/right_out"
-        app:popEnterAnim="@animator/left_in"
-        app:popExitAnim="@animator/left_out"
+        app:enterAnim="@anim/activity_open_translate_from_bottom"
+        app:exitAnim="@anim/activity_close_translate_to_bottom"
+        app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+        app:popExitAnim="@anim/activity_close_translate_to_bottom"
         tools:layout="@layout/fragment_settings">
         <action
+            app:enterAnim="@anim/activity_open_translate_from_bottom"
+            app:exitAnim="@anim/activity_close_translate_to_bottom"
+            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+            app:popExitAnim="@anim/activity_close_translate_to_bottom"
             android:id="@+id/action_navigation_settings_to_navigation_splash"
             app:destination="@id/navigation_splash" />
         <action
+            app:enterAnim="@anim/activity_open_translate_from_bottom"
+            app:exitAnim="@anim/activity_close_translate_to_bottom"
+            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+            app:popExitAnim="@anim/activity_close_translate_to_bottom"
             android:id="@+id/action_navigation_settings_to_navigation_faq"
             app:destination="@id/navigation_faq" />
     </fragment>
@@ -96,29 +111,29 @@
         android:id="@+id/navigation_achievements"
         android:name="ru.get.better.ui.achievements.AchievementsFragment"
         android:label="AchievementsFragment"
-        app:enterAnim="@animator/right_in"
-        app:exitAnim="@animator/right_out"
-        app:popEnterAnim="@animator/left_in"
-        app:popExitAnim="@animator/left_out"
-        tools:layout="@layout/fragment_achievements"></fragment>
+        app:enterAnim="@anim/activity_open_translate_from_bottom"
+        app:exitAnim="@anim/activity_close_translate_to_bottom"
+        app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+        app:popExitAnim="@anim/activity_close_translate_to_bottom"
+        tools:layout="@layout/fragment_achievements"/>
 
     <fragment
         android:id="@+id/navigation_diary"
         android:name="ru.get.better.ui.diary.DiaryFragment"
         android:label="DiaryFragment"
-        app:enterAnim="@animator/right_in"
-        app:exitAnim="@animator/right_out"
-        app:popEnterAnim="@animator/left_in"
-        app:popExitAnim="@animator/left_out"
-        tools:layout="@layout/fragment_diary"></fragment>
+        app:enterAnim="@anim/activity_open_translate_from_bottom"
+        app:exitAnim="@anim/activity_close_translate_to_bottom"
+        app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+        app:popExitAnim="@anim/activity_close_translate_to_bottom"
+        tools:layout="@layout/fragment_diary"/>
 
     <fragment
         android:id="@+id/navigation_faq"
         android:name="ru.get.better.ui.faq.FaqFragment"
         android:label="FaqFragment"
-        app:enterAnim="@animator/right_in"
-        app:exitAnim="@animator/right_out"
-        app:popEnterAnim="@animator/left_in"
-        app:popExitAnim="@animator/left_out"
-        tools:layout="@layout/fragment_faq"></fragment>
+        app:enterAnim="@anim/activity_open_translate_from_bottom"
+        app:exitAnim="@anim/activity_close_translate_to_bottom"
+        app:popEnterAnim="@anim/activity_open_translate_from_bottom"
+        app:popExitAnim="@anim/activity_close_translate_to_bottom"
+        tools:layout="@layout/fragment_faq"/>
 </navigation>

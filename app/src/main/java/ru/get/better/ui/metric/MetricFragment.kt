@@ -67,6 +67,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.get.better.util.Keyboard
 
 
@@ -106,6 +109,17 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            Thread.sleep(500)
+        }.invokeOnCompletion {
+            lifecycleScope.launch(Dispatchers.Main) {
+                setupLogic()
+            }
+        }
+
+    }
+
+    private fun setupLogic() {
         setupChart()
         setupList()
         setupMetricControlGroup()
@@ -127,16 +141,12 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                     BottomSheetBehavior.STATE_SETTLING -> {
                         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
                     }
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                    }
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                    }
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> {}
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
+                    BottomSheetBehavior.STATE_HIDDEN -> {}
                 }
             }
         })
-
     }
 
     override fun updateThemeAndLocale() {
@@ -845,7 +855,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
             binding.diaryAmount.text = notes.size.toString()
         }
-
 
         userSettingsViewModel.getUserSettingsById(
             App.preferences.uid!!

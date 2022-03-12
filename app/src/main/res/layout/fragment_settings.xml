@@ -16,6 +16,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settingsContainer"
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -74,6 +75,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
+                        android:animateLayoutChanges="true"
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
@@ -118,6 +120,7 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/themeBlock"
+                            android:animateLayoutChanges="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -173,6 +176,7 @@
                         <!--android:background="@color/colorFragmentSettingsSeparatorLocaleBackground"-->
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/pushBlock"
+                            android:animateLayoutChanges="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -213,6 +217,7 @@
                         <!--android:background="@color/colorFragmentSettingsSeparatorLocaleBackground"-->
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/localeBlock"
+                            android:animateLayoutChanges="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="true"
@@ -278,6 +283,7 @@
                         <!--android:background="@color/colorFragmentSettingsSeparator1Background"-->
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/difficultyBlock"
+                            android:animateLayoutChanges="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clickable="true"

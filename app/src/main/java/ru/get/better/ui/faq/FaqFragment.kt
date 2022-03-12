@@ -1,6 +1,8 @@
 package ru.get.better.ui.faq
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.FragmentFaqBinding
 import ru.get.better.ui.base.BaseFragment
@@ -28,7 +30,15 @@ class FaqFragment : BaseFragment<BaseViewModel, FragmentFaqBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        faqAdapter.notifyDataSetChanged()
+
+        binding.faqContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryBackground
+            else R.color.colorLightFragmentDiaryBackground
+        ))
+
+        if (::faqAdapter.isInitialized)
+            faqAdapter.notifyDataSetChanged()
     }
 
     private fun initFaqs(): List<Pair<String, String>> {

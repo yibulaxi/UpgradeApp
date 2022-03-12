@@ -39,6 +39,7 @@
                 android:visibility="gone"
                 app:cardCornerRadius="12dp"
                 app:cardUseCompatPadding="true"
+                android:animateLayoutChanges="true"
                 app:layout_constraintBottom_toBottomOf="parent">
                 <!--android:backgroundTint="@color/colorNavViewContainerBackgroundTint"-->
                 <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -194,6 +195,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:orientation="vertical"
+                                android:animateLayoutChanges="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"

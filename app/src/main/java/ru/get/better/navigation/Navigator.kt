@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import ru.get.better.R
 import ru.get.better.ui.NavigationResult
@@ -28,13 +29,28 @@ object Navigator {
     fun refresh(f: Fragment) {
         val destId = f.findNavController().currentDestination!!.id
 
+
         f.findNavController().popBackStack()
         f.findNavController().navigate(destId, null)
     }
 
+    fun toSettings(navController: NavController) {
+        navController.navigate(R.id.navigation_settings)
+    }
+
     fun splashToAuth(f: Fragment) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(f.findNavController().graph.startDestination, false)
+            .build()
+
         f.findNavController().navigate(
-            R.id.action_navigation_splash_to_navigation_auth
+            R.id.action_navigation_splash_to_navigation_auth,
+            null, options
         )
     }
 
@@ -45,14 +61,34 @@ object Navigator {
     }
 
     fun splashToWelcome(f: Fragment) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(f.findNavController().graph.startDestination, false)
+            .build()
+
         f.findNavController().navigate(
-            R.id.action_navigation_splash_to_navigation_welcome
+            R.id.action_navigation_splash_to_navigation_welcome,
+            null, options
         )
     }
 
     fun authToWelcome(f: Fragment) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(f.findNavController().graph.startDestination, false)
+            .build()
+
         f.findNavController().navigate(
-            R.id.action_navigation_auth_to_navigation_welcome
+            R.id.action_navigation_auth_to_navigation_welcome,
+            null, options
         )
     }
 
@@ -63,32 +99,82 @@ object Navigator {
     }
 
     fun toMetric(f: Fragment) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(f.findNavController().graph.startDestination, false)
+            .build()
+
         f.findNavController().navigate(
-            R.id.navigation_metric
+            R.id.navigation_metric,
+            null, options
         )
     }
 
     fun settingsToSplash(f: Fragment) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(f.findNavController().graph.startDestination, false)
+            .build()
+
         f.findNavController().navigate(
-            R.id.action_navigation_settings_to_navigation_splash
+            R.id.action_navigation_settings_to_navigation_splash,
+            null, options
         )
     }
 
     fun toSplash(fNavController: NavController) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(fNavController.graph.startDestination, false)
+            .build()
+
         fNavController.navigate(
-            R.id.navigation_splash
+            R.id.navigation_splash,
+            null, options
         )
     }
 
     fun fromSettingsToFaq(f: Fragment) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(f.findNavController().graph.startDestination, false)
+            .build()
+
         f.findNavController().navigate(
-            R.id.action_navigation_settings_to_navigation_faq
+            R.id.action_navigation_settings_to_navigation_faq,
+            null, options
         )
     }
 
     fun toMetric(fNavController: NavController) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(fNavController.graph.startDestination, false)
+            .build()
+
         fNavController.navigate(
-            R.id.navigation_metric
+            R.id.navigation_metric,
+            null, options
         )
     }
 }

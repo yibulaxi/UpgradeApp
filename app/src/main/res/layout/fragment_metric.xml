@@ -48,6 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:animateLayoutChanges="true"
                 android:id="@+id/metricStateControlGroupBlock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,6 +60,7 @@
 
                 <com.alanvan.segmented_control.SegmentedControlGroup
                     android:id="@+id/metricStateControlGroupLight"
+                    android:animateLayoutChanges="true"
                     style="@style/Text10.Light"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
@@ -107,6 +109,7 @@
 
                 <com.alanvan.segmented_control.SegmentedControlGroup
                     android:id="@+id/metricStateControlGroupDark"
+                    android:animateLayoutChanges="true"
                     style="@style/Text10.Light"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
@@ -157,6 +160,7 @@
 
             <com.alanvan.segmented_control.SegmentedControlGroup
                 android:id="@+id/radarStateControlGroupLight"
+                android:animateLayoutChanges="true"
                 style="@style/Text10.Light"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -206,6 +210,7 @@
 
             <com.alanvan.segmented_control.SegmentedControlGroup
                 android:id="@+id/radarStateControlGroupDark"
+                android:animateLayoutChanges="true"
                 style="@style/Text10.Light"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -348,6 +353,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler"
+                    android:transitionGroup="true"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
