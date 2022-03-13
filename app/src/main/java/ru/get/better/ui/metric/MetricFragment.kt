@@ -109,6 +109,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
 
+        setupChart()
         lifecycleScope.launch(Dispatchers.IO) {
             Thread.sleep(500)
         }.invokeOnCompletion {
@@ -120,7 +121,6 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     }
 
     private fun setupLogic() {
-        setupChart()
         setupList()
         setupMetricControlGroup()
 
@@ -179,9 +179,9 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         if (::adapter.isInitialized)
             adapter.notifyDataSetChanged()
 
-        setupChart()
-        setupList()
-        setupMetricControlGroup()
+//        setupChart()
+//        setupList()
+//        setupMetricControlGroup()
 
         binding.container.setBackgroundColor(
             ContextCompat.getColor(

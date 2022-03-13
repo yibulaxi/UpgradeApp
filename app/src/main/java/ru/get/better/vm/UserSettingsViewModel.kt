@@ -2,6 +2,7 @@ package ru.get.better.vm
 
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -89,13 +90,15 @@ class UserSettingsViewModel @Inject constructor(
         }
 
     internal fun getUserSettings() {
-        cloudFirestoreDatabase.collection(UserSettingsTable().tableName)
-            .document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
-                setUserSettings(it)
-            }
-            .addOnFailureListener { }
+        viewModelScope.launch(Dispatchers.IO) {
+            cloudFirestoreDatabase.collection(UserSettingsTable().tableName)
+                .document(App.preferences.uid!!)
+                .get()
+                .addOnSuccessListener {
+                    setUserSettings(it)
+                }
+                .addOnFailureListener { }
+        }
     }
 
     private fun updateLocale(locale: String) {

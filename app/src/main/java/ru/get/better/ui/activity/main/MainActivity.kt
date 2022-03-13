@@ -25,6 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -51,6 +52,9 @@ import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.target_menu_addpost.view.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import kotlinx.android.synthetic.main.view_select_note_type.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -672,9 +676,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onLoadMainEvent(e: LoadMainEvent) {
-        userDiaryViewModel.getDiary()
-        userSettingsViewModel.getUserSettings()
-        userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
+        lifecycleScope.async {
+            userDiaryViewModel.getDiary()
+            userSettingsViewModel.getUserSettings()
+            userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
+        }
+
+//        lifecycleScope.launch(Dispatchers.IO) {
+//
+//        }
     }
 
     @Subscribe

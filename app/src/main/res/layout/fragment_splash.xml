@@ -32,7 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_rawRes="@raw/logo_anim"
-            app:lottie_repeatCount="100"
+            app:lottie_loop="true"
             app:lottie_repeatMode="reverse" />
 
         <ru.get.better.util.Typewriter

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -128,18 +129,20 @@ class UserDiaryViewModel @Inject constructor(
 
     fun getDiary() {
         Log.d("keke", "getDiary")
-        EventBus.getDefault().post(ChangeProgressStateEvent(true))
+        viewModelScope.launch(Dispatchers.IO) {
+            EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
-        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-            .document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
-                setDiary(it) {
-                    EventBus.getDefault().post(UpdateDiaryEvent(true))
-                    EventBus.getDefault().post(ChangeProgressStateEvent(isActive = false))
+            cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+                .document(App.preferences.uid!!)
+                .get()
+                .addOnSuccessListener {
+                    setDiary(it) {
+                        EventBus.getDefault().post(UpdateDiaryEvent(true))
+                        EventBus.getDefault().post(ChangeProgressStateEvent(isActive = false))
+                    }
                 }
-            }
-            .addOnFailureListener {}
+                .addOnFailureListener {}
+        }
     }
 
     fun changeTrackerState(

@@ -7,10 +7,13 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.R
@@ -133,7 +136,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         binding.animationView.imageAssetsFolder = "images"
         binding.animationView.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationEnd(animation: Animator?) {
-                goNext()
+
             }
 
             override fun onAnimationRepeat(animation: Animator?) {
@@ -194,13 +197,11 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
             if (user != null && user.uid.isNotEmpty()) {
                 App.preferences.uid = user.uid
-//                App.preferences.userName = user.displayName
 
                 if (response!!.isNewUser) {
                     onSignUpSuccess()
                     initNewUserData(user.uid, user.displayName ?: getString(R.string.winner_name))
                 } else {
-//                    App.preferences.isInterestsInitialized = true
                     onSignInSuccess()
                     goNext()
                 }
@@ -226,8 +227,13 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                     userId = userId,
                     login = login,
                     locale =
-                    if (locale == "ru" || locale == "ua" || locale == "kz" || locale == "be" || locale == "uk") "ru"
-                    else "en"
+                    if (
+                        locale == "ru"
+                        || locale == "ua"
+                        || locale == "kz"
+                        || locale == "be"
+                        || locale == "uk"
+                    ) "ru" else "en"
                 )
             )
 
