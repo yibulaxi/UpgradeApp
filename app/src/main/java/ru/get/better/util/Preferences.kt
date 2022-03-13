@@ -69,6 +69,14 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putBoolean(IS_RATE_APP_LATER, value).apply()
         get() = sharedPreferences.getBoolean(IS_RATE_APP_LATER, false)
 
+    var currentAffirmationNumber: Int
+        set(value) = sharedPreferences.edit().putInt(CURRENT_AFFIRMATION_NUMBER, value).apply()
+        get() = sharedPreferences.getInt(CURRENT_AFFIRMATION_NUMBER, 0)
+
+    var lastDayShownAffirmationMills: Long
+        set(value) = sharedPreferences.edit().putLong(LAST_DAY_SHOWN_AFFIRMATION_MILLS, value).apply()
+        get() = sharedPreferences.getLong(LAST_DAY_SHOWN_AFFIRMATION_MILLS, 0)
+
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
 
@@ -84,5 +92,8 @@ class Preferences(context: Context) {
 
         const val IS_APP_RATED = "is_app_rated"
         const val IS_RATE_APP_LATER = "is_rate_app_later"
+
+        const val CURRENT_AFFIRMATION_NUMBER = "current_affirmation_number"
+        const val LAST_DAY_SHOWN_AFFIRMATION_MILLS = "last_day_shown_affirmation_mills"
     }
 }

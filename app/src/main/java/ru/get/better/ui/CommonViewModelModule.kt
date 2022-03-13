@@ -58,4 +58,9 @@ interface CommonViewModelModule {
     @ViewModelKey(SettingsViewModel::class)
     fun settingsViewModel(m: SettingsViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(AffirmationsViewModel::class)
+    fun affirmationsViewModel(m: AffirmationsViewModel): ViewModel
+
 }

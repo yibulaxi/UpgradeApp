@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.EventBusException
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.BR
 import ru.get.better.event.UpdateThemeEvent
+import ru.get.better.glide.GlideApp
 import ru.get.better.util.ext.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,6 +36,9 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
         set(value) {
             _binding = value
         }
+
+    val glideRequestManager by lazy { GlideApp.with(this) }
+
     protected val nullableViewModel: V? get() = _viewModel
     protected var viewModel: V
         get() = _viewModel!!

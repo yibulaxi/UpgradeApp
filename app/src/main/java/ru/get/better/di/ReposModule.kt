@@ -1,6 +1,10 @@
 package ru.get.better.di
 
 import dagger.Module
+import dagger.Provides
+import ru.get.better.di.scope.AppScope
+import ru.get.better.repo.base.NasaRepo
+import ru.get.better.repo.nasa.NasaRepoImpl
 
 @Module
 class ReposModule {
@@ -8,5 +12,7 @@ class ReposModule {
 //    @Provides
 //    fun homeRepo(r: HomeRepoImpl): HomeRepo = r
 
-
+    @AppScope
+    @Provides
+    fun nasaRepo(r: NasaRepoImpl): NasaRepo = r
 }

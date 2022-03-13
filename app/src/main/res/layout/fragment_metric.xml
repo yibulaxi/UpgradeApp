@@ -361,6 +361,20 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/affirmationArrow"
+                app:lottie_rawRes="@raw/affirmation_arrow_dark"
+                android:rotation="-90"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:onClick="@{handler::onAffirmationClicked}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/info"
                 android:layout_width="24dp"

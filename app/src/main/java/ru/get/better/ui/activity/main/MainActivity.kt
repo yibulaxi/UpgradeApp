@@ -50,6 +50,7 @@ import kotlinx.android.synthetic.main.dialog_rate.view.*
 import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.target_menu_addpost.view.*
+import kotlinx.android.synthetic.main.view_affirmation.view.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import kotlinx.android.synthetic.main.view_select_note_type.*
 import kotlinx.coroutines.Dispatchers
@@ -72,6 +73,8 @@ import ru.get.better.ui.activity.main.ext.*
 import ru.get.better.ui.base.BaseActivity
 import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.util.OnSwipeTouchListener
+import ru.get.better.util.ViewState
+import ru.get.better.util.doOn
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.*
 import java.util.*
@@ -87,6 +90,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     val userInterestsViewModel: UserInterestsViewModel by viewModels { viewModelFactory }
     val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
     val userAchievementsViewModel: UserAchievementsViewModel by viewModels { viewModelFactory }
+    val affirmationsViewModel: AffirmationsViewModel by viewModels { viewModelFactory }
 
     private var navController: NavController? = null
 
@@ -125,6 +129,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     lateinit var activeTrackerTimer: CountDownTimer
     fun isActiveTrackerTimerInitialized() = ::activeTrackerTimer.isInitialized
 
+    lateinit var affirmationIconUrl: String
+    fun isAffirmationIconUrlInitialized() = ::affirmationIconUrl.isInitialized
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
         StatusBarUtil.setDarkMode(this)
@@ -145,15 +152,21 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         subscribePushTopic()
 //        initNotificationReceiver()
+        setupAffirmation(isIncreaseNumber = true)
+    }
 
-        binding.navView.setOnTouchListener(object : OnSwipeTouchListener(this) {
-            override fun onSwipeTop() {
-                Log.d("keke" ,"toptop")
-                super.onSwipeTop()
-            }
-        })
+    override fun onViewModelReady(viewModel: BaseViewModel) {
+        super.onViewModelReady(viewModel)
 
+        viewModel.errorEvent.observe(this, ::showFail)
+        viewModel.successEvent.observe(this, ::showSuccess)
 
+        affirmationsViewModel.loadTodayNasaData()
+
+        affirmationsViewModel.nasaDataViewState.observe(this, ::observeNasaData)
+        userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
+        userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
+        userSettingsViewModel.setUserSettingsEvent.observe(this, ::observeUserSettings)
     }
 
     @Subscribe
@@ -163,6 +176,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             && App.preferences.launchCount % App.DAYS_UNTIL_RATE == 0
             && !App.preferences.isAppRated
         ) setupRateDialog()
+    }
+
+    @Subscribe
+    fun onShowAffirmationEvent(e: ShowAffirmationEvent) {
+        setupAffirmation(isIncreaseNumber = e.increase)
     }
 
     private fun setupRateDialog() {
@@ -418,17 +436,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     var isTrackerTimerRunning = false
 
-    override fun onViewModelReady(viewModel: BaseViewModel) {
-        super.onViewModelReady(viewModel)
 
-        viewModel.errorEvent.observe(this, ::showFail)
-        viewModel.successEvent.observe(this, ::showSuccess)
-        userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
-
-        userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
-
-        userSettingsViewModel.setUserSettingsEvent.observe(this, ::observeUserSettings)
-    }
 
     override fun onBackPressed() {
         if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
@@ -670,7 +678,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             multiple = true,
             allowCamera = true,
             maxSelection = 5,
-            theme = R.style.ChiliPhotoPicker_Light
+            theme =
+            if (App.preferences.isDarkTheme) R.style.ChiliPhotoPicker_Dark
+            else R.style.ChiliPhotoPicker_Light
         ).show(supportFragmentManager, "picker")
     }
 

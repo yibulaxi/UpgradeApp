@@ -55,6 +55,7 @@
         <entry key="app/src/main/res/drawable/ic_add_media.xml" value="0.31851851851851853" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2453125" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.2708333333333333" />
+        <entry key="app/src/main/res/drawable/ic_cross.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.26875" />
         <entry key="app/src/main/res/drawable/ic_goal.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_habit.xml" value="0.3687179487179487" />
@@ -122,6 +123,7 @@
         <entry key="app/src/main/res/layout/target_menu_addpost.xml" value="0.1" />
         <entry key="app/src/main/res/layout/target_metric_wheel.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_active_tracker.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_affirmation.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.16" />

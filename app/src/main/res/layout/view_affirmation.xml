@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/affirmationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleY="0"
+        android:scaleX="0"
+        android:visibility="gone">
+    <View
+        android:visibility="gone"
+        android:id="@+id/affirmationBlur"
+        android:background="@color/colorLightBlur"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardElevation="12dp"
+        android:layout_marginVertical="32dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/affirmationIcon"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+            <ImageView
+                android:id="@+id/affirmationCross"
+                android:src="@drawable/ic_cross"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:tint="#f6fcff"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/affirmationTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center"
+                style="@style/Text20.Medium"
+                android:textColor="#f6fcff"
+                android:alpha="0.9"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/affirmationDesc"
+                android:layout_marginBottom="24dp"
+                android:paddingHorizontal="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/affirmationDesc"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Text14.Light"
+                android:gravity="center"
+                android:textColor="#f6fcff"
+                android:paddingHorizontal="32dp"
+                android:layout_marginBottom="56dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -284,6 +284,10 @@
             android:id="@+id/selectNoteTypeBottomSheet"
             layout="@layout/view_select_note_type" />
 
+        <include
+            android:id="@+id/affirmationView"
+            layout="@layout/view_affirmation"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/progress"
             android:layout_width="match_parent"

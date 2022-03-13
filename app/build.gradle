@@ -12,6 +12,10 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
+
+        buildConfigField "String", "NASA_GOV_BASE_URL", "\"https://api.nasa.gov/\""
+        buildConfigField "String", "NASA_GOV_API_KEY", "\"Jqvqx957kldYtdzbN5ggYaEsPsbQ7FRlLVMNUaUX\""
+
         applicationId "ru.get.better"
         minSdkVersion 23
         targetSdkVersion 31
