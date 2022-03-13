@@ -5,5 +5,5 @@
         android:angle="45"
         android:endColor="@color/colorLightSnackWarningGradientEnd"
         android:startColor="@color/colorLightSnackWarningGradientStart" />
-    <corners android:radius="6dp" />
+    <corners android:radius="4dp" />
 </shape>

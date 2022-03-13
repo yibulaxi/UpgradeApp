@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,11 +14,13 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -40,6 +43,9 @@ import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.Circle
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.dialog_alert_add_interest.view.*
+import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.*
+import kotlinx.android.synthetic.main.dialog_rate.view.*
 import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.target_menu_addpost.view.*
@@ -61,6 +67,7 @@ import ru.get.better.ui.activity.main.adapter.AddPostMediaAdapter
 import ru.get.better.ui.activity.main.ext.*
 import ru.get.better.ui.base.BaseActivity
 import ru.get.better.ui.view.SimpleCustomSnackbar
+import ru.get.better.util.OnSwipeTouchListener
 import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.*
 import java.util.*
@@ -135,6 +142,108 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         subscribePushTopic()
 //        initNotificationReceiver()
 
+        binding.navView.setOnTouchListener(object : OnSwipeTouchListener(this) {
+            override fun onSwipeTop() {
+                Log.d("keke" ,"toptop")
+                super.onSwipeTop()
+            }
+        })
+
+
+    }
+
+    @Subscribe
+    fun onShowRateDialogEvent(e: ShowRateDialogEvent) {
+        if (
+            App.preferences.launchCount != 0
+            && App.preferences.launchCount % App.DAYS_UNTIL_RATE == 0
+            && !App.preferences.isAppRated
+        ) setupRateDialog()
+    }
+
+    private fun setupRateDialog() {
+        val view: View = layoutInflater.inflate(
+            R.layout.dialog_rate,
+            null
+        )
+        val alertDialogBuilder = AlertDialog.Builder(
+            this,
+            if (App.preferences.isDarkTheme) R.style.DialogThemeDark
+            else R.style.DialogThemeLight
+        )
+        alertDialogBuilder.setPositiveButton(getString(R.string.rate), null)
+        alertDialogBuilder.setNegativeButton(getString(R.string.later), null)
+
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+        alertDialog.setTitle(App.resourcesProvider.getStringLocale(R.string.rate_app))
+
+        alertDialog.setCancelable(false)
+
+        view.rateTitle.text = App.resourcesProvider.getStringLocale(R.string.rate_text)
+        view.rateEndtitle.text = App.resourcesProvider.getStringLocale(R.string.rate_text2)
+        view.rateAnim.playAnimation()
+
+        view.rateContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestBackground
+                else R.color.colorLightDialogAlertAddInterestBackground
+            )
+        )
+
+        view.rateTitle.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameText
+                else R.color.colorLightDialogAlertAddInterestNameText
+            )
+        )
+
+        view.rateEndtitle.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameText
+                else R.color.colorLightDialogAlertAddInterestNameText
+            )
+        )
+
+        alertDialog.setOnShowListener {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val uri: Uri = Uri.parse("market://details?id=ru.get.better")
+                val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+
+                goToMarket.addFlags(
+                    Intent.FLAG_ACTIVITY_NO_HISTORY or
+                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                )
+
+                try {
+                    startActivity(goToMarket)
+                } catch (e: ActivityNotFoundException) {
+
+
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=ru.get.better")
+                        )
+                    )
+                }
+
+                App.preferences.isAppRated = true
+                alertDialog.dismiss()
+            }
+
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                App.preferences.isRateAppLater = true
+
+                alertDialog.dismiss()
+            }
+        }
+
+        alertDialog.setView(view)
+        alertDialog.show()
     }
 
     override fun updateThemeAndLocale() {

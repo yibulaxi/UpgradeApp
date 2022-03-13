@@ -145,11 +145,11 @@
     <color name="colorLightFragmentAdapterPagerThirdValueBackgroundTint">#00FF00</color>
     <color name="colorLightFragmentAdapterPagerThirdValueText">#FDFFFF</color>
     <color name="colorLightFragmentAdapterPagerForthValueText">#FDFFFF</color>
-    <color name="colorLightFragmentAdapterPagerTvMessageText">#FDFFFF</color>
+    <color name="colorLightFragmentAdapterPagerTvMessageText">#003B46</color>
 
-    <color name="colorLightFragmentAuthBackground">#FDFFFF</color>
+    <color name="colorLightFragmentAuthBackground">#F1F1F2</color>
     <color name="colorLightFragmentAuthSignInBlockBackground">#003B46</color>
-    <color name="colorLightFragmentAuthSignInBlockBackgroundTint">#F1F1F2</color>
+    <color name="colorLightFragmentAuthSignInBlockBackgroundTint">#FDFFFF</color>
     <color name="colorLightFragmentAuthEmailTitleText">#717a8a</color>
     <color name="colorLightFragmentAuthEmailText">#FDFFFF</color>
     <color name="colorLightFragmentAuthEmailHint">#717a8a</color>
@@ -159,7 +159,7 @@
     <color name="colorLightFragmentAuthSignInButtonBackground">#003B46</color>
     <color name="colorLightFragmentAuthSignInButtonText">#F1F1F2</color>
     <color name="colorLightFragmentAuthSignUpBlockBackground">#003B46</color>
-    <color name="colorLightFragmentAuthSignUpBlockBackgroundTint">#F1F1F2</color>
+    <color name="colorLightFragmentAuthSignUpBlockBackgroundTint">#FDFFFF</color>
     <color name="colorLightFragmentAuthEmailTitleSignUpText">#717a8a</color>
     <color name="colorLightFragmentAuthEmailSignUpText">#FDFFFF</color>
     <color name="colorLightFragmentAuthEmailSignUpHint">#717a8a</color>
@@ -172,10 +172,10 @@
     <color name="colorLightFragmentAuthSignUpButtonBackground">#003B46</color>
     <color name="colorLightFragmentAuthSignUpButtonText">#F1F1F2</color>
     <color name="colorLightFragmentAuthSignInBackground">#003B46</color>
-    <color name="colorLightFragmentAuthSignInBackgroundTint">#F1F1F2</color>
+    <color name="colorLightFragmentAuthSignInBackgroundTint">#FDFFFF</color>
     <color name="colorLightFragmentAuthSignInText">#003B46</color>
     <color name="colorLightFragmentAuthSignUpBackground">#003B46</color>
-    <color name="colorLightFragmentAuthSignUpBackgroundTint">#F1F1F2</color>
+    <color name="colorLightFragmentAuthSignUpBackgroundTint">#FDFFFF</color>
     <color name="colorLightFragmentAuthSignUpText">#003B46</color>
 
     <color name="colorLightFragmentDiaryBackground">#FDFFFF</color>

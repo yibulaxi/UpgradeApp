@@ -12,6 +12,7 @@ import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.FragmentAdapterPagerBinding
 import ru.get.better.event.SaveInterestsClickedEvent
+import ru.get.better.event.SkipWelcomeEvent
 import ru.get.better.event.SwipeViewPagerEvent
 import ru.get.better.model.*
 
@@ -25,6 +26,8 @@ class WelcomeViewHolder(
     }
 
     fun bind(interest: Interest) {
+        binding.skip.text = App.resourcesProvider.getStringLocale(R.string.skip)
+
         binding.container.setBackgroundColor(
             ContextCompat.getColor(
                 context,
@@ -135,6 +138,22 @@ class WelcomeViewHolder(
             )
         )
 
+        binding.skipContainer.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLogoutBackgroundTint
+                else R.color.colorLightFragmentSettingsLogoutBackgroundTint
+            )
+        )
+
+        binding.skip.setTextColor(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsLogoutText
+                else R.color.colorLightFragmentSettingsLogoutText
+            )
+        )
+
         binding.firstValue.isVisible = true
         binding.secondValue.isVisible = true
         binding.thirdValue.isVisible = true
@@ -142,6 +161,10 @@ class WelcomeViewHolder(
         binding.startBtn.isVisible = false
 
         binding.startLottieAnimationView.isVisible = false
+
+        binding.skipContainer.setOnClickListener {
+            EventBus.getDefault().post(SkipWelcomeEvent())
+        }
 
         when (interest) {
             is Relationship -> {

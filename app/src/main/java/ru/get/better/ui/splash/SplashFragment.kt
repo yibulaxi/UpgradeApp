@@ -148,6 +148,11 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 binding.logoText.animateText(animateText)
             }
         })
+
+        binding.animationView.setAnimation(
+            if (App.preferences.isDarkTheme) R.raw.logo_dark_anim
+            else R.raw.logo_light_anim
+        )
         binding.animationView.playAnimation()
     }
 

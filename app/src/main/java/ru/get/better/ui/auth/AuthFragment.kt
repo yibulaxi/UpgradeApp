@@ -315,7 +315,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
             ContextCompat.getColor(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAuthEmailText
-                else R.color.colorLightFragmentAuthEmailText
+                else R.color.colorLightDialogAlertAddInterestNameText
             )
         )
 
@@ -339,7 +339,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
             ContextCompat.getColor(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAuthPasswordText
-                else R.color.colorLightFragmentAuthPasswordText
+                else R.color.colorLightDialogAlertAddInterestNameText
             )
         )
 
@@ -393,7 +393,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
             ContextCompat.getColor(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAuthEmailSignUpText
-                else R.color.colorLightFragmentAuthEmailSignUpText
+                else R.color.colorLightDialogAlertAddInterestNameText
             )
         )
 
@@ -417,7 +417,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
             ContextCompat.getColor(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAuthPasswordSignUpText
-                else R.color.colorLightFragmentAuthPasswordSignUpText
+                else R.color.colorLightDialogAlertAddInterestNameText
             )
         )
 
@@ -441,7 +441,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
             ContextCompat.getColor(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAuthRepeatPasswordSignUpText
-                else R.color.colorLightFragmentAuthRepeatPasswordSignUpText
+                else R.color.colorLightDialogAlertAddInterestNameText
             )
         )
 

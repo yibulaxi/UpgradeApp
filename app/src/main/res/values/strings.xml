@@ -358,4 +358,12 @@
     <string name="habit">Привычка</string>
 
     <string name="hello">Привет,</string>
+
+    <string name="skip">Пропустить</string>
+
+    <string name="rate">Оценить</string>
+    <string name="later">Позже</string>
+
+    <string name="rate_text">Если вам нравится "GetBetter", пожалуйста, оцените приложение.</string>
+    <string name="rate_text2">Спасибо за вашу поддержку!</string>
 </resources>

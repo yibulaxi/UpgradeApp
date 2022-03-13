@@ -79,6 +79,17 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
     }
 
     @Subscribe
+    fun onSkipWelcomeEvent(e: SkipWelcomeEvent) {
+        EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
+        EventBus.getDefault().post(
+            InitUserInterestsEvent(
+                adapter.getInterests().filter { it !is DefaultInterest.Companion },
+                this@WelcomeFragment
+            )
+        )
+    }
+
+    @Subscribe
     fun onSaveInterestsChangeVisibilityEvent(e: SaveInterestsChangeVisibilityEvent) {
         binding.saveInterests.isVisible = e.isVisible
     }

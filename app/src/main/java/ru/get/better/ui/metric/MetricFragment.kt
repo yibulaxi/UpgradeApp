@@ -147,6 +147,13 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 }
             }
         })
+
+//        binding.backgroundImage.setOnClickListener {
+//            if (interestDetailBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+//                interestDetailBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//        }
+
+        EventBus.getDefault().post(ShowRateDialogEvent())
     }
 
     override fun updateThemeAndLocale() {

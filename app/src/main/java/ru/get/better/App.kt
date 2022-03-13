@@ -34,6 +34,8 @@ class App : DaggerApplication() {
             Timber.plant(Timber.DebugTree())
         }
 
+        appLaunchedLogic()
+
         ChiliPhotoPicker.init(
             loader = GlideImageLoader(),
             authority = "com.velkonost.upgrade.fileprovider"
@@ -60,6 +62,16 @@ class App : DaggerApplication() {
         }
     }
 
+    private fun appLaunchedLogic() {
+        preferences.launchCount += 1
+
+        if (preferences.firstLaunchDate == 0L) {
+            preferences.firstLaunchDate = System.currentTimeMillis()
+        }
+
+
+    }
+
     companion object {
         lateinit var instance: App
         lateinit var preferences: Preferences
@@ -68,5 +80,8 @@ class App : DaggerApplication() {
         lateinit var resourcesProvider: ResourcesProvider
 
         val READ_EXTERNAL_STORAGE_REQUEST_CODE = 123
+
+        val DAYS_UNTIL_RATE = 3
+        val LAUNCHES_UNTIL_RATE = 3
     }
 }

@@ -2,6 +2,7 @@ package ru.get.better.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.telephony.ims.ImsRegistrationAttributes
 import ru.get.better.App
 
 class Preferences(context: Context) {
@@ -52,6 +53,22 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getBoolean("isMetricWheelSpotlightShown", false)
 
+    var launchCount: Int
+        set(value) = sharedPreferences.edit().putInt(LAUNCH_COUNT, value).apply()
+        get() = sharedPreferences.getInt(LAUNCH_COUNT, 0)
+
+    var firstLaunchDate: Long
+        set(value) = sharedPreferences.edit().putLong(FIRST_LAUNCH_DATE, value).apply()
+        get() = sharedPreferences.getLong(FIRST_LAUNCH_DATE, 0L)
+
+    var isAppRated: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(IS_APP_RATED, value).apply()
+        get() = sharedPreferences.getBoolean(IS_APP_RATED, false)
+
+    var isRateAppLater: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(IS_RATE_APP_LATER, value).apply()
+        get() = sharedPreferences.getBoolean(IS_RATE_APP_LATER, false)
+
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
 
@@ -62,5 +79,10 @@ class Preferences(context: Context) {
         const val IS_DARK_THEME = "is_dark_theme"
         const val USER_NAME = "user_name"
         const val IS_INTERESTS_INITIALIZED = "is_interests_initialized"
+        const val LAUNCH_COUNT = "launch_count"
+        const val FIRST_LAUNCH_DATE = "first_launch_date"
+
+        const val IS_APP_RATED = "is_app_rated"
+        const val IS_RATE_APP_LATER = "is_rate_app_later"
     }
 }

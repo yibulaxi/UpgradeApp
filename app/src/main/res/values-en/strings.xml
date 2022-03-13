@@ -334,4 +334,12 @@
     <string name="habit">Habit</string>
 
     <string name="hello">Hello,</string>
+
+    <string name="skip">Skip</string>
+
+    <string name="rate">Rate</string>
+    <string name="later">Later</string>
+
+    <string name="rate_text">If you enjoy using "GetBetter", please take a moment to rate it.</string>
+    <string name="rate_text2">Thanks for your support!</string>
 </resources>

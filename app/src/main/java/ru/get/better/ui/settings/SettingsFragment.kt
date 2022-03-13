@@ -1065,7 +1065,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 .signOut(requireContext())
                 .addOnCompleteListener {
 
-
                     App.preferences.uid = ""
                     App.preferences.isDiaryHabitsSpotlightShown = false
                     App.preferences.isMainAddPostSpotlightShown = false

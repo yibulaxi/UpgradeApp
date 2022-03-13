@@ -15,9 +15,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
         <!--android:background="@color/colorFragmentAdapterPagerBackground"-->
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontalBottomGuideLine"
@@ -26,15 +26,40 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.55" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/skipContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title">
+            <!--            android:backgroundTint="@color/colorFragmentSettingsLogoutBackgroundTint"-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/skip"
+                style="@style/Text13.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp" />
+            <!--            android:textColor="@color/colorFragmentSettingsLogoutText"-->
+        </com.google.android.material.card.MaterialCardView>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
             style="@style/Text20.Medium"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:gravity="start"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/skipContainer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <!--android:textColor="@color/colorFragmentAdapterPagerTitleText"-->
@@ -214,6 +239,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="56dp"
             android:clickable="true"
+            android:elevation="4dp"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent">

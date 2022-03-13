@@ -78,10 +78,16 @@
                     android:id="@+id/habitsSpotlightView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:fadeScrollbars="true"
+                    android:fadingEdge="horizontal"
+                    android:requiresFadingEdge="horizontal"
                     app:layout_constraintBottom_toBottomOf="@id/horizontalRecycler"
                     app:layout_constraintTop_toTopOf="@id/horizontalRecycler" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:fadeScrollbars="true"
+                    android:fadingEdge="vertical"
+                    android:requiresFadingEdge="vertical"
                     android:id="@+id/recycler"
                     android:transitionGroup="true"
                     android:layout_width="match_parent"
