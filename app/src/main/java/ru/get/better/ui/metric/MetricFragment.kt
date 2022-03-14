@@ -70,6 +70,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.get.better.ui.activity.main.ext.SecondaryViews
 import ru.get.better.util.Keyboard
 
 
@@ -393,10 +394,13 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             .setContainer(binding.container)
             .build()
         spotlight.start()
+
+        EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.MetricSpotlight))
         EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(true))
 
         wheelTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
             spotlight.finish()
+            EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.Empty))
 
             App.preferences.isMetricWheelSpotlightShown = true
             EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))

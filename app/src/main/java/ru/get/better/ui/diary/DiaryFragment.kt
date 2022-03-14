@@ -1,6 +1,7 @@
 package ru.get.better.ui.diary
 
 import android.content.res.ColorStateList
+import android.media.metrics.Event
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -46,6 +47,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.*
+import ru.get.better.ui.activity.main.ext.SecondaryViews
 import java.lang.Thread.sleep
 import java.util.concurrent.Executors
 import kotlin.coroutines.coroutineContext
@@ -420,11 +422,14 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
             .setContainer(binding.container)
             .build()
         spotlight.start()
+
+        EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.DiarySpotlight))
         EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(true))
 
 
         habitsTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
             spotlight.finish()
+            EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.Empty))
 
             App.preferences.isDiaryHabitsSpotlightShown = true
             EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))

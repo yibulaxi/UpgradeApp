@@ -132,6 +132,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     lateinit var affirmationIconUrl: String
     fun isAffirmationIconUrlInitialized() = ::affirmationIconUrl.isInitialized
 
+    var currentSecondaryView = SecondaryViews.Empty
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
         StatusBarUtil.setDarkMode(this)
@@ -175,97 +177,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             App.preferences.launchCount != 0
             && App.preferences.launchCount % App.DAYS_UNTIL_RATE == 0
             && !App.preferences.isAppRated
+            && currentSecondaryView == SecondaryViews.Empty
         ) setupRateDialog()
     }
 
     @Subscribe
     fun onShowAffirmationEvent(e: ShowAffirmationEvent) {
         setupAffirmation(isIncreaseNumber = e.increase)
-    }
-
-    private fun setupRateDialog() {
-        val view: View = layoutInflater.inflate(
-            R.layout.dialog_rate,
-            null
-        )
-        val alertDialogBuilder = AlertDialog.Builder(
-            this,
-            if (App.preferences.isDarkTheme) R.style.DialogThemeDark
-            else R.style.DialogThemeLight
-        )
-        alertDialogBuilder.setPositiveButton(getString(R.string.rate), null)
-        alertDialogBuilder.setNegativeButton(getString(R.string.later), null)
-
-        val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.setTitle(App.resourcesProvider.getStringLocale(R.string.rate_app))
-
-        alertDialog.setCancelable(false)
-
-        view.rateTitle.text = App.resourcesProvider.getStringLocale(R.string.rate_text)
-        view.rateEndtitle.text = App.resourcesProvider.getStringLocale(R.string.rate_text2)
-        view.rateAnim.playAnimation()
-
-        view.rateContainer.setBackgroundColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestBackground
-                else R.color.colorLightDialogAlertAddInterestBackground
-            )
-        )
-
-        view.rateTitle.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameText
-                else R.color.colorLightDialogAlertAddInterestNameText
-            )
-        )
-
-        view.rateEndtitle.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameText
-                else R.color.colorLightDialogAlertAddInterestNameText
-            )
-        )
-
-        alertDialog.setOnShowListener {
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                val uri: Uri = Uri.parse("market://details?id=ru.get.better")
-                val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-
-                goToMarket.addFlags(
-                    Intent.FLAG_ACTIVITY_NO_HISTORY or
-                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK
-                )
-
-                try {
-                    startActivity(goToMarket)
-                } catch (e: ActivityNotFoundException) {
-
-
-                    startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("http://play.google.com/store/apps/details?id=ru.get.better")
-                        )
-                    )
-                }
-
-                App.preferences.isAppRated = true
-                alertDialog.dismiss()
-            }
-
-            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
-                App.preferences.isRateAppLater = true
-
-                alertDialog.dismiss()
-            }
-        }
-
-        alertDialog.setView(view)
-        alertDialog.show()
     }
 
     override fun updateThemeAndLocale() {
@@ -435,8 +353,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     var isTrackerTimerRunning = false
-
-
 
     override fun onBackPressed() {
         if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
@@ -691,10 +607,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             userSettingsViewModel.getUserSettings()
             userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
         }
-
-//        lifecycleScope.launch(Dispatchers.IO) {
-//
-//        }
     }
 
     @Subscribe
@@ -804,11 +716,20 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         if (!isAnySpotlightActiveNow) {
             userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
                 .observeOnce(this) {
-                    if (!App.preferences.isMetricWheelSpotlightShown) {
+                    if (
+                        !App.preferences.isMetricWheelSpotlightShown
+                        && currentSecondaryView == SecondaryViews.Empty
+                    ) {
                         EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.MetricWheel))
-                    } else if (!App.preferences.isMainAddPostSpotlightShown) {
+                    } else if (
+                        !App.preferences.isMainAddPostSpotlightShown
+                        && currentSecondaryView == SecondaryViews.Empty
+                    ) {
                         showAddPostSpotlight()
-                    } else if (!App.preferences.isDiaryHabitsSpotlightShown) {
+                    } else if (
+                        !App.preferences.isDiaryHabitsSpotlightShown
+                        && currentSecondaryView == SecondaryViews.Empty
+                    ) {
                         EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.DiaryHabits))
                     }
                 }
@@ -1162,6 +1083,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         showFail(e.msg)
     }
 
+    @Subscribe
+    fun onSecondaryViewUpdateStateEvent(e: SecondaryViewUpdateStateEvent) {
+        currentSecondaryView = e.newState
+    }
+
 //    @Subscribe
 //    fun onUpdateThemeEvent(e: UpdateThemeEvent) {
 //        setAppTheme(e.isDarkTheme)
@@ -1220,10 +1146,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             .setContainer(binding.container)
             .build()
         spotlight.start()
+
+        currentSecondaryView = SecondaryViews.AddPostSpotlight
         isAnySpotlightActiveNow = true
 
         addPostTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
             spotlight.finish()
+            currentSecondaryView = SecondaryViews.Empty
 
             App.preferences.isMainAddPostSpotlightShown = true
             isAnySpotlightActiveNow = false
