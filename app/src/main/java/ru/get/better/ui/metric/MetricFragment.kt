@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -116,6 +117,10 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         }.invokeOnCompletion {
             lifecycleScope.launch(Dispatchers.Main) {
                 setupLogic()
+
+                android.os.Handler().postDelayed({
+                    EventBus.getDefault().post(ShowAffirmationEvent(increase = true))
+                }, 500)
             }
         }
 

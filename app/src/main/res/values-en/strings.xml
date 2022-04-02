@@ -478,4 +478,65 @@
     <string name="affirmation_title_85">I AM COMPLETELY APPROPRIATE FOR ANY SITUATION</string>
     <string name="affirmation_desc_85">I am one with the energy and wisdom of the universe. I draw this energy and it is easy for me to defend myself.</string>
 
+    <string-array name="notification_titles">
+        <item>In a year you may regret</item>
+        <item>It\'s time to improve yourself!</item>
+        <item>Let's be friends!</item>
+        <item>Have you ever…?</item>
+        <item>Man can do everything.</item>
+        <item>Have you forgotten anything?)</item>
+        <item>Set tasks for the day</item>
+        <item>Tell us about your mission!</item>
+        <item>Nothing is more contagious than enthusiasm</item>
+        <item>New day - new note!</item>
+        <item>Check your wheel of life!</item>
+        <item>You are acting sensibly?</item>
+        <item>That's all?</item>
+        <item>If you have a desire</item>
+        <item>Lacks motivation?</item>
+        <item>Yes, you are independent and you know everything perfectly.</item>
+        <item>Want to make sure you can trust us?</item>
+        <item>Go!</item>
+        <item>Yes I want it!</item>
+        <item>Let's do it!</item>
+        <item>Say goodbye to procrastination!</item>
+        <item>Intrigued? I also!</item>
+        <item>Will you be there? In a successful life</item>
+        <item>Get started on this right now!</item>
+        <item>I invite you…</item>
+        <item>Stop and think about…</item>
+        <item>We invite everyone!</item>
+        <item>Summing up the day!</item>
+    </string-array>
+
+    <string-array name="notification_descs">
+        <item>that did not start today</item>
+        <item>Discover and develop your abilities</item>
+        <item>I will help you achieve your goals</item>
+        <item>I will help you achieve your goals</item>
+        <item>Did you use a time tracker? I advise you to try</item>
+        <item>Take a look at the diary</item>
+        <item>And keep improving!</item>
+        <item>And a personal diary will help to achieve it.</item>
+        <item>A personal diary will help maintain it!</item>
+        <item>Share the latest events</item>
+        <item>And set new goals</item>
+        <item>Share your experience in a diary</item>
+        <item>Or do you still have goals in your life?</item>
+        <item>That diary will help make it a reality</item>
+        <item>Then read the daily affirmations</item>
+        <item>That\'s why we\'re just trying to help.</item>
+        <item>Test our services. Is free.</item>
+        <item>It\'s time to improve your life</item>
+        <item>Diary, tracker, habits. Is free.</item>
+        <item>Let\'s develop this habit.</item>
+        <item>Started using me</item>
+        <item>Your future. Because it hasn't been written yet.</item>
+        <item>Plan your way to her.</item>
+        <item>Better yet, write it down in your diary.</item>
+        <item>Into the fascinating world of self-development</item>
+        <item>What would you like to become. Now write down the goals along the way.</item>
+        <item>Add an event to the diary, set a goal, start a time tracker :)</item>
+        <item>What made you better today?</item>
+    </string-array>
 </resources>

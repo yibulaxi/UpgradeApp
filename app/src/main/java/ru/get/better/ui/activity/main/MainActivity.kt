@@ -153,8 +153,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         subscribePushTopic()
-//        initNotificationReceiver()
-        setupAffirmation(isIncreaseNumber = true)
+        initNotificationReceiver()
+//        setupAffirmation(isIncreaseNumber = true)
     }
 
     override fun onViewModelReady(viewModel: BaseViewModel) {
@@ -468,13 +468,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             this,
             2,
             notifyIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_CANCEL_CURRENT
         )
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (
+            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 2, (
                     1000 * 60 * 60 * 24).toLong(), pendingIntent
         )
+
+//        1000 * 60 * 60 * 24
     }
 
     override fun onImagesPicked(photos: ArrayList<Uri>) {
@@ -772,24 +774,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 date.text = e.note.date
 
-//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
-//
-//                when {
-//                    e.note.changeOfPoints.toFloat() < 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-//                    }
-//                    e.note.changeOfPoints.toFloat() > 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-//                    }
-//                    else -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-//                    }
-//                }
-
                 val urls = arrayListOf<Media>()
                 for (url in e.note.media ?: arrayListOf()) {
                     urls.add(Media(url = url))
@@ -824,24 +808,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
 
                 date.text = e.note.date
-
-//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
-//
-//                when {
-//                    e.note.changeOfPoints.toFloat() < 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-//                    }
-//                    e.note.changeOfPoints.toFloat() > 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-//                    }
-//                    else -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-//                    }
-//                }
             }
         } else if (e.note.noteType == NoteType.Tracker.id) {
             addTrackerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -870,24 +836,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
 
                 date.text = e.note.date
-
-//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
-//
-//                when {
-//                    e.note.changeOfPoints.toFloat() < 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-//                    }
-//                    e.note.changeOfPoints.toFloat() > 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-//                    }
-//                    else -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-//                    }
-//                }
             }
         } else if (e.note.noteType == NoteType.HabitRealization.id) {
             addHabitBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -900,9 +848,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 editText.setSelection(editText.length())
 
                 editAmount.setText(e.note.initialAmount.toString())
-
-//                pointsStateControlGroupLight.isVisible = !App.preferences.isDarkTheme
-//                pointsStateControlGroupDark.isVisible = App.preferences.isDarkTheme
 
                 regularityControlGroupLight.isVisible = !App.preferences.isDarkTheme
                 regularityControlGroupDark.isVisible = App.preferences.isDarkTheme
@@ -992,21 +937,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
 
                 date.text = e.note.datetimeStart
-
-//                when {
-//                    e.note.changeOfPoints.toFloat() < 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(2, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(2, true)
-//                    }
-//                    e.note.changeOfPoints.toFloat() > 0f -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(0, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(0, true)
-//                    }
-//                    else -> {
-//                        pointsStateControlGroupLight.setSelectedIndex(1, true)
-//                        pointsStateControlGroupDark.setSelectedIndex(1, true)
-//                    }
-//                }
             }
         }
     }
@@ -1087,11 +1017,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     fun onSecondaryViewUpdateStateEvent(e: SecondaryViewUpdateStateEvent) {
         currentSecondaryView = e.newState
     }
-
-//    @Subscribe
-//    fun onUpdateThemeEvent(e: UpdateThemeEvent) {
-//        setAppTheme(e.isDarkTheme)
-//    }
 
     private fun showAddPostSpotlight() {
         val addPostTargetLayout =
@@ -1203,27 +1128,18 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (isActive)
                 progress.visibility = View.VISIBLE
             else progress.visibility = View.GONE
-
         }
 
         override fun onProgressUpdate(vararg values: Int?) {
             super.onProgressUpdate(*values)
-
-//            progress.setProgress(values[0]!!)
         }
 
         override fun doInBackground(vararg params: Void?): Int? {
-//            for (i in 0 until max) {
-//                doHeavyStuff()
-//                publishProgress(i)
-//            }
             return null
         }
 
         override fun onPostExecute(result: Int?) {
             super.onPostExecute(result)
-//            progress.visibility = View.GONE
-//            Toast.makeText(context, "Finished!", Toast.LENGTH_SHORT).show()
         }
     }
 }

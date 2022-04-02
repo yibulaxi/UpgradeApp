@@ -33,6 +33,11 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getBoolean(IS_DARK_THEME, true)
 
+    var isPushAvailable: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(IS_PUSH_AVAILABLE, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(IS_PUSH_AVAILABLE, true)
+
     var isFirstLaunch: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_FIRST_LAUNCH, value)
             .apply()
@@ -82,6 +87,7 @@ class Preferences(context: Context) {
 
         const val USER_ID = "user_id"
         const val LOCALE = "locale"
+        const val IS_PUSH_AVAILABLE = "is_push_available"
         const val IS_FIRST_LAUNCH = "is_first_launch"
         const val PUSH_TOKEN = "push_token"
         const val IS_DARK_THEME = "is_dark_theme"

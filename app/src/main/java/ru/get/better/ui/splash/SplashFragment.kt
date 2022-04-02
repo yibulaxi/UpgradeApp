@@ -41,12 +41,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
     private var animateText: String = "GET BETTER"
 
-    private val signInLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()
-    ) { res ->
-        this.onSignInResult(res)
-    }
-
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 

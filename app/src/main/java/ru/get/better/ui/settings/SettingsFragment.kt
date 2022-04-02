@@ -68,6 +68,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         binding.version.text = getString(R.string.version) + " " + BuildConfig.VERSION_NAME
 
         setupThemeSwitch()
+        setupPushSwitch()
 
         binding.difficultySpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             if (allowChangeDifficulty) {
@@ -134,6 +135,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                     withAnimation = true
                 )
             )
+        }
+    }
+
+    private fun setupPushSwitch() {
+        binding.pushSwitch.isChecked = App.preferences.isPushAvailable
+        binding.pushSwitch.setOnCheckedChangeListener { view, isChecked ->
+            App.preferences.isPushAvailable = isChecked
         }
     }
 
@@ -207,16 +215,16 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                             .duration = updateTextDuration
                     }
 
-                binding.pushValue.animate()
-                    .alpha(0f)
-                    .setDuration(updateTextDuration)
-                    .withEndAction {
-                        binding.pushValue.text =
-                            App.resourcesProvider.getStringLocale(R.string.soon)
-                        binding.pushValue.animate()
-                            .alpha(1f)
-                            .duration = updateTextDuration
-                    }
+//                binding.pushValue.animate()
+//                    .alpha(0f)
+//                    .setDuration(updateTextDuration)
+//                    .withEndAction {
+//                        binding.pushValue.text =
+//                            App.resourcesProvider.getStringLocale(R.string.soon)
+//                        binding.pushValue.animate()
+//                            .alpha(1f)
+//                            .duration = updateTextDuration
+//                    }
 
                 binding.localeTitle.animate()
                     .alpha(0f)
@@ -382,7 +390,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                     App.resourcesProvider.getStringLocale(R.string.theme_title)
                 binding.pushTitle.text =
                     App.resourcesProvider.getStringLocale(R.string.push_notifications_title)
-                binding.pushValue.text = App.resourcesProvider.getStringLocale(R.string.soon)
+//                binding.pushValue.text = App.resourcesProvider.getStringLocale(R.string.soon)
                 binding.localeTitle.text =
                     App.resourcesProvider.getStringLocale(R.string.locale_title)
                 binding.localeSpinner.hint = App.resourcesProvider.getStringLocale(R.string.system)
@@ -836,18 +844,18 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             )
             pushValueTextColorAnimation.duration = updateThemeDuration
             pushValueTextColorAnimation.addUpdateListener {
-                binding.pushValue.setTextColor(it.animatedValue.toString().toInt())
+//                binding.pushValue.setTextColor(it.animatedValue.toString().toInt())
                 binding.difficultyValue.setTextColor(it.animatedValue.toString().toInt())
             }
             pushValueTextColorAnimation.start()
         } else {
-            binding.pushValue.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushValueText
-                    else R.color.colorLightFragmentSettingsPushValueText
-                )
-            )
+//            binding.pushValue.setTextColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushValueText
+//                    else R.color.colorLightFragmentSettingsPushValueText
+//                )
+//            )
 
             binding.difficultyValue.setTextColor(
                 ContextCompat.getColor(
