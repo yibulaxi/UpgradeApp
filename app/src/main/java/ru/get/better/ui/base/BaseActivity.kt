@@ -48,7 +48,7 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
 
     private var _binding: B? = null
     private var _viewModel: V? = null
-    private var savedInstanceState: Bundle? = null
+    var savedInstanceState: Bundle? = null
     private var isBindingInitialized = false
 
     @Inject

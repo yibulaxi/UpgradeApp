@@ -752,9 +752,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             with(binding.addPostBottomSheet) {
                 noteId = e.note.diaryNoteId
 
-                editText.setText(e.note.text)
+                editText.setRichTextEditing(true, e.note.text)
                 editText.setSelection(editText.length())
-
 
                 var selectedIndex = 0
                 for (i in icon.adapter.values.indices) {
@@ -788,7 +787,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             with(binding.addGoalBottomSheet) {
                 noteId = e.note.diaryNoteId
 
-                editText.setText(e.note.text)
+                editText.setRichTextEditing(true, e.note.text)
                 editText.setSelection(editText.length())
 
                 var selectedIndex = 0
@@ -816,7 +815,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             with(binding.addTrackerBottomSheet) {
                 noteId = e.note.diaryNoteId
 
-                editText.setText(e.note.text)
+                editText.setRichTextEditing(true, e.note.text)
                 editText.setSelection(editText.length())
 
                 var selectedIndex = 0
@@ -844,7 +843,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             with(binding.addHabitBottomSheet) {
                 noteId = e.note.diaryNoteId
 
-                editText.setText(e.note.text)
+                editText.setRichTextEditing(true, e.note.text)
                 editText.setSelection(editText.length())
 
                 editAmount.setText(e.note.initialAmount.toString())

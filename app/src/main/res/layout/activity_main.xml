@@ -263,7 +263,6 @@
             android:visibility="gone" />
         <!--        android:background="@color/colorBlur"-->
 
-
         <include
             android:id="@+id/addPostBottomSheet"
             layout="@layout/view_post_add" />

@@ -48,7 +48,7 @@ fun MainActivity.observeNasaData(
         showProgress = {},
         hideProgress = {},
         data = { nasaData ->
-            affirmationIconUrl = nasaData.imgUrl
+           affirmationIconUrl = nasaData.imgUrl
             setupAffirmationIcon()
         }
     )

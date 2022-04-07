@@ -318,7 +318,7 @@ class UserDiaryViewModel @Inject constructor(
 
 class DateComparator : Comparator<DiaryNote?> {
     override fun compare(o1: DiaryNote?, o2: DiaryNote?): Int {
-        return o1!!.date.toLong().compareTo(o2!!.date.toLong())
+        return -o1!!.date.toLong().compareTo(o2!!.date.toLong())
     }
 }
 

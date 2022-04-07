@@ -96,12 +96,13 @@ class NotesAdapter(
 
         notesToAddIndexes.forEach {
             items!!.add(
+                1,
                 getSectionItem(
                     newNotes[it]
                 )
             )
 
-            notifyItemInserted(items!!.size - 1)
+            notifyItemInserted(1)
         }
 
         notesToUpdateIndexes.forEach {
@@ -122,7 +123,7 @@ class NotesAdapter(
         EventBus.getDefault().post(ChangeProgressStateEvent(false))
     }
 
-    private fun checkIsSectionEmpty(section: Int) {
+    private fun checkIsSectionEmpty(section: Int) {//
         var isSectionEmpty = true
         items!!.forEach {
             if (it !is SectionHeader && it.sectionPosition() == section) {
@@ -136,7 +137,12 @@ class NotesAdapter(
                 if (items!![i] is SectionHeader && items!![i].sectionPosition() == section) {
                     datesSet.removeAll { it == items!![i].sectionName() }
                     items!!.removeAt(i)
+
+                    for (j in items!!.indices) {
+                        items!![j].reduceSection()
+                    }
                     notifyItemRemoved(i)
+//                    notifyDataSetChanged()
                     return
                 }
             }
@@ -153,20 +159,22 @@ class NotesAdapter(
         calendar.timeInMillis = diaryNote.date.toLong()
 
         if (datesSet.contains(formatter.format(calendar.time))) {
-            section = datesSet.size - 1
+            section = 0//datesSet.size - 1
             sectionName = datesSet.elementAt(section)
         } else {
             section = datesSet.size
             sectionName = formatter.format(calendar.time)
 
             items!!.add(
+                0,
                 SectionHeader(
                     section = section,
                     sectionName = sectionName
                 )
             )
+// TO FIX IT TODO
 
-            notifyItemInserted(items!!.size - 1)
+            notifyItemInserted(0) //items!!.size - 1
 
             datesSet.add(formatter.format(calendar.time))
         }

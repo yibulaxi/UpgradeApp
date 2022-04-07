@@ -118,13 +118,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <LinearLayout
+                android:id="@+id/rte_toolbar_container"
+                app:layout_constraintStart_toStartOf="@id/editText"
+                app:layout_constraintEnd_toEndOf="@id/editText"
+                app:layout_constraintTop_toBottomOf="@id/icon"
+                android:orientation="vertical"
+                android:layout_marginTop="12dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <include layout="@layout/toolbar_rich_edittext" />
+            </LinearLayout>
+
+            <com.onegravity.rteditor.RTEditText
                 android:id="@+id/editText"
                 style="@style/Text14.Light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
                 android:gravity="start"
                 android:imeOptions="actionNext"
@@ -139,11 +150,9 @@
                 android:singleLine="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/icon" />
-            <!--            android:textColor="@color/colorViewHabitAddEditTextText"
-                            android:textColorHint="@color/colorViewHabitAddEditTextHint"-->
-            <!--android:background="@drawable/bg_edittext_light"-->
-            <androidx.appcompat.widget.AppCompatEditText
+                app:layout_constraintTop_toBottomOf="@id/rte_toolbar_container" />
+
+             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/editAmount"
                 style="@style/Text14.Light"
                 android:layout_width="0dp"

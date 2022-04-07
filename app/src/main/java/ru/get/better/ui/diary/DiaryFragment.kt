@@ -153,7 +153,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
             Collections.sort(allNotes, DateComparator())
             if (!::adapter.isInitialized) {
                 val datesSet = linkedSetOf<String>()
-                val formatter = SimpleDateFormat("MMMM, yyyy")
+                val formatter = SimpleDateFormat("MMMM, yyyy", Locale(App.preferences.locale))
 
                 allNotes.forEach {
                     val calendar = Calendar.getInstance()
@@ -164,6 +164,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 }
 
                 Collections.sort(datesSet.toList(), StringDateComparator())
+                Collections.sort(datesSet.toList(), Collections.reverseOrder())
 
                 adapter = NotesAdapter(
                     context = requireContext(),
@@ -178,6 +179,11 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 var sectionName = "--------------"
 
                 val items = arrayListOf<Section>()
+//
+//                var reversedAllNotes = mutableListOf<DiaryNote>()
+//                reversedAllNotes.addAll(allNotes)
+//                reversedAllNotes = reversedAllNotes.reversed().tob
+
                 for (i in allNotes.indices) {
                     if (
                         !formatter.format(allNotes[i].date.toLong())

@@ -70,16 +70,21 @@
             </intent-filter>
         </service>
 
+<!--        <provider-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:authorities="ru.get.better.fileprovider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/file_paths" />-->
+<!--        </provider>-->
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="ru.get.better.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
+            tools:replace="android:authorities"
+            android:authorities="${applicationId}.provider"/>
 
         <receiver
             android:name=".push.NotificationReceiver"
@@ -93,7 +98,7 @@
         <service
             android:name=".push.NotificationService"
             android:exported="false"
-            tools:ignore="Instantiatable"></service>
+            tools:ignore="Instantiatable"/>
     </application>
 
 </manifest>

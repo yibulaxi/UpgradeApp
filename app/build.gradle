@@ -190,6 +190,10 @@ dependencies {
 //   switch button
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
 
+//  rich edittext
+    implementation("com.1gravity:android-rteditor:1.7.6")
+
+
 
 //    room
     def roomVersion = "2.3.0"

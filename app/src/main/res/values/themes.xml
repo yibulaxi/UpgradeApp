@@ -1,7 +1,38 @@
 <resources>
     <!-- Base application theme. -->
+<!--    <style name="Theme.UpgradeLight" parent="RTE_ThemeLight">-->
     <style name="Theme.UpgradeLight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->\
+
+        <item name="rte_ToolbarButton">@style/RTE_ToolbarButton</item>
+        <item name="rte_ToolbarSpinner">@style/RTE_ToolbarSpinnerLight</item>
+        <item name="rte_ToolbarSpinnerItem">@style/RTE_ToolbarSpinnerItem</item>
+        <item name="rte_ToolbarSpinnerSelectedColor">@color/rte_spinner_selected_color_light</item>
+        <item name="rte_ToolbarVerticalDivider">@style/RTE_ToolbarVerticalDivider</item>
+
+        <item name="rte_icToolbarBold">@drawable/ic_rte_bold_dark</item>
+        <item name="rte_icToolbarItalic">@drawable/ic_rte_italic</item>
+        <item name="rte_icToolbarUnderline">@drawable/ic_rte_underline</item>
+        <item name="rte_icToolbarStrikethrough">@drawable/ic_rte_striketrough</item>
+        <item name="rte_icToolbarSuperscript">@drawable/ic_rte_superscript</item>
+        <item name="rte_icToolbarSubscript">@drawable/ic_rte_subscript</item>
+        <item name="rte_icToolbarAlignLeft">@drawable/selector_ic_toolbar_align_left_light</item>
+        <item name="rte_icToolbarAlignCenter">@drawable/selector_ic_toolbar_align_center_light</item>
+        <item name="rte_icToolbarAlignRight">@drawable/selector_ic_toolbar_align_right_light</item>
+        <item name="rte_icToolbarIncIndent">@drawable/selector_ic_toolbar_inc_indent_light</item>
+        <item name="rte_icToolbarDecIntent">@drawable/selector_ic_toolbar_dec_indent_light</item>
+        <item name="rte_icToolbarBullet">@drawable/ic_rte_list_bullet</item>
+        <item name="rte_icToolbarNumber">@drawable/selector_ic_toolbar_number_light</item>
+        <item name="rte_icToolbarFont">@drawable/selector_ic_toolbar_font_light</item>
+        <item name="rte_icToolbarFontSize">@drawable/selector_ic_toolbar_fontsize_light</item>
+        <item name="rte_icToolbarFontColor">@drawable/selector_ic_toolbar_fontcolor_light</item>
+        <item name="rte_icToolbarBGColor">@drawable/selector_ic_toolbar_bgcolor_light</item>
+        <item name="rte_icToolbarLink">@drawable/selector_ic_toolbar_link_light</item>
+        <item name="rte_icToolbarImage">@drawable/selector_ic_toolbar_image_light</item>
+        <item name="rte_icToolbarCapture">@drawable/selector_ic_toolbar_capture_light</item>
+        <item name="rte_icToolbarUndo">@drawable/ic_rte_undo</item>
+        <item name="rte_icToolbarRedo">@drawable/ic_rte_redo</item>
+        <item name="rte_icToolbarClear">@drawable/ic_rte_clear</item>
+        <!---->
         <item name="colorPrimary">@color/colorLightPrimaryThemeUpgrade</item>
         <item name="colorPrimaryVariant">@color/colorLightPrimaryVariantThemeUpgrade</item>
         <item name="colorOnPrimary">@color/colorLightOnPrimaryThemeUpgrade</item>

@@ -3,7 +3,7 @@ package ru.get.better.util.stickyheader
 import ru.get.better.model.DiaryNote
 
 class SectionHeader(
-    private val section: Int,
+    private var section: Int,
     private val sectionName: String
 ) : Section {
     override fun type(): Int {
@@ -14,6 +14,10 @@ class SectionHeader(
 
     override fun sectionPosition(): Int {
         return section
+    }
+
+    override fun reduceSection() {
+        section --
     }
 
     override fun sectionName(): String = sectionName

@@ -1256,7 +1256,8 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     inner class Handler {
         fun onInfoClicked(v: View) {
-            getBalloon(getString(R.string.metric_info)).showAlignBottom(binding.info)
+            getBalloon(getString(R.string.metric_info))
+                .showAlignBottom(binding.info)
         }
 
         fun onAffirmationClicked(v: View) {

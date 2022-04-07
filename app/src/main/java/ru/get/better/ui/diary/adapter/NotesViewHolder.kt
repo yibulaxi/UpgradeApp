@@ -2,6 +2,7 @@ package ru.get.better.ui.diary.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -61,17 +62,12 @@ class NotesViewHolder(
             )
         )
 
-//        when (note.noteType) {
-//            NoteType.Note.id -> {
-//
-//            }
-//        }
         binding.cardView.animation =
             AnimationUtils.loadAnimation(context, R.anim.scale)
 
-        binding.title.text = note.text
+        binding.title.text = Html.fromHtml(note.text)
         binding.description.text =
-            SimpleDateFormat("dd MMM, HH:mm", Locale("ru")).format(note.date.toLong())
+            SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(note.date.toLong())
 
 
         binding.value.setImageDrawable(
@@ -97,47 +93,6 @@ class NotesViewHolder(
                 else -> AppCompatResources.getDrawable(context, R.drawable.diary)
             }
         )
-//
-//        val firstColor = context.resources.getColor(R.color.colorTgWhite)
-//        val secondColor = context.resources.getColor(R.color.colorTgPrimary)
-//
-//        val colorAnimationFromFirstToSecond = ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
-//        val colorAnimationFromSecondToFirst = ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
-//
-//        colorAnimationFromFirstToSecond.duration = 500
-//        colorAnimationFromSecondToFirst.duration = 500
-//
-//        colorAnimationFromSecondToFirst.startDelay = 100
-//        colorAnimationFromFirstToSecond.startDelay = 100
-//
-//        if (note.noteType == NoteType.Tracker.id && note.isActiveNow!!) {
-//
-//
-//            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
-//                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
-//            }
-//
-//            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
-//                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
-//            }
-//
-//            colorAnimationFromFirstToSecond.doOnEnd {
-//                colorAnimationFromSecondToFirst.start()
-//            }
-//
-//            colorAnimationFromSecondToFirst.doOnEnd {
-//                colorAnimationFromFirstToSecond.start()
-//            }
-//
-//            colorAnimationFromSecondToFirst.start()
-//
-//        } else {
-//            colorAnimationFromFirstToSecond.end()
-//            colorAnimationFromSecondToFirst.end()
-//
-//            colorAnimationFromFirstToSecond.cancel()
-//            colorAnimationFromSecondToFirst.cancel()
-//        }
 
         binding.container.setOnClickListener {
             EventBus.getDefault().post(ShowNoteDetailEvent(position))

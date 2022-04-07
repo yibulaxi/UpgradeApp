@@ -6,6 +6,7 @@ interface Section {
     fun type(): Int
     fun sectionPosition(): Int
     fun sectionName(): String
+    fun reduceSection()
 
     var diaryNote: DiaryNote?
 

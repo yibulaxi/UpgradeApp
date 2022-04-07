@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.CountDownTimer
+import android.text.Html
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -30,6 +31,18 @@ import ru.get.better.util.ext.observeOnce
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
 import java.util.*
+import com.onegravity.rteditor.RTManager
+import com.onegravity.rteditor.RTToolbar
+
+import com.onegravity.rteditor.api.RTMediaFactoryImpl
+
+import com.onegravity.rteditor.api.RTProxyImpl
+
+import com.onegravity.rteditor.api.RTApi
+import com.onegravity.rteditor.api.format.RTFormat
+import com.onegravity.rteditor.toolbar.HorizontalRTToolbar
+import com.onegravity.rteditor.toolbar.RTToolbarImageButton
+
 
 fun MainActivity.showSelectNoteTypeView() {
     val animationDuration = 500L
@@ -300,10 +313,6 @@ fun MainActivity.setupBottomSheets() {
         binding.backgroundImage.setOnClickListener {
             if (binding.selectNoteTypeBottomSheet.title.translationY == 0f)
                 hideSelectNoteTypeView()
-
-//            if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-//                selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//            }
         }
     }
 }
@@ -375,14 +384,6 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
                 else R.color.colorLightViewSelectNoteTypeTitleText
             )
         )
-
-//        selectTypeContainer.backgroundTintList = ColorStateList.valueOf(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewSelectNoteTypeSelectTypeContainerBackgroundTint
-//                else R.color.colorLightViewSelectNoteTypeSelectTypeContainerBackgroundTint
-//            )
-//        )
 
         noteType.backgroundTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
@@ -486,9 +487,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 
         noteType.setOnClickListener {
             hideSelectNoteTypeView(hideBackgroundImage = false)
-//            selectNoteTypeBehavior.state =
-//                BottomSheetBehavior.STATE_COLLAPSED
-            addPostBehavior.state =
+
+           addPostBehavior.state =
                 BottomSheetBehavior.STATE_EXPANDED
 
             binding.addPostBottomSheet.noteId = null
@@ -496,13 +496,6 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addPostBottomSheet.editText.setText("")
             binding.addPostBottomSheet.editText.requestFocus()
 
-//            binding.addPostBottomSheet.pointsStateControlGroupLight.isVisible =
-//                !App.preferences.isDarkTheme
-//            binding.addPostBottomSheet.pointsStateControlGroupDark.isVisible =
-//                App.preferences.isDarkTheme
-//
-//            binding.addPostBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
-//            binding.addPostBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
 
             mediaAdapter = AddPostMediaAdapter(context, arrayListOf())
@@ -511,8 +504,7 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 
         trackerType.setOnClickListener {
             hideSelectNoteTypeView(hideBackgroundImage = false)
-//            selectNoteTypeBehavior.state =
-//                BottomSheetBehavior.STATE_COLLAPSED
+
             addTrackerBehavior.state =
                 BottomSheetBehavior.STATE_EXPANDED
 
@@ -521,13 +513,6 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addTrackerBottomSheet.editText.setText("")
             binding.addTrackerBottomSheet.editText.requestFocus()
 
-//            binding.addTrackerBottomSheet.pointsStateControlGroupLight.isVisible =
-//                !App.preferences.isDarkTheme
-//            binding.addTrackerBottomSheet.pointsStateControlGroupDark.isVisible =
-//                App.preferences.isDarkTheme
-//
-//            binding.addTrackerBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
-//            binding.addTrackerBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
         }
 
@@ -543,20 +528,12 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addGoalBottomSheet.editText.setText("")
             binding.addGoalBottomSheet.editText.requestFocus()
 
-//            binding.addGoalBottomSheet.pointsStateControlGroupLight.isVisible =
-//                !App.preferences.isDarkTheme
-//            binding.addGoalBottomSheet.pointsStateControlGroupDark.isVisible =
-//                App.preferences.isDarkTheme
-//
-//            binding.addGoalBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
-//            binding.addGoalBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
         }
 
         habbitType.setOnClickListener {
             hideSelectNoteTypeView(hideBackgroundImage = false)
-//            selectNoteTypeBehavior.state =
-//                BottomSheetBehavior.STATE_COLLAPSED
+
             addHabitBehavior.state =
                 BottomSheetBehavior.STATE_EXPANDED
 
@@ -566,13 +543,6 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addHabitBottomSheet.editAmount.setText("")
             binding.addHabitBottomSheet.editText.requestFocus()
 
-//            binding.addHabitBottomSheet.pointsStateControlGroupLight.isVisible =
-//                !App.preferences.isDarkTheme
-//            binding.addHabitBottomSheet.pointsStateControlGroupDark.isVisible =
-//                App.preferences.isDarkTheme
-//
-//            binding.addHabitBottomSheet.pointsStateControlGroupLight.setSelectedIndex(0, true)
-//            binding.addHabitBottomSheet.pointsStateControlGroupDark.setSelectedIndex(0, true)
             selectedDiffPointToAddPost = 0
         }
     }
@@ -581,7 +551,89 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 @SuppressLint("ClickableViewAccessibility")
 fun MainActivity.setupAddPostBottomSheet() {
     val context = this
+
     with(binding.addPostBottomSheet) {
+
+        val rtApi = RTApi(
+            context,
+            RTProxyImpl(context),
+            RTMediaFactoryImpl(context, true)
+        )
+        val mRTManager = RTManager(rtApi, savedInstanceState)
+
+        val rtToolbarCharacter = rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+        mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
+        mRTManager.registerEditor(editText, true)
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_bold_dark
+                else R.drawable.ic_rte_bold_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_italic).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_italic_dark
+                else R.drawable.ic_rte_italic_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_underline).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_underline_dark
+                else R.drawable.ic_rte_underline_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_strikethrough).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_strike_dark
+                else R.drawable.ic_rte_strike_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_superscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_superscript_dark
+                else R.drawable.ic_rte_superscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_subscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_subscript_dark
+                else R.drawable.ic_rte_subscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bullet).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_list_bullet_dark
+                else R.drawable.ic_rte_list_bullet_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_undo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_undo_dark
+                else R.drawable.ic_rte_undo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_redo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_redo_dark
+                else R.drawable.ic_rte_redo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_clear).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_clear_dark
+                else R.drawable.ic_rte_clear_light
+            )
 
         title.text = App.resourcesProvider.getStringLocale(R.string.add_post)
         editText.hint = App.resourcesProvider.getStringLocale(R.string.add_post_example)
@@ -600,6 +652,12 @@ fun MainActivity.setupAddPostBottomSheet() {
         )
 
         editText.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+
+        rteToolbarContainer.background = ContextCompat.getDrawable(
             context,
             if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
             else R.drawable.bg_edittext_light
@@ -675,62 +733,6 @@ fun MainActivity.setupAddPostBottomSheet() {
             )
         )
 
-//        separator.setBackgroundColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddSeparatorBackground
-//                else R.color.colorLightViewPostAddSeparatorBackground
-//            )
-//        )
-
-//        positivePointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddPositivePointText
-//                else R.color.colorLightViewPostAddPositivePointText
-//            )
-//        )
-//
-//        positivePointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddPositivePointText
-//                else R.color.colorLightViewPostAddPositivePointText
-//            )
-//        )
-//
-//        zeroPointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddZeroPointText
-//                else R.color.colorLightViewPostAddZeroPointText
-//            )
-//        )
-//
-//        zeroPointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddZeroPointText
-//                else R.color.colorLightViewPostAddZeroPointText
-//            )
-//        )
-//
-//        negativePointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddNegativePointText
-//                else R.color.colorLightViewPostAddNegativePointText
-//            )
-//        )
-//
-//        negativePointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddNegativePointText
-//                else R.color.colorLightViewPostAddNegativePointText
-//            )
-//        )
-
         tvMessage.setTextColor(
             ContextCompat.getColor(
                 context,
@@ -790,14 +792,6 @@ fun MainActivity.setupAddPostBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/2000"
         }
 
-//        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-//
-//        pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-
         addPost.setOnClickListener {
             if (editText.text?.length == 0) {
                 showFail(getString(R.string.enter_note_text))
@@ -808,7 +802,7 @@ fun MainActivity.setupAddPostBottomSheet() {
                             noteId = noteId,
                             noteType = NoteType.Note.id,
                             mediaUrls = diaryNote?.media,
-                            text = editText.text.toString(),
+                            text = editText.getText(RTFormat.HTML),//editText.text.toString(),
                             date =
                             if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis()
                                 .toString()
@@ -817,7 +811,7 @@ fun MainActivity.setupAddPostBottomSheet() {
                     }
             else uploadMedia(
                 noteId = noteId,
-                text = editText.text.toString(),
+                text = editText.getText(RTFormat.HTML),
                 date =
                 System.currentTimeMillis().toString()
 
@@ -837,10 +831,96 @@ fun MainActivity.setupAddGoalBottomSheet() {
     val context = this
     with(binding.addGoalBottomSheet) {
 
+        val rtApi = RTApi(
+            context,
+            RTProxyImpl(context),
+            RTMediaFactoryImpl(context, true)
+        )
+        val mRTManager = RTManager(rtApi, savedInstanceState)
+
+        val rtToolbarCharacter = rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+        mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
+        mRTManager.registerEditor(editText, true)
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_bold_dark
+                else R.drawable.ic_rte_bold_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_italic).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_italic_dark
+                else R.drawable.ic_rte_italic_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_underline).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_underline_dark
+                else R.drawable.ic_rte_underline_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_strikethrough).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_strike_dark
+                else R.drawable.ic_rte_strike_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_superscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_superscript_dark
+                else R.drawable.ic_rte_superscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_subscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_subscript_dark
+                else R.drawable.ic_rte_subscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bullet).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_list_bullet_dark
+                else R.drawable.ic_rte_list_bullet_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_undo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_undo_dark
+                else R.drawable.ic_rte_undo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_redo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_redo_dark
+                else R.drawable.ic_rte_redo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_clear).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_clear_dark
+                else R.drawable.ic_rte_clear_light
+            )
+
         title.text = App.resourcesProvider.getStringLocale(R.string.add_goal)
         editText.hint = App.resourcesProvider.getStringLocale(R.string.goal_title)
         tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
 
+        rteToolbarContainer.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
 
         container.background = ContextCompat.getDrawable(
             context,
@@ -914,62 +994,6 @@ fun MainActivity.setupAddGoalBottomSheet() {
             )
         )
 
-//        separator.setBackgroundColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddSeparatorBackground
-//                else R.color.colorLightViewGoalAddSeparatorBackground
-//            )
-//        )
-//
-//        positivePointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddPositivePointText
-//                else R.color.colorLightViewGoalAddPositivePointText
-//            )
-//        )
-//
-//        positivePointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddPositivePointText
-//                else R.color.colorLightViewGoalAddPositivePointText
-//            )
-//        )
-//
-//        zeroPointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddZeroPointText
-//                else R.color.colorLightViewGoalAddZeroPointText
-//            )
-//        )
-//
-//        zeroPointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddZeroPointText
-//                else R.color.colorLightViewGoalAddZeroPointText
-//            )
-//        )
-//
-//        negativePointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddNegativePointText
-//                else R.color.colorLightViewGoalAddNegativePointText
-//            )
-//        )
-//
-//        negativePointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewGoalAddNegativePointText
-//                else R.color.colorLightViewGoalAddNegativePointText
-//            )
-//        )
-
         tvMessage.setTextColor(
             ContextCompat.getColor(
                 context,
@@ -1029,14 +1053,6 @@ fun MainActivity.setupAddGoalBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/30"
         }
 
-//        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-//
-//        pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-
         addPost.setOnClickListener {
             if (editText.text?.length == 0) {
                 showFail(getString(R.string.enter_note_text))
@@ -1044,7 +1060,7 @@ fun MainActivity.setupAddGoalBottomSheet() {
                 setDiaryNote(
                     noteId = noteId,
                     noteType = NoteType.Goal.id,
-                    text = editText.text.toString(),
+                    text = editText.getText(RTFormat.HTML),//editText.text.toString(),
                     date = System.currentTimeMillis().toString()
                 )
         }
@@ -1056,9 +1072,96 @@ fun MainActivity.setupAddTrackerBottomSheet() {
     val context = this
     with(binding.addTrackerBottomSheet) {
 
+        val rtApi = RTApi(
+            context,
+            RTProxyImpl(context),
+            RTMediaFactoryImpl(context, true)
+        )
+        val mRTManager = RTManager(rtApi, savedInstanceState)
+
+        val rtToolbarCharacter = rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+        mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
+        mRTManager.registerEditor(editText, true)
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_bold_dark
+                else R.drawable.ic_rte_bold_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_italic).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_italic_dark
+                else R.drawable.ic_rte_italic_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_underline).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_underline_dark
+                else R.drawable.ic_rte_underline_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_strikethrough).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_strike_dark
+                else R.drawable.ic_rte_strike_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_superscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_superscript_dark
+                else R.drawable.ic_rte_superscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_subscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_subscript_dark
+                else R.drawable.ic_rte_subscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bullet).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_list_bullet_dark
+                else R.drawable.ic_rte_list_bullet_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_undo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_undo_dark
+                else R.drawable.ic_rte_undo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_redo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_redo_dark
+                else R.drawable.ic_rte_redo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_clear).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_clear_dark
+                else R.drawable.ic_rte_clear_light
+            )
+
         title.text = App.resourcesProvider.getStringLocale(R.string.add_tracker)
         editText.hint = App.resourcesProvider.getStringLocale(R.string.tracker_title)
         tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
+
+        rteToolbarContainer.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
 
         container.background = ContextCompat.getDrawable(
             context,
@@ -1132,62 +1235,6 @@ fun MainActivity.setupAddTrackerBottomSheet() {
             )
         )
 
-//        separator.setBackgroundColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddSeparatorBackground
-//                else R.color.colorLightViewTrackerAddSeparatorBackground
-//            )
-//        )
-//
-//        positivePointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddPositivePointText
-//                else R.color.colorLightViewTrackerAddPositivePointText
-//            )
-//        )
-//
-//        positivePointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddPositivePointText
-//                else R.color.colorLightViewTrackerAddPositivePointText
-//            )
-//        )
-//
-//        zeroPointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddZeroPointText
-//                else R.color.colorLightViewTrackerAddZeroPointText
-//            )
-//        )
-//
-//        zeroPointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddZeroPointText
-//                else R.color.colorLightViewTrackerAddZeroPointText
-//            )
-//        )
-//
-//        negativePointLight.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddNegativePointText
-//                else R.color.colorLightViewTrackerAddNegativePointText
-//            )
-//        )
-//
-//        negativePointDark.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkViewTrackerAddNegativePointText
-//                else R.color.colorLightViewTrackerAddNegativePointText
-//            )
-//        )
-
         tvMessage.setTextColor(
             ContextCompat.getColor(
                 context,
@@ -1247,14 +1294,6 @@ fun MainActivity.setupAddTrackerBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/30"
         }
 
-//        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-//
-//        pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-
         addPost.setOnClickListener {
             if (editText.text?.length == 0) {
                 showFail(getString(R.string.enter_note_text))
@@ -1264,7 +1303,7 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                         setDiaryNote(
                             noteId = noteId,
                             noteType = NoteType.Tracker.id,
-                            text = editText.text.toString(),
+                            text = editText.getText(RTFormat.HTML),//editText.text.toString(),
                             date =
                             if (it?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
                             else it?.date!!,
@@ -1364,7 +1403,7 @@ fun MainActivity.setupTrackerSheet() {
                 activeTrackerTimer.cancel()
             }
 
-            binding.trackerTitle.text = activeTracker.text
+            binding.trackerTitle.text = Html.fromHtml(activeTracker.text)
             binding.trackerDate.text =
                 SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(
                     activeTracker.date.toLong()
@@ -1377,7 +1416,6 @@ fun MainActivity.setupTrackerSheet() {
                     AllLogo().getLogoById(activeTracker.interest.interestIcon)
                 )
             )
-
 
             activeTrackerTimer = object : CountDownTimer(20000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -1413,6 +1451,87 @@ fun MainActivity.setupAddHabitBottomSheet() {
     val context = this
     with(binding.addHabitBottomSheet) {
 
+        val rtApi = RTApi(
+            context,
+            RTProxyImpl(context),
+            RTMediaFactoryImpl(context, true)
+        )
+        val mRTManager = RTManager(rtApi, savedInstanceState)
+
+        val rtToolbarCharacter = rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+        mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
+        mRTManager.registerEditor(editText, true)
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_bold_dark
+                else R.drawable.ic_rte_bold_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_italic).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_italic_dark
+                else R.drawable.ic_rte_italic_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_underline).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_underline_dark
+                else R.drawable.ic_rte_underline_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_strikethrough).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_strike_dark
+                else R.drawable.ic_rte_strike_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_superscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_superscript_dark
+                else R.drawable.ic_rte_superscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_subscript).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_subscript_dark
+                else R.drawable.ic_rte_subscript_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bullet).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_list_bullet_dark
+                else R.drawable.ic_rte_list_bullet_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_undo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_undo_dark
+                else R.drawable.ic_rte_undo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_redo).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_redo_dark
+                else R.drawable.ic_rte_redo_light
+            )
+
+        rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_clear).background =
+            ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_rte_clear_dark
+                else R.drawable.ic_rte_clear_light
+            )
+
         title.text = App.resourcesProvider.getStringLocale(R.string.add_habit)
         editText.hint = App.resourcesProvider.getStringLocale(R.string.goal_title)
         editAmount.hint = App.resourcesProvider.getStringLocale(R.string.habit_repeat_amount)
@@ -1423,6 +1542,12 @@ fun MainActivity.setupAddHabitBottomSheet() {
         weeklyPointDark.text = App.resourcesProvider.getStringLocale(R.string.habit_every_week)
 
         tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
+
+        rteToolbarContainer.background = ContextCompat.getDrawable(
+            context,
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
 
         container.background = ContextCompat.getDrawable(
             context,
@@ -1612,14 +1737,6 @@ fun MainActivity.setupAddHabitBottomSheet() {
             length.text = editText.text?.toString()?.length.toString() + "/30"
         }
 
-//        pointsStateControlGroupLight.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-//
-//        pointsStateControlGroupDark.setOnSelectedOptionChangeCallback {
-//            selectedDiffPointToAddPost = it
-//        }
-
         regularityControlGroupLight.setOnSelectedOptionChangeCallback {
             selectedRegularityToAddHabit = when (it) {
                 0 -> Regularity.Daily
@@ -1731,7 +1848,7 @@ fun MainActivity.setupAddHabitBottomSheet() {
                     setDiaryNote(
                         noteId = noteId,
                         noteType = NoteType.Habit.id,
-                        text = editText.text.toString(),
+                        text = editText.getText(RTFormat.HTML),
                         date = System.currentTimeMillis().toString(),
                         datetimeStart = System.currentTimeMillis().toString(),
                         regularity = selectedRegularityToAddHabit.id,

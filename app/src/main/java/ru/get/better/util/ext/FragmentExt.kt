@@ -10,7 +10,6 @@ import ru.get.better.R
 
 fun Fragment.getBalloon(
     text: String,
-
     ): Balloon =
     Balloon.Builder(context!!)
         .setArrowSize(10)

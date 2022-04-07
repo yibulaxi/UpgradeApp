@@ -118,13 +118,24 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/title" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <LinearLayout
+                        android:id="@+id/rte_toolbar_container"
+                        app:layout_constraintStart_toStartOf="@id/editText"
+                        app:layout_constraintEnd_toEndOf="@id/editText"
+                        app:layout_constraintTop_toBottomOf="@id/icon"
+                        android:orientation="vertical"
+                        android:layout_marginTop="12dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/toolbar_rich_edittext" />
+                    </LinearLayout>
+
+                    <com.onegravity.rteditor.RTEditText
                         android:id="@+id/editText"
                         style="@style/Text14.Light"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="12dp"
                         android:gravity="start"
                         android:letterSpacing="0.1"
@@ -135,10 +146,8 @@
                         android:paddingBottom="36dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/icon" />
-                    <!--            android:textColor="@color/colorViewPostAddEditTextText"
-                                    android:textColorHint="@color/colorViewPostAddEditTextHint"-->
-                    <!--android:background="@drawable/bg_edittext_light"-->
+                        app:layout_constraintTop_toBottomOf="@id/rte_toolbar_container" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/addMedia"
                         android:layout_width="40dp"
@@ -155,38 +164,25 @@
                         app:cardPreventCornerOverlap="false"
                         app:layout_constraintBottom_toBottomOf="@id/editText"
                         app:layout_constraintEnd_toEndOf="@id/editText">
-                        <!--android:backgroundTint="@color/colorViewPostAddAddMediaBackgroundTint"-->
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/icAddMedia"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_add_media" />
-                        <!--                android:tint="@color/colorViewPostAddAddMediaTint"-->
-
                     </androidx.cardview.widget.CardView>
 
-
-                    <!--android:textColor="@color/colorViewPostAddDateText"-->
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/length"
                         style="@style/Text14.Light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="12dp"
                         android:text="0/2000"
                         app:layout_constraintBottom_toBottomOf="@id/editText"
                         app:layout_constraintStart_toStartOf="@id/editText" />
-                    <!--android:textColor="@color/colorViewPostAddLengthText"-->
-                    <!--            <View-->
-                    <!--                android:id="@+id/separator"-->
-                    <!--                android:layout_width="match_parent"-->
-                    <!--                android:layout_height="1dp"-->
-                    <!--                android:layout_marginTop="5dp"-->
-                    <!--                app:layout_constraintTop_toBottomOf="@id/date" />-->
-                    <!--android:background="@color/colorViewPostAddSeparatorBackground"-->
+
 
 
                     <androidx.recyclerview.widget.RecyclerView

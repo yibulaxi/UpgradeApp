@@ -5,6 +5,12 @@
       <map>
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/ic_plus_small.xml" value="0.2234375" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/plus_icon_bg.xml" value="0.2234375" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/c497df16ecf682e9b3b339446de7f234/jetified-android-rteditor-1.7.6/res/drawable/selector_ic_toolbar_align_left_light.xml" value="0.30925925925925923" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/c497df16ecf682e9b3b339446de7f234/jetified-android-rteditor-1.7.6/res/drawable/selector_ic_toolbar_bold_light.xml" value="0.30925925925925923" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/c497df16ecf682e9b3b339446de7f234/jetified-android-rteditor-1.7.6/res/drawable/selector_ic_toolbar_bullet_light.xml" value="0.20729166666666668" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/c497df16ecf682e9b3b339446de7f234/jetified-android-rteditor-1.7.6/res/layout/rte_toolbar.xml" value="0.371875" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/c497df16ecf682e9b3b339446de7f234/jetified-android-rteditor-1.7.6/res/layout/rte_toolbar_character.xml" value="0.1" />
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/c497df16ecf682e9b3b339446de7f234/jetified-android-rteditor-1.7.6/res/layout/rte_toolbar_paragraph.xml" value="0.25" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/ed242d627c9eae0e774462ea49b60811/jetified-ChiliPhotoPicker-0.3.1/res/drawable/ic_picker_cancel.xml" value="0.2708333333333333" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2324074074074074" />
         <entry key="app/src/main/res/drawable/achievements.xml" value="0.2324074074074074" />
@@ -65,6 +71,76 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/ic_launcher_notification.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/ic_plus_box.xml" value="0.3687179487179487" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold_dark.xml" value="0.39076923076923076" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_bold_state.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_clear.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_clear_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_clear_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_clear_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_clear_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_clear_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_clear_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_italic.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_italic_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_italic_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_italic_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_italic_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_italic_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_italice_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_list_bullet.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_list_bullet_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_list_bullet_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_list_bullet_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_list_bullet_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_list_bullet_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_list_bullet_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_redo.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_redo_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_redo_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_redo_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_redo_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_redo_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_redo_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_strike_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_strike_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_strike_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_strike_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_strike_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_strike_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_striketrough.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_subscript.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_subscript_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_subscript_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_subscript_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_subscript_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_subscript_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_subscript_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_superscript.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_superscript_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_superscript_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_superscript_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_superscript_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_superscript_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_superscript_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_underline.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_underline_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_underline_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_underline_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_underline_light.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_underline_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_underline_light_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_undo.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_undo_dark.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_undo_dark_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_undo_dark_pressed.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_undo_light_inactive.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_rte_undo_light_pressed.xml" value="0.30925925925925923" />
         <entry key="app/src/main/res/drawable/ic_target_arrow.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_tracker.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_tracker_dark.xml" value="0.2713541666666667" />
@@ -123,10 +199,11 @@
         <entry key="app/src/main/res/layout/target_diary_habits.xml" value="0.34270833333333334" />
         <entry key="app/src/main/res/layout/target_menu_addpost.xml" value="0.1" />
         <entry key="app/src/main/res/layout/target_metric_wheel.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/toolbar_rich_edittext.xml" value="0.33" />
         <entry key="app/src/main/res/layout/view_active_tracker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_affirmation.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.16" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_post_add.xml" value="0.1" />
