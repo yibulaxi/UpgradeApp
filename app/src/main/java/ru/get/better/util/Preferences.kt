@@ -38,6 +38,11 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getBoolean(IS_PUSH_AVAILABLE, true)
 
+    var isInterestsInitialized: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(IS_INTERESTS_INITIALIZED, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(IS_INTERESTS_INITIALIZED, false)
+
     var isFirstLaunch: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_FIRST_LAUNCH, value)
             .apply()

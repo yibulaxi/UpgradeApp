@@ -84,18 +84,21 @@ class UserInterestsViewModel @Inject constructor(
             .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
             .set(map)
             .addOnSuccessListener {
-                cloudFirestoreDatabase
-                    .collection(UserSettingsTable().tableName).document(App.preferences.uid!!)
-                    .update(mapOf("is_interests_initialized" to true))
-                    .addOnSuccessListener {
+                App.preferences.isInterestsInitialized = true
+                viewModelScope.launch(Dispatchers.IO) {
 
-                        viewModelScope.launch(Dispatchers.IO) {
+                    userSettingsViewModel.getUserSettings()
+                    userDiaryViewModel.getDiary()
+                    getInterests { Navigator.toMetric(e.f) }
+                }
 
-                            userSettingsViewModel.getUserSettings()
-                            userDiaryViewModel.getDiary()
-                            getInterests { Navigator.toMetric(e.f) }
-                        }
-                    }
+//                cloudFirestoreDatabase
+//                    .collection(UserSettingsTable().tableName).document(App.preferences.uid!!)
+//                    .update(mapOf("is_interests_initialized" to true))
+//                    .addOnSuccessListener {
+//
+//
+//                    }
             }
             .addOnFailureListener { }
     }

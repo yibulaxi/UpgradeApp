@@ -199,8 +199,6 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                 adapter.items = items
 
                 binding.recycler.setUpRemoveItemTouchHelper(
-                    R.string.delete,
-                    R.dimen.text_size_12,
                     ::onItemInListSwiped
                 )
 
@@ -211,7 +209,7 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
             binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
 
             val nextItemVisiblePx =
-                resources.getDimension(R.dimen.diary_viewpager_next_item_visible)
+                resources.getDimension(R.dimen.diary_viewpager_next_item_visible_new)
             val currentItemHorizontalMarginPx =
                 resources.getDimension(R.dimen.diary_viewpager_current_item_horizontal_margin)
             val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx

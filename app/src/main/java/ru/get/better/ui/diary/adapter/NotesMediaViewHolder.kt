@@ -1,5 +1,6 @@
 package ru.get.better.ui.diary.adapter
 
+import android.R.attr
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +9,18 @@ import com.squareup.picasso.Picasso
 import ru.get.better.R
 import ru.get.better.databinding.ItemNotesMediaBinding
 import ru.get.better.model.Media
+import android.R.attr.radius
+import android.graphics.drawable.Drawable
+import com.squareup.picasso.Transformation
+import com.bumptech.glide.Glide
+
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+
 
 class NotesMediaViewHolder(
     val binding: ItemNotesMediaBinding,
@@ -18,9 +31,19 @@ class NotesMediaViewHolder(
     }
 
     fun bind(media: Media) {
-        Picasso.with(context)
+
+//        val transformation: Transformation = RoundedCornersTransformation(radius, margin)
+//
+//        Picasso.with(context)
+//            .load(media.url)
+//            .placeholder(R.drawable.ic_add_media)
+//            .into(binding.icon)
+
+        var requestOptions = RequestOptions()
+        requestOptions = requestOptions.transforms(CenterCrop(), RoundedCorners(6))
+        Glide.with(itemView.context)
             .load(media.url)
-            .placeholder(R.drawable.ic_add_media)
+            .apply(requestOptions)
             .into(binding.icon)
 
     }

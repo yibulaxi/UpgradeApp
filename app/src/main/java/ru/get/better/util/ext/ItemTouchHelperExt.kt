@@ -21,8 +21,6 @@ import ru.get.better.model.NoteType
 import ru.get.better.ui.diary.adapter.NotesAdapter
 
 fun RecyclerView.setUpRemoveItemTouchHelper(
-    @StringRes backgroundString: Int,
-    @DimenRes backgroundTextSize: Int,
     swiped: (viewHolder: RecyclerView.ViewHolder, swipeDir: Int) -> Unit
 ) {
 
@@ -31,28 +29,28 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
         lateinit var background: Drawable
         var initiated: Boolean = false
 
-        val textPaint = TextPaint().apply {
-            color = Color.WHITE
-            isAntiAlias = true
-            textSize = resources.getDimension(backgroundTextSize)
-            typeface = ResourcesCompat.getFont(context, R.font.sf_ui_display_medium)
-        }
+//        val textPaint = TextPaint().apply {
+//            color = Color.WHITE
+//            isAntiAlias = true
+//            textSize = resources.getDimension(backgroundTextSize)
+//            typeface = ResourcesCompat.getFont(context, R.font.sf_ui_display_medium)
+//        }
 
         val paint = Paint().apply {
             color = Color.WHITE
             isAntiAlias = true
-            textSize = resources.getDimension(backgroundTextSize)
-            typeface = ResourcesCompat.getFont(context, R.font.sf_ui_display_medium)
+//            textSize = resources.getDimension(backgroundTextSize)
+//            typeface = ResourcesCompat.getFont(context, R.font.sf_ui_display_medium)
         }
 
         private fun init() {
-            background = ColorDrawable(
-                ContextCompat.getColor(
-                    context!!,
-                    if (App.Companion.preferences.isDarkTheme) R.color.colorDarkRemoveItemTouchHelperBackground
-                    else R.color.colorLightRemoveItemTouchHelperBackground
-                )
-            )
+//            background = ColorDrawable(
+//                ContextCompat.getColor(
+//                    context!!,
+//                    if (App.Companion.preferences.isDarkTheme) R.color.colorDarkRemoveItemTouchHelperBackground
+//                    else R.color.colorLightRemoveItemTouchHelperBackground
+//                )
+//            )
             initiated = true
         }
 
@@ -95,33 +93,36 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
             if (!initiated) {
                 init()
             }
-            background.setBounds(
-                itemView.right + dX.toInt(),
-                itemView.top,
-                itemView.right,
-                itemView.bottom
-            )
-            background.draw(c)
+//            background.setBounds(
+//                itemView.right + dX.toInt(),
+//                itemView.top,
+//                itemView.right,
+//                itemView.bottom
+//            )
+//            background.draw(c)
 
             val bounds = Rect()
-            val delete = context.getString(backgroundString)
-            paint.getTextBounds(delete, 0, delete.length, bounds)
+//            val delete = context.getString(backgroundString)
+//            paint.getTextBounds(delete, 0, delete.length, bounds)
             val x = itemView.width - bounds.right - 20
             val y = itemView.bottom + bounds.height() - (itemView.height + bounds.height()) / 2
 
-            c.drawMultilineText(
-                delete, textPaint, bounds.width(),
-                x.toFloat(), y.toFloat(), alignment = Layout.Alignment.ALIGN_CENTER
-            )
+//            c.drawMultilineText(
+//                delete, textPaint, bounds.width(),
+//                x.toFloat(), y.toFloat(), alignment = Layout.Alignment.ALIGN_CENTER
+//            )
 
-            ContextCompat.getDrawable(context, R.drawable.ic_item_delete)?.let {
+            ContextCompat.getDrawable(context,
+                if (App.preferences.isDarkTheme) R.drawable.ic_close_dark
+                else R.drawable.ic_close_light
+            )?.let {
                 val imgSize = resources.getDimension(R.dimen.icon_size_remove).toInt()
                 val margin = resources.getDimension(R.dimen.three_quarters_activity_vertical_margin)
                 val bitmap = it.toBitmap(imgSize, imgSize, Bitmap.Config.ARGB_8888)
                 c.drawBitmap(
                     bitmap,
-                    x + bounds.width() * 0.5f - imgSize * 0.4f,
-                    y - bitmap.height - 0f,
+                    (x - bitmap.width).toFloat(),
+                    (y - bitmap.height / 2).toFloat(),
                     paint
                 )
             }

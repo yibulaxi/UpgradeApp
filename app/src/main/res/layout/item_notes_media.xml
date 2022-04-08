@@ -13,18 +13,17 @@
             type="ru.get.better.ui.diary.adapter.NotesMediaViewHolder.Handler" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/container"
         android:animateLayoutChanges="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="2dp"
+        app:cardCornerRadius="6dp"
         android:clipChildren="true"
         android:clipToPadding="true">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <ImageView
             android:id="@+id/icon"
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -33,12 +32,12 @@
             android:fitsSystemWindows="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:maxWidth="300dp"
+            android:maxWidth="600dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundedCorners" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

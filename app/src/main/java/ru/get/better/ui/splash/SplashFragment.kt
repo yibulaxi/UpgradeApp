@@ -193,7 +193,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 userSettingsViewModel
                     .getUserSettingsById(App.preferences.uid!!)
                     .observeOnce(this) {
-                        if (it!!.isInterestsInitialized!!) {
+                        if (App.preferences.isInterestsInitialized) {
                             EventBus.getDefault().post(
                                 LoadMainEvent(
                                     isAuthSuccess = true,

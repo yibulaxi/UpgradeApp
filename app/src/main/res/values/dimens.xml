@@ -107,5 +107,6 @@
     <dimen name="card_padding">60dp</dimen>
 
     <dimen name="diary_viewpager_next_item_visible">24dp</dimen>
+    <dimen name="diary_viewpager_next_item_visible_new">6dp</dimen>
     <dimen name="diary_viewpager_current_item_horizontal_margin">10dp</dimen>
 </resources>

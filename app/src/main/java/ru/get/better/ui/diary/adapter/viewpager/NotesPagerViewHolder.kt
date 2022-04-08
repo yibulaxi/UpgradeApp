@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.R
-import ru.get.better.databinding.ItemAdapterPagerNotesBinding
+import ru.get.better.databinding.ItemAdapterPagerNotesNewBinding
 import ru.get.better.event.EditDiaryNoteEvent
 import ru.get.better.model.DefaultInterest
 import ru.get.better.model.DiaryNote
@@ -25,7 +25,7 @@ import ru.get.better.ui.diary.adapter.NotesMediaAdapter
 import ru.get.better.util.formatMillsToFullDateTime
 
 class NotesPagerViewHolder(
-    val binding: ItemAdapterPagerNotesBinding,
+    val binding: ItemAdapterPagerNotesNewBinding,
     val context: Context
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -39,7 +39,7 @@ class NotesPagerViewHolder(
         binding.habitsRealizationTitle.text =
             App.resourcesProvider.getStringLocale(R.string.completed)
 
-        binding.cardView.backgroundTintList = ColorStateList.valueOf(
+        binding.textCard.backgroundTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
@@ -47,11 +47,67 @@ class NotesPagerViewHolder(
             )
         )
 
-        binding.wasteTime.background = ContextCompat.getDrawable(
-            context,
-            if (App.preferences.isDarkTheme) R.drawable.bg_waste_time_dark
-            else R.drawable.bg_waste_time_light
+        binding.dateCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
         )
+
+        binding.habitsCountCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
+        )
+
+        binding.habitsRealizationsCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
+        )
+
+        binding.typeCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
+        )
+
+        binding.interestCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
+        )
+
+        binding.wasteTimeCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
+        )
+
+        binding.imagesCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesBackgroundTint
+                else R.color.colorLightItemAdapterPagerNotesBackgroundTint
+            )
+        )
+
+//        binding.wasteTime.background = ContextCompat.getDrawable(
+//            context,
+//            if (App.preferences.isDarkTheme) R.drawable.bg_waste_time_dark
+//            else R.drawable.bg_waste_time_light
+//        )
 
         binding.habitsRealizationValue.background = ContextCompat.getDrawable(
             context,
@@ -75,13 +131,13 @@ class NotesPagerViewHolder(
             )
         )
 
-        binding.amount.setTextColor(
-            ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesAmountText
-                else R.color.colorLightItemAdapterPagerNotesAmountText
-            )
-        )
+//        binding.amount.setTextColor(
+//            ContextCompat.getColor(
+//                context,
+//                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesAmountText
+//                else R.color.colorLightItemAdapterPagerNotesAmountText
+//            )
+//        )
 
         binding.text.setTextColor(
             ContextCompat.getColor(
@@ -156,16 +212,16 @@ class NotesPagerViewHolder(
             )
         )
 
-        binding.amount.text = note.changeOfPoints.toString().replace(".", ",")
+//        binding.amount.text = note.changeOfPoints.toString().replace(".", ",")
 
-        when {
-            note.changeOfPoints.toFloat() > 0 -> binding.amount.background =
-                AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient_light)
-            note.changeOfPoints.toFloat() < 0 -> binding.amount.background =
-                AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient_light)
-            else -> binding.amount.background =
-                AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value_light)
-        }
+//        when {
+//            note.changeOfPoints.toFloat() > 0 -> binding.amount.background =
+//                AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient_light)
+//            note.changeOfPoints.toFloat() < 0 -> binding.amount.background =
+//                AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient_light)
+//            else -> binding.amount.background =
+//                AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value_light)
+//        }
 
         binding.noteType.setImageDrawable(
             when (note.noteType) {
@@ -184,7 +240,7 @@ class NotesPagerViewHolder(
             }
         )
 
-        binding.cardView.maxCardElevation = (binding.cardView.cardElevation * MAX_ELEVATION_FACTOR)
+//        binding.cardView.maxCardElevation = (binding.cardView.cardElevation * MAX_ELEVATION_FACTOR)
 
         binding.edit.isVisible = note.noteType != NoteType.HabitRealization.id
         binding.edit.setOnClickListener { EventBus.getDefault().post(EditDiaryNoteEvent(note)) }
@@ -197,9 +253,11 @@ class NotesPagerViewHolder(
 
         binding.recycler.adapter = NotesMediaAdapter(context, media)
 
+        binding.imagesCard.isVisible = !media.isNullOrEmpty()
+
         if (note.noteType == NoteType.HabitRealization.id) {
-            binding.habitsRealizationBlock.isVisible = true
-            binding.habitsRealizationRecycler.isVisible = true
+            binding.habitsCountCard.isVisible = true
+            binding.habitsRealizationsCard.isVisible = true
 
             binding.habitsRealizationValue.text =
                 note.datesCompletion!!.filter { it.datesCompletionIsCompleted == true }.size.toString() +
@@ -209,44 +267,12 @@ class NotesPagerViewHolder(
             binding.habitsRealizationRecycler.adapter =
                 HabitsRealizationAdapter(context, note.datesCompletion.toMutableList())
         } else {
-            binding.habitsRealizationBlock.isVisible = false
-            binding.habitsRealizationRecycler.isVisible = false
+            binding.habitsCountCard.isVisible = false
+            binding.habitsRealizationsCard.isVisible = false
         }
 
-//        if (note.noteType == NoteType.Tracker.id && note.isActiveNow!!) {
-//            val firstColor = context.resources.getColor(R.color.colorTgWhite)
-//            val secondColor = context.resources.getColor(R.color.colorTgPrimary)
-//
-//            val colorAnimationFromFirstToSecond = ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
-//            val colorAnimationFromSecondToFirst = ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
-//
-//            colorAnimationFromFirstToSecond.duration = 500
-//            colorAnimationFromSecondToFirst.duration = 500
-//
-//            colorAnimationFromSecondToFirst.startDelay = 100
-//            colorAnimationFromFirstToSecond.startDelay = 100
-//
-//            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
-//                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
-//            }
-//
-//            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
-//                ImageViewCompat.setImageTintList(binding.noteType, ColorStateList.valueOf(animator.animatedValue as Int))
-//            }
-//
-//            colorAnimationFromFirstToSecond.doOnEnd {
-//                colorAnimationFromSecondToFirst.start()
-//            }
-//
-//            colorAnimationFromSecondToFirst.doOnEnd {
-//                colorAnimationFromFirstToSecond.start()
-//            }
-//
-//            colorAnimationFromSecondToFirst.start()
-//        }
-
         if (note.noteType == NoteType.Tracker.id && !note.isActiveNow!!) {
-            binding.wasteTime.isVisible = true
+            binding.wasteTimeCard.isVisible = true
 
             val trackerTime = note.datetimeEnd!!.toLong() - note.datetimeStart!!.toLong()
 
@@ -258,7 +284,9 @@ class NotesPagerViewHolder(
                 App.resourcesProvider.getStringLocale(R.string.waste_time, App.preferences.locale),
                 hours, minutes, seconds
             )
-        } else binding.wasteTime.isVisible = false
+        } else {
+            binding.wasteTimeCard.isVisible = false
+        }
 
         binding.recycler.addOnItemTouchListener(object : OnItemTouchListener {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -293,7 +321,7 @@ class NotesPagerViewHolder(
             context: Context,
         ) =
             NotesPagerViewHolder(
-                ItemAdapterPagerNotesBinding.inflate(
+                ItemAdapterPagerNotesNewBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false

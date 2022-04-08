@@ -123,7 +123,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
         if (selectedAuthType == AuthType.Login) {
 
             EventBus.getDefault().post(ShowSuccessEvent(getString(R.string.signin_success)))
-            if (userSettings.isInterestsInitialized!!) {
+            if (App.preferences.isInterestsInitialized) {
                 EventBus.getDefault().post(
                     LoadMainEvent(
                         isAuthSuccess = true,
