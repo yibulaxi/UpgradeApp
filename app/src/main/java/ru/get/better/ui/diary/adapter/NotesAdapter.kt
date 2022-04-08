@@ -77,10 +77,10 @@ class NotesAdapter(
             val foundNote = items!!.findLast {
                 it is SectionItem
                         && it.diaryNote!!.diaryNoteId == newNotes[i].diaryNoteId
-                        && it.diaryNote!!.date == newNotes[i].date
+                        //&& it.diaryNote!!.date == newNotes[i].date
             }
 
-            if (foundNote == null) {
+            if (foundNote == null && !notesToUpdateIndexes.contains(i)) {
                 notesToAddIndexes.add(i)
             }
         }

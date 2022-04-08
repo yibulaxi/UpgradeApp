@@ -524,51 +524,58 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <View
-                    android:id="@+id/blur"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorLightBlur"
-                    android:onClick="@{handler::onBlurClicked}"
-                    android:visibility="gone" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/aboutText"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="16dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/logo"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:src="@drawable/logo"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/aboutTextTitle"
-                            style="@style/Text14.Light"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:letterSpacing="0.1"
-                            app:layout_constraintTop_toBottomOf="@id/logo" />
-                        <!--android:textColor="@color/colorFragmentSettingsAboutTextText"-->
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/blur"
+            android:layout_width="match_parent"
+            android:elevation="20dp"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightBlur"
+            android:onClick="@{handler::onBlurClicked}"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/aboutText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardElevation="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/logo"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/logo_removebg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/aboutTextTitle"
+                    style="@style/Text14.Light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.1"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@id/logo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

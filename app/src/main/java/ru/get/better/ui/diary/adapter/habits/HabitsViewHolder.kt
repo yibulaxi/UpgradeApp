@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
 import android.content.res.ColorStateList
 import android.os.Vibrator
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -159,7 +160,7 @@ class HabitsViewHolder(
             )
         )
 
-        binding.title.text = habitRealization.text
+        binding.title.text = Html.fromHtml(habitRealization.text)
 
 
     }

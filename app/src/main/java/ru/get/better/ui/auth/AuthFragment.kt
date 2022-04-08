@@ -54,6 +54,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
 
     private fun login(email: String, password: String) {
 
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
@@ -72,6 +73,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
                 }
             }
     }
+
 
     private fun register(email: String, password: String, repeatPassword: String) {
         if (password != repeatPassword) {

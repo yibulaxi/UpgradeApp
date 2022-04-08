@@ -1370,29 +1370,29 @@ fun MainActivity.setupTrackerSheet() {
             colorAnimationFromSecondToFirst.startDelay = 1000
             colorAnimationFromFirstToSecond.startDelay = 1000
 
-            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
-                setBackgroundTintList(
-                    binding.trackerFab,
-                    ColorStateList.valueOf(animator.animatedValue as Int)
-                )
-            }
-
-            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
-                setBackgroundTintList(
-                    binding.trackerFab,
-                    ColorStateList.valueOf(animator.animatedValue as Int)
-                )
-            }
-
-            colorAnimationFromFirstToSecond.doOnEnd {
-                colorAnimationFromSecondToFirst.start()
-            }
-
-            colorAnimationFromSecondToFirst.doOnEnd {
-                colorAnimationFromFirstToSecond.start()
-            }
-
-            colorAnimationFromSecondToFirst.start()
+//            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
+//                setBackgroundTintList(
+//                    binding.trackerFab,
+//                    ColorStateList.valueOf(animator.animatedValue as Int)
+//                )
+//            }
+//
+//            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
+//                setBackgroundTintList(
+//                    binding.trackerFab,
+//                    ColorStateList.valueOf(animator.animatedValue as Int)
+//                )
+//            }
+//
+//            colorAnimationFromFirstToSecond.doOnEnd {
+//                colorAnimationFromSecondToFirst.start()
+//            }
+//
+//            colorAnimationFromSecondToFirst.doOnEnd {
+//                colorAnimationFromFirstToSecond.start()
+//            }
+//
+//            colorAnimationFromSecondToFirst.start()
 
             binding.stopTracker.setOnClickListener {
                 userDiaryViewModel.changeTrackerState(

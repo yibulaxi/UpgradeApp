@@ -100,7 +100,7 @@
     <color name="colorLightNavViewBackground">#F1F1F2</color>
 
     <color name="colorLightTrackerFabTint">#003B46</color>
-    <color name="colorLightTrackerContainerBackground">#003B46</color>
+    <color name="colorLightTrackerContainerBackground">#1f2f3f</color>
     <color name="colorLightTrackerContainerBackgroundTint">#F1F1F2</color>
     <color name="colorLightTrackerInterestNameText">#003B46</color>
     <color name="colorLightTrackerDateTitleText">#717a8a</color>

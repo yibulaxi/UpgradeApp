@@ -265,10 +265,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             )
         )
 
-        binding.trackerContainer.setBackgroundColor(
+        binding.trackerContainerBg.setBackgroundColor(
             ContextCompat.getColor(
                 this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+                if (!App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
                 else R.color.colorLightTrackerContainerBackground
             )
         )
@@ -276,10 +276,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.trackerContainer.backgroundTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
                 this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+                if (!App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
                 else R.color.colorLightTrackerContainerBackground
             )
         )
+
 
         binding.trackerInterestName.setTextColor(
             ContextCompat.getColor(
@@ -468,7 +469,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             this,
             2,
             notifyIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_IMMUTABLE + PendingIntent.FLAG_CANCEL_CURRENT
         )
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(
@@ -476,7 +477,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     1000 * 60 * 60 * 24).toLong(), pendingIntent
         )
 
-//        1000 * 60 * 60 * 24
     }
 
     override fun onImagesPicked(photos: ArrayList<Uri>) {
@@ -494,6 +494,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         text: String,
         date: String
     ) {
+        EventBus.getDefault().post(ChangeProgressStateEvent(true))
         val storageRef = cloudStorage.reference
         val uploadedUrls = arrayListOf<String>()
 

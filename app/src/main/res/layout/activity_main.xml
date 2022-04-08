@@ -126,7 +126,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
-                        app:cardCornerRadius="12dp"
+                        app:cardCornerRadius="6dp"
                         app:cardUseCompatPadding="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHeight_percent="0.5"
@@ -135,6 +135,7 @@
                                                 android:backgroundTint="@color/colorTrackerContainerBackgroundTint"-->
 
                         <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/trackerContainerBg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 

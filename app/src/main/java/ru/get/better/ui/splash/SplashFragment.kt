@@ -12,6 +12,8 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -23,6 +25,7 @@ import ru.get.better.event.InitUserSettingsEvent
 import ru.get.better.event.LoadMainEvent
 import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.navigation.Navigator
+import ru.get.better.ui.auth.AuthType
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.util.ext.observeOnce
@@ -40,6 +43,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     private var allowGoNext: Boolean = true
 
     private var animateText: String = "GET BETTER"
+
+    private var isGoNextCalled = false
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -134,7 +139,10 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             }
 
             override fun onAnimationRepeat(animation: Animator?) {
-                goNext()
+                if (!isGoNextCalled) {
+                    isGoNextCalled = true
+                    goNext()
+                }
             }
 
             override fun onAnimationCancel(animation: Animator?) {}
@@ -158,10 +166,29 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         allowGoNext = true
     }
 
+    private var auth: FirebaseAuth = Firebase.auth
+    private lateinit var selectedAuthType: AuthType
+    private fun loginAnonymously(
+
+    ) {
+        auth.signInAnonymously()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    App.preferences.uid = user?.uid
+
+                    selectedAuthType = AuthType.Register
+                    initNewUserData(user!!.uid, "userName")
+                }
+            }
+    }
+
+
     private fun goNext() {
         if (binding.logoText.isAnimationLoaded && allowGoNext) {
             if (App.preferences.uid.isNullOrEmpty()) {
-                Navigator.splashToAuth(this@SplashFragment)
+                loginAnonymously()
+//                Navigator.splashToAuth(this@SplashFragment)
             } else {
                 userSettingsViewModel
                     .getUserSettingsById(App.preferences.uid!!)
