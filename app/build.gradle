@@ -18,8 +18,8 @@ android {
         applicationId "ru.get.better"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 8
-        versionName "2.5.0"
+        versionCode 9
+        versionName "2.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
