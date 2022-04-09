@@ -51,32 +51,27 @@ fun MainActivity.showSelectNoteTypeView() {
         noteType.animate()
             .alpha(1f)
             .translationX(0f)
-            .translationY(0f)
-            .setDuration(animationDuration)
+            .translationY(0f).duration = animationDuration
 
         trackerType.animate()
             .alpha(1f)
             .translationX(0f)
-            .translationY(0f)
-            .setDuration(animationDuration)
+            .translationY(0f).duration = animationDuration
 
         habbitType.animate()
             .alpha(1f)
             .translationX(0f)
-            .translationY(0f)
-            .setDuration(animationDuration)
+            .translationY(0f).duration = animationDuration
 
         goalType.animate()
             .alpha(1f)
             .translationX(0f)
-            .translationY(0f)
-            .setDuration(animationDuration)
+            .translationY(0f).duration = animationDuration
 
         title.animate()
             .alpha(1f)
             .translationX(0f)
-            .translationY(0f)
-            .setDuration(animationDuration)
+            .translationY(0f).duration = animationDuration
 
         ending.animate()
             .alpha(1f)
@@ -107,32 +102,27 @@ fun MainActivity.hideSelectNoteTypeView(
         noteType.animate()
             .alpha(0f)
             .translationX(-500f)
-            .translationY(-500f)
-            .setDuration(animationDuration)
+            .translationY(-500f).duration = animationDuration
 
         trackerType.animate()
             .alpha(0f)
             .translationX(500f)
-            .translationY(-500f)
-            .setDuration(animationDuration)
+            .translationY(-500f).duration = animationDuration
 
         habbitType.animate()
             .alpha(0f)
             .translationX(500f)
-            .translationY(500f)
-            .setDuration(animationDuration)
+            .translationY(500f).duration = animationDuration
 
         goalType.animate()
             .alpha(0f)
             .translationX(-500f)
-            .translationY(500f)
-            .setDuration(animationDuration)
+            .translationY(500f).duration = animationDuration
 
         title.animate()
             .alpha(0f)
             .translationX(0f)
-            .translationY(-500f)
-            .setDuration(animationDuration)
+            .translationY(-500f).duration = animationDuration
 
         ending.animate()
             .alpha(0f)

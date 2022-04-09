@@ -34,7 +34,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.CreateEachTypeNote.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_create_each_type_note,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 1
         ),
@@ -42,7 +42,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Complete1Habit.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_complete_1_habit,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 2
         ),
@@ -50,7 +50,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Get50Efficiency.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_get_50_efficiency,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 4
         ),
@@ -58,7 +58,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.CreateNotes3Days.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_create_notes_30_days,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 2
         ),
@@ -66,7 +66,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Get70Efficiency.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_get_70_efficiency,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 6
         ),
@@ -74,7 +74,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Complete3Habit.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_complete_3_habit,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 7
         ),
@@ -82,7 +82,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Create50Notes.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_create_50_notes,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 11
         ),
@@ -90,7 +90,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Get100Efficiency.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_get_100_efficiency,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 17
         ),
@@ -98,7 +98,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Create100Notes.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_create_100_notes,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 19
         ),
@@ -106,7 +106,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.CreateNotes7Days.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_create_notes_7_days,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 14
         ),
@@ -114,7 +114,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Create200Notes.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_create_200_notes,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 27
         ),
@@ -122,7 +122,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.CreateNotes21Days.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_create_notes_21_days,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 13
         ),
@@ -130,7 +130,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Get10PointsInterest.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_get_10_points_interest,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 9
         ),
@@ -138,7 +138,7 @@ fun getInitialAchievements() =
             achievementId = AchievementId.Complete9Habit.id,
             title = App.resourcesProvider.getStringLocale(
                 R.string.achievement_complete_9_habits,
-                App.preferences.locale ?: "ru"
+                App.preferences.locale
             ),
             experience = 15
         ),

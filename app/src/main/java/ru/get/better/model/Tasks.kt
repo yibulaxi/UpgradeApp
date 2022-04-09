@@ -9,9 +9,7 @@ data class Task(
     val title: String
 )
 
-enum class TaskId(val id: String) {
-
-}
+enum class TaskId(val id: String)
 
 fun Context.getTasks() =
     arrayListOf<Task>(

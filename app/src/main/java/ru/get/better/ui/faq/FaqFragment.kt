@@ -59,7 +59,5 @@ class FaqFragment : BaseFragment<BaseViewModel, FragmentFaqBinding>(
         return faqs
     }
 
-    inner class Handler {
-
-    }
+    inner class Handler
 }

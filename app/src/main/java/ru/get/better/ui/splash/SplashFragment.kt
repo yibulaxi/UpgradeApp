@@ -63,7 +63,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 .observeOnce(this) {
                     animateText = it?.let {
                         App.resourcesProvider.getStringLocale(
-                            R.string.hello, App.preferences.locale ?: "ru"
+                            R.string.hello, App.preferences.locale
                         ) + " " + it.login
                     } ?: "GET BETTER"
                     start()
@@ -99,10 +99,10 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 else "en"
         }
 
-        Locale.setDefault(Locale(App.preferences.locale ?: "ru"))
+        Locale.setDefault(Locale(App.preferences.locale))
         val resources = requireActivity().resources
         val config = resources.configuration
-        config.setLocale(Locale(App.preferences.locale ?: "ru"))
+        config.setLocale(Locale(App.preferences.locale))
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 

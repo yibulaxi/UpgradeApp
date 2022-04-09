@@ -199,13 +199,13 @@ class NotesAdapter(
             )
         )
 
-        (holder as HeaderViewHolder).textView.background = ContextCompat.getDrawable(
-            context!!,
+        holder.textView.background = ContextCompat.getDrawable(
+            context,
             if (App.preferences.isDarkTheme) R.drawable.bg_sticky_header_dark
             else R.drawable.bg_sticky_header_light
         )
 
-        (holder as HeaderViewHolder).textView.text = datesSet.elementAt(headerPosition)
+        holder.textView.text = datesSet.elementAt(headerPosition)
     }
 
     override fun onCreateHeaderViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
@@ -221,14 +221,14 @@ class NotesAdapter(
                     else R.drawable.bg_sticky_header_light
                 )
 
-                (holder as HeaderViewHolder).textView.setTextColor(
+                holder.textView.setTextColor(
                     ContextCompat.getColor(
-                        context!!,
+                        context,
                         if (App.preferences.isDarkTheme) R.color.colorDarkNotesListHeaderItemText
                         else R.color.colorLightNotesListHeaderItemText
                     )
                 )
-                (holder as HeaderViewHolder).textView.text = items!![position].sectionName()
+                holder.textView.text = items!![position].sectionName()
             }
             Section.ITEM -> {
                 (holder as NotesViewHolder).bind(
@@ -248,7 +248,7 @@ class NotesAdapter(
                         else R.color.colorLightNotesListHeaderItemText
                     )
                 )
-                (holder as HeaderViewHolder).textView.text = "Custom header"
+                holder.textView.text = "Custom header"
             }
         }
     }

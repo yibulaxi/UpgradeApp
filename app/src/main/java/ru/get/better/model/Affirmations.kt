@@ -10,7 +10,7 @@ data class Affirmation(
     val desc: String? = null
 )
 
-public fun Context.getTodayAffirmation() =
+fun Context.getTodayAffirmation() =
     getAffirmations().first { it.id == App.preferences.currentAffirmationNumber }
 
 fun getAffirmations(): List<Affirmation> {

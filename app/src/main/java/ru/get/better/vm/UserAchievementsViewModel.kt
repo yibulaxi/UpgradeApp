@@ -261,7 +261,7 @@ class UserAchievementsViewModel @Inject constructor(
                             [UserAchievementsTable().tableFields[UserAchievementsFields.AchievementId]]
                         .toString(),
                     datetime =
-                    (it as HashMap<String, String>)
+                    it
                             [UserAchievementsTable().tableFields[UserAchievementsFields.Datetime]]
                         .toString(),
                 )
