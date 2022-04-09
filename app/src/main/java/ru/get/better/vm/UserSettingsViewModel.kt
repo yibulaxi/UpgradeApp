@@ -25,12 +25,6 @@ class UserSettingsViewModel @Inject constructor(
         EventBus.getDefault().register(this)
     }
 
-//    @SuppressLint("SimpleDateFormat")
-//    fun convertLongToDateString(systemTime: Long): String {
-//        return SimpleDateFormat("EEEE MMM-dd-yyyy' Time: 'HH:mm")
-//            .format(systemTime).toString()
-//    }
-
     val setUserSettingsEvent = SingleLiveEvent<UserSettings>()
 
     private fun setUserSettings(

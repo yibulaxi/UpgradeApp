@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 
 android {
@@ -28,16 +29,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+//            minifyEnabled true
+//            shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [crashlyticsCollectionEnabled: "true"]
         }
 
         debug {
-            minifyEnabled true
-            shrinkResources true
+//            minifyEnabled true
+//            shrinkResources true
 
             manifestPlaceholders = [crashlyticsCollectionEnabled: "true"]
         }
@@ -129,6 +130,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.google.firebase:firebase-perf-ktx'
+
 
     implementation "com.squareup.picasso:picasso:2.5.2"
 

@@ -54,6 +54,7 @@ import kotlinx.android.synthetic.main.view_affirmation.view.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import kotlinx.android.synthetic.main.view_select_note_type.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import lv.chi.photopicker.PhotoPickerFragment
@@ -121,7 +122,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     var selectedRegularityToAddHabit: Regularity = Regularity.Daily
 
     private lateinit var cloudStorage: FirebaseStorage
-    private var isFirebaseAvailable: Boolean = false
 
     lateinit var mediaAdapter: AddPostMediaAdapter
     fun isMediaAdapterInitialized() = ::mediaAdapter.isInitialized
@@ -154,7 +154,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         subscribePushTopic()
         initNotificationReceiver()
-//        setupAffirmation(isIncreaseNumber = true)
     }
 
     override fun onViewModelReady(viewModel: BaseViewModel) {
@@ -359,9 +358,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
             addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-//        if (selectNoteTypeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-//            selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-
         if (binding.selectNoteTypeBottomSheet.title.translationY == 0f)
             hideSelectNoteTypeView()
 
@@ -378,7 +374,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             binding.trackerSheet.contractFab()
 
         EventBus.getDefault().post(BackPressedEvent(true))
-//        super.onBackPressed()
     }
 
     override fun onDestroy() {
@@ -605,7 +600,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onLoadMainEvent(e: LoadMainEvent) {
-        lifecycleScope.async {
+        GlobalScope.launch(Dispatchers.IO) {
             userDiaryViewModel.getDiary()
             userSettingsViewModel.getUserSettings()
             userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
@@ -631,25 +626,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun subscribePushTopic() {
         try {
-//            val topic =
-//                if (BuildConfig.DEBUG) "general_dev" else "general_prom"
-//            FirebaseMessaging.getInstance().subscribeToTopic(topic)
-//                .addOnCompleteListener { task ->
-//                    if (!task.isSuccessful) {
-//                        Timber.d("Subscribe to topic failed.")
-//                    } else {
-//                        Timber.d("Subscribe to topic completed.")
-//                    }
-//                }
-        } catch (e: Exception) {
-            isFirebaseAvailable = false
-        }
-
-        try {
             cloudStorage = FirebaseStorage.getInstance()
-        } catch (e: Exception) {
-            isFirebaseAvailable = false
-        }
+        } catch (e: Exception) {}
     }
 
     @Subscribe

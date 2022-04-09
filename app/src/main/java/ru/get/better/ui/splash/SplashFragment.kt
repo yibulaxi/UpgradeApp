@@ -183,7 +183,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             }
     }
 
-
     private fun goNext() {
         if (binding.logoText.isAnimationLoaded && allowGoNext) {
             if (App.preferences.uid.isNullOrEmpty()) {
