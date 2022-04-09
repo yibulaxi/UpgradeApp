@@ -11,7 +11,7 @@ import retrofit2.Converter
 import retrofit2.converter.jackson.JacksonConverterFactory
 import ru.get.better.BuildConfig
 import ru.get.better.di.scope.AppScope
-import ru.get.better.rest.NasaService
+import ru.get.better.rest.AffirmationService
 
 @Module(includes = [(JsonModule::class)])
 class RetrofitModule(val context: Context) {
@@ -23,8 +23,8 @@ class RetrofitModule(val context: Context) {
 
     @AppScope
     @Provides
-    fun nasaService(): NasaService =
-        createRetrofit(BuildConfig.NASA_GOV_BASE_URL, context).create(NasaService::class.java)
+    fun affirmationService(): AffirmationService =
+        createRetrofit(BuildConfig.AFFIRMATIONS_BASE_URL, context).create(AffirmationService::class.java)
 }
 
 @Module

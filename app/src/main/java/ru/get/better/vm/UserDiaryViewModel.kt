@@ -189,11 +189,13 @@ class UserDiaryViewModel @Inject constructor(
 
                 userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
                     .observeOnce { userSettings ->
-                        var amount: Float = when (note.changeOfPoints) {
-                            0 -> userSettings!!.getDifficultyValue()
-                            1 -> 0f
-                            else -> -userSettings!!.getDifficultyValue()
-                        }
+//                        var amount: Float = when (note.changeOfPoints) {
+//                            0 -> userSettings!!.getDifficultyValue()
+//                            1 -> 0f
+//                            else -> -userSettings!!.getDifficultyValue()
+//                        }
+
+                        var amount = userSettings!!.getDifficultyValue()
 
                         Log.d("keke", "step1")
                         if (note.noteType == NoteType.Habit.id

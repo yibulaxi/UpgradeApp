@@ -13,8 +13,7 @@ android {
 
     defaultConfig {
 
-        buildConfigField "String", "NASA_GOV_BASE_URL", "\"https://api.nasa.gov/\""
-        buildConfigField "String", "NASA_GOV_API_KEY", "\"Jqvqx957kldYtdzbN5ggYaEsPsbQ7FRlLVMNUaUX\""
+        buildConfigField "String", "AFFIRMATIONS_BASE_URL", "\"http://5.45.79.21/\""
 
         applicationId "ru.get.better"
         minSdkVersion 23
