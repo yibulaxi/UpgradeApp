@@ -112,8 +112,8 @@ class NotesAdapter(
                 items!![it].diaryNote!!.text = foundNote.text
                 items!![it].diaryNote!!.media = foundNote.media
                 items!![it].diaryNote!!.interest?.interestId = foundNote.interest?.interestId!!
-                items!![it].diaryNote!!.interest?.interestName = foundNote.interest.interestName
-                items!![it].diaryNote!!.interest?.interestIcon = foundNote.interest.interestIcon
+                items!![it].diaryNote!!.interest?.interestName = foundNote.interest!!.interestName
+                items!![it].diaryNote!!.interest?.interestIcon = foundNote.interest!!.interestIcon
                 items!![it].diaryNote!!.changeOfPoints = foundNote.changeOfPoints
 
                 notifyItemChanged(it)

@@ -17,6 +17,7 @@ import ru.get.better.model.*
 import ru.get.better.rest.UserDiaryFields
 import ru.get.better.rest.UserDiaryTable
 import ru.get.better.util.SingleLiveEvent
+import ru.get.better.util.ext.mutableLiveDataOf
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -26,9 +27,13 @@ class UserDiaryViewModel @Inject constructor(
 
     init {
         EventBus.getDefault().register(this)
+        updateAllNotesLiveData()
     }
 
     val setDiaryNoteEvent = SingleLiveEvent<Boolean>()
+
+    val allNotesLiveData = mutableLiveDataOf<List<DiaryNote>>(emptyList())
+    val activeTrackerLiveData = mutableLiveDataOf<DiaryNote?>(null)
 
 //    private fun setDiary(
 //        documentSnapshot: DocumentSnapshot,
@@ -92,9 +97,21 @@ class UserDiaryViewModel @Inject constructor(
 //    private fun updateDiaryNotes(diaryNotes: ArrayList<DiaryNote>) =
 //        userDiaryRepository.insertOrUpdateList(diaryNotes)
 
+    private fun updateAllNotesLiveData() =
+        GlobalScope.launch {
+            allNotesLiveData.postValue(App.database.userDiaryDao().getAll())
+            updateActiveTrackerLiveData()
+        }
+
+    private fun updateActiveTrackerLiveData() =
+        GlobalScope.launch {
+            activeTrackerLiveData.postValue(App.database.userDiaryDao().getActiveTracker())
+        }
+
     fun resetDiary() =
         GlobalScope.launch {
             App.database.userDiaryDao().clear()
+            updateAllNotesLiveData()
         }
 
     suspend fun getNotes() =
@@ -124,6 +141,7 @@ class UserDiaryViewModel @Inject constructor(
     suspend fun getActiveTracker() =
         coroutineScope {
             withContext(Dispatchers.IO) {
+                updateActiveTrackerLiveData()
                 App.database.userDiaryDao().getActiveTracker()
             }
         }
@@ -132,6 +150,7 @@ class UserDiaryViewModel @Inject constructor(
     private fun deleteDiaryNote(noteId: String) {
         GlobalScope.launch {
             App.database.userDiaryDao().deleteNoteById(noteId)
+            updateAllNotesLiveData()
         }
 //        EventBus.getDefault().post(ChangeProgressStateEvent(true))
 //
@@ -177,6 +196,7 @@ class UserDiaryViewModel @Inject constructor(
             if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis().toString()
 
             App.database.userDiaryDao().update(tracker)
+            updateAllNotesLiveData()
         }
 //        EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
@@ -254,6 +274,8 @@ class UserDiaryViewModel @Inject constructor(
                             )
                         )
                 }
+
+            updateAllNotesLiveData()
         }
 
 //        val data = hashMapOf(

@@ -344,8 +344,13 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     @Subscribe
     fun onShowSpotlightEvent(e: ShowSpotlightEvent) {
-        if (e.spotlightType == SpotlightType.MetricWheel)
-            showWheelSpotlight()
+        if (e.spotlightType == SpotlightType.MetricWheel) {
+            android.os.Handler().postDelayed({
+                showWheelSpotlight()
+            }, 1500)
+
+        }
+
     }
 
     private fun showWheelSpotlight() {
@@ -516,7 +521,42 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                 )
             )
 
-            userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
+//            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//                val notes = userDiaryViewModel.getNotes()
+//
+//                title.text = interest.name
+//                amount.text =
+//                    String.format("%.2f", interest.currentValue)
+//                        .replace(".", ",")
+//
+//                amountMax.isVisible = interest.currentValue == 10f
+//
+//                notesAmount.isVisible =
+//                    notes.any { it.interest!!.interestId == interest.id }
+//                notesAmount.text =
+//                    getString(R.string.wrote_notes) +
+//                            notes.filter { it.interest!!.interestId == interest.id }.size
+//
+//                startValue.text =
+//                    getString(R.string.start_value) + " " + String.format(
+//                        "%.2f",
+//                        interest.startValue
+//                    )
+//                        .replace(".", ",")
+//                currentValue.text =
+//                    getString(R.string.current_value) + " " + String.format(
+//                        "%.2f",
+//                        interest.currentValue
+//                    )
+//                        .replace(".", ",")
+//
+//                edit.setOnClickListener {
+//                    interestDetailBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//                    showEditInterestDialog(interest)
+//                }
+//            }
+
+            userDiaryViewModel.allNotesLiveData.observe(this@MetricFragment) { notes ->
                 title.text = interest.name
                 amount.text =
                     String.format("%.2f", interest.currentValue)
@@ -872,7 +912,12 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
         setAverageAmount()
 
-        userDiaryViewModel.getNotes().observe(this@MetricFragment) { notes ->
+//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//            val notes = userDiaryViewModel.getNotes()
+//            binding.diaryAmount.text = notes.size.toString()
+//        }
+
+        userDiaryViewModel.allNotesLiveData.observe(this@MetricFragment) { notes ->
             binding.diaryAmount.text = notes.size.toString()
         }
 

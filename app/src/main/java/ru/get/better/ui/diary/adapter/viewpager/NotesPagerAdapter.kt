@@ -7,7 +7,7 @@ import ru.get.better.model.DiaryNote
 
 class NotesPagerAdapter(
     private val context: Context,
-    private val notes: MutableList<DiaryNote>
+    val notes: MutableList<DiaryNote>
 ) : RecyclerView.Adapter<NotesPagerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -88,8 +88,8 @@ class NotesPagerAdapter(
                 notes[it].text = foundNote.text
                 notes[it].media = foundNote.media
                 notes[it].interest?.interestId = foundNote.interest?.interestId!!
-                notes[it].interest?.interestName = foundNote.interest.interestName
-                notes[it].interest?.interestIcon = foundNote.interest.interestIcon
+                notes[it].interest?.interestName = foundNote.interest!!.interestName
+                notes[it].interest?.interestIcon = foundNote.interest!!.interestIcon
                 notes[it].changeOfPoints = foundNote.changeOfPoints
 
                 notifyItemChanged(it)

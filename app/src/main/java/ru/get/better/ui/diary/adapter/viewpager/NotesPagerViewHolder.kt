@@ -208,7 +208,7 @@ class NotesPagerViewHolder(
         binding.icon.setImageDrawable(
             AppCompatResources.getDrawable(
                 context,
-                DefaultInterest.getInterestById(note.interest.interestId.toInt()).getLogo()
+                DefaultInterest.getInterestById(note.interest!!.interestId.toInt()).getLogo()
             )
         )
 
@@ -262,10 +262,10 @@ class NotesPagerViewHolder(
             binding.habitsRealizationValue.text =
                 note.datesCompletion!!.filter { it.datesCompletionIsCompleted == true }.size.toString() +
                         " / " +
-                        note.datesCompletion.size.toString()
+                        note.datesCompletion!!.size.toString()
 
             binding.habitsRealizationRecycler.adapter =
-                HabitsRealizationAdapter(context, note.datesCompletion.toMutableList())
+                HabitsRealizationAdapter(context, note.datesCompletion!!.toMutableList())
         } else {
             binding.habitsCountCard.isVisible = false
             binding.habitsRealizationsCard.isVisible = false

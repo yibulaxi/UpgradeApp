@@ -103,7 +103,6 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
     private fun setupLogic() {
         setupDiary()
-        setupHabitsRealization()
 
         viewPagerBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -353,14 +352,24 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     }
 
     private fun setupDiary() {
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-            val notes = userDiaryViewModel.getNotes()
-            observeDiary(notes)
+//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//            val notes = userDiaryViewModel.getNotes()
+//            observeDiary(notes)
+//        }
+
+        userDiaryViewModel.allNotesLiveData.observe(this) { notes ->
+//            lifecycleScope.launch(Dispatchers.IO) {
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                setupHabitsRealization()
+                observeDiary(notes)
+            }
+
+//            }
         }
 //        userDiaryViewModel.getNotes().observe(this) { notes ->
-////            lifecycleScope.launch(Dispatchers.IO) {
+//            lifecycleScope.launch(Dispatchers.IO) {
 //                observeDiary(notes)
-////            }
+//            }
 ////
 //        }
     }
@@ -381,13 +390,19 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
         binding.blur.isVisible = true
         binding.viewPagerBottomSheet.viewPager.post {
             binding.viewPagerBottomSheet.viewPager.setCurrentItem(
-                e.position,
+                getViewPagerPositionByNoteId(e.noteId),
                 true
             )
         }
 
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
     }
+
+    private fun getViewPagerPositionByNoteId(noteId: String): Int =
+        pagerAdapter.notes.indexOf(
+            pagerAdapter.notes.first { it.diaryNoteId == noteId }
+        )
+
 
     @Subscribe
     fun onUpdateDiaryEvent(e: UpdateDiaryEvent) {

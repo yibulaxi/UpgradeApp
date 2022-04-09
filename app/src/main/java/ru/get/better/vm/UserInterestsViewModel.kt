@@ -87,7 +87,7 @@ class UserInterestsViewModel @Inject constructor(
                 viewModelScope.launch(Dispatchers.IO) {
 
 //                    userSettingsViewModel.getUserSettings()
-                    userDiaryViewModel.getDiary()
+//                    userDiaryViewModel.getDiary()
                     getInterests { Navigator.toMetric(e.f) }
                 }
 
@@ -136,7 +136,7 @@ class UserInterestsViewModel @Inject constructor(
             .update(interest.toFirestore() as Map<String, Any>)
             .addOnSuccessListener {
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                userDiaryViewModel.getDiary()
+//                userDiaryViewModel.getDiary()
                 onSuccess.invoke()
             }
             .addOnFailureListener {}
@@ -148,7 +148,7 @@ class UserInterestsViewModel @Inject constructor(
             .update(interest.toFirestore() as Map<String, Any>)
             .addOnSuccessListener {
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                userDiaryViewModel.getDiary()
+//                userDiaryViewModel.getDiary()
             }
             .addOnFailureListener { }
     }
@@ -163,7 +163,7 @@ class UserInterestsViewModel @Inject constructor(
             )
             .addOnSuccessListener {
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                userDiaryViewModel.getDiary()
+//                userDiaryViewModel.getDiary()
                 onSuccess.invoke()
             }
             .addOnFailureListener {}
@@ -191,7 +191,7 @@ class UserInterestsViewModel @Inject constructor(
             .update(interest.toFirestore() as Map<String, Any>)
             .addOnSuccessListener {
                 getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                userDiaryViewModel.getDiary()
+//                userDiaryViewModel.getDiary()
             }
             .addOnFailureListener {}
     }

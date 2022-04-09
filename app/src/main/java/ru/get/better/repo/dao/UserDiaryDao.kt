@@ -7,7 +7,7 @@ import ru.get.better.model.DiaryNote
 @Dao
 interface UserDiaryDao {
     @Query("SELECT * FROM user_diary_table")
-    fun getAll(): List<DiaryNote>
+    fun getAll(): List<DiaryNote>?
 
     @Query("SELECT * FROM user_diary_table WHERE diaryNoteId = :id")
     fun getById(id: String): DiaryNote?

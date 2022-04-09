@@ -6,6 +6,10 @@ import android.app.NotificationManager
 import android.content.Context
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import lv.chi.photopicker.ChiliPhotoPicker
 import ru.get.better.di.AppModule
 import ru.get.better.di.DaggerAppComponent
@@ -28,22 +32,26 @@ class App : DaggerApplication() {
         super.onCreate()
 
         instance = this
-        preferences = Preferences(this)
-        resourcesProvider = ResourcesProvider(this)
-        database = AppDatabase(this)
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+//        GlobalScope.launch(Dispatchers.IO, CoroutineStart.DEFAULT) {
+            preferences = Preferences(this@App)
+            resourcesProvider = ResourcesProvider(this@App)
+            database = AppDatabase(this@App)
 
-        appLaunchedLogic()
+            if (BuildConfig.DEBUG) {
+                Timber.plant(Timber.DebugTree())
+            }
 
-        ChiliPhotoPicker.init(
-            loader = GlideImageLoader(),
-            authority = "com.velkonost.upgrade.fileprovider"
-        )
+            appLaunchedLogic()
 
-        createNotificationChannel()
+            ChiliPhotoPicker.init(
+                loader = GlideImageLoader(),
+                authority = "com.velkonost.upgrade.fileprovider"
+            )
+
+            createNotificationChannel()
+//        }
+
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = appComponent

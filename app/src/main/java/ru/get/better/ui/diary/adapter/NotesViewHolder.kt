@@ -95,7 +95,9 @@ class NotesViewHolder(
         )
 
         binding.container.setOnClickListener {
-            EventBus.getDefault().post(ShowNoteDetailEvent(position))
+            EventBus.getDefault().post(
+                ShowNoteDetailEvent(position, note.diaryNoteId)
+            )
         }
 
     }

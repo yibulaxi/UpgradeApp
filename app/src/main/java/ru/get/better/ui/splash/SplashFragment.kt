@@ -62,7 +62,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         } else {
             GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                 userSettingsViewModel
-                    .getUserSettingsById(App.preferences.uid!!)?.let {
+                    .getUserSettingsById(App.preferences.uid!!).let {
                         animateText = it?.let {
                             App.resourcesProvider.getStringLocale(
                                 R.string.hello, App.preferences.locale
@@ -71,11 +71,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                         start()
                     }
             }
-//            userSettingsViewModel
-//                .getUserSettingsById(App.preferences.uid!!)
-//                .observeOnce(this) {
-//
-//                }
         }
     }
 

@@ -27,6 +27,7 @@ import ru.get.better.R
 import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.glide.GlideApp
 import ru.get.better.navigation.Navigator
+import ru.get.better.ui.metric.MetricFragment
 import ru.get.better.ui.settings.SettingsFragment
 import ru.get.better.util.ext.getViewModel
 import ru.get.better.util.lazyErrorDelegate
@@ -153,6 +154,14 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        exitTransition = MaterialFadeThrough().apply {
+//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+//        }
+//
+//
+//        enterTransition = MaterialFadeThrough().apply {
+//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+//        }
 
         registerBackPressedCallback()
 

@@ -110,12 +110,12 @@ enum class ChangeOfPoints(val id: Int) {
 class MediaConverters {
 
     @TypeConverter
-    fun fromMediaToJson(media: ArrayList<String>): String =
+    fun fromMediaToJson(media: ArrayList<String>?): String? =
         Gson().toJson(media)
 
     @TypeConverter
-    fun fromJsonToMedia(json: String): ArrayList<String> {
-        if (json.isEmpty())
+    fun fromJsonToMedia(json: String?): ArrayList<String>? {
+        if (json.isNullOrEmpty())
             return arrayListOf()
         return Gson().fromJson(json, object : TypeToken<ArrayList<String>>() {}.type)
     }

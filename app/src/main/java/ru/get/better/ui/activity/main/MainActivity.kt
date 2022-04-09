@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,12 +19,10 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -65,15 +62,10 @@ import ru.get.better.event.*
 import ru.get.better.model.*
 import ru.get.better.navigation.Navigator
 import ru.get.better.push.NotificationReceiver
-import ru.get.better.rest.UserSettingsFields
 import ru.get.better.ui.activity.main.adapter.AddPostMediaAdapter
 import ru.get.better.ui.activity.main.ext.*
 import ru.get.better.ui.base.BaseActivity
 import ru.get.better.ui.view.SimpleCustomSnackbar
-import ru.get.better.util.OnSwipeTouchListener
-import ru.get.better.util.ViewState
-import ru.get.better.util.doOn
-import ru.get.better.util.ext.observeOnce
 import ru.get.better.vm.*
 import java.util.*
 
@@ -133,6 +125,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+        Log.e("keke", "kekekekekek")
         StatusBarUtil.setDarkMode(this)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 
@@ -602,7 +595,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         GlobalScope.launch(Dispatchers.IO) {
-            userDiaryViewModel.getDiary()
+//            userDiaryViewModel.getDiary()
 
             userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
         }
@@ -628,7 +621,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     private fun subscribePushTopic() {
         try {
             cloudStorage = FirebaseStorage.getInstance()
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
     }
 
     @Subscribe
@@ -696,24 +690,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun showSpotlights() {
         if (!isAnySpotlightActiveNow) {
-
-                if (
-                    !App.preferences.isMetricWheelSpotlightShown
-                    && currentSecondaryView == SecondaryViews.Empty
-                ) {
-                    EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.MetricWheel))
-                } else if (
-                    !App.preferences.isMainAddPostSpotlightShown
-                    && currentSecondaryView == SecondaryViews.Empty
-                ) {
-                    showAddPostSpotlight()
-                } else if (
-                    !App.preferences.isDiaryHabitsSpotlightShown
-                    && currentSecondaryView == SecondaryViews.Empty
-                ) {
-                    EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.DiaryHabits))
-                }
+            if (
+                !App.preferences.isMetricWheelSpotlightShown
+                && currentSecondaryView == SecondaryViews.Empty
+            ) {
+                EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.MetricWheel))
+            } else if (
+                !App.preferences.isMainAddPostSpotlightShown
+                && currentSecondaryView == SecondaryViews.Empty
+            ) {
+                showAddPostSpotlight()
+            } else if (
+                !App.preferences.isDiaryHabitsSpotlightShown
+                && currentSecondaryView == SecondaryViews.Empty
+            ) {
+                EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.DiaryHabits))
             }
+        }
     }
 
     @Subscribe
