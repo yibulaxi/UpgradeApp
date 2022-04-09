@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
@@ -15,17 +14,14 @@ import ru.get.better.event.DeleteDiaryNoteEvent
 import ru.get.better.event.UpdateDiaryEvent
 import ru.get.better.event.UpdateUserInterestEvent
 import ru.get.better.model.*
-import ru.get.better.repo.UserDiaryRepository
 import ru.get.better.rest.UserDiaryFields
 import ru.get.better.rest.UserDiaryTable
 import ru.get.better.util.SingleLiveEvent
-import ru.get.better.util.ext.observeOnce
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 class UserDiaryViewModel @Inject constructor(
-    private val userSettingsViewModel: UserSettingsViewModel,
-    private val userDiaryRepository: UserDiaryRepository
+    private val userSettingsViewModel: UserSettingsViewModel
 ) : BaseViewModel() {
 
     init {
@@ -34,139 +30,172 @@ class UserDiaryViewModel @Inject constructor(
 
     val setDiaryNoteEvent = SingleLiveEvent<Boolean>()
 
-    private fun setDiary(
-        documentSnapshot: DocumentSnapshot,
-        onComplete: () -> Unit
-    ) {
-
-//        try {
-        val firestoreDiaryNotes: ArrayList<DiaryNote> = arrayListOf()
-
-        documentSnapshot.data?.map {
-            firestoreDiaryNotes.add(
-                DiaryNote(
-                    noteType = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.NoteType]!!]
-                        .toString().toInt(),
-                    interest = ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Interest]!!] as HashMap<*, *>)
-                        .toDiaryNoteInterest(),
-                    diaryNoteId = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DiaryNoteId]!!].toString(),
-                    text = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Text]!!].toString(),
-                    date = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Date]].toString(),
-                    changeOfPoints = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.ChangeOfPoints]].toString()
-                        .toInt(),
-                    media =
-                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Media]] == null) arrayListOf()
-                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Media]] as ArrayList<String>,
-                    tags = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Tags]] as ArrayList<String>,
-                    datetimeStart = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatetimeStart]].toString(),
-                    datetimeEnd = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatetimeEnd]].toString(),
-                    isActiveNow = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.IsActiveNow]].toString()
-                        .toBoolean(),
-                    isPushAvailable = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.IsPushAvailable]].toString()
-                        .toBoolean(),
-                    initialAmount =
-                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.InitialAmount]] == null) 0
-                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.InitialAmount]]
-                        .toString().toInt(),
-                    currentAmount =
-                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.CurrentAmount]] == null) 0
-                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.CurrentAmount]]
-                        .toString().toInt(),
-                    regularity =
-                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Regularity]] == null) 0
-                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Regularity]]
-                        .toString().toInt(),
-                    color = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Color]].toString(),
-                    datesCompletion =
-                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] == null) arrayListOf()
-                    else ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] as ArrayList<*>)
-                        .toDiaryNoteDatesCompletion()
-                )
-            )
-        }.run {
-            updateDiaryNotes(firestoreDiaryNotes)
-            onComplete.invoke()
-        }
+//    private fun setDiary(
+//        documentSnapshot: DocumentSnapshot,
+//        onComplete: () -> Unit
+//    ) {
+//
+////        try {
+//        val firestoreDiaryNotes: ArrayList<DiaryNote> = arrayListOf()
+//
+//        documentSnapshot.data?.map {
+//            firestoreDiaryNotes.add(
+//                DiaryNote(
+//                    noteType = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.NoteType]!!]
+//                        .toString().toInt(),
+//                    interest = ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Interest]!!] as HashMap<*, *>)
+//                        .toDiaryNoteInterest(),
+//                    diaryNoteId = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DiaryNoteId]!!].toString(),
+//                    text = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Text]!!].toString(),
+//                    date = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Date]].toString(),
+//                    changeOfPoints = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.ChangeOfPoints]].toString()
+//                        .toInt(),
+//                    media =
+//                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Media]] == null) arrayListOf()
+//                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Media]] as ArrayList<String>,
+//                    tags = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Tags]] as ArrayList<String>,
+//                    datetimeStart = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatetimeStart]].toString(),
+//                    datetimeEnd = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatetimeEnd]].toString(),
+//                    isActiveNow = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.IsActiveNow]].toString()
+//                        .toBoolean(),
+//                    isPushAvailable = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.IsPushAvailable]].toString()
+//                        .toBoolean(),
+//                    initialAmount =
+//                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.InitialAmount]] == null) 0
+//                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.InitialAmount]]
+//                        .toString().toInt(),
+//                    currentAmount =
+//                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.CurrentAmount]] == null) 0
+//                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.CurrentAmount]]
+//                        .toString().toInt(),
+//                    regularity =
+//                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Regularity]] == null) 0
+//                    else (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Regularity]]
+//                        .toString().toInt(),
+//                    color = (it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.Color]].toString(),
+//                    datesCompletion =
+//                    if ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] == null) arrayListOf()
+//                    else ((it.value as HashMap<*, *>)[UserDiaryTable().tableFields[UserDiaryFields.DatesCompletion]] as ArrayList<*>)
+//                        .toDiaryNoteDatesCompletion()
+//                )
+//            )
+//        }.run {
+//            updateDiaryNotes(firestoreDiaryNotes)
+//            onComplete.invoke()
+//        }
 
 //        } catch (e: Exception) {
 //            EventBus.getDefault().post(GoAuthEvent(true))
 //        }
-    }
+//    }
 
-    private fun updateDiaryNotes(diaryNotes: ArrayList<DiaryNote>) =
-        userDiaryRepository.insertOrUpdateList(diaryNotes)
+//    private fun updateDiaryNotes(diaryNotes: ArrayList<DiaryNote>) =
+//        userDiaryRepository.insertOrUpdateList(diaryNotes)
 
     fun resetDiary() =
-        viewModelScope.launch {
-            userDiaryRepository.clear()
+        GlobalScope.launch {
+            App.database.userDiaryDao().clear()
         }
 
-    fun getNotes() = userDiaryRepository.getAllLiveData()
+    suspend fun getNotes() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userDiaryDao().getAll()
+            }
+        }
+//        userDiaryRepository.getAllLiveData()
 
-    fun getHabits() = userDiaryRepository.getHabits()
+    suspend fun getHabits() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userDiaryDao().getHabits()
+            }
+        }
+//        userDiaryRepository.getHabits()
 
-    fun getNoteMediaById(id: String) = userDiaryRepository.getByIdLiveData(id)
+    suspend fun getNoteMediaById(id: String) =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userDiaryDao().getById(id)
+            }
+        }
+//        userDiaryRepository.getByIdLiveData(id)
 
-    fun getActiveTracker() = userDiaryRepository.getActiveTracker()
+    suspend fun getActiveTracker() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userDiaryDao().getActiveTracker()
+            }
+        }
+//        userDiaryRepository.getActiveTracker()
 
     private fun deleteDiaryNote(noteId: String) {
-        EventBus.getDefault().post(ChangeProgressStateEvent(true))
-
-        val deleteNote = hashMapOf(
-            noteId to FieldValue.delete()
-        )
-
-        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-            .document(App.preferences.uid!!)
-            .update(deleteNote as Map<String, Any>)
-            .addOnSuccessListener {
-//                CoroutineScope(Dispatchers.IO).launch {
-                userDiaryRepository.deleteNoteById(noteId)
-//                }
-            }
-            .addOnFailureListener { }
-    }
-
-    fun getDiary() {
-        Log.d("keke", "getDiary")
-        viewModelScope.launch(Dispatchers.IO) {
-            EventBus.getDefault().post(ChangeProgressStateEvent(true))
-
-            cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-                .document(App.preferences.uid!!)
-                .get()
-                .addOnSuccessListener {
-                    setDiary(it) {
-                        EventBus.getDefault().post(UpdateDiaryEvent(true))
-                        EventBus.getDefault().post(ChangeProgressStateEvent(isActive = false))
-                    }
-                }
-                .addOnFailureListener {}
+        GlobalScope.launch {
+            App.database.userDiaryDao().deleteNoteById(noteId)
         }
+//        EventBus.getDefault().post(ChangeProgressStateEvent(true))
+//
+//        val deleteNote = hashMapOf(
+//            noteId to FieldValue.delete()
+//        )
+//
+//        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+//            .document(App.preferences.uid!!)
+//            .update(deleteNote as Map<String, Any>)
+//            .addOnSuccessListener {
+////                CoroutineScope(Dispatchers.IO).launch {
+//                userDiaryRepository.deleteNoteById(noteId)
+////                }
+//            }
+//            .addOnFailureListener { }
     }
+
+//    fun getDiary() {
+//        Log.d("keke", "getDiary")
+//        viewModelScope.launch(Dispatchers.IO) {
+//            EventBus.getDefault().post(ChangeProgressStateEvent(true))
+//
+//            cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+//                .document(App.preferences.uid!!)
+//                .get()
+//                .addOnSuccessListener {
+//                    setDiary(it) {
+////                        EventBus.getDefault().post(UpdateDiaryEvent(true))
+//                        EventBus.getDefault().post(ChangeProgressStateEvent(isActive = false))
+//                    }
+//                }
+//                .addOnFailureListener {}
+//        }
+//    }
 
     fun changeTrackerState(
         tracker: DiaryNote,
         isActiveNow: Boolean
     ) {
-        EventBus.getDefault().post(ChangeProgressStateEvent(true))
+        GlobalScope.launch {
+            tracker.isActiveNow = isActiveNow
+            if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis().toString()
 
-        tracker.isActiveNow = isActiveNow
-        if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis().toString()
+            App.database.userDiaryDao().update(tracker)
+        }
+//        EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
-        val data = hashMapOf(
-            tracker.diaryNoteId to tracker.toFirestore()
-        )
+//        tracker.isActiveNow = isActiveNow
+//        if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis().toString()
 
-        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-            .document(App.preferences.uid!!)
-            .update(data as Map<String, Any>)
-            .addOnSuccessListener {
-                getDiary()
-            }
-            .addOnFailureListener {
-
-            }
+//        val data = hashMapOf(
+//            tracker.diaryNoteId to tracker.toFirestore()
+//        )
+//
+//        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+//            .document(App.preferences.uid!!)
+//            .update(data as Map<String, Any>)
+//            .addOnSuccessListener {
+//                getDiary()
+//            }
+//            .addOnFailureListener {
+//
+//            }
     }
 
     fun setNote(
@@ -175,78 +204,139 @@ class UserDiaryViewModel @Inject constructor(
         Log.d("keke", "setNote")
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
-        val data = hashMapOf(
-            note.diaryNoteId to note.toFirestore()
-        )
+        GlobalScope.launch {
+            val oldNote = App.database.userDiaryDao().getById(note.diaryNoteId)
 
-        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-            .document(App.preferences.uid!!)
-            .update(data as Map<String, Any>)
-            .addOnSuccessListener {
+            if (oldNote != null) {
+                oldNote.text = note.text
+                oldNote.date = note.date
+                oldNote.media = note.media
+                oldNote.changeOfPoints = note.changeOfPoints
+                oldNote.interest = note.interest
+                oldNote.datetimeStart = note.datetimeStart
+                oldNote.datetimeEnd = note.datetimeEnd
+                oldNote.isActiveNow = note.isActiveNow
+                oldNote.isPushAvailable = note.isPushAvailable
+                oldNote.initialAmount = note.initialAmount
+                oldNote.currentAmount = note.currentAmount
+                oldNote.regularity = note.regularity
+                oldNote.color = note.color
+                oldNote.datesCompletion = note.datesCompletion
+                oldNote.tags = note.tags
 
-                setDiaryNoteEvent.postValue(true)
-                getDiary()
+                App.database.userDiaryDao().update(oldNote)
+            } else {
+                App.database.userDiaryDao().insert(note)
+            }
 
-                userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
-                    .observeOnce { userSettings ->
+            setDiaryNoteEvent.postValue(true)
+
+            userSettingsViewModel
+                .getUserSettingsById(App.preferences.uid!!)?.let { userSettings ->
 //                        var amount: Float = when (note.changeOfPoints) {
 //                            0 -> userSettings!!.getDifficultyValue()
 //                            1 -> 0f
 //                            else -> -userSettings!!.getDifficultyValue()
 //                        }
 
-                        var amount = userSettings!!.getDifficultyValue()
+                    var amount = userSettings.getDifficultyValue()
 
-                        Log.d("keke", "step1")
-                        if (note.noteType == NoteType.Habit.id
-                            && note.datesCompletion!!.none { it.datesCompletionIsCompleted == true }
-                        ) amount = 0f
+                    Log.d("keke", "step1")
+                    if (note.noteType == NoteType.Habit.id
+                        && note.datesCompletion!!.none { it.datesCompletionIsCompleted == true }
+                    ) amount = 0f
 
-                        EventBus.getDefault()
-                            .post(
-                                UpdateUserInterestEvent(
-                                    interestId = note.interest!!.interestId,
-                                    amount = amount
-                                )
+                    EventBus.getDefault()
+                        .post(
+                            UpdateUserInterestEvent(
+                                interestId = note.interest!!.interestId,
+                                amount = amount
                             )
-                    }
-
-            }
-            .addOnFailureListener {
-                if (it is FirebaseFirestoreException && it.code.value() == 5) {
-                    cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
-                        .document(App.preferences.uid!!)
-                        .set(data as Map<String, Any>)
-                        .addOnSuccessListener {
-                            setDiaryNoteEvent.postValue(true)
-
-                            userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
-                                .observeOnce { userSettings ->
-                                    var amount: Float = when (note.changeOfPoints) {
-                                        0 -> userSettings!!.getDifficultyValue()
-                                        1 -> 0f
-                                        else -> -userSettings!!.getDifficultyValue()
-                                    }
-
-                                    if (note.noteType == NoteType.Habit.id)
-                                        amount = 0f
-
-                                    EventBus.getDefault()
-                                        .post(
-                                            UpdateUserInterestEvent(
-                                                interestId = note.interest!!.interestId,
-                                                amount = amount
-                                            )
-                                        )
-                                }
-                        }
-                        .addOnFailureListener {
-                            setDiaryNoteEvent.postValue(false)
-                        }
-                } else {
-                    setDiaryNoteEvent.postValue(false)
+                        )
                 }
-            }
+        }
+
+//        val data = hashMapOf(
+//            note.diaryNoteId to note.toFirestore()
+//        )
+
+//        cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+//            .document(App.preferences.uid!!)
+//            .update(data as Map<String, Any>)
+//            .addOnSuccessListener {
+//
+//                setDiaryNoteEvent.postValue(true)
+//                getDiary()
+//
+//                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//                    userSettingsViewModel
+//                        .getUserSettingsById(App.preferences.uid!!)?.let { userSettings ->
+////                        var amount: Float = when (note.changeOfPoints) {
+////                            0 -> userSettings!!.getDifficultyValue()
+////                            1 -> 0f
+////                            else -> -userSettings!!.getDifficultyValue()
+////                        }
+//
+//                            var amount = userSettings.getDifficultyValue()
+//
+//                            Log.d("keke", "step1")
+//                            if (note.noteType == NoteType.Habit.id
+//                                && note.datesCompletion!!.none { it.datesCompletionIsCompleted == true }
+//                            ) amount = 0f
+//
+//                            EventBus.getDefault()
+//                                .post(
+//                                    UpdateUserInterestEvent(
+//                                        interestId = note.interest!!.interestId,
+//                                        amount = amount
+//                                    )
+//                                )
+//                        }
+//                }
+//            }
+//            .addOnFailureListener {
+//                if (it is FirebaseFirestoreException && it.code.value() == 5) {
+//                    cloudFirestoreDatabase.collection(UserDiaryTable().tableName)
+//                        .document(App.preferences.uid!!)
+//                        .set(data as Map<String, Any>)
+//                        .addOnSuccessListener {
+//                            setDiaryNoteEvent.postValue(true)
+//
+//                            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//                                userSettingsViewModel
+//                                    .getUserSettingsById(App.preferences.uid!!)?.let { userSettings ->
+////                                        var amount: Float = when (note.changeOfPoints) {
+////                                            0 -> userSettings!!.getDifficultyValue()
+////                                            1 -> 0f
+////                                            else -> -userSettings!!.getDifficultyValue()
+////                                        }
+//                                        var amount = userSettings.getDifficultyValue()
+//
+//                                        if (note.noteType == NoteType.Habit.id)
+//                                            amount = 0f
+//
+//                                        EventBus.getDefault()
+//                                            .post(
+//                                                UpdateUserInterestEvent(
+//                                                    interestId = note.interest!!.interestId,
+//                                                    amount = amount
+//                                                )
+//                                            )
+//                                    }
+//                            }
+//
+////                            userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
+////                                .observeOnce { userSettings ->
+////
+////                                }
+//                        }
+//                        .addOnFailureListener {
+//                            setDiaryNoteEvent.postValue(false)
+//                        }
+//                } else {
+//                    setDiaryNoteEvent.postValue(false)
+//                }
+//            }
 //            }
     }
 

@@ -69,7 +69,9 @@ import kotlin.collections.ArrayList
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.get.better.ui.activity.main.ext.SecondaryViews
 import ru.get.better.util.Keyboard
@@ -409,7 +411,9 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
             App.preferences.isMetricWheelSpotlightShown = true
             EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))
-            userSettingsViewModel.updateField(UserSettingsFields.IsMetricWheelSpotlightShown, true)
+
+            App.preferences.isMetricWheelSpotlightShown = true
+//            userSettingsViewModel.updateField(UserSettingsFields.IsMetricWheelSpotlightShown, true)
         }
     }
 
@@ -872,14 +876,24 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             binding.diaryAmount.text = notes.size.toString()
         }
 
-        userSettingsViewModel.getUserSettingsById(
-            App.preferences.uid!!
-        ).observe(this@MetricFragment) {
-            binding.daysAmount.text =
-                ((System.currentTimeMillis() - (it?.dateRegistration
-                    ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
-                    .toString()
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            userSettingsViewModel
+                .getUserSettingsById(App.preferences.uid!!)?.let {
+                binding.daysAmount.text =
+                    ((System.currentTimeMillis() - (it.dateRegistration
+                        ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
+                        .toString()
+            }
+
         }
+//        userSettingsViewModel.getUserSettingsById(
+//            App.preferences.uid!!
+//        ).observe(this@MetricFragment) {
+//            binding.daysAmount.text =
+//                ((System.currentTimeMillis() - (it?.dateRegistration
+//                    ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
+//                    .toString()
+//        }
 
         binding.list.animate()
             .translationY(binding.list.height.toFloat())

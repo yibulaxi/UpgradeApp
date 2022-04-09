@@ -5,20 +5,18 @@ import android.animation.ValueAnimator
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.transition.Fade
-import android.transition.TransitionManager
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.firebase.ui.auth.AuthUI
-import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.BuildConfig
@@ -29,8 +27,6 @@ import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.model.AllLogo
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
-import ru.get.better.util.ext.observeOnce
-import ru.get.better.vm.SettingsViewModel
 import ru.get.better.vm.UserDiaryViewModel
 import ru.get.better.vm.UserSettingsViewModel
 import timber.log.Timber
@@ -106,11 +102,11 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         binding.icon.setImageResource(AllLogo().getRandomLogo())
-        userSettingsViewModel.getUserSettingsById(
-            App.preferences.uid!!
-        )
-            .observeOnce(viewLifecycleOwner, {
-                binding.name.text = it!!.login
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+
+            userSettingsViewModel
+                .getUserSettingsById(App.preferences.uid!!)?.let {
+                binding.name.text = it.login
 
                 currentDifficulty = it.difficulty!!.toInt()
                 binding.difficultySpinner.selectItemByIndex(currentDifficulty)
@@ -120,7 +116,24 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 allowChangeDifficulty = true
 
                 setupLocaleSpinner(App.preferences.locale)
-            })
+            }
+
+        }
+//        userSettingsViewModel.getUserSettingsById(
+//            App.preferences.uid!!
+//        )
+//            .observeOnce(viewLifecycleOwner, {
+//                binding.name.text = it!!.login
+//
+//                currentDifficulty = it.difficulty!!.toInt()
+//                binding.difficultySpinner.selectItemByIndex(currentDifficulty)
+//                binding.difficultySpinner.setOnSpinnerOutsideTouchListener { view, motionEvent ->
+//                    binding.difficultySpinner.dismiss()
+//                }
+//                allowChangeDifficulty = true
+//
+//                setupLocaleSpinner(App.preferences.locale)
+//            })
 //        }
 
     }
@@ -1078,7 +1091,10 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                     App.preferences.isMainAddPostSpotlightShown = false
                     App.preferences.isMetricWheelSpotlightShown = false
 
-                    userSettingsViewModel.resetUserSettings()
+                    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                        userSettingsViewModel.resetUserSettings()
+                    }
+
                     userDiaryViewModel.resetDiary()
 
                     Navigator.settingsToSplash(this@SettingsFragment)

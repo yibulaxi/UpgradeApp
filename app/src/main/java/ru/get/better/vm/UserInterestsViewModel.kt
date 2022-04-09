@@ -26,7 +26,6 @@ import javax.inject.Inject
 class UserInterestsViewModel @Inject constructor(
     private val userDiaryViewModel: UserDiaryViewModel,
     private val userSettingsViewModel: UserSettingsViewModel,
-//    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
 
     init {
@@ -87,7 +86,7 @@ class UserInterestsViewModel @Inject constructor(
                 App.preferences.isInterestsInitialized = true
                 viewModelScope.launch(Dispatchers.IO) {
 
-                    userSettingsViewModel.getUserSettings()
+//                    userSettingsViewModel.getUserSettings()
                     userDiaryViewModel.getDiary()
                     getInterests { Navigator.toMetric(e.f) }
                 }

@@ -42,6 +42,10 @@ import com.onegravity.rteditor.api.RTApi
 import com.onegravity.rteditor.api.format.RTFormat
 import com.onegravity.rteditor.toolbar.HorizontalRTToolbar
 import com.onegravity.rteditor.toolbar.RTToolbarImageButton
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 fun MainActivity.showSelectNoteTypeView() {
@@ -785,21 +789,34 @@ fun MainActivity.setupAddPostBottomSheet() {
         addPost.setOnClickListener {
             if (editText.text?.length == 0) {
                 showFail(getString(R.string.enter_note_text))
-            } else if (!isMediaAdapterInitialized() || mediaAdapter.getMedia().size == 0)
-                userDiaryViewModel.getNoteMediaById(noteId ?: "")
-                    .observeOnce(context) { diaryNote ->
-                        setDiaryNote(
-                            noteId = noteId,
-                            noteType = NoteType.Note.id,
-                            mediaUrls = diaryNote?.media,
-                            text = editText.getText(RTFormat.HTML),//editText.text.toString(),
-                            date =
-                            if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis()
-                                .toString()
-                            else diaryNote?.date!!
-                        )
-                    }
-            else uploadMedia(
+            } else if (!isMediaAdapterInitialized() || mediaAdapter.getMedia().size == 0) {
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    val diaryNote = userDiaryViewModel.getNoteMediaById(noteId ?: "")
+                    setDiaryNote(
+                        noteId = noteId,
+                        noteType = NoteType.Note.id,
+                        mediaUrls = diaryNote?.media,
+                        text = editText.getText(RTFormat.HTML),
+                        date =
+                        if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis()
+                            .toString()
+                        else diaryNote?.date!!
+                    )
+                }
+//                userDiaryViewModel.getNoteMediaById(noteId ?: "")
+//                    .observeOnce(context) { diaryNote ->
+//                        setDiaryNote(
+//                            noteId = noteId,
+//                            noteType = NoteType.Note.id,
+//                            mediaUrls = diaryNote?.media,
+//                            text = editText.getText(RTFormat.HTML),//editText.text.toString(),
+//                            date =
+//                            if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis()
+//                                .toString()
+//                            else diaryNote?.date!!
+//                        )
+//                    }
+            } else uploadMedia(
                 noteId = noteId,
                 text = editText.getText(RTFormat.HTML),
                 date =
@@ -1288,15 +1305,17 @@ fun MainActivity.setupAddTrackerBottomSheet() {
             if (editText.text?.length == 0) {
                 showFail(getString(R.string.enter_note_text))
             } else {
-                userDiaryViewModel.getActiveTracker().observeOnce(context) {
-                    if (it == null) {
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    val activeTracker = userDiaryViewModel.getActiveTracker()
+
+                    if (activeTracker == null) {
                         setDiaryNote(
                             noteId = noteId,
                             noteType = NoteType.Tracker.id,
                             text = editText.getText(RTFormat.HTML),//editText.text.toString(),
                             date =
-                            if (it?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
-                            else it?.date!!,
+                            if (activeTracker?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
+                            else activeTracker?.date!!,
                             datetimeStart = System.currentTimeMillis().toString(),
                             isActiveNow = true
                         )
@@ -1304,6 +1323,23 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                         showFail(getString(R.string.warning_only_1_active_tracker))
                     }
                 }
+
+//                userDiaryViewModel.getActiveTracker().observeOnce(context) {
+//                    if (it == null) {
+//                        setDiaryNote(
+//                            noteId = noteId,
+//                            noteType = NoteType.Tracker.id,
+//                            text = editText.getText(RTFormat.HTML),//editText.text.toString(),
+//                            date =
+//                            if (it?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
+//                            else it?.date!!,
+//                            datetimeStart = System.currentTimeMillis().toString(),
+//                            isActiveNow = true
+//                        )
+//                    } else {
+//                        showFail(getString(R.string.warning_only_1_active_tracker))
+//                    }
+//                }
 
             }
         }
@@ -1318,7 +1354,11 @@ fun MainActivity.setupTrackerSheet() {
         binding.trackerFab.isVisible = false
     }
 
-    userDiaryViewModel.getActiveTracker().observe(this) { activeTracker ->
+    val context = this
+
+    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+        val activeTracker = userDiaryViewModel.getActiveTracker()
+
         binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
 
         if (isActiveTrackerTimerInitialized()) {
@@ -1340,25 +1380,25 @@ fun MainActivity.setupTrackerSheet() {
         }
 
         if (activeTracker != null) {
-            val firstColor = resources.getColor(
-                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerFirstColor
-                else R.color.colorLightActiveTrackerFirstColor
-            )
-            val secondColor = resources.getColor(
-                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerSecondColor
-                else R.color.colorLightActiveTrackerSecondColor
-            )
+//            val firstColor = resources.getColor(
+//                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerFirstColor
+//                else R.color.colorLightActiveTrackerFirstColor
+//            )
+//            val secondColor = resources.getColor(
+//                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerSecondColor
+//                else R.color.colorLightActiveTrackerSecondColor
+//            )
 
-            val colorAnimationFromFirstToSecond =
-                ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
-            val colorAnimationFromSecondToFirst =
-                ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
-
-            colorAnimationFromFirstToSecond.duration = 3000
-            colorAnimationFromSecondToFirst.duration = 3000
-
-            colorAnimationFromSecondToFirst.startDelay = 1000
-            colorAnimationFromFirstToSecond.startDelay = 1000
+//            val colorAnimationFromFirstToSecond =
+//                ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
+//            val colorAnimationFromSecondToFirst =
+//                ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
+//
+//            colorAnimationFromFirstToSecond.duration = 3000
+//            colorAnimationFromSecondToFirst.duration = 3000
+//
+//            colorAnimationFromSecondToFirst.startDelay = 1000
+//            colorAnimationFromFirstToSecond.startDelay = 1000
 
 //            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
 //                setBackgroundTintList(
@@ -1402,7 +1442,7 @@ fun MainActivity.setupTrackerSheet() {
 
             binding.trackerIcon.setImageDrawable(
                 AppCompatResources.getDrawable(
-                    this,
+                    context,
                     AllLogo().getLogoById(activeTracker.interest.interestIcon)
                 )
             )
@@ -1434,6 +1474,9 @@ fun MainActivity.setupTrackerSheet() {
 
         }
     }
+//    userDiaryViewModel.getActiveTracker().observe(this) { activeTracker ->
+//
+//    }
 }
 
 @SuppressLint("ClickableViewAccessibility")

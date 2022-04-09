@@ -8,17 +8,17 @@ import ru.get.better.model.UserSettings
 interface UserSettingsDao {
 
     @Query("SELECT * FROM user_settings_table")
-    fun getAll(): LiveData<List<UserSettings>>
+    fun getAll(): List<UserSettings>
 
     @Query("SELECT * FROM user_settings_table WHERE userId = :id")
-    fun getById(id: String): LiveData<UserSettings?>
+    fun getById(id: String): UserSettings?
 
     @Query("DELETE FROM user_settings_table")
-    suspend fun clear()
+    fun clear()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(userSettings: UserSettings)
+    fun insert(userSettings: UserSettings)
 
     @Update
-    suspend fun update(userSettings: UserSettings)
+    fun update(userSettings: UserSettings)
 }

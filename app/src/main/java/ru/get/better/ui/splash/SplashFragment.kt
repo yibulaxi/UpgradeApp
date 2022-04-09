@@ -14,7 +14,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
@@ -58,16 +60,22 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         if (App.preferences.uid.isNullOrEmpty()) {
             start()
         } else {
-            userSettingsViewModel
-                .getUserSettingsById(App.preferences.uid!!)
-                .observeOnce(this) {
-                    animateText = it?.let {
-                        App.resourcesProvider.getStringLocale(
-                            R.string.hello, App.preferences.locale
-                        ) + " " + it.login
-                    } ?: "GET BETTER"
-                    start()
-                }
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                userSettingsViewModel
+                    .getUserSettingsById(App.preferences.uid!!)?.let {
+                        animateText = it?.let {
+                            App.resourcesProvider.getStringLocale(
+                                R.string.hello, App.preferences.locale
+                            ) + " " + it.login
+                        } ?: "GET BETTER"
+                        start()
+                    }
+            }
+//            userSettingsViewModel
+//                .getUserSettingsById(App.preferences.uid!!)
+//                .observeOnce(this) {
+//
+//                }
         }
     }
 
@@ -189,22 +197,39 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 loginAnonymously()
 //                Navigator.splashToAuth(this@SplashFragment)
             } else {
-                userSettingsViewModel
-                    .getUserSettingsById(App.preferences.uid!!)
-                    .observeOnce(this) {
-                        if (App.preferences.isInterestsInitialized) {
-                            EventBus.getDefault().post(
-                                LoadMainEvent(
-                                    isAuthSuccess = true,
-                                    this@SplashFragment
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    userSettingsViewModel
+                        .getUserSettingsById(App.preferences.uid!!)?.let {
+                            if (App.preferences.isInterestsInitialized) {
+                                EventBus.getDefault().post(
+                                    LoadMainEvent(
+                                        isAuthSuccess = true,
+                                        this@SplashFragment
+                                    )
                                 )
-                            )
-                            allowGoNext = false
+                                allowGoNext = false
 
-                        } else {
-                            Navigator.splashToWelcome(this@SplashFragment)
+                            } else {
+                                Navigator.splashToWelcome(this@SplashFragment)
+                            }
                         }
-                    }
+                }
+//                userSettingsViewModel
+//                    .getUserSettingsById(App.preferences.uid!!)
+//                    .observeOnce(this) {
+//                        if (App.preferences.isInterestsInitialized) {
+//                            EventBus.getDefault().post(
+//                                LoadMainEvent(
+//                                    isAuthSuccess = true,
+//                                    this@SplashFragment
+//                                )
+//                            )
+//                            allowGoNext = false
+//
+//                        } else {
+//                            Navigator.splashToWelcome(this@SplashFragment)
+//                        }
+//                    }
             }
         }
     }

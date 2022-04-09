@@ -153,14 +153,6 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        exitTransition = MaterialFadeThrough().apply {
-//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-//        }
-//
-//
-//        enterTransition = MaterialFadeThrough().apply {
-//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-//        }
 
         registerBackPressedCallback()
 

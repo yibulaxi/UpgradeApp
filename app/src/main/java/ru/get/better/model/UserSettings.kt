@@ -21,10 +21,7 @@ class UserSettings(
     val password: String? = null,
 
     @ColumnInfo(name = "difficulty")
-    val difficulty: String? = "1",
-
-    @ColumnInfo(name = "isPushAvailable")
-    val isPushAvailable: Boolean? = true,
+    var difficulty: String? = "1",
 
     @ColumnInfo(name = "greeting")
     val greeting: String? = "GET BETTER",
@@ -39,19 +36,11 @@ class UserSettings(
     val avatar: String? = null,
 
     @ColumnInfo(name = "locale")
-    val locale: String? = null,
+    var locale: String? = null,
 
     @ColumnInfo(name = "isInterestsInitialized")
     val isInterestsInitialized: Boolean? = true,
 
-    @ColumnInfo(name = "isMetricWheelSpotlightShown")
-    var isMetricWheelSpotlightShown: Boolean = false,
-
-    @ColumnInfo(name = "isDiaryHabitsSpotlightShown")
-    var isDiaryHabitsSpotlightShown: Boolean = false,
-
-    @ColumnInfo(name = "isMainAddPostSpotlightShown")
-    var isMainAddPostSpotlightShown: Boolean = false
 )
 
 

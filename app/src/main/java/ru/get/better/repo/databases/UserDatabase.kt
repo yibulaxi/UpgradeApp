@@ -13,7 +13,7 @@ import ru.get.better.repo.dao.UserDiaryDao
 import ru.get.better.repo.dao.UserSettingsDao
 
 @Module
-@Database(entities = [UserSettings::class, DiaryNote::class, UserAchievements::class], version = 21)
+@Database(entities = [UserSettings::class, DiaryNote::class, UserAchievements::class], version = 22)
 @TypeConverters(
     MediaConverters::class,
     DiaryNoteInterestConverters::class,
@@ -22,37 +22,26 @@ import ru.get.better.repo.dao.UserSettingsDao
     CompletedAchievementsConverters::class
 //    TagsConverters::class
 )
-abstract class UserDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
-    abstract val userSettingsDao: UserSettingsDao
-    abstract val userDiaryDao: UserDiaryDao
-    abstract val userAchievementsDao: UserAchievementsDao
+    abstract fun userSettingsDao(): UserSettingsDao
+    abstract fun userDiaryDao(): UserDiaryDao
+    abstract fun userAchievementsDao(): UserAchievementsDao
 
     companion object {
-
         @Volatile
-        private var INSTANCE: UserDatabase? = null
+        private var instance: AppDatabase? = null
+        private val LOCK = Any()
 
-        @Provides
-        fun getInstance(context: Context): UserDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        UserDatabase::class.java,
-                        "user_database"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-
-                    INSTANCE = instance
-                }
-
-                return instance
-            }
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+            instance ?: buildDatabase(context).also { instance = it }
         }
+
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "hd_design.db"
+        )
+            .build()
     }
 
 }

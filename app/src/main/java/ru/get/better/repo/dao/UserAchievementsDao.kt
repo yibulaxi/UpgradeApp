@@ -8,18 +8,15 @@ import ru.get.better.model.UserAchievements
 interface UserAchievementsDao {
 
     @Query("SELECT * FROM user_achievements WHERE userId = :id")
-    suspend fun getById(id: String): UserAchievements?
-
-    @Query("SELECT * FROM user_achievements WHERE userId = :id")
-    fun getByIdLiveData(id: String): LiveData<UserAchievements?>
+    fun getById(id: String): UserAchievements?
 
     @Query("DELETE FROM user_achievements")
-    suspend fun clear()
+    fun clear()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(userAchievements: UserAchievements)
+    fun insert(userAchievements: UserAchievements)
 
     @Update
-    suspend fun update(userAchievements: UserAchievements)
+    fun update(userAchievements: UserAchievements)
 
 }

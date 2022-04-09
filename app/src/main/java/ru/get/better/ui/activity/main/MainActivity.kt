@@ -53,10 +53,7 @@ import kotlinx.android.synthetic.main.target_menu_addpost.view.*
 import kotlinx.android.synthetic.main.view_affirmation.view.*
 import kotlinx.android.synthetic.main.view_post_add.*
 import kotlinx.android.synthetic.main.view_select_note_type.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import lv.chi.photopicker.PhotoPickerFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -600,9 +597,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onLoadMainEvent(e: LoadMainEvent) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//            userSettingsViewModel.getUserSettings()
+        }
+
         GlobalScope.launch(Dispatchers.IO) {
             userDiaryViewModel.getDiary()
-            userSettingsViewModel.getUserSettings()
+
             userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
         }
     }
@@ -695,26 +696,24 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun showSpotlights() {
         if (!isAnySpotlightActiveNow) {
-            userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
-                .observeOnce(this) {
-                    if (
-                        !App.preferences.isMetricWheelSpotlightShown
-                        && currentSecondaryView == SecondaryViews.Empty
-                    ) {
-                        EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.MetricWheel))
-                    } else if (
-                        !App.preferences.isMainAddPostSpotlightShown
-                        && currentSecondaryView == SecondaryViews.Empty
-                    ) {
-                        showAddPostSpotlight()
-                    } else if (
-                        !App.preferences.isDiaryHabitsSpotlightShown
-                        && currentSecondaryView == SecondaryViews.Empty
-                    ) {
-                        EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.DiaryHabits))
-                    }
+
+                if (
+                    !App.preferences.isMetricWheelSpotlightShown
+                    && currentSecondaryView == SecondaryViews.Empty
+                ) {
+                    EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.MetricWheel))
+                } else if (
+                    !App.preferences.isMainAddPostSpotlightShown
+                    && currentSecondaryView == SecondaryViews.Empty
+                ) {
+                    showAddPostSpotlight()
+                } else if (
+                    !App.preferences.isDiaryHabitsSpotlightShown
+                    && currentSecondaryView == SecondaryViews.Empty
+                ) {
+                    EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.DiaryHabits))
                 }
-        }
+            }
     }
 
     @Subscribe
@@ -1059,7 +1058,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             App.preferences.isMainAddPostSpotlightShown = true
             isAnySpotlightActiveNow = false
-            userSettingsViewModel.updateField(UserSettingsFields.IsMainAddPostSpotlightShown, true)
+
+            App.preferences.isMainAddPostSpotlightShown = true
+//            userSettingsViewModel.updateField(UserSettingsFields.IsMainAddPostSpotlightShown, true)
         }
     }
 

@@ -307,7 +307,9 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
     }
 
     private fun setupHabitsRealization() {
-        userDiaryViewModel.getHabits().observe(this) { habits ->
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            val habits = userDiaryViewModel.getHabits()
+
             val habitsRealization = arrayListOf<DiaryNote>()
 
             habits.forEach { habit ->
@@ -327,15 +329,40 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
                     showHabitsSpotlight()
             }
         }
+
+//        userDiaryViewModel.getHabits().observe(this) { habits ->
+//            val habitsRealization = arrayListOf<DiaryNote>()
+//
+//            habits.forEach { habit ->
+//                habit!!.datesCompletion!!.firstOrNull { dateCompletion ->
+//                    dateCompletion.datesCompletionIsCompleted == false
+//                            && dateCompletion.datesCompletionDatetime!!.toLong() <= System.currentTimeMillis()
+//                }.let {
+//                    if (it != null) habitsRealization.add(habit)
+//                }
+//            }
+//
+//            habitsAdapter = HabitsAdapter(requireContext(), habitsRealization.toMutableList())
+//            binding.horizontalRecycler.adapter = habitsAdapter
+//
+//            binding.horizontalRecycler.post {
+//                if (habitsAdapter.itemCount != 0 && allowShowHabitsSpotlight)
+//                    showHabitsSpotlight()
+//            }
+//        }
     }
 
     private fun setupDiary() {
-        userDiaryViewModel.getNotes().observe(this) { notes ->
-//            lifecycleScope.launch(Dispatchers.IO) {
-                observeDiary(notes)
-//            }
-//
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            val notes = userDiaryViewModel.getNotes()
+            observeDiary(notes)
         }
+//        userDiaryViewModel.getNotes().observe(this) { notes ->
+////            lifecycleScope.launch(Dispatchers.IO) {
+//                observeDiary(notes)
+////            }
+////
+//        }
     }
 
     @Subscribe
@@ -437,7 +464,9 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
 
             App.preferences.isDiaryHabitsSpotlightShown = true
             EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))
-            userSettingsViewModel.updateField(UserSettingsFields.IsDiaryHabitsSpotlightShown, true)
+
+            App.preferences.isDiaryHabitsSpotlightShown = true
+//            userSettingsViewModel.updateField(UserSettingsFields.IsDiaryHabitsSpotlightShown, true)
         }
     }
 

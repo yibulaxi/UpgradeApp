@@ -20,7 +20,7 @@ data class DiaryNote(
     val noteType: Int = 1,
 
     @ColumnInfo(name = "date")
-    val date: String = "",
+    var date: String = "",
 
     @ColumnInfo(name = "title")
     var title: String? = null,
@@ -36,7 +36,7 @@ data class DiaryNote(
     var changeOfPoints: Int = ChangeOfPoints.Neutral.id,
 
     @ColumnInfo(name = "datetimeStart")
-    val datetimeStart: String? = null,
+    var datetimeStart: String? = null,
 
     @ColumnInfo(name = "datetimeEnd")
     var datetimeEnd: String? = null,
@@ -46,30 +46,30 @@ data class DiaryNote(
 
     @ColumnInfo(name = "interest")
     @TypeConverters(DiaryNoteInterestConverters::class)
-    val interest: DiaryNoteInterest? = null,
+    var interest: DiaryNoteInterest? = null,
 
     @ColumnInfo(name = "initialAmount")
-    val initialAmount: Int? = 66,
+    var initialAmount: Int? = 66,
 
     @ColumnInfo(name = "regularity")
-    val regularity: Int? = null,
+    var regularity: Int? = null,
 
     @ColumnInfo(name = "isPushAvailable")
-    val isPushAvailable: Boolean? = false,
+    var isPushAvailable: Boolean? = false,
 
     @ColumnInfo(name = "color")
-    val color: String? = null,
+    var color: String? = null,
 
     @ColumnInfo(name = "currentAmount")
-    val currentAmount: Int? = null,
+    var currentAmount: Int? = null,
 
     @ColumnInfo(name = "datesCompletion")
     @TypeConverters(DatesCompletionConverters::class)
-    val datesCompletion: ArrayList<DiaryNoteDatesCompletion>? = arrayListOf(),
+    var datesCompletion: ArrayList<DiaryNoteDatesCompletion>? = arrayListOf(),
 
     @ColumnInfo(name = "tags")
     @TypeConverters(MediaConverters::class)
-    val tags: ArrayList<String>? = arrayListOf()
+    var tags: ArrayList<String>? = arrayListOf()
 )
 
 data class DiaryNoteInterest(

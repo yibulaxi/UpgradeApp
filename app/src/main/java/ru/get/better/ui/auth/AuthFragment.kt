@@ -63,7 +63,7 @@ class AuthFragment : BaseFragment<AuthViewModel, FragmentAuthBinding>(
                     App.preferences.uid = user?.uid
 
                     selectedAuthType = AuthType.Login
-                    userSettingsViewModel.getUserSettings()
+//                    userSettingsViewModel.getUserSettings()
 
                 } else {
                     Toast.makeText(

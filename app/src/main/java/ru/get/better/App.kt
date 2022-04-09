@@ -9,6 +9,7 @@ import dagger.android.DaggerApplication
 import lv.chi.photopicker.ChiliPhotoPicker
 import ru.get.better.di.AppModule
 import ru.get.better.di.DaggerAppComponent
+import ru.get.better.repo.databases.AppDatabase
 import ru.get.better.rest.di.RetrofitModule
 import ru.get.better.util.GlideImageLoader
 import ru.get.better.util.Preferences
@@ -29,6 +30,7 @@ class App : DaggerApplication() {
         instance = this
         preferences = Preferences(this)
         resourcesProvider = ResourcesProvider(this)
+        database = AppDatabase(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -68,13 +70,12 @@ class App : DaggerApplication() {
         if (preferences.firstLaunchDate == 0L) {
             preferences.firstLaunchDate = System.currentTimeMillis()
         }
-
-
     }
 
     companion object {
         lateinit var instance: App
         lateinit var preferences: Preferences
+        lateinit var database: AppDatabase
 
         @SuppressLint("StaticFieldLeak")
         lateinit var resourcesProvider: ResourcesProvider
