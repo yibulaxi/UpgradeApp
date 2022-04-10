@@ -148,6 +148,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(
                     (150L * 7) / animateText.length
                 )
                 binding.logoText.animateText(animateText)
+
+
             }
         })
 

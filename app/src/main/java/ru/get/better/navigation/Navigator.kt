@@ -99,18 +99,18 @@ object Navigator {
     }
 
     fun toMetric(fNavController: NavController) {
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(R.anim.open_from_top)
-            .setExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopEnterAnim(R.anim.open_from_top)
-            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopUpTo(fNavController.graph.startDestination, false)
-            .build()
+//        val options = NavOptions.Builder()
+//            .setLaunchSingleTop(true)
+//            .setEnterAnim(R.anim.open_from_top)
+//            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+//            .setPopEnterAnim(R.anim.open_from_top)
+//            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+//            .setPopUpTo(fNavController.graph.startDestination, false)
+//            .build()
 
         fNavController.navigate(
             R.id.navigation_metric,
-            null, options
+//            null, options
         )
     }
 }

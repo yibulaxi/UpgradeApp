@@ -45,7 +45,7 @@
 
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 <!--        <item name="android:windowDisablePreview">false</item>-->
-        <item name="android:windowBackground">@drawable/bg_splash_preview</item>
+        <item name="android:windowBackground">@drawable/preview</item>
     </style>
 
     <style name="Theme.UpgradeDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">

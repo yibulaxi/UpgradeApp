@@ -114,7 +114,6 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
         setupChart()
         lifecycleScope.launch(Dispatchers.IO) {
             Thread.sleep(500)
-
         }.invokeOnCompletion {
             lifecycleScope.launch(Dispatchers.Main) {
                 if (isAdded) {

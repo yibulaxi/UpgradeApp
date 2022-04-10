@@ -80,32 +80,17 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private var navController: NavController? = null
 
-//    val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-//        BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
-//    }
-
     lateinit var addPostBehavior: BottomSheetBehavior<ConstraintLayout>
+    lateinit var addTrackerBehavior: BottomSheetBehavior<ConstraintLayout>
+    lateinit var addGoalBehavior: BottomSheetBehavior<ConstraintLayout>
+    lateinit var addHabitBehavior: BottomSheetBehavior<ConstraintLayout>
 
-    val addTrackerBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-        BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
-    }
-
-    val addGoalBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-        BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
-    }
-
-    val addHabitBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-        BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
-    }
+    lateinit var cloudStorage: FirebaseStorage
 
     private var isAnySpotlightActiveNow: Boolean = false
     var selectedInterestIdToAddPost: String = ""
     var selectedDiffPointToAddPost: Int = 0
     var selectedRegularityToAddHabit: Regularity = Regularity.Daily
-
-    private val cloudStorage: FirebaseStorage by lazy {
-        FirebaseStorage.getInstance()
-    }
 
     lateinit var mediaAdapter: AddPostMediaAdapter
     fun isMediaAdapterInitialized() = ::mediaAdapter.isInitialized
@@ -126,8 +111,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }
             navController = findNavController(R.id.nav_host_fragment)
+        }
 
+        lifecycleScope.async {
             addPostBehavior = BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
+            addTrackerBehavior = BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
+            addGoalBehavior = BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
+            addHabitBehavior = BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
+
+            cloudStorage = FirebaseStorage.getInstance()
         }
 
         initNotificationReceiver()
@@ -137,12 +129,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         super.onViewModelReady(viewModel)
 
         affirmationsViewModel.loadTodayNasaData()
+        userAchievementsViewModel.getAchievements()
 
         affirmationsViewModel.nasaDataViewState.observe(this, ::observeNasaData)
         userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
         userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
-
-        userAchievementsViewModel.getAchievements()
     }
 
     @Subscribe
@@ -174,7 +165,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
 
         GlobalScope.async {
-            Log.d("keke", "setup2")
             setupBottomSheets()
             setupSelectNoteTypeBottomSheet()
             setupAddPostBottomSheet()
@@ -574,11 +564,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     @Subscribe
-    fun onLoadMainEvent(e: LoadMainEvent) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
-        }
-    }
+    fun onLoadMainEvent(e: LoadMainEvent) =
+        userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
 
     @Subscribe
     fun onChangeNavViewVisibilityEvent(e: ChangeNavViewVisibilityEvent) {

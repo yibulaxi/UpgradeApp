@@ -37,7 +37,8 @@ class UserInterestsViewModel @Inject constructor(
     private val getDiaryEvent = SingleLiveEvent<Boolean>()
 
     private fun setInterests(
-        documentSnapshot: DocumentSnapshot
+        documentSnapshot: DocumentSnapshot,
+        onSuccess: () -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             interests.clear()
@@ -57,6 +58,11 @@ class UserInterestsViewModel @Inject constructor(
                     )
                 )
             }
+        }.invokeOnCompletion {
+            viewModelScope.launch(Dispatchers.Main) {
+                onSuccess.invoke()
+            }
+
         }
     }
 
@@ -109,10 +115,9 @@ class UserInterestsViewModel @Inject constructor(
                 .document(App.preferences.uid!!)
                 .get()
                 .addOnSuccessListener {
-                    setInterests(it).run {
+                    setInterests(it) {
 
-                        viewModelScope.launch(Dispatchers.Main) { onSuccess.invoke() }
-
+                        onSuccess.invoke()
                         setupNavMenuEvent.postValue("success")
                     }
                 }

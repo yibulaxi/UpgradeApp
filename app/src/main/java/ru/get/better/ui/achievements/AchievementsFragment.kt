@@ -47,111 +47,106 @@ class AchievementsFragment : BaseFragment<FragmentAchievementsBinding>(
         super.onLayoutReady(savedInstanceState)
 
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
-        view!!.postDelayed({
-            userAchievementsViewModel.getAchievements()
-        }, 500)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            Thread.sleep(500)
+        }.invokeOnCompletion {
+            lifecycleScope.launch(Dispatchers.Main) {
+                userAchievementsViewModel.getAchievements()
+            }
+        }
     }
 
     override fun onViewModelReady() {
-        userAchievementsViewModel.achievementsLiveData.observe(this) {
-            observeAchievements(it)
-        }
-
-        userAchievementsViewModel.lvlLiveData.observe(this) {
-            observeLvl(it)
-        }
-
-        userAchievementsViewModel.lvlPercentLiveData.observe(this) {
-            observeLvlPercent(it)
-        }
-
-        userAchievementsViewModel.efficiencyLiveData.observe(this) {
-            observeEfficiency(it)
-        }
+        userAchievementsViewModel.achievementsLiveData.observe(this) { observeAchievements(it) }
+        userAchievementsViewModel.lvlLiveData.observe(this) { observeLvl(it) }
+        userAchievementsViewModel.lvlPercentLiveData.observe(this) { observeLvlPercent(it) }
+        userAchievementsViewModel.efficiencyLiveData.observe(this) { observeEfficiency(it) }
     }
 
-
     override fun updateThemeAndLocale() {
-        binding.lvlTitle.text =
-            App.resourcesProvider.getStringLocale(R.string.level, App.preferences.locale)
-        binding.efficiencyTitle.text =
-            App.resourcesProvider.getStringLocale(R.string.efficiency, App.preferences.locale)
+        lifecycleScope.launch(Dispatchers.IO) {
+            binding.lvlTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.level, App.preferences.locale)
+            binding.efficiencyTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.efficiency, App.preferences.locale)
 
-        achievementsAdapter.notifyDataSetChanged()
-        setupViewPager()
+            achievementsAdapter.notifyDataSetChanged()
+            setupViewPager()
 
-        binding.achievementsContainer.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
-                else R.color.colorLightFragmentMetricBackground
+            binding.achievementsContainer.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentMetricBackground
+                    else R.color.colorLightFragmentMetricBackground
+                )
             )
-        )
 
-        binding.expChart.backgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsExpChartBackground
-                else R.color.colorLightFragmentAchievementsExpChartBackground
+            binding.expChart.backgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsExpChartBackground
+                    else R.color.colorLightFragmentAchievementsExpChartBackground
+                )
             )
-        )
 
-        binding.lvlTitle.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsExpChartTitleText
-                else R.color.colorLightFragmentAchievementsExpChartTitleText
+            binding.lvlTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsExpChartTitleText
+                    else R.color.colorLightFragmentAchievementsExpChartTitleText
+                )
             )
-        )
 
-        binding.efficiencyChart.backgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsEfficiencyChartBackground
-                else R.color.colorLightFragmentAchievementsEfficiencyChartBackground
+            binding.efficiencyChart.backgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsEfficiencyChartBackground
+                    else R.color.colorLightFragmentAchievementsEfficiencyChartBackground
+                )
             )
-        )
-        binding.efficiencyTitle.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsEfficiencyChartTitleText
-                else R.color.colorLightFragmentAchievementsEfficiencyChartTitleText
+            binding.efficiencyTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsEfficiencyChartTitleText
+                    else R.color.colorLightFragmentAchievementsEfficiencyChartTitleText
+                )
             )
-        )
 
-        binding.viewPagerFrame.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsViewPagerBackground
-                else R.color.colorLightFragmentAchievementsViewPagerBackground
+            binding.viewPagerFrame.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsViewPagerBackground
+                    else R.color.colorLightFragmentAchievementsViewPagerBackground
+                )
             )
-        )
 
-        binding.viewPagerView.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsViewSeparatorBackground
-                else R.color.colorLightFragmentAchievementsViewSeparatorBackground
+            binding.viewPagerView.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsViewSeparatorBackground
+                    else R.color.colorLightFragmentAchievementsViewSeparatorBackground
+                )
             )
-        )
 
-        binding.ntsCenter.activeColor = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenterActive
-            else R.color.colorLightFragmentAchievementsNtsCenterActive
-        )
+            binding.ntsCenter.activeColor = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenterActive
+                else R.color.colorLightFragmentAchievementsNtsCenterActive
+            )
 
-        binding.ntsCenter.inactiveColor = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenterInactive
-            else R.color.colorLightFragmentAchievementsNtsCenterInactive
-        )
+            binding.ntsCenter.inactiveColor = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenterInactive
+                else R.color.colorLightFragmentAchievementsNtsCenterInactive
+            )
 
-        binding.ntsCenter.stripColor = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenter
-            else R.color.colorLightFragmentAchievementsNtsCenter
-        )
+            binding.ntsCenter.stripColor = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentAchievementsNtsCenter
+                else R.color.colorLightFragmentAchievementsNtsCenter
+            )
+        }
     }
 
     private fun setupViewPager() {
