@@ -5,7 +5,6 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import ru.get.better.App
 import ru.get.better.di.scope.AppScope
-import ru.get.better.push.di.ServiceBuilderModule
 import ru.get.better.rest.di.RetrofitModule
 import ru.get.better.ui.activity.main.ViewModelModule
 
@@ -14,7 +13,6 @@ import ru.get.better.ui.activity.main.ViewModelModule
     modules = [
         AndroidSupportInjectionModule::class,
         RetrofitModule::class,
-        ServiceBuilderModule::class,
         AppModule::class,
         ReposModule::class,
         ViewModelFactoryModule::class,

@@ -10,9 +10,7 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Rect
 import android.net.Uri
-import android.os.AsyncTask
-import android.os.Bundle
-import android.os.CountDownTimer
+import android.os.*
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -23,18 +21,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
 import com.jaeger.library.StatusBarUtil
-import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
@@ -44,7 +41,6 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.dialog_alert_add_interest.view.*
 import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.*
 import kotlinx.android.synthetic.main.dialog_rate.view.*
-import kotlinx.android.synthetic.main.item_adapter_pager_notes.*
 import kotlinx.android.synthetic.main.layout_simple_custom_snackbar.*
 import kotlinx.android.synthetic.main.target_menu_addpost.view.*
 import kotlinx.android.synthetic.main.view_affirmation.view.*
@@ -100,17 +96,14 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
     }
 
-//    val selectNoteTypeBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-//        BottomSheetBehavior.from(binding.selectNoteTypeBottomSheet.bottomSheetContainer)
-//    }
-
     private var isAnySpotlightActiveNow: Boolean = false
-
     var selectedInterestIdToAddPost: String = ""
     var selectedDiffPointToAddPost: Int = 0
     var selectedRegularityToAddHabit: Regularity = Regularity.Daily
 
-    private lateinit var cloudStorage: FirebaseStorage
+    private val cloudStorage: FirebaseStorage by lazy {
+        FirebaseStorage.getInstance()
+    }
 
     lateinit var mediaAdapter: AddPostMediaAdapter
     fun isMediaAdapterInitialized() = ::mediaAdapter.isInitialized
@@ -125,39 +118,25 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        Log.e("keke", "kekekekekek")
-        StatusBarUtil.setDarkMode(this)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 
-        navController = findNavController(R.id.nav_host_fragment)
-        binding.navView.setupWithNavController(navController!!)
-
-
-        binding.navView.setOnNavigationItemReselectedListener {
-            if (binding.navView.selectedItemId == it.itemId) {
-                val navGraph = Navigation.findNavController(this, R.id.nav_host_fragment)
-                navGraph.popBackStack(it.itemId, false)
-
-                return@setOnNavigationItemReselectedListener
+        lifecycleScope.launch(Dispatchers.IO) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }
+            navController = findNavController(R.id.nav_host_fragment)
         }
 
-        subscribePushTopic()
         initNotificationReceiver()
     }
 
     override fun onViewModelReady(viewModel: BaseViewModel) {
         super.onViewModelReady(viewModel)
 
-        viewModel.errorEvent.observe(this, ::showFail)
-        viewModel.successEvent.observe(this, ::showSuccess)
-
         affirmationsViewModel.loadTodayNasaData()
 
         affirmationsViewModel.nasaDataViewState.observe(this, ::observeNasaData)
         userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
         userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
-        userSettingsViewModel.setUserSettingsEvent.observe(this, ::observeUserSettings)
     }
 
     @Subscribe
@@ -188,14 +167,18 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             else R.color.colorLightNavigationBar
         )
 
-        setupBottomSheets()
+        GlobalScope.launch(Dispatchers.IO) {
+            setupBottomSheets()
+            setupSelectNoteTypeBottomSheet()
+            setupAddPostBottomSheet()
+            setupAddGoalBottomSheet()
+            setupAddTrackerBottomSheet()
+        }
 
-        setupSelectNoteTypeBottomSheet()
-        setupAddPostBottomSheet()
-        setupAddGoalBottomSheet()
-        setupAddTrackerBottomSheet()
-        setupAddHabitBottomSheet()
         setupTrackerSheet()
+
+        setupAddHabitBottomSheet()
+
 
         binding.dateTitle.text = App.resourcesProvider.getStringLocale(
             R.string.tracker_date_title,
@@ -394,7 +377,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                     binding.selectNoteTypeBottomSheet.container.post {
                         hideSelectNoteTypeView()
-//                        selectNoteTypeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
                     return false
                 }
@@ -449,26 +431,27 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private fun initNotificationReceiver() {
-        val notifyIntent = Intent(this, NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            2,
-            notifyIntent,
-            PendingIntent.FLAG_IMMUTABLE + PendingIntent.FLAG_CANCEL_CURRENT
-        )
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 2, (
-                    1000 * 60 * 60 * 24).toLong(), pendingIntent
-        )
-
+        lifecycleScope.launch(Dispatchers.IO) {
+            val notifyIntent = Intent(this@MainActivity, NotificationReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                this@MainActivity,
+                2,
+                notifyIntent,
+                PendingIntent.FLAG_IMMUTABLE + PendingIntent.FLAG_CANCEL_CURRENT
+            )
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 2, (
+                        1000 * 60 * 60 * 24).toLong(), pendingIntent
+            )
+        }
     }
 
     override fun onImagesPicked(photos: ArrayList<Uri>) {
         val media = arrayListOf<Media>()
         photos.map { media.add(Media(it)) }
 
-        mediaAdapter = AddPostMediaAdapter(this, media)
+        mediaAdapter = AddPostMediaAdapter(this, media, glideRequestManager)
         (binding.addPostBottomSheet.mediaRecycler.layoutManager as LinearLayoutManager).orientation =
             LinearLayoutManager.HORIZONTAL
         binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
@@ -507,11 +490,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 val file = media.uri
                 val uploadTask = mediaRef.putFile(file)
 
-                val urlTask = uploadTask.continueWithTask { task ->
+                uploadTask.continueWithTask { task ->
                     if (!task.isSuccessful) {
-                        task.exception?.let {
-                            throw it
-                        }
+                        task.exception?.let { throw it }
                     }
                     mediaRef.downloadUrl
                 }.addOnCompleteListener { task ->
@@ -527,8 +508,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                                 date = date
                             )
                         }
-                    } else { /* Handle failures .. */
-                    }
+                    } else { /* Handle failures .. */ }
                 }
             }
         }
@@ -580,7 +560,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     fun openGallery() {
         PhotoPickerFragment.newInstance(
             multiple = true,
-            allowCamera = true,
+            allowCamera = false,
             maxSelection = 5,
             theme =
             if (App.preferences.isDarkTheme) R.style.ChiliPhotoPicker_Dark
@@ -590,39 +570,14 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onLoadMainEvent(e: LoadMainEvent) {
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-//            userSettingsViewModel.getUserSettings()
-        }
-
-        GlobalScope.launch(Dispatchers.IO) {
-//            userDiaryViewModel.getDiary()
-
+        lifecycleScope.launch(Dispatchers.IO) {
             userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
         }
     }
 
     @Subscribe
-    fun onGoAuthEvent(e: GoAuthEvent) {
-        showFail(getString(R.string.go_auth))
-        AuthUI.getInstance()
-            .signOut(this@MainActivity)
-            .addOnCompleteListener {
-                App.preferences.uid = ""
-
-                Navigator.toSplash(navController!!)
-            }
-    }
-
-    @Subscribe
     fun onChangeNavViewVisibilityEvent(e: ChangeNavViewVisibilityEvent) {
         binding.navView.isVisible = e.isVisible
-    }
-
-    private fun subscribePushTopic() {
-        try {
-            cloudStorage = FirebaseStorage.getInstance()
-        } catch (e: Exception) {
-        }
     }
 
     @Subscribe
@@ -639,53 +594,76 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     private fun setupNavMenu(msg: String) {
         if (binding.navView.menu.size() != 0) return
 
+        binding.navView.setupWithNavController(navController!!)
         binding.navView.inflateMenu(R.menu.bottom_nav_menu)
-
         binding.navViewContainer.isVisible = true
         binding.navView.isVisible = true
+        lifecycleScope.launch(Dispatchers.IO) {
 
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(R.anim.open_from_top)
-            .setExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopEnterAnim(R.anim.open_from_top)
-            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopUpTo(navController!!.graph.startDestination, false)
-            .build()
 
-        binding.navView.menu.getItem(0).setOnMenuItemClickListener {
-            navController!!.navigate(R.id.navigation_metric, null, options)
-            return@setOnMenuItemClickListener true
+            val options = NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setEnterAnim(R.anim.open_from_top)
+                .setExitAnim(R.anim.activity_close_translate_to_bottom)
+                .setPopEnterAnim(R.anim.open_from_top)
+                .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+                .setPopUpTo(navController!!.graph.startDestination, false)
+                .build()
+
+            binding.navView.menu.getItem(0).setOnMenuItemClickListener {
+                navController!!.navigate(R.id.navigation_metric, null, options)
+                return@setOnMenuItemClickListener true
+            }
+
+            binding.navView.menu.getItem(1).setOnMenuItemClickListener {
+                navController!!.navigate(R.id.navigation_diary, null, options)
+                return@setOnMenuItemClickListener true
+            }
+
+            binding.navView.menu.getItem(2).setOnMenuItemClickListener {
+                showSelectNoteTypeView()
+                return@setOnMenuItemClickListener true
+            }
+
+            binding.navView.menu.getItem(3).setOnMenuItemClickListener {
+                navController!!.navigate(R.id.navigation_achievements, null, options)
+                return@setOnMenuItemClickListener true
+            }
+
+            binding.navView.menu.getItem(4).setOnMenuItemClickListener {
+                navController!!.navigate(R.id.navigation_settings, null, options)
+                return@setOnMenuItemClickListener true
+            }
+
+            binding.navView.setOnNavigationItemReselectedListener {
+                if (binding.navView.selectedItemId == it.itemId) {
+                    val navGraph = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
+                    navGraph.popBackStack(it.itemId, false)
+
+                    return@setOnNavigationItemReselectedListener
+                }
+            }
         }
 
-        binding.navView.menu.getItem(1).setOnMenuItemClickListener {
-            navController!!.navigate(R.id.navigation_diary, null, options)
-            return@setOnMenuItemClickListener true
+
+
+
+        GlobalScope.launch(Dispatchers.IO) {
+            setupSelectNoteTypeBottomSheet()
+            setupAddPostBottomSheet()
+            setupAddGoalBottomSheet()
+            setupAddTrackerBottomSheet()
         }
 
-        binding.navView.menu.getItem(2).setOnMenuItemClickListener {
-            showSelectNoteTypeView()
-            return@setOnMenuItemClickListener true
-        }
 
-        binding.navView.menu.getItem(3).setOnMenuItemClickListener {
-            navController!!.navigate(R.id.navigation_achievements, null, options)
-            return@setOnMenuItemClickListener true
-        }
-
-        binding.navView.menu.getItem(4).setOnMenuItemClickListener {
-            navController!!.navigate(R.id.navigation_settings, null, options)
-            return@setOnMenuItemClickListener true
-        }
-
-        setupSelectNoteTypeBottomSheet()
-        setupAddPostBottomSheet()
-        setupAddGoalBottomSheet()
-        setupAddTrackerBottomSheet()
-        setupAddHabitBottomSheet()
         setupTrackerSheet()
+        setupAddHabitBottomSheet()
 
-        showSpotlights()
+
+        android.os.Handler().postDelayed({
+            showSpotlights()
+        }, 1500)
+
     }
 
     private fun showSpotlights() {
@@ -707,11 +685,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 EventBus.getDefault().post(ShowSpotlightEvent(SpotlightType.DiaryHabits))
             }
         }
-    }
-
-    @Subscribe
-    fun onChangeTabEvent(e: ChangeTabEvent) {
-        binding.navView.selectedItemId = e.itemId
     }
 
     @Subscribe
@@ -748,7 +721,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 for (url in e.note.media ?: arrayListOf()) {
                     urls.add(Media(url = url))
                 }
-                mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls)
+                mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls, glideRequestManager)
                 mediaRecycler.adapter = mediaAdapter
             }
         } else if (e.note.noteType == NoteType.Goal.id) {
@@ -961,8 +934,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     @Subscribe
     fun onOpenFullScreenMediaEvent(e: OpenFullScreenMediaEvent) {
         StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
-            if (image?.url != null)
-                Picasso.with(this@MainActivity).load(image.url).into(view)
+            if (image?.url != null) {
+//                Picasso.with(this@MainActivity).load(image.url).into(view)
+                glideRequestManager.load(image.url).into(view)
+            }
         }.withBackgroundColor(
             ContextCompat.getColor(
                 this,

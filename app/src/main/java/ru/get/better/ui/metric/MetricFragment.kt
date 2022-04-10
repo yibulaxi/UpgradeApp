@@ -40,7 +40,6 @@ import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.*
 import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.icon
 import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.interestDescription
 import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.interestName
-import kotlinx.android.synthetic.main.radar_markerview.view.*
 import kotlinx.android.synthetic.main.snackbar_success.view.*
 import kotlinx.android.synthetic.main.target_metric_wheel.view.*
 import org.greenrobot.eventbus.EventBus
@@ -116,13 +115,16 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
         setupChart()
         lifecycleScope.launch(Dispatchers.IO) {
             Thread.sleep(500)
+
         }.invokeOnCompletion {
             lifecycleScope.launch(Dispatchers.Main) {
-                setupLogic()
+                if (isAdded) {
+                    setupLogic()
 
-                android.os.Handler().postDelayed({
-                    EventBus.getDefault().post(ShowAffirmationEvent(increase = true))
-                }, 500)
+                    android.os.Handler().postDelayed({
+                        EventBus.getDefault().post(ShowAffirmationEvent(increase = true))
+                    }, 500)
+                }
             }
         }
 
@@ -417,7 +419,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
             App.preferences.isMetricWheelSpotlightShown = true
             EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))
 
-            App.preferences.isMetricWheelSpotlightShown = true
+//            App.preferences.isMetricWheelSpotlightShown = true
 //            userSettingsViewModel.updateField(UserSettingsFields.IsMetricWheelSpotlightShown, true)
         }
     }
@@ -907,15 +909,10 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
     private fun setupList() {
         val list = userInterestsViewModel.getInterests().toMutableList()
         list.add(EmptyInterest())
-        adapter = MetricListAdapter(context!!, list)
+        adapter = MetricListAdapter(requireContext(), list)
         binding.recycler.adapter = adapter
 
         setAverageAmount()
-
-//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-//            val notes = userDiaryViewModel.getNotes()
-//            binding.diaryAmount.text = notes.size.toString()
-//        }
 
         userDiaryViewModel.allNotesLiveData.observe(this@MetricFragment) { notes ->
             binding.diaryAmount.text = notes.size.toString()
@@ -929,16 +926,7 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
                         ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
                         .toString()
             }
-
         }
-//        userSettingsViewModel.getUserSettingsById(
-//            App.preferences.uid!!
-//        ).observe(this@MetricFragment) {
-//            binding.daysAmount.text =
-//                ((System.currentTimeMillis() - (it?.dateRegistration
-//                    ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
-//                    .toString()
-//        }
 
         binding.list.animate()
             .translationY(binding.list.height.toFloat())
@@ -1227,90 +1215,94 @@ class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
 
     private fun setChartData() {
 
-        val icons: ArrayList<RadarEntry> = ArrayList()
-        val entries1: ArrayList<RadarEntry> = ArrayList()
-        val entries2: ArrayList<RadarEntry> = ArrayList()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val icons: ArrayList<RadarEntry> = ArrayList()
+            val entries1: ArrayList<RadarEntry> = ArrayList()
+            val entries2: ArrayList<RadarEntry> = ArrayList()
 
-        val interests = userInterestsViewModel.getInterests()
+            val interests = userInterestsViewModel.getInterests()
 
-        for (i in 0 until interests.size) {
-            val val0 = 12f
-            val radarEntryIcon = RadarEntry(val0)
+            for (i in 0 until interests.size) {
+                val val0 = 12f
+                val radarEntryIcon = RadarEntry(val0)
 
-            val bMap = BitmapFactory.decodeResource(resources, interests[i].getLogo())
-            val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
-//
-            radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
-            icons.add(radarEntryIcon)
+                val bMap = BitmapFactory.decodeResource(resources, interests[i].getLogo())
+                val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
 
-            val val1 = interests[i].currentValue
-            entries1.add(RadarEntry(val1!!))
+                radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
+                icons.add(radarEntryIcon)
 
-            val val2 = interests[i].startValue
-            entries2.add(RadarEntry(val2!!))
+                val val1 = interests[i].currentValue
+                entries1.add(RadarEntry(val1!!))
+
+                val val2 = interests[i].startValue
+                entries2.add(RadarEntry(val2!!))
+            }
+
+            val set0 = RadarDataSet(icons, "")
+
+            set0.color = Color.TRANSPARENT
+            set0.fillColor = Color.TRANSPARENT
+            set0.setDrawFilled(false)
+            set0.lineWidth = 0f
+            set0.fillAlpha = 255
+            set0.valueTextColor = Color.TRANSPARENT
+            set0.isDrawHighlightCircleEnabled = false
+            set0.setDrawHighlightIndicators(false)
+
+            val rdsCurrent = RadarDataSet(entries1, "Current")
+            rdsCurrent.color = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrent
+                else R.color.colorLightRdsCurrent
+            )
+            rdsCurrent.fillColor = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrentFill
+                else R.color.colorLightRdsCurrentFill
+            )
+            rdsCurrent.setDrawFilled(true)
+            rdsCurrent.fillAlpha = 180
+            rdsCurrent.lineWidth = 1f
+            rdsCurrent.valueTextColor = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrentValueText
+                else R.color.colorLightRdsCurrentValueText
+            )
+            rdsCurrent.isDrawHighlightCircleEnabled = false
+            rdsCurrent.setDrawHighlightIndicators(false)
+
+            val rdsDefault = RadarDataSet(entries2, "Default")
+            rdsDefault.color = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkRdsDefault
+                else R.color.colorLightRdsDefault
+            )
+            rdsDefault.fillColor = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkRdsDefaultFill
+                else R.color.colorLightRdsDefaultFill
+            )
+            rdsDefault.setDrawFilled(true)
+            rdsDefault.fillAlpha = 180
+            rdsDefault.lineWidth = 1f
+            rdsDefault.valueTextColor = Color.TRANSPARENT
+            rdsDefault.isDrawHighlightCircleEnabled = false
+            rdsDefault.setDrawHighlightIndicators(false)
+            rdsDefault.isVisible = false
+            val sets: ArrayList<IRadarDataSet> = ArrayList()
+            sets.add(set0)
+            sets.add(rdsCurrent)
+            sets.add(rdsDefault)
+            val data = RadarData(sets)
+            data.setValueTextSize(10f)
+            data.setDrawValues(true)
+
+            binding.radarChart.post {
+                binding.radarChart.data = data
+                binding.radarChart.invalidate()
+            }
         }
-
-        val set0 = RadarDataSet(icons, "")
-
-        set0.color = Color.TRANSPARENT
-        set0.fillColor = Color.TRANSPARENT
-        set0.setDrawFilled(false)
-        set0.lineWidth = 0f
-        set0.fillAlpha = 255
-        set0.valueTextColor = Color.TRANSPARENT
-        set0.isDrawHighlightCircleEnabled = false
-        set0.setDrawHighlightIndicators(false)
-
-        val rdsCurrent = RadarDataSet(entries1, "Current")
-        rdsCurrent.color = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrent
-            else R.color.colorLightRdsCurrent
-        )
-        rdsCurrent.fillColor = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrentFill
-            else R.color.colorLightRdsCurrentFill
-        )
-        rdsCurrent.setDrawFilled(true)
-        rdsCurrent.fillAlpha = 180
-        rdsCurrent.lineWidth = 1f
-        rdsCurrent.valueTextColor = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkRdsCurrentValueText
-            else R.color.colorLightRdsCurrentValueText
-        )
-        rdsCurrent.isDrawHighlightCircleEnabled = false
-        rdsCurrent.setDrawHighlightIndicators(false)
-
-        val rdsDefault = RadarDataSet(entries2, "Default")
-        rdsDefault.color = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkRdsDefault
-            else R.color.colorLightRdsDefault
-        )
-        rdsDefault.fillColor = ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkRdsDefaultFill
-            else R.color.colorLightRdsDefaultFill
-        )
-        rdsDefault.setDrawFilled(true)
-        rdsDefault.fillAlpha = 180
-        rdsDefault.lineWidth = 1f
-        rdsDefault.valueTextColor = Color.TRANSPARENT
-        rdsDefault.isDrawHighlightCircleEnabled = false
-        rdsDefault.setDrawHighlightIndicators(false)
-        rdsDefault.isVisible = false
-        val sets: ArrayList<IRadarDataSet> = ArrayList()
-        sets.add(set0)
-        sets.add(rdsCurrent)
-        sets.add(rdsDefault)
-        val data = RadarData(sets)
-        data.setValueTextSize(10f)
-        data.setDrawValues(true)
-
-        binding.radarChart.data = data
-        binding.radarChart.invalidate()
     }
 
     inner class Handler {

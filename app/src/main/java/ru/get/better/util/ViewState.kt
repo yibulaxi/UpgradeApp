@@ -29,20 +29,3 @@ fun <T> ViewState<T>.doOn(
         is ViewState.Data -> data(this.data)
     }
 }
-
-fun <T> ViewState<T>.doOn(
-    idle: () -> Unit = {},
-    progressDelegate: ProgressDelegate,
-    error: (Error) -> Unit = {},
-    success: () -> Unit = {},
-    data: (T) -> Unit = {}
-) {
-    when (this) {
-        ViewState.Idle -> idle()
-        ViewState.ShowProgress -> progressDelegate.showProgress()
-        ViewState.HideProgress -> progressDelegate.hideProgress()
-        ViewState.Success -> success()
-        is ViewState.Error -> error(this.error)
-        is ViewState.Data -> data(this.data)
-    }
-}

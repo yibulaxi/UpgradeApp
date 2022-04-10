@@ -16,8 +16,6 @@
 android:allowBackup="true"-->
     <application
         android:name="ru.get.better.App"
-
-
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -35,60 +33,42 @@ android:allowBackup="true"-->
             android:launchMode="singleTask"
             android:configChanges="uiMode"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity-alias
-            android:name=".Launcher"
+            android:windowSoftInputMode="adjustPan"
             android:enabled="true"
-            android:exported="true"
-            android:icon="@drawable/logo"
-            android:label="@string/app_name"
-            android:roundIcon="@drawable/logo"
-            android:targetActivity=".ui.activity.main.MainActivity">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias>
+        </activity>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-<!--        <meta-data-->
-<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
-<!--            android:resource="@drawable/ic_launcher_notification" />-->
-
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${crashlyticsCollectionEnabled}" />
 
-        <service
-            android:name=".push.FirebaseMessagingService"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
 <!--        <provider-->
 <!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="ru.get.better.fileprovider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
+<!--            tools:replace="android:authorities"-->
+<!--            android:authorities="${applicationId}.provider"/>-->
 
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_paths" />-->
-<!--        </provider>-->
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            tools:replace="android:authorities"
-            android:authorities="${applicationId}.provider"/>
+                <provider
+                    android:name="androidx.core.content.FileProvider"
+                    tools:replace="android:authorities"
+                    android:authorities="ru.get.better.fileprovider"
+                    android:exported="false"
+                    android:grantUriPermissions="true">
+
+                    <meta-data
+                        android:name="android.support.FILE_PROVIDER_PATHS"
+                        android:resource="@xml/file_paths" />
+                </provider>
 
         <receiver
             android:name=".push.NotificationReceiver"

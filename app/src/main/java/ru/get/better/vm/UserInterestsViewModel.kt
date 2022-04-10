@@ -39,30 +39,25 @@ class UserInterestsViewModel @Inject constructor(
     private fun setInterests(
         documentSnapshot: DocumentSnapshot
     ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            interests.clear()
 
-        interests.clear()
-
-//        try {
-
-        documentSnapshot.data?.map {
-            interests.add(
-                UserCustomInterest(
-                    id = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Id]].toString(),
-                    name = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Name]].toString(),
-                    description = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Description]].toString(),
-                    startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString()
-                        .toFloat(),
-                    currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString()
-                        .toFloat(),
-                    dateLastUpdate = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]].toString(),
-                    logoId = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Icon]].toString()
+            documentSnapshot.data?.map {
+                interests.add(
+                    UserCustomInterest(
+                        id = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Id]].toString(),
+                        name = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Name]].toString(),
+                        description = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Description]].toString(),
+                        startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString()
+                            .toFloat(),
+                        currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString()
+                            .toFloat(),
+                        dateLastUpdate = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]].toString(),
+                        logoId = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Icon]].toString()
+                    )
                 )
-            )
+            }
         }
-
-//        } catch (e: Exception) {
-//            EventBus.getDefault().post(GoAuthEvent(true))
-//        }
     }
 
     fun getInterests() = interests
@@ -72,34 +67,25 @@ class UserInterestsViewModel @Inject constructor(
 
     @Subscribe
     fun onInitUserInterestsEvent(e: InitUserInterestsEvent) {
-        val map = hashMapOf<String, HashMap<String, String>>()
-        val list = e.data.map { it.toFirestore() }
+        viewModelScope.launch(Dispatchers.IO) {
+            val map = hashMapOf<String, HashMap<String, String>>()
+            val list = e.data.map { it.toFirestore() }
 
-        list.forEach {
-            map.plusAssign(it)
-        }
-
-        cloudFirestoreDatabase
-            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .set(map)
-            .addOnSuccessListener {
-                App.preferences.isInterestsInitialized = true
-                viewModelScope.launch(Dispatchers.IO) {
-
-//                    userSettingsViewModel.getUserSettings()
-//                    userDiaryViewModel.getDiary()
-                    getInterests { Navigator.toMetric(e.f) }
-                }
-
-//                cloudFirestoreDatabase
-//                    .collection(UserSettingsTable().tableName).document(App.preferences.uid!!)
-//                    .update(mapOf("is_interests_initialized" to true))
-//                    .addOnSuccessListener {
-//
-//
-//                    }
+            list.forEach {
+                map.plusAssign(it)
             }
-            .addOnFailureListener { }
+
+            cloudFirestoreDatabase
+                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+                .set(map)
+                .addOnSuccessListener {
+                    App.preferences.isInterestsInitialized = true
+                    viewModelScope.launch(Dispatchers.IO) {
+                        getInterests { Navigator.toMetric(e.f) }
+                    }
+                }
+                .addOnFailureListener { }
+        }
     }
 
     private fun Interest.toFirestore() =
@@ -118,55 +104,62 @@ class UserInterestsViewModel @Inject constructor(
         )
 
     internal fun getInterests(onSuccess: () -> Unit) {
-        cloudFirestoreDatabase.collection(UserInterestsTable().tableName)
-            .document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
-                setInterests(it).run {
-                    onSuccess.invoke()
-                    setupNavMenuEvent.postValue("success")
+        viewModelScope.launch(Dispatchers.IO) {
+            cloudFirestoreDatabase.collection(UserInterestsTable().tableName)
+                .document(App.preferences.uid!!)
+                .get()
+                .addOnSuccessListener {
+                    setInterests(it).run {
+
+                        viewModelScope.launch(Dispatchers.Main) { onSuccess.invoke() }
+
+                        setupNavMenuEvent.postValue("success")
+                    }
                 }
-            }
-            .addOnFailureListener {}
+                .addOnFailureListener {}
+        }
     }
 
     fun updateInterest(interest: Interest, onSuccess: () -> Unit) {
-        cloudFirestoreDatabase
-            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .update(interest.toFirestore() as Map<String, Any>)
-            .addOnSuccessListener {
-                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-//                userDiaryViewModel.getDiary()
-                onSuccess.invoke()
-            }
-            .addOnFailureListener {}
+        viewModelScope.launch(Dispatchers.IO) {
+            cloudFirestoreDatabase
+                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+                .update(interest.toFirestore() as Map<String, Any>)
+                .addOnSuccessListener {
+                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                    onSuccess.invoke()
+                }
+                .addOnFailureListener {}
+        }
     }
 
     fun addInterest(interest: Interest) {
-        cloudFirestoreDatabase
-            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .update(interest.toFirestore() as Map<String, Any>)
-            .addOnSuccessListener {
-                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-//                userDiaryViewModel.getDiary()
-            }
-            .addOnFailureListener { }
+        viewModelScope.launch(Dispatchers.IO) {
+            cloudFirestoreDatabase
+                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+                .update(interest.toFirestore() as Map<String, Any>)
+                .addOnSuccessListener {
+                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                }
+                .addOnFailureListener { }
+        }
     }
 
     fun deleteInterest(interest: Interest, onSuccess: () -> Unit) {
-        cloudFirestoreDatabase
-            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .update(
-                hashMapOf(
-                    interest.id to FieldValue.delete()
-                ) as Map<String, Any>
-            )
-            .addOnSuccessListener {
-                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-//                userDiaryViewModel.getDiary()
-                onSuccess.invoke()
-            }
-            .addOnFailureListener {}
+        viewModelScope.launch(Dispatchers.IO) {
+            cloudFirestoreDatabase
+                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+                .update(
+                    hashMapOf(
+                        interest.id to FieldValue.delete()
+                    ) as Map<String, Any>
+                )
+                .addOnSuccessListener {
+                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                    viewModelScope.launch(Dispatchers.Main) { onSuccess.invoke() }
+                }
+                .addOnFailureListener {}
+        }
     }
 
     fun calculateCurrentValueAverage(): Float {
@@ -183,17 +176,16 @@ class UserInterestsViewModel @Inject constructor(
         return average
     }
 
-    private fun setInterestAmount(
-        interest: Interest
-    ) {
-        cloudFirestoreDatabase
-            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .update(interest.toFirestore() as Map<String, Any>)
-            .addOnSuccessListener {
-                getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-//                userDiaryViewModel.getDiary()
-            }
-            .addOnFailureListener {}
+    private fun setInterestAmount(interest: Interest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cloudFirestoreDatabase
+                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+                .update(interest.toFirestore() as Map<String, Any>)
+                .addOnSuccessListener {
+                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
+                }
+                .addOnFailureListener {}
+        }
     }
 
     private fun HashMap<*, *>.toUserCustomInterest() =
@@ -210,22 +202,24 @@ class UserInterestsViewModel @Inject constructor(
 
     @Subscribe
     fun onUpdateUserInterestEvent(e: UpdateUserInterestEvent) {
-        cloudFirestoreDatabase
-            .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-            .get()
-            .addOnSuccessListener {
+        viewModelScope.launch(Dispatchers.IO) {
+            cloudFirestoreDatabase
+                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
+                .get()
+                .addOnSuccessListener {
 
-                Log.d("keke", "step2")
-                val interestToUpdate =
-                    (it.get(e.interestId) as HashMap<*, *>).toUserCustomInterest()
-                interestToUpdate.currentValue = interestToUpdate.currentValue?.plus(e.amount)
+                    Log.d("keke", "step2")
+                    val interestToUpdate =
+                        (it.get(e.interestId) as HashMap<*, *>).toUserCustomInterest()
+                    interestToUpdate.currentValue = interestToUpdate.currentValue?.plus(e.amount)
 
-                if (interestToUpdate.currentValue!! > 10f) interestToUpdate.currentValue = 10f
-                if (interestToUpdate.currentValue!! < 0f) interestToUpdate.currentValue = 0f
+                    if (interestToUpdate.currentValue!! > 10f) interestToUpdate.currentValue = 10f
+                    if (interestToUpdate.currentValue!! < 0f) interestToUpdate.currentValue = 0f
 
-                setInterestAmount(interestToUpdate)
-            }
-            .addOnFailureListener {}
+                    setInterestAmount(interestToUpdate)
+                }
+                .addOnFailureListener {}
+        }
     }
 
 }

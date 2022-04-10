@@ -5,7 +5,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.get.better.di.scope.ViewModelKey
-import ru.get.better.ui.auth.AuthViewModel
 import ru.get.better.ui.splash.SplashViewModel
 import ru.get.better.ui.welcome.WelcomeViewModel
 import ru.get.better.vm.*
@@ -22,11 +21,6 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(WelcomeViewModel::class)
     fun welcomeViewModel(m: WelcomeViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(AuthViewModel::class)
-    fun authViewModel(m: AuthViewModel): ViewModel
 
     @Binds
     @IntoMap

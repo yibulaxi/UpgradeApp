@@ -23,7 +23,7 @@
     android:background="?android:attr/actionBarItemBackground"
     android:scrollbarStyle="outsideOverlay">
 
-    <com.onegravity.rteditor.toolbar.HorizontalRTToolbar
+    <ru.get.better.ui.view.OwnHorizontalRTToolbar
         android:id="@+id/rte_toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,6 +84,6 @@
             style="?attr/rte_ToolbarButton"
             android:layout_marginRight="4dip"
             android:background="?attr/rte_icToolbarClear"/>
-    </com.onegravity.rteditor.toolbar.HorizontalRTToolbar>
+    </ru.get.better.ui.view.OwnHorizontalRTToolbar>
 
 </HorizontalScrollView>

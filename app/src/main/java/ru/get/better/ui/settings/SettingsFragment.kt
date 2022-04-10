@@ -11,7 +11,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import com.firebase.ui.auth.AuthUI
+
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -120,23 +120,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             }
 
         }
-//        userSettingsViewModel.getUserSettingsById(
-//            App.preferences.uid!!
-//        )
-//            .observeOnce(viewLifecycleOwner, {
-//                binding.name.text = it!!.login
-//
-//                currentDifficulty = it.difficulty!!.toInt()
-//                binding.difficultySpinner.selectItemByIndex(currentDifficulty)
-//                binding.difficultySpinner.setOnSpinnerOutsideTouchListener { view, motionEvent ->
-//                    binding.difficultySpinner.dismiss()
-//                }
-//                allowChangeDifficulty = true
-//
-//                setupLocaleSpinner(App.preferences.locale)
-//            })
-//        }
-
     }
 
     private fun setupThemeSwitch() {
@@ -1083,14 +1066,15 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onLogoutClicked(v: View) {
-            AuthUI.getInstance()
-                .signOut(requireContext())
-                .addOnCompleteListener {
+//            AuthUI.getInstance()
+//                .signOut(requireContext())
+//                .addOnCompleteListener {
 
                     App.preferences.uid = ""
                     App.preferences.isDiaryHabitsSpotlightShown = false
                     App.preferences.isMainAddPostSpotlightShown = false
                     App.preferences.isMetricWheelSpotlightShown = false
+                    App.preferences.isInterestsInitialized = false
 
                     GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                         userSettingsViewModel.resetUserSettings()
@@ -1099,7 +1083,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                     userDiaryViewModel.resetDiary()
 
                     Navigator.settingsToSplash(this@SettingsFragment)
-                }
+
+//                }
         }
     }
 }

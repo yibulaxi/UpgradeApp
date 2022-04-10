@@ -5,13 +5,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.R
 import ru.get.better.event.ChangeProgressStateEvent
-import ru.get.better.event.UserSettingsReadyEvent
-import ru.get.better.model.UserSettings
 import ru.get.better.ui.activity.main.MainActivity
-
-fun MainActivity.observeUserSettings(userSettings: UserSettings) {
-    EventBus.getDefault().post(UserSettingsReadyEvent(userSettings))
-}
 
 fun MainActivity.observeSetDiaryNote(isSuccess: Boolean) {
     if (isSuccess) {
@@ -30,7 +24,6 @@ fun MainActivity.observeSetDiaryNote(isSuccess: Boolean) {
         if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
             addHabitBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        Log.d("keke", "created")
         EventBus.getDefault().post(ChangeProgressStateEvent(isActive = false))
     } else showFail(getString(ru.get.better.R.string.error_happened))
 }

@@ -3,12 +3,16 @@ package ru.get.better.ui.welcome
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_welcome.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
@@ -32,33 +36,15 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
 
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
 
-        binding.viewPager.adapter = adapter
 
-        binding.viewPager.offscreenPageLimit = 1
-
-//        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
-//        val currentItemHorizontalMarginPx =
-//            resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
-//        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
-//        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
-//            page.translationX = -pageTranslationX * position
-//            // Next line scales the item's height. You can remove it if you don't want this effect
-//            page.scaleY = 1 - (0.5f * kotlin.math.abs(position))
-//            // If you want a fading effect uncomment the next line:
-//            page.alpha = 0.15f + (1 - kotlin.math.abs(position))
-//        }
-//        binding.viewPager.setPageTransformer(pageTransformer)
-//
-//        val itemDecoration = HorizontalMarginItemDecoration(
-//            context!!,
-//            R.dimen.viewpager_current_item_horizontal_margin
-//        )
-//        binding.viewPager.addItemDecoration(itemDecoration)
-        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.post {
+            binding.viewPager.adapter = adapter
+            binding.viewPager.offscreenPageLimit = 1
+            binding.viewPager.isUserInputEnabled = false
+        }
     }
 
     override fun updateThemeAndLocale() {
-
         binding.tvMessage.text = App.resourcesProvider.getStringLocale(R.string.save)
 
         adapter.notifyDataSetChanged()
@@ -80,18 +66,15 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
 
     @Subscribe
     fun onSkipWelcomeEvent(e: SkipWelcomeEvent) {
-        EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
-        EventBus.getDefault().post(
-            InitUserInterestsEvent(
-                adapter.getInterests().filter { it !is DefaultInterest.Companion },
-                this@WelcomeFragment
+        GlobalScope.launch(Dispatchers.IO) {
+            EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
+            EventBus.getDefault().post(
+                InitUserInterestsEvent(
+                    adapter.getInterests().filter { it !is DefaultInterest.Companion },
+                    this@WelcomeFragment
+                )
             )
-        )
-    }
-
-    @Subscribe
-    fun onSaveInterestsChangeVisibilityEvent(e: SaveInterestsChangeVisibilityEvent) {
-        binding.saveInterests.isVisible = e.isVisible
+        }
     }
 
     @Subscribe
@@ -101,23 +84,27 @@ class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
 
     @Subscribe
     fun onSaveInterestsClickedEvent(e: SaveInterestsClickedEvent) {
-        EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
-        EventBus.getDefault().post(
-            InitUserInterestsEvent(
-                adapter.getInterests().filter { it !is DefaultInterest.Companion },
-                this@WelcomeFragment
-            )
-        )
-    }
-
-    inner class Handler {
-        fun onSaveInterestsClicked(v: View) {
+        GlobalScope.launch(Dispatchers.IO) {
+            EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
             EventBus.getDefault().post(
                 InitUserInterestsEvent(
                     adapter.getInterests().filter { it !is DefaultInterest.Companion },
                     this@WelcomeFragment
                 )
             )
+        }
+    }
+
+    inner class Handler {
+        fun onSaveInterestsClicked(v: View) {
+            GlobalScope.launch(Dispatchers.IO) {
+                EventBus.getDefault().post(
+                    InitUserInterestsEvent(
+                        adapter.getInterests().filter { it !is DefaultInterest.Companion },
+                        this@WelcomeFragment
+                    )
+                )
+            }
         }
     }
 

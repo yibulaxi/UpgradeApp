@@ -87,7 +87,7 @@
     <color name="colorLightGradientWelcomeThirdValueStart">#FF5722</color>
     <color name="colorLightGradientWelcomeThirdValueEnd">#780707</color>
 
-    <color name="colorLightIcTrackerFill">#003B46</color>
+    <color name="colorLightIcTrackerFill">#1f2f3f</color>
 
     <color name="colorLightSnackNeutralGradientEnd">#F1F1F2</color>
     <color name="colorLightSnackNeutralGradientStart">#8092a0</color>

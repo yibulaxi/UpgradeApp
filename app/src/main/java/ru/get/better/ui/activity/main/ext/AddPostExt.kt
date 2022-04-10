@@ -17,7 +17,6 @@ import com.onegravity.rteditor.api.RTApi
 import com.onegravity.rteditor.api.RTMediaFactoryImpl
 import com.onegravity.rteditor.api.RTProxyImpl
 import com.onegravity.rteditor.api.format.RTFormat
-import com.onegravity.rteditor.toolbar.HorizontalRTToolbar
 import com.onegravity.rteditor.toolbar.RTToolbarImageButton
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +31,7 @@ import ru.get.better.ui.activity.main.MainActivity
 import ru.get.better.ui.activity.main.adapter.AddPostMediaAdapter
 import ru.get.better.ui.view.CustomWheelPickerView
 import ru.get.better.ui.view.LockableBottomSheetBehavior
+import ru.get.better.ui.view.OwnHorizontalRTToolbar
 import ru.get.better.util.Keyboard
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.text.SimpleDateFormat
@@ -150,6 +150,7 @@ fun MainActivity.setupBottomSheets() {
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+
                 binding.backgroundImage.alpha = 0f
                 binding.navView.isVisible = true
 
@@ -164,38 +165,6 @@ fun MainActivity.setupBottomSheets() {
 
     kotlin.runCatching { addPostBehavior.removeBottomSheetCallback(addPostCallback) }
     addPostBehavior.addBottomSheetCallback(addPostCallback)
-
-    val selectNoteTypeCallback = object :
-        BottomSheetBehavior.BottomSheetCallback() {
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            binding.backgroundImage.alpha = slideOffset
-
-            if (!binding.backgroundImage.isVisible) {
-                binding.backgroundImage.isVisible = true
-            }
-        }
-
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-            if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                binding.navView.isVisible = true
-
-                binding.backgroundImage.alpha = 0f
-                binding.backgroundImage.isClickable = false
-                binding.backgroundImage.isEnabled = false
-
-                Keyboard.hide(this@setupBottomSheets)
-            } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                binding.navView.isVisible = false
-
-                binding.backgroundImage.alpha = 1f
-                binding.backgroundImage.isClickable = true
-                binding.backgroundImage.isEnabled = true
-            }
-        }
-    }
-
-//    kotlin.runCatching { selectNoteTypeBehavior.removeBottomSheetCallback(selectNoteTypeCallback) }
-//    selectNoteTypeBehavior.addBottomSheetCallback(selectNoteTypeCallback)
 
     val addGoalCallback = object :
         BottomSheetBehavior.BottomSheetCallback() {
@@ -482,7 +451,7 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 
             selectedDiffPointToAddPost = 0
 
-            mediaAdapter = AddPostMediaAdapter(context, arrayListOf())
+            mediaAdapter = AddPostMediaAdapter(context, arrayListOf(), glideRequestManager)
             binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
         }
 
@@ -547,7 +516,7 @@ fun MainActivity.setupAddPostBottomSheet() {
             val mRTManager = RTManager(rtApi, savedInstanceState)
 
             val rtToolbarCharacter =
-                rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+                rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
             mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
             mRTManager.registerEditor(editText, true)
 
@@ -840,7 +809,7 @@ fun MainActivity.setupAddGoalBottomSheet() {
             val mRTManager = RTManager(rtApi, savedInstanceState)
 
             val rtToolbarCharacter =
-                rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+                rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
             mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
             mRTManager.registerEditor(editText, true)
 
@@ -1084,7 +1053,7 @@ fun MainActivity.setupAddTrackerBottomSheet() {
             val mRTManager = RTManager(rtApi, savedInstanceState)
 
             val rtToolbarCharacter =
-                rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+                rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
             mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
             mRTManager.registerEditor(editText, true)
 
@@ -1356,77 +1325,40 @@ fun MainActivity.setupTrackerSheet() {
 
     val context = this
 
-//    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-//
-//    }
 
     userDiaryViewModel.activeTrackerLiveData.observe(this) { activeTracker ->
 //  val activeTracker = userDiaryViewModel.getActiveTracker()
 
-        binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
+        runOnUiThread {
+            binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
+        }
 
         if (isActiveTrackerTimerInitialized()) {
             activeTrackerTimer.cancel()
         }
 
         if (activeTracker == null && binding.trackerSheet.isFabExpanded) {
-            binding.trackerSheet.contractFab()
+            runOnUiThread { binding.trackerSheet.contractFab() }
+
             EventBus.getDefault().post(ChangeProgressStateEvent(false))
         }
 
         if (App.preferences.uid.isNullOrEmpty()) {
-            binding.trackerSheet.contractFab()
-            binding.trackerFab.isVisible = false
+            runOnUiThread {
+                binding.trackerSheet.contractFab()
+                binding.trackerFab.isVisible = false
+            }
+
         }
 
         binding.trackerSheet.setFabAnimationEndListener {
-            binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
+            runOnUiThread {
+                binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
+            }
+
         }
 
         if (activeTracker != null) {
-//            val firstColor = resources.getColor(
-//                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerFirstColor
-//                else R.color.colorLightActiveTrackerFirstColor
-//            )
-//            val secondColor = resources.getColor(
-//                if (App.preferences.isDarkTheme) R.color.colorDarkActiveTrackerSecondColor
-//                else R.color.colorLightActiveTrackerSecondColor
-//            )
-
-//            val colorAnimationFromFirstToSecond =
-//                ValueAnimator.ofObject(ArgbEvaluator(), firstColor, secondColor)
-//            val colorAnimationFromSecondToFirst =
-//                ValueAnimator.ofObject(ArgbEvaluator(), secondColor, firstColor)
-//
-//            colorAnimationFromFirstToSecond.duration = 3000
-//            colorAnimationFromSecondToFirst.duration = 3000
-//
-//            colorAnimationFromSecondToFirst.startDelay = 1000
-//            colorAnimationFromFirstToSecond.startDelay = 1000
-
-//            colorAnimationFromFirstToSecond.addUpdateListener { animator ->
-//                setBackgroundTintList(
-//                    binding.trackerFab,
-//                    ColorStateList.valueOf(animator.animatedValue as Int)
-//                )
-//            }
-//
-//            colorAnimationFromSecondToFirst.addUpdateListener { animator ->
-//                setBackgroundTintList(
-//                    binding.trackerFab,
-//                    ColorStateList.valueOf(animator.animatedValue as Int)
-//                )
-//            }
-//
-//            colorAnimationFromFirstToSecond.doOnEnd {
-//                colorAnimationFromSecondToFirst.start()
-//            }
-//
-//            colorAnimationFromSecondToFirst.doOnEnd {
-//                colorAnimationFromFirstToSecond.start()
-//            }
-//
-//            colorAnimationFromSecondToFirst.start()
 
             binding.stopTracker.setOnClickListener {
                 userDiaryViewModel.changeTrackerState(
@@ -1437,19 +1369,21 @@ fun MainActivity.setupTrackerSheet() {
                 activeTrackerTimer.cancel()
             }
 
-            binding.trackerTitle.text = Html.fromHtml(activeTracker.text?: "")
-            binding.trackerDate.text =
-                SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(
-                    activeTracker.date.toLong()
-                )
-            binding.trackerInterestName.text = activeTracker.interest!!.interestName
+            runOnUiThread {
+                binding.trackerTitle.text = Html.fromHtml(activeTracker.text?: "")
+                binding.trackerDate.text =
+                    SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(
+                        activeTracker.date.toLong()
+                    )
+                binding.trackerInterestName.text = activeTracker.interest!!.interestName
 
-            binding.trackerIcon.setImageDrawable(
-                AppCompatResources.getDrawable(
-                    context,
-                    AllLogo().getLogoById(activeTracker.interest!!.interestIcon)
+                binding.trackerIcon.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        context,
+                        AllLogo().getLogoById(activeTracker.interest!!.interestIcon)
+                    )
                 )
-            )
+            }
 
             activeTrackerTimer = object : CountDownTimer(20000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -1462,10 +1396,13 @@ fun MainActivity.setupTrackerSheet() {
                     val minutes = ((trackerTime / (1000 * 60)) % 60).toInt()
                     val seconds = (trackerTime / 1000) % 60
 
-                    binding.timer.text = String.format(
-                        "%02d:%02d:%02d",
-                        hours, minutes, seconds
-                    )
+                    runOnUiThread {
+                        binding.timer.text = String.format(
+                            "%02d:%02d:%02d",
+                            hours, minutes, seconds
+                        )
+                    }
+
                 }
 
                 override fun onFinish() {
@@ -1495,7 +1432,7 @@ fun MainActivity.setupAddHabitBottomSheet() {
             val mRTManager = RTManager(rtApi, savedInstanceState)
 
             val rtToolbarCharacter =
-                rteToolbarContainer.findViewById<HorizontalRTToolbar>(R.id.rte_toolbar)
+                rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
             mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
             mRTManager.registerEditor(editText, true)
 

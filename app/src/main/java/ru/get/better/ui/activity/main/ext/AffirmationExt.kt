@@ -34,7 +34,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.protobuf.Empty
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.R
 import ru.get.better.event.ChangeProgressStateEvent
@@ -79,69 +81,76 @@ private fun MainActivity.setupAffirmationIcon() {
 }
 
 private fun MainActivity.showAffirmation() {
-    binding.affirmationView.affirmationTitle.text = this.getTodayAffirmation().title
+    this.getTodayAffirmation()
+    lifecycleScope.launch(Dispatchers.Main) {
 
-    binding.affirmationView.affirmationDesc.isVisible = !this.getTodayAffirmation().desc.isNullOrEmpty()
-    binding.affirmationView.affirmationDesc.text = this.getTodayAffirmation().desc
+        binding.affirmationView.affirmationTitle.text = applicationContext.getTodayAffirmation().title
 
-    binding.affirmationView.affirmationShareBtn.text = App.resourcesProvider.getStringLocale(R.string.share)
+        binding.affirmationView.affirmationDesc.isVisible =
+            !applicationContext.getTodayAffirmation().desc.isNullOrEmpty()
+        binding.affirmationView.affirmationDesc.text = applicationContext.getTodayAffirmation().desc
 
-    currentSecondaryView = SecondaryViews.Affirmation
-    binding.affirmationView.affirmationContainer.isVisible = true
+        binding.affirmationView.affirmationShareBtn.text =
+            App.resourcesProvider.getStringLocale(R.string.share)
 
-    binding.affirmationView.affirmationContainer.scaleXY(1f, 1f, 500) {
-        binding.affirmationView.affirmationBlur.isVisible = true
-    }
+        currentSecondaryView = SecondaryViews.Affirmation
+        binding.affirmationView.affirmationContainer.isVisible = true
 
-    binding.affirmationView.affirmationCross.setOnClickListener {
-        binding.affirmationView.affirmationBlur.isVisible = false
-
-        binding.affirmationView.affirmationContainer.scaleXY(0f, 0f, 500) {
-            binding.affirmationView.affirmationContainer.isVisible = false
-            currentSecondaryView = SecondaryViews.Empty
+        binding.affirmationView.affirmationContainer.scaleXY(1f, 1f, 500) {
+            binding.affirmationView.affirmationBlur.isVisible = true
         }
-    }
 
-    binding.affirmationView.affirmationShareBtn.setOnClickListener {
-        shareAffirmation()
-    }
+        binding.affirmationView.affirmationCross.setOnClickListener {
+            binding.affirmationView.affirmationBlur.isVisible = false
 
-    binding.affirmationView.affirmationBlur.setOnClickListener {
-        binding.affirmationView.affirmationBlur.isVisible = false
+            binding.affirmationView.affirmationContainer.scaleXY(0f, 0f, 500) {
+                binding.affirmationView.affirmationContainer.isVisible = false
+                currentSecondaryView = SecondaryViews.Empty
+            }
+        }
 
-        binding.affirmationView.affirmationContainer.scaleXY(0f, 0f, 500) {
-            binding.affirmationView.affirmationContainer.isVisible = false
-            currentSecondaryView = SecondaryViews.Empty
+        binding.affirmationView.affirmationShareBtn.setOnClickListener {
+            shareAffirmation()
+        }
+
+        binding.affirmationView.affirmationBlur.setOnClickListener {
+            binding.affirmationView.affirmationBlur.isVisible = false
+
+            binding.affirmationView.affirmationContainer.scaleXY(0f, 0f, 500) {
+                binding.affirmationView.affirmationContainer.isVisible = false
+                currentSecondaryView = SecondaryViews.Empty
+            }
         }
     }
 }
 
 fun MainActivity.setupAffirmation(isIncreaseNumber: Boolean) {
 
-    if (isIncreaseNumber) {
-        if (App.preferences.lastDayShownAffirmationMills == 0L) {
-            App.preferences.lastDayShownAffirmationMills = System.currentTimeMillis() / 86400000
+    lifecycleScope.launch(Dispatchers.IO) {
+        if (isIncreaseNumber) {
+            if (App.preferences.lastDayShownAffirmationMills == 0L) {
+                App.preferences.lastDayShownAffirmationMills = System.currentTimeMillis() / 86400000
 
+                if (currentSecondaryView == SecondaryViews.Empty)
+                    showAffirmation()
+
+                return@launch
+            }
+
+            val todayMills = System.currentTimeMillis() / 86400000
+
+            if (App.preferences.lastDayShownAffirmationMills != todayMills) {
+                App.preferences.currentAffirmationNumber++
+                App.preferences.lastDayShownAffirmationMills = todayMills
+
+                if (currentSecondaryView == SecondaryViews.Empty)
+                    showAffirmation()
+            }
+        } else {
             if (currentSecondaryView == SecondaryViews.Empty)
                 showAffirmation()
-
-            return
         }
-
-        val todayMills = System.currentTimeMillis() / 86400000
-
-        if (App.preferences.lastDayShownAffirmationMills != todayMills) {
-            App.preferences.currentAffirmationNumber ++
-            App.preferences.lastDayShownAffirmationMills = todayMills
-
-            if (currentSecondaryView == SecondaryViews.Empty)
-                showAffirmation()
-        }
-    } else {
-        if (currentSecondaryView == SecondaryViews.Empty)
-            showAffirmation()
     }
-
 }
 
 fun MainActivity.getAffirmationBitmap(): Bitmap {
@@ -171,21 +180,23 @@ fun MainActivity.getRoundedRectBitmap(bitmap: Bitmap, pixels: Int): Bitmap {
     return result
 }
 
-fun MainActivity.saveAffirmationImg(bitmap: Bitmap): Uri? {
-    val imagesFolder = File(cacheDir, "images")
-    var uri: Uri? = null
-    try {
-        imagesFolder.mkdirs()
-        val file = File(imagesFolder, "affirmation_${App.preferences.currentAffirmationNumber}.png")
-        val stream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
-        stream.flush()
-        stream.close()
-        uri = FileProvider.getUriForFile(this, "ru.get.better.fileprovider", file)
-    } catch (e: IOException) {
-        Log.d("IOException", "IOException while trying to write file for sharing: " + e.message)
-    }
-    return uri
+ fun MainActivity.saveAffirmationImg(bitmap: Bitmap): Uri? {
+//    coroutineScope {
+//        withContext(Dispatchers.IO) {
+            val imagesFolder = File(cacheDir, "images")
+            var uri: Uri? = null
+            try {
+                imagesFolder.mkdirs()
+                val file = File(imagesFolder, "affirmation_${App.preferences.currentAffirmationNumber}.png")
+                val stream = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
+                stream.flush()
+                stream.close()
+                uri = FileProvider.getUriForFile(this, "ru.get.better.fileprovider", file)
+            } catch (e: IOException) {
+                Log.d("IOException", "IOException while trying to write file for sharing: " + e.message)
+            }
+             return uri
 }
 
 fun MainActivity.shareAffirmation() {

@@ -21,7 +21,6 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
-        <!--android:background="@color/colorFragmentSplashBackground"-->
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"
             android:layout_width="0dp"
@@ -32,6 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_rawRes="@raw/logo_anim"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
             app:lottie_loop="true"
             app:lottie_repeatMode="reverse" />
 
@@ -47,7 +47,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animation_view" />
-        <!--android:textColor="@color/colorFragmentSplashLogoTextText"-->
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator"
             android:layout_width="0dp"

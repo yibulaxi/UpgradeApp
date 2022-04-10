@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
 <!--    <style name="Theme.UpgradeLight" parent="RTE_ThemeLight">-->
-    <style name="Theme.UpgradeLight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.UpgradeLight" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <item name="rte_ToolbarButton">@style/RTE_ToolbarButton</item>
         <item name="rte_ToolbarSpinner">@style/RTE_ToolbarSpinnerLight</item>
@@ -43,6 +43,8 @@
         <!-- Status bar color. -->
         <!-- Customize your theme here. -->
 
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+<!--        <item name="android:windowDisablePreview">false</item>-->
         <item name="android:windowBackground">@drawable/bg_splash_preview</item>
     </style>
 

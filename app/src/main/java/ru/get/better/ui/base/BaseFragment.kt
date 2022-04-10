@@ -27,10 +27,8 @@ import ru.get.better.R
 import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.glide.GlideApp
 import ru.get.better.navigation.Navigator
-import ru.get.better.ui.metric.MetricFragment
 import ru.get.better.ui.settings.SettingsFragment
 import ru.get.better.util.ext.getViewModel
-import ru.get.better.util.lazyErrorDelegate
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KClass
@@ -42,7 +40,6 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     private val isSharedViewModel: Boolean = false
 ) : DaggerFragment(), Toolbar.OnMenuItemClickListener {
 
-    protected lateinit var drawerArrowDrawable: DrawerArrowDrawable
     protected lateinit var binding: B
 
     private var viewModel: T
@@ -52,20 +49,13 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
         }
 
     private var _viewModel: T? = null
-    private var pendingAuthAction: (() -> Unit)? = null
 
     protected val glideRequestManager by lazy { GlideApp.with(this) }
 
     private var backPressedCallback: OnBackPressedCallback? = null
 
-    protected val errorDelegate by lazyErrorDelegate { requireContext() }
-
-    private var isDoubleClicked: Boolean = false
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    lateinit var rootView: View
 
     override fun onStart() {
         registerBackPressedCallback()
@@ -81,13 +71,9 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     open fun updateThemeAndLocale(
         withAnimation: Boolean = false,
         withTextAnimation: Boolean = false
-    ) {
+    ) {}
 
-    }
-
-    open fun updateThemeAndLocale() {
-
-    }
+    open fun updateThemeAndLocale() {}
 
     @Subscribe
     fun onUpdateThemeEvent(e: UpdateThemeEvent) {
@@ -154,15 +140,6 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        exitTransition = MaterialFadeThrough().apply {
-//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-//        }
-//
-//
-//        enterTransition = MaterialFadeThrough().apply {
-//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-//        }
-
         registerBackPressedCallback()
 
         onLayoutReady(savedInstanceState)
@@ -171,38 +148,20 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
-        when (item.itemId) {
-            // TODO
-        }
         return false
     }
 
     protected open fun onLayoutReady(savedInstanceState: Bundle?) {
         updateThemeAndLocale()
         updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
-        // Empty for optional override
     }
 
-    protected open fun onViewModelReady(viewModel: T) {
-        // Empty for optional override
-    }
+    protected open fun onViewModelReady(viewModel: T) {}
 
-    // optional override
     protected open fun onBackPressed() {
         if (!Navigator.goBack(this@BaseFragment)) {
             requireActivity().finish()
         }
-/*        else {
-            Log.d("TAG", "onBackPressed else: ")
-
-            if (isDoubleClicked) {
-                requireActivity().finish()
-            }
-
-            isDoubleClicked = true
-            showSnackBar(getString(R.string.message_back_double_click))
-            Handler(Looper.getMainLooper()).postDelayed({ isDoubleClicked = false }, 2000)
-        }*/
     }
 
     private fun registerBackPressedCallback() {

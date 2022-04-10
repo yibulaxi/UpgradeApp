@@ -12,7 +12,6 @@ class ResourcesProvider @Inject constructor(
     private val context: Context
 ) {
     fun getString(@StringRes stringResId: Int): String {
-
         return context.getString(stringResId)
     }
 
@@ -21,7 +20,9 @@ class ResourcesProvider @Inject constructor(
         locale: String = App.preferences.locale
     ): String {
         val config = Configuration(context.resources.configuration)
-        config.setLocale(Locale(locale))
+        if (config.locale.language != locale)
+            config.setLocale(Locale(locale))
+
         return context.createConfigurationContext(config).getText(stringResId).toString()
     }
 }

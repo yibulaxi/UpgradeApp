@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../.gradle/caches/transforms-2/files-2.1/30fd0d82fb8f035b10d694c2dd9747aa/jetified-android-rteditor-1.7.6/res/layout/rte_toolbar_font_spinner.xml" value="0.371875" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/ic_plus_small.xml" value="0.2234375" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/31037bf954b47aa0af2e2adade84ca21/jetified-Quantitizer-1.6.4/res/drawable/plus_icon_bg.xml" value="0.2234375" />
         <entry key="../../../.gradle/caches/transforms-2/files-2.1/c497df16ecf682e9b3b339446de7f234/jetified-android-rteditor-1.7.6/res/drawable/selector_ic_toolbar_align_left_light.xml" value="0.30925925925925923" />
@@ -62,6 +63,7 @@
         <entry key="app/src/main/res/drawable/ic_add_media.xml" value="0.31851851851851853" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.2453125" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.2708333333333333" />
+        <entry key="app/src/main/res/drawable/ic_close_dark.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/drawable/ic_cross.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.26875" />
         <entry key="app/src/main/res/drawable/ic_goal.xml" value="0.3687179487179487" />
@@ -144,6 +146,7 @@
         <entry key="app/src/main/res/drawable/ic_target_arrow.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_tracker.xml" value="0.3687179487179487" />
         <entry key="app/src/main/res/drawable/ic_tracker_dark.xml" value="0.2713541666666667" />
+        <entry key="app/src/main/res/drawable/ic_tracker_light.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/drawable/rounded_rect_primary.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/settings.xml" value="0.215625" />
         <entry key="app/src/main/res/drawable/snack_neutral_gradient.xml" value="0.215625" />
@@ -158,7 +161,7 @@
         <entry key="app/src/main/res/drawable/tire.xml" value="0.215625" />
         <entry key="app/src/main/res/font/sf_font_family.xml" value="0.2296875" />
         <entry key="app/src/main/res/layout/activity_detail_tracker.xml" value="0.35833333333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="app/src/main/res/layout/custom_wheel_picker_item.xml" value="0.25416666666666665" />
         <entry key="app/src/main/res/layout/dialog_alert_add_interest.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dialog_alert_add_interest_dark.xml" value="0.14635416666666667" />
@@ -214,6 +217,7 @@
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.32685185185185184" />
         <entry key="app/src/main/res/menu/menu_tracker_detail.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.337037037037037" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.25462962962962965" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/xml/xml.xml" value="0.35833333333333334" />
       </map>

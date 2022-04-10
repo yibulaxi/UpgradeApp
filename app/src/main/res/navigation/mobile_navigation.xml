@@ -10,20 +10,7 @@
         android:id="@+id/navigation_splash"
         android:name="ru.get.better.ui.splash.SplashFragment"
         android:label="SplashFragment"
-        app:enterAnim="@animator/right_in"
-        app:exitAnim="@animator/right_out"
-        app:popEnterAnim="@animator/left_in"
-        app:popExitAnim="@animator/left_out"
         tools:layout="@layout/fragment_splash">
-        <action
-            android:id="@+id/action_navigation_splash_to_navigation_auth"
-            app:destination="@id/navigation_auth"
-            app:enterAnim="@anim/activity_open_translate_from_bottom"
-            app:exitAnim="@anim/activity_close_translate_to_bottom"
-            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
-            app:popExitAnim="@anim/activity_close_translate_to_bottom"
-
-            />
         <action
             android:id="@+id/action_navigation_splash_to_navigation_metric"
             app:destination="@id/navigation_metric"
@@ -33,24 +20,6 @@
             app:popExitAnim="@anim/activity_close_translate_to_bottom" />
         <action
             android:id="@+id/action_navigation_splash_to_navigation_welcome"
-            app:destination="@id/navigation_welcome"
-            app:enterAnim="@anim/activity_open_translate_from_bottom"
-            app:exitAnim="@anim/activity_close_translate_to_bottom"
-            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
-            app:popExitAnim="@anim/activity_close_translate_to_bottom"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_auth"
-        android:name="ru.get.better.ui.auth.AuthFragment"
-        android:label="AuthFragment"
-        app:enterAnim="@anim/activity_open_translate_from_bottom"
-        app:exitAnim="@anim/activity_close_translate_to_bottom"
-        app:popEnterAnim="@anim/activity_open_translate_from_bottom"
-        app:popExitAnim="@anim/activity_close_translate_to_bottom"
-        tools:layout="@layout/fragment_auth">
-        <action
-            android:id="@+id/action_navigation_auth_to_navigation_welcome"
             app:destination="@id/navigation_welcome"
             app:enterAnim="@anim/activity_open_translate_from_bottom"
             app:exitAnim="@anim/activity_close_translate_to_bottom"

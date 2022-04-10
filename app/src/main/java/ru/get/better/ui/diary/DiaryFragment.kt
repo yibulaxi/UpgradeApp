@@ -403,12 +403,6 @@ class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
             pagerAdapter.notes.first { it.diaryNoteId == noteId }
         )
 
-
-    @Subscribe
-    fun onUpdateDiaryEvent(e: UpdateDiaryEvent) {
-//        Navigator.refresh(this@DiaryFragment)
-    }
-
     private fun showHabitsSpotlight() {
         val habitsTargetLayout =
             layoutInflater.inflate(R.layout.target_diary_habits, FrameLayout(requireContext()))

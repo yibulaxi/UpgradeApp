@@ -6,9 +6,7 @@ import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
 import ru.get.better.event.InitUserSettingsEvent
 import ru.get.better.event.UpdateDifficultyEvent
-import ru.get.better.event.UpdateLocaleEvent
 import ru.get.better.model.UserSettings
-import ru.get.better.util.SingleLiveEvent
 import javax.inject.Inject
 
 class UserSettingsViewModel @Inject constructor(
@@ -18,8 +16,6 @@ class UserSettingsViewModel @Inject constructor(
     init {
         EventBus.getDefault().register(this)
     }
-
-    val setUserSettingsEvent = SingleLiveEvent<UserSettings>()
 
 //    private fun setUserSettings(
 //        documentSnapshot: DocumentSnapshot
@@ -178,11 +174,6 @@ class UserSettingsViewModel @Inject constructor(
     @Subscribe
     fun onUpdateDifficultyEvent(e: UpdateDifficultyEvent) {
         updateDifficulty(e.difficulty)
-    }
-
-    @Subscribe
-    fun onUpdateLocaleEvent(e: UpdateLocaleEvent) {
-        updateLocale(e.locale)
     }
 
     @Subscribe

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import com.onegravity.rteditor.fonts.FontManager
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import kotlinx.coroutines.CoroutineStart
@@ -33,50 +34,58 @@ class App : DaggerApplication() {
 
         instance = this
 
-//        GlobalScope.launch(Dispatchers.IO, CoroutineStart.DEFAULT) {
-            preferences = Preferences(this@App)
-            resourcesProvider = ResourcesProvider(this@App)
-            database = AppDatabase(this@App)
+        preferences = Preferences(this@App)
+        resourcesProvider = ResourcesProvider(this@App)
+        database = AppDatabase(this@App)
 
-            if (BuildConfig.DEBUG) {
-                Timber.plant(Timber.DebugTree())
-            }
+        GlobalScope.launch(Dispatchers.IO, CoroutineStart.DEFAULT) {
 
-            appLaunchedLogic()
 
             ChiliPhotoPicker.init(
                 loader = GlideImageLoader(),
-                authority = "com.velkonost.upgrade.fileprovider"
+                authority = "ru.get.better.fileprovider"
             )
 
-            createNotificationChannel()
-//        }
 
+        }
+
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
+
+        appLaunchedLogic()
+        createNotificationChannel()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = appComponent
 
     private fun createNotificationChannel() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val notificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val notificationChannel =
-                NotificationChannel(
-                    getString(R.string.default_notification_channel_id),
-                    getString(R.string.default_notification_channel_id),
-                    importance
-                )
-            notificationManager.createNotificationChannel(notificationChannel)
-            Timber.d("isNotificationChannelCreated")
+        GlobalScope.launch(Dispatchers.IO) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                val notificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                val importance = NotificationManager.IMPORTANCE_HIGH
+                val notificationChannel =
+                    NotificationChannel(
+                        getString(R.string.default_notification_channel_id),
+                        getString(R.string.default_notification_channel_id),
+                        importance
+                    )
+                notificationManager.createNotificationChannel(notificationChannel)
+                Timber.d("isNotificationChannelCreated")
+            }
         }
     }
 
     private fun appLaunchedLogic() {
-        preferences.launchCount += 1
+        GlobalScope.launch(Dispatchers.IO) {
+            preferences.launchCount += 1
 
-        if (preferences.firstLaunchDate == 0L) {
-            preferences.firstLaunchDate = System.currentTimeMillis()
+            if (preferences.firstLaunchDate == 0L) {
+                preferences.firstLaunchDate = System.currentTimeMillis()
+            }
         }
     }
 

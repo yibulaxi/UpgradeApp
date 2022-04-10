@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemMediaAddPostBinding
+import ru.get.better.glide.GlideRequests
 import ru.get.better.model.Media
 
 class AddPostMediaViewHolder(
     val binding: ItemMediaAddPostBinding,
-    val context: Context
+    val context: Context,
+    private val glideRequests: GlideRequests
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
@@ -23,11 +24,15 @@ class AddPostMediaViewHolder(
 
     fun bind(media: Media) {
         if (media.uri != null) binding.icon.setImageURI(media.uri)
-        else if (media.url != null)
-            Picasso.with(context)
-                .load(media.url)
+        else if (media.url != null) {
+            glideRequests.load(media.url)
                 .placeholder(R.drawable.ic_add_media)
                 .into(binding.icon)
+//            Picasso.with(context)
+//                .load(media.url)
+//                .placeholder(R.drawable.ic_add_media)
+//                .into(binding.icon)
+        }
 
         binding.icon.strokeColor = ColorStateList.valueOf(
             ContextCompat.getColor(
@@ -45,13 +50,14 @@ class AddPostMediaViewHolder(
         fun newInstance(
             parent: ViewGroup,
             context: Context,
+            glideRequests: GlideRequests
         ) =
             AddPostMediaViewHolder(
                 ItemMediaAddPostBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                ), context = context
+                ), context = context, glideRequests
             )
     }
 }

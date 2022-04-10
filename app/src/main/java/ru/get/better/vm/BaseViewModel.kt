@@ -13,8 +13,6 @@ open class BaseViewModel @Inject constructor(
 
 ) : RxViewModel() {
 
-    val errorEvent = SingleLiveEvent<String>()
-    val successEvent = SingleLiveEvent<String>()
     val setupNavMenuEvent = SingleLiveEvent<String>()
 
     var cloudFirestoreDatabase: FirebaseFirestore = Firebase.firestore

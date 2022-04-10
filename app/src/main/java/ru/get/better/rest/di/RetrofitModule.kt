@@ -16,11 +16,6 @@ import ru.get.better.rest.AffirmationService
 @Module(includes = [(JsonModule::class)])
 class RetrofitModule(val context: Context) {
 
-//    @AppScope
-//    @Provides
-//    fun retrofitService(): RestService =
-//        createRetrofit(BuildConfig.REST_BASE_URL, context).create(RestService::class.java)
-
     @AppScope
     @Provides
     fun affirmationService(): AffirmationService =

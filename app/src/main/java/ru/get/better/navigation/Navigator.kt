@@ -34,32 +34,6 @@ object Navigator {
         f.findNavController().navigate(destId, null)
     }
 
-    fun toSettings(navController: NavController) {
-        navController.navigate(R.id.navigation_settings)
-    }
-
-    fun splashToAuth(f: Fragment) {
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(R.anim.open_from_top)
-            .setExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopEnterAnim(R.anim.open_from_top)
-            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopUpTo(f.findNavController().graph.startDestination, false)
-            .build()
-
-        f.findNavController().navigate(
-            R.id.action_navigation_splash_to_navigation_auth,
-            null, options
-        )
-    }
-
-    fun splashToMetric(f: Fragment) {
-        f.findNavController().navigate(
-            R.id.action_navigation_splash_to_navigation_metric
-        )
-    }
-
     fun splashToWelcome(f: Fragment) {
         val options = NavOptions.Builder()
             .setLaunchSingleTop(true)
@@ -73,28 +47,6 @@ object Navigator {
         f.findNavController().navigate(
             R.id.action_navigation_splash_to_navigation_welcome,
             null, options
-        )
-    }
-
-    fun authToWelcome(f: Fragment) {
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(R.anim.open_from_top)
-            .setExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopEnterAnim(R.anim.open_from_top)
-            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopUpTo(f.findNavController().graph.startDestination, false)
-            .build()
-
-        f.findNavController().navigate(
-            R.id.action_navigation_auth_to_navigation_welcome,
-            null, options
-        )
-    }
-
-    fun welcomeToMetric(f: Fragment) {
-        f.findNavController().navigate(
-            R.id.action_navigation_welcome_to_navigation_metric
         )
     }
 
@@ -126,22 +78,6 @@ object Navigator {
 
         f.findNavController().navigate(
             R.id.action_navigation_settings_to_navigation_splash,
-            null, options
-        )
-    }
-
-    fun toSplash(fNavController: NavController) {
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(R.anim.open_from_top)
-            .setExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopEnterAnim(R.anim.open_from_top)
-            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopUpTo(fNavController.graph.startDestination, false)
-            .build()
-
-        fNavController.navigate(
-            R.id.navigation_splash,
             null, options
         )
     }
