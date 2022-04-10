@@ -11,6 +11,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.onegravity.rteditor.RTManager
 import com.onegravity.rteditor.api.RTApi
@@ -1291,24 +1292,6 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                             showFail(getString(R.string.warning_only_1_active_tracker))
                         }
                     }
-
-//                userDiaryViewModel.getActiveTracker().observeOnce(context) {
-//                    if (it == null) {
-//                        setDiaryNote(
-//                            noteId = noteId,
-//                            noteType = NoteType.Tracker.id,
-//                            text = editText.getText(RTFormat.HTML),//editText.text.toString(),
-//                            date =
-//                            if (it?.date.isNullOrEmpty()) System.currentTimeMillis().toString()
-//                            else it?.date!!,
-//                            datetimeStart = System.currentTimeMillis().toString(),
-//                            isActiveNow = true
-//                        )
-//                    } else {
-//                        showFail(getString(R.string.warning_only_1_active_tracker))
-//                    }
-//                }
-
                 }
             }
         }
@@ -1316,106 +1299,105 @@ fun MainActivity.setupAddTrackerBottomSheet() {
 }
 
 fun MainActivity.setupTrackerSheet() {
-    binding.trackerSheet.setFab(binding.trackerFab)
+
+    runOnUiThread { binding.trackerSheet.setFab(binding.trackerFab) }
+
 
     binding.trackerFab.setOnClickListener {
-        binding.trackerSheet.expandFab()
-        binding.trackerFab.isVisible = false
+        runOnUiThread {
+            binding.trackerSheet.expandFab()
+            binding.trackerFab.isVisible = false
+        }
+
     }
 
     val context = this
 
-
-    userDiaryViewModel.activeTrackerLiveData.observe(this) { activeTracker ->
-//  val activeTracker = userDiaryViewModel.getActiveTracker()
-
-        runOnUiThread {
-            binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
-        }
-
-        if (isActiveTrackerTimerInitialized()) {
-            activeTrackerTimer.cancel()
-        }
-
-        if (activeTracker == null && binding.trackerSheet.isFabExpanded) {
-            runOnUiThread { binding.trackerSheet.contractFab() }
-
-            EventBus.getDefault().post(ChangeProgressStateEvent(false))
-        }
-
-        if (App.preferences.uid.isNullOrEmpty()) {
-            runOnUiThread {
-                binding.trackerSheet.contractFab()
-                binding.trackerFab.isVisible = false
-            }
-
-        }
-
-        binding.trackerSheet.setFabAnimationEndListener {
+    runOnUiThread {
+        userDiaryViewModel.activeTrackerLiveData.observe(this) { activeTracker ->
             runOnUiThread {
                 binding.trackerFab.isVisible = activeTracker != null && activeTracker.isActiveNow!!
             }
 
-        }
-
-        if (activeTracker != null) {
-
-            binding.stopTracker.setOnClickListener {
-                userDiaryViewModel.changeTrackerState(
-                    activeTracker,
-                    false
-                )
-
+            if (isActiveTrackerTimerInitialized()) {
                 activeTrackerTimer.cancel()
             }
 
-            runOnUiThread {
-                binding.trackerTitle.text = Html.fromHtml(activeTracker.text?: "")
-                binding.trackerDate.text =
-                    SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(
-                        activeTracker.date.toLong()
-                    )
-                binding.trackerInterestName.text = activeTracker.interest!!.interestName
+            if (activeTracker == null && binding.trackerSheet.isFabExpanded) {
+                runOnUiThread { binding.trackerSheet.contractFab() }
 
-                binding.trackerIcon.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        context,
-                        AllLogo().getLogoById(activeTracker.interest!!.interestIcon)
-                    )
-                )
+                EventBus.getDefault().post(ChangeProgressStateEvent(false))
             }
 
-            activeTrackerTimer = object : CountDownTimer(20000, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    if (activeTracker == null) cancel()
+            if (App.preferences.uid.isNullOrEmpty()) {
+                runOnUiThread {
+                    binding.trackerSheet.contractFab()
+                    binding.trackerFab.isVisible = false
+                }
+            }
 
-                    val trackerTime =
-                        System.currentTimeMillis() - activeTracker.datetimeStart!!.toLong()
+            binding.trackerSheet.setFabAnimationEndListener {
+                runOnUiThread {
+                    binding.trackerFab.isVisible =
+                        activeTracker != null && activeTracker.isActiveNow!!
+                }
+            }
 
-                    val hours = (trackerTime / (1000 * 60 * 60)).toInt()
-                    val minutes = ((trackerTime / (1000 * 60)) % 60).toInt()
-                    val seconds = (trackerTime / 1000) % 60
+            if (activeTracker != null) {
+                binding.stopTracker.setOnClickListener {
+                    userDiaryViewModel.changeTrackerState(
+                        activeTracker,
+                        false
+                    )
 
-                    runOnUiThread {
-                        binding.timer.text = String.format(
-                            "%02d:%02d:%02d",
-                            hours, minutes, seconds
+                    activeTrackerTimer.cancel()
+                }
+
+                runOnUiThread {
+                    binding.trackerTitle.text = Html.fromHtml(activeTracker.text ?: "")
+                    binding.trackerDate.text =
+                        SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(
+                            activeTracker.date.toLong()
                         )
+                    binding.trackerInterestName.text = activeTracker.interest!!.interestName
+
+                    binding.trackerIcon.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            context,
+                            AllLogo().getLogoById(activeTracker.interest!!.interestIcon)
+                        )
+                    )
+                }
+
+                activeTrackerTimer = object : CountDownTimer(20000, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        if (activeTracker == null) cancel()
+
+                        val trackerTime =
+                            System.currentTimeMillis() - activeTracker.datetimeStart!!.toLong()
+
+                        val hours = (trackerTime / (1000 * 60 * 60)).toInt()
+                        val minutes = ((trackerTime / (1000 * 60)) % 60).toInt()
+                        val seconds = (trackerTime / 1000) % 60
+
+                        runOnUiThread {
+                            binding.timer.text = String.format(
+                                "%02d:%02d:%02d",
+                                hours, minutes, seconds
+                            )
+                        }
                     }
 
+                    override fun onFinish() {
+                        start()
+                    }
                 }
 
-                override fun onFinish() {
-                    start()
-                }
+                activeTrackerTimer.start()
+                isTrackerTimerRunning = true
             }
-
-            activeTrackerTimer.start()
-            isTrackerTimerRunning = true
-
         }
     }
-
 }
 
 @SuppressLint("ClickableViewAccessibility")

@@ -49,7 +49,7 @@
     </style>
 
     <style name="Theme.UpgradeDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->\
+        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorDarkPrimaryThemeUpgrade</item>
         <item name="colorPrimaryVariant">@color/colorDarkPrimaryVariantThemeUpgrade</item>
         <item name="colorOnPrimary">@color/colorDarkOnPrimaryThemeUpgrade</item>

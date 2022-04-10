@@ -27,15 +27,14 @@ import ru.get.better.vm.UserAchievementsViewModel
 import ru.get.better.vm.UserInterestsViewModel
 
 
-class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAchievementsBinding>(
+class AchievementsFragment : BaseFragment<FragmentAchievementsBinding>(
     ru.get.better.R.layout.fragment_achievements,
-    UserAchievementsViewModel::class,
     Handler::class
 ) {
 
-    private val userInterestsViewModel: UserInterestsViewModel by lazy {
+    private val userAchievementsViewModel: UserAchievementsViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(
-            UserInterestsViewModel::class.java
+            UserAchievementsViewModel::class.java
         )
     }
 
@@ -47,32 +46,27 @@ class AchievementsFragment : BaseFragment<UserAchievementsViewModel, FragmentAch
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-
-
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
-
-
-//        view!!.post { updateTheme() }
+        view!!.postDelayed({
+            userAchievementsViewModel.getAchievements()
+        }, 500)
     }
 
-    override fun onViewModelReady(viewModel: UserAchievementsViewModel) {
-        viewModel.userInterestsViewModel = userInterestsViewModel
-
-        observeOnView(viewModel.achievementsLiveData, ::observeAchievements)
-        observeOnView(viewModel.lvlLiveData, ::observeLvl)
-        observeOnView(viewModel.lvlPercentLiveData, ::observeLvlPercent)
-        observeOnView(viewModel.efficiencyLiveData, ::observeEfficiency)
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            Thread.sleep(500)
-        }.invokeOnCompletion {
-            lifecycleScope.launch(Dispatchers.Main) {
-                viewModel.getAchievements()
-            }
+    override fun onViewModelReady() {
+        userAchievementsViewModel.achievementsLiveData.observe(this) {
+            observeAchievements(it)
         }
 
-        view!!.post {
-//            lifecycleScope.launch(Dispatchers.IO) { viewModel.getAchievements() }
+        userAchievementsViewModel.lvlLiveData.observe(this) {
+            observeLvl(it)
+        }
+
+        userAchievementsViewModel.lvlPercentLiveData.observe(this) {
+            observeLvlPercent(it)
+        }
+
+        userAchievementsViewModel.efficiencyLiveData.observe(this) {
+            observeEfficiency(it)
         }
     }
 

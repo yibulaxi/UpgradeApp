@@ -9,9 +9,8 @@ import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.faq.adapter.FaqAdapter
 import ru.get.better.vm.BaseViewModel
 
-class FaqFragment : BaseFragment<BaseViewModel, FragmentFaqBinding>(
+class FaqFragment : BaseFragment<FragmentFaqBinding>(
     ru.get.better.R.layout.fragment_faq,
-    BaseViewModel::class,
     Handler::class
 ) {
 

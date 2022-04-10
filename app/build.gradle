@@ -20,7 +20,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 10
-        versionName "3.0.1"
+        versionName "3.0.4"
 
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -39,7 +39,7 @@ android {
         debug {
 //            minifyEnabled true
 //            shrinkResources true
-
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [crashlyticsCollectionEnabled: "true"]
         }
     }

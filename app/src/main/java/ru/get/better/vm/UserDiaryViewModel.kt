@@ -24,12 +24,14 @@ class UserDiaryViewModel @Inject constructor(
     val setDiaryNoteEvent = SingleLiveEvent<Boolean>()
 
     lateinit var allNotesLiveData: MutableLiveData<List<DiaryNote>>
-    val activeTrackerLiveData = mutableLiveDataOf<DiaryNote?>(null)
+    lateinit var activeTrackerLiveData: MutableLiveData<DiaryNote?>
 
     init {
         EventBus.getDefault().register(this)
 
         allNotesLiveData = mutableLiveDataOf<List<DiaryNote>>(emptyList())
+        activeTrackerLiveData = mutableLiveDataOf<DiaryNote?>(null)
+
         updateAllNotesLiveData()
     }
 

@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="ru.get.better.ui.splash.SplashViewModel" />
-
-        <variable
             name="handler"
             type="ru.get.better.ui.splash.SplashFragment.Handler" />
     </data>

@@ -33,22 +33,21 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
+abstract class BaseFragment<B : ViewDataBinding>(
     private val layoutResourceId: Int,
-    private val viewModelClass: KClass<T>? = null,
     private val handler: KClass<*>? = null,
     private val isSharedViewModel: Boolean = false
 ) : DaggerFragment(), Toolbar.OnMenuItemClickListener {
 
     protected lateinit var binding: B
 
-    private var viewModel: T
-        get() = _viewModel!!
-        set(value) {
-            _viewModel = value
-        }
-
-    private var _viewModel: T? = null
+//    private var viewModel: T
+//        get() = _viewModel!!
+//        set(value) {
+//            _viewModel = value
+//        }
+//
+//    private var _viewModel: T? = null
 
     protected val glideRequestManager by lazy { GlideApp.with(this) }
 
@@ -107,21 +106,21 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutResourceId, container, false)
 
-        if (viewModelClass != null) {
-            _viewModel = if (isSharedViewModel) {
-                requireActivity().getViewModel(
-                    viewModelFactory,
-                    viewModelClass.java
-                )
-            } else {
-                getViewModel(
-                    viewModelFactory,
-                    viewModelClass.java
-                )
-            }
-
-            binding.setVariable(BR.viewModel, viewModel)
-        }
+//        if (viewModelClass != null) {
+//            _viewModel = if (isSharedViewModel) {
+//                requireActivity().getViewModel(
+//                    viewModelFactory,
+//                    viewModelClass.java
+//                )
+//            } else {
+//                getViewModel(
+//                    viewModelFactory,
+//                    viewModelClass.java
+//                )
+//            }
+//
+//            binding.setVariable(BR.viewModel, viewModel)
+//        }
 
         if (handler != null) {
             try {
@@ -143,8 +142,8 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
         registerBackPressedCallback()
 
         onLayoutReady(savedInstanceState)
-
-        _viewModel?.let { onViewModelReady(it) }
+        onViewModelReady()
+//        _viewModel?.let { onViewModelReady(it) }
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
@@ -156,7 +155,7 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
         updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
     }
 
-    protected open fun onViewModelReady(viewModel: T) {}
+    protected open fun onViewModelReady() {}
 
     protected open fun onBackPressed() {
         if (!Navigator.goBack(this@BaseFragment)) {

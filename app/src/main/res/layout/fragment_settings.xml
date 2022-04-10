@@ -5,10 +5,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="ru.get.better.vm.SettingsViewModel" />
-
-        <variable
             name="handler"
             type="ru.get.better.ui.settings.SettingsFragment.Handler" />
     </data>

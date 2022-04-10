@@ -23,9 +23,8 @@ import ru.get.better.model.DefaultInterest
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.welcome.adapter.WelcomePagerAdapter
 
-class WelcomeFragment : BaseFragment<WelcomeViewModel, FragmentWelcomeBinding>(
+class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
     R.layout.fragment_welcome,
-    WelcomeViewModel::class,
     Handler::class
 ) {
 

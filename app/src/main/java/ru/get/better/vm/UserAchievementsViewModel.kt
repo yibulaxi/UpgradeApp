@@ -1,8 +1,6 @@
 package ru.get.better.vm
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
@@ -15,48 +13,11 @@ import kotlin.math.abs
 import kotlin.math.pow
 
 class UserAchievementsViewModel @Inject constructor(
-    private val userSettingsViewModel: UserSettingsViewModel,
-    var userInterestsViewModel: UserInterestsViewModel
+    private val userInterestsViewModel: UserInterestsViewModel
 ) : BaseViewModel() {
 
     init {
         EventBus.getDefault().register(this)
-    }
-
-//    private fun setUserAchievements(
-//        documentSnapshot: DocumentSnapshot
-//    ) {
-//        val firestoreUserAchievements =
-//            UserAchievements(
-//                userId = documentSnapshot.getString(UserAchievementsTable().tableFields[UserAchievementsFields.UserId]!!)!!,
-//                userLvl = documentSnapshot.getString(UserAchievementsTable().tableFields[UserAchievementsFields.UserLvl]!!)!!,
-//                userExp = documentSnapshot.getString(UserAchievementsTable().tableFields[UserAchievementsFields.UserExp]!!)!!,
-//                efficiency = documentSnapshot.getString(UserAchievementsTable().tableFields[UserAchievementsFields.Efficiency]!!)!!,
-//                completedTasks =
-//                if (documentSnapshot.get(UserAchievementsTable().tableFields[UserAchievementsFields.CompletedTasks]!!) == null) arrayListOf()
-//                else (documentSnapshot.get(UserAchievementsTable().tableFields[UserAchievementsFields.CompletedTasks]!!) as ArrayList<*>)
-//                    .toCompletedTasks(),
-//                completedAchievements =
-//                if (documentSnapshot.get(UserAchievementsTable().tableFields[UserAchievementsFields.CompletedAchievements]!!) == null) arrayListOf()
-//                else (documentSnapshot.get(UserAchievementsTable().tableFields[UserAchievementsFields.CompletedAchievements]!!) as ArrayList<*>)
-//                    .toCompletedAchievements(),
-//            )
-//
-//        updateUserAchievements(firestoreUserAchievements)
-//    }
-
-//    private fun updateUserAchievements(
-//        userAchievements: UserAchievements
-//    ) = viewModelScope.launch {
-//        userAchievementsRepository.insertOrUpdate(userAchievements)
-//    }
-
-    fun completeAchievement(achievement: CompletedAchievement) {
-
-    }
-
-    fun completeTask(task: Task) {
-
     }
 
     val achievementsLiveData = MutableLiveData<List<Achievement>>()
@@ -64,62 +25,62 @@ class UserAchievementsViewModel @Inject constructor(
     val lvlPercentLiveData = MutableLiveData<Float>()
     val efficiencyLiveData = MutableLiveData<Int>()
 
-     fun getAchievements() {
+    fun getAchievements() {
         GlobalScope.launch {
             val list = getInitialAchievements()
 
             val notesInRow = calculateNotesInRow()
             val efficiency = calculateEfficiency()
 
-        list.forEach { achievement ->
-            achievement.isCompleted = when (achievement.achievementId) {
-                AchievementId.CreateEachTypeNote.id -> {
-                    checkAchievementEachTypeNote()
-                }
-                AchievementId.Create50Notes.id -> {
-                    checkAchievement50Notes()
-                }
-                AchievementId.Create100Notes.id -> {
-                    checkAchievement100Notes()
-                }
-                AchievementId.Create200Notes.id -> {
-                    checkAchievement200Notes()
-                }
-                AchievementId.Complete1Habit.id -> {
-                    checkAchievement1HabitCompleted()
-                }
-                AchievementId.Complete3Habit.id -> {
-                    checkAchievement3HabitCompleted()
-                }
-                AchievementId.Complete9Habit.id -> {
-                    checkAchievement9HabitCompleted()
-                }
-                AchievementId.Get10PointsInterest.id -> {
-                    userInterestsViewModel.getInterests().any { it.currentValue == 10f }
-                }
-                AchievementId.CreateNotes3Days.id -> {
-                    notesInRow >= 3
-                }
-                AchievementId.CreateNotes7Days.id -> {
-                    notesInRow >= 7
-                }
-                AchievementId.CreateNotes21Days.id -> {
-                    notesInRow >= 21
-                }
-                AchievementId.Get50Efficiency.id -> {
-                    efficiency >= 50
-                }
-                AchievementId.Get70Efficiency.id -> {
-                    efficiency >= 70
-                }
-                AchievementId.Get100Efficiency.id -> {
-                    efficiency >= 100
-                }
-                else -> {
-                    false
+            list.forEach { achievement ->
+                achievement.isCompleted = when (achievement.achievementId) {
+                    AchievementId.CreateEachTypeNote.id -> {
+                        checkAchievementEachTypeNote()
+                    }
+                    AchievementId.Create50Notes.id -> {
+                        checkAchievement50Notes()
+                    }
+                    AchievementId.Create100Notes.id -> {
+                        checkAchievement100Notes()
+                    }
+                    AchievementId.Create200Notes.id -> {
+                        checkAchievement200Notes()
+                    }
+                    AchievementId.Complete1Habit.id -> {
+                        checkAchievement1HabitCompleted()
+                    }
+                    AchievementId.Complete3Habit.id -> {
+                        checkAchievement3HabitCompleted()
+                    }
+                    AchievementId.Complete9Habit.id -> {
+                        checkAchievement9HabitCompleted()
+                    }
+                    AchievementId.Get10PointsInterest.id -> {
+                        userInterestsViewModel.getInterests().any { it.currentValue == 10f }
+                    }
+                    AchievementId.CreateNotes3Days.id -> {
+                        notesInRow >= 3
+                    }
+                    AchievementId.CreateNotes7Days.id -> {
+                        notesInRow >= 7
+                    }
+                    AchievementId.CreateNotes21Days.id -> {
+                        notesInRow >= 21
+                    }
+                    AchievementId.Get50Efficiency.id -> {
+                        efficiency >= 50
+                    }
+                    AchievementId.Get70Efficiency.id -> {
+                        efficiency >= 70
+                    }
+                    AchievementId.Get100Efficiency.id -> {
+                        efficiency >= 100
+                    }
+                    else -> {
+                        false
+                    }
                 }
             }
-        }
 
             var experience = 0
             list.filter { it.isCompleted }.forEach { experience += it.experience }
@@ -139,11 +100,12 @@ class UserAchievementsViewModel @Inject constructor(
 
                 val timeStart: Long = currentDayEnd - 86400000 * 30L
 
-                val allNotes = App.database.userDiaryDao().getAll()?: emptyList()
+                val allNotes = App.database.userDiaryDao().getAll() ?: emptyList()
                 val notesWithoutHabits =
                     allNotes.filter { it.noteType != NoteType.Habit.id && it.date.toLong() >= timeStart }
-                val habits = allNotes.filter { it.noteType == NoteType.Habit.id }.getHabitsRealization()
-                    .filter { it.date.toLong() >= timeStart }
+                val habits =
+                    allNotes.filter { it.noteType == NoteType.Habit.id }.getHabitsRealization()
+                        .filter { it.date.toLong() >= timeStart }
 
                 notesWithoutHabits.forEach { note ->
                     when (note.noteType) {
@@ -161,7 +123,6 @@ class UserAchievementsViewModel @Inject constructor(
                 efficiency
             }
         }
-
 
 
     private suspend fun calculateNotesInRow(): Int =
@@ -195,9 +156,9 @@ class UserAchievementsViewModel @Inject constructor(
                         prevDayStart = dayStart
                         prevDayEnd = dayEnd
                     }
-                     inRowAmount
+                    inRowAmount
                 } else {
-                     inRowAmount
+                    inRowAmount
                 }
             }
         }
@@ -259,7 +220,7 @@ class UserAchievementsViewModel @Inject constructor(
     private suspend fun checkAchievement1HabitCompleted(): Boolean =
         coroutineScope {
             withContext(Dispatchers.IO) {
-                 App.database.userDiaryDao().habits().any { habit ->
+                App.database.userDiaryDao().habits().any { habit ->
                     habit!!.datesCompletion!!.none { dateCompletion ->
                         dateCompletion.datesCompletionIsCompleted == false
                     }

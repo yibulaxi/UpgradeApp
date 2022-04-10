@@ -80,9 +80,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private var navController: NavController? = null
 
-    val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-        BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
-    }
+//    val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+//        BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
+//    }
+
+    lateinit var addPostBehavior: BottomSheetBehavior<ConstraintLayout>
 
     val addTrackerBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
@@ -124,6 +126,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }
             navController = findNavController(R.id.nav_host_fragment)
+
+            addPostBehavior = BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
         }
 
         initNotificationReceiver()
@@ -137,6 +141,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         affirmationsViewModel.nasaDataViewState.observe(this, ::observeNasaData)
         userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
         userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
+
+        userAchievementsViewModel.getAchievements()
     }
 
     @Subscribe
@@ -167,162 +173,161 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             else R.color.colorLightNavigationBar
         )
 
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.async {
+            Log.d("keke", "setup2")
             setupBottomSheets()
             setupSelectNoteTypeBottomSheet()
             setupAddPostBottomSheet()
             setupAddGoalBottomSheet()
             setupAddTrackerBottomSheet()
+            setupTrackerSheet()
+            setupAddHabitBottomSheet()
         }
 
-        setupTrackerSheet()
-
-        setupAddHabitBottomSheet()
-
-
-        binding.dateTitle.text = App.resourcesProvider.getStringLocale(
-            R.string.tracker_date_title,
-            App.preferences.locale
-        )
-        binding.stopTracker.text =
-            App.resourcesProvider.getStringLocale(R.string.stop_tracker, App.preferences.locale)
-
-        val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
-        val colors = intArrayOf(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorChecked
-                else R.color.colorLightBottomNavSelectorChecked
-            ),
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
-                else R.color.colorLightBottomNavSelectorUnchecked
+        GlobalScope.launch(Dispatchers.Main) {
+            binding.dateTitle.text = App.resourcesProvider.getStringLocale(
+                R.string.tracker_date_title,
+                App.preferences.locale
             )
-        )
-        binding.navView.itemIconTintList = ColorStateList(states, colors)
+            binding.stopTracker.text =
+                App.resourcesProvider.getStringLocale(R.string.stop_tracker, App.preferences.locale)
 
-        binding.progressBar.background = ContextCompat.getDrawable(
-            this,
-            if (App.preferences.isDarkTheme) R.drawable.bg_progress_dark
-            else R.drawable.bg_progress_light
-        )
-
-        binding.navViewContainer.backgroundTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
-                else R.color.colorLightNavViewContainerBackgroundTint
+            val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
+            val colors = intArrayOf(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorChecked
+                    else R.color.colorLightBottomNavSelectorChecked
+                ),
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                    else R.color.colorLightBottomNavSelectorUnchecked
+                )
             )
-        )
+            binding.navView.itemIconTintList = ColorStateList(states, colors)
 
-        binding.navView.setBackgroundColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkNavViewBackground
-                else R.color.colorLightNavViewBackground
+            binding.progressBar.background = ContextCompat.getDrawable(
+                this@MainActivity,
+                if (App.preferences.isDarkTheme) R.drawable.bg_progress_dark
+                else R.drawable.bg_progress_light
             )
-        )
 
-        binding.trackerFab.setImageResource(
-            if (App.preferences.isDarkTheme) R.drawable.ic_tracker_dark
-            else R.drawable.ic_tracker_light
-        )
-
-        binding.trackerFab.imageTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerFabTint
-                else R.color.colorLightTrackerFabTint
+            binding.navViewContainer.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
+                    else R.color.colorLightNavViewContainerBackgroundTint
+                )
             )
-        )
 
-        binding.trackerContainerBg.setBackgroundColor(
-            ContextCompat.getColor(
-                this,
-                if (!App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
-                else R.color.colorLightTrackerContainerBackground
+            binding.navView.setBackgroundColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkNavViewBackground
+                    else R.color.colorLightNavViewBackground
+                )
             )
-        )
 
-        binding.trackerContainer.backgroundTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                this,
-                if (!App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
-                else R.color.colorLightTrackerContainerBackground
+            binding.trackerFab.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_tracker_dark
+                else R.drawable.ic_tracker_light
             )
-        )
 
-
-        binding.trackerInterestName.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerInterestNameText
-                else R.color.colorLightTrackerInterestNameText
+            binding.trackerFab.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkTrackerFabTint
+                    else R.color.colorLightTrackerFabTint
+                )
             )
-        )
 
-        binding.dateTitle.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateTitleText
-                else R.color.colorLightTrackerDateTitleText
+            binding.trackerContainerBg.setBackgroundColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (!App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+                    else R.color.colorLightTrackerContainerBackground
+                )
             )
-        )
 
-        binding.trackerDate.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateText
-                else R.color.colorLightTrackerDateText
+            binding.trackerContainer.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (!App.preferences.isDarkTheme) R.color.colorDarkTrackerContainerBackground
+                    else R.color.colorLightTrackerContainerBackground
+                )
             )
-        )
 
-        binding.timer.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTimerText
-                else R.color.colorLightTrackerTimerText
+            binding.trackerInterestName.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkTrackerInterestNameText
+                    else R.color.colorLightTrackerInterestNameText
+                )
             )
-        )
 
-        binding.trackerTitle.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTitleText
-                else R.color.colorLightTrackerTitleText
+            binding.dateTitle.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateTitleText
+                    else R.color.colorLightTrackerDateTitleText
+                )
             )
-        )
 
-        binding.stopTrackerContainer.background = ContextCompat.getDrawable(
-            this,
-            if (App.preferences.isDarkTheme) R.drawable.bg_view_active_tracker_btn_dark
-            else R.drawable.bg_view_active_tracker_btn_light
-        )
-
-        binding.stopTracker.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkTrackerStopText
-                else R.color.colorLightTrackerStopText
+            binding.trackerDate.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkTrackerDateText
+                    else R.color.colorLightTrackerDateText
+                )
             )
-        )
 
-        binding.backgroundImage.setBackgroundColor(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkBlur
-                else R.color.colorLightBlur
+            binding.timer.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTimerText
+                    else R.color.colorLightTrackerTimerText
+                )
             )
-        )
 
-        binding.progressBar.indeterminateTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                this,
-                if (App.preferences.isDarkTheme) R.color.colorDarkProgressBarIndeterminateTint
-                else R.color.colorLightProgressBarIndeterminateTint
+            binding.trackerTitle.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkTrackerTitleText
+                    else R.color.colorLightTrackerTitleText
+                )
             )
-        )
+
+            binding.stopTrackerContainer.background = ContextCompat.getDrawable(
+                this@MainActivity,
+                if (App.preferences.isDarkTheme) R.drawable.bg_view_active_tracker_btn_dark
+                else R.drawable.bg_view_active_tracker_btn_light
+            )
+
+            binding.stopTracker.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkTrackerStopText
+                    else R.color.colorLightTrackerStopText
+                )
+            )
+
+            binding.backgroundImage.setBackgroundColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBlur
+                    else R.color.colorLightBlur
+                )
+            )
+
+            binding.progressBar.indeterminateTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkProgressBarIndeterminateTint
+                    else R.color.colorLightProgressBarIndeterminateTint
+                )
+            )
+        }
     }
 
     var isTrackerTimerRunning = false
@@ -645,20 +650,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
         }
 
-
-
-
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.async {
+            Log.d("keke", "setup1")
+            setupBottomSheets()
             setupSelectNoteTypeBottomSheet()
             setupAddPostBottomSheet()
             setupAddGoalBottomSheet()
             setupAddTrackerBottomSheet()
+            setupTrackerSheet()
+            setupAddHabitBottomSheet()
         }
-
-
-        setupTrackerSheet()
-        setupAddHabitBottomSheet()
-
 
         android.os.Handler().postDelayed({
             showSpotlights()
@@ -935,7 +936,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     fun onOpenFullScreenMediaEvent(e: OpenFullScreenMediaEvent) {
         StfalconImageViewer.Builder<Media>(this, e.media) { view, image ->
             if (image?.url != null) {
-//                Picasso.with(this@MainActivity).load(image.url).into(view)
                 glideRequestManager.load(image.url).into(view)
             }
         }.withBackgroundColor(
@@ -1027,8 +1027,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             App.preferences.isMainAddPostSpotlightShown = true
             isAnySpotlightActiveNow = false
 
-            App.preferences.isMainAddPostSpotlightShown = true
-//            userSettingsViewModel.updateField(UserSettingsFields.IsMainAddPostSpotlightShown, true)
         }
     }
 

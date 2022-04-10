@@ -28,9 +28,8 @@ import ru.get.better.ui.base.BaseFragment
 import ru.get.better.vm.UserSettingsViewModel
 import java.util.*
 
-class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
+class SplashFragment : BaseFragment<FragmentSplashBinding>(
     R.layout.fragment_splash,
-    SplashViewModel::class,
     Handler::class
 ) {
 
@@ -73,21 +72,23 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        binding.splashContainer.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashBackground
-                else R.color.colorLightFragmentSplashBackground
+        lifecycleScope.launch(Dispatchers.IO) {
+            binding.splashContainer.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashBackground
+                    else R.color.colorLightFragmentSplashBackground
+                )
             )
-        )
 
-        binding.logoText.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashLogoTextText
-                else R.color.colorLightFragmentSplashLogoTextText
+            binding.logoText.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSplashLogoTextText
+                    else R.color.colorLightFragmentSplashLogoTextText
+                )
             )
-        )
+        }
     }
 
     private fun setupLocale() {
@@ -150,11 +151,13 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             }
         })
 
-        binding.animationView.setAnimation(
-            if (App.preferences.isDarkTheme) R.raw.logo_dark_anim
-            else R.raw.logo_light_anim
-        )
-        binding.animationView.playAnimation()
+        lifecycleScope.launch(Dispatchers.IO) {
+            binding.animationView.setAnimation(
+                if (App.preferences.isDarkTheme) R.raw.logo_dark_anim
+                else R.raw.logo_light_anim
+            )
+            binding.animationView.playAnimation()
+        }
     }
 
     override fun onStart() {

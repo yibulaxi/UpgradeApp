@@ -76,9 +76,8 @@ import ru.get.better.ui.activity.main.ext.SecondaryViews
 import ru.get.better.util.Keyboard
 
 
-class MetricFragment : BaseFragment<BaseViewModel, FragmentMetricBinding>(
+class MetricFragment : BaseFragment<FragmentMetricBinding>(
     R.layout.fragment_metric,
-    BaseViewModel::class,
     Handler::class
 ) {
 

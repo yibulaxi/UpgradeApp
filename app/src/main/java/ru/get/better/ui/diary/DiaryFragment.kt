@@ -53,9 +53,8 @@ import java.util.concurrent.Executors
 import kotlin.coroutines.coroutineContext
 
 
-class DiaryFragment : BaseFragment<BaseViewModel, FragmentDiaryBinding>(
+class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
     R.layout.fragment_diary,
-    BaseViewModel::class,
     Handler::class
 ) {
 

@@ -34,9 +34,8 @@ import timber.log.Timber
 import java.util.*
 
 
-class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding>(
+class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     ru.get.better.R.layout.fragment_settings,
-    SettingsViewModel::class,
     Handler::class
 ) {
 
@@ -154,10 +153,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             )
         }
         allowChangeLocale = true
-    }
-
-    override fun onViewModelReady(viewModel: SettingsViewModel) {
-
     }
 
     private val updateThemeDuration = 700L

@@ -4,10 +4,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="ru.get.better.vm.UserAchievementsViewModel" />
-
-        <variable
             name="handler"
             type="ru.get.better.ui.achievements.AchievementsFragment.Handler" />
     </data>

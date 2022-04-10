@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="ru.get.better.vm.BaseViewModel" />
-
-        <variable
             name="handler"
             type="ru.get.better.ui.diary.DiaryFragment.Handler" />
     </data>
