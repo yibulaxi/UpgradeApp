@@ -17,7 +17,7 @@ class SectionHeader(
     }
 
     override fun reduceSection() {
-        section --
+        section--
     }
 
     override fun sectionName(): String = sectionName

@@ -1,16 +1,12 @@
 package ru.get.better.util.ext
 
 import android.graphics.*
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.*
-import androidx.annotation.DimenRes
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.collection.lruCache
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.withTranslation
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -112,7 +108,8 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
 //                x.toFloat(), y.toFloat(), alignment = Layout.Alignment.ALIGN_CENTER
 //            )
 
-            ContextCompat.getDrawable(context,
+            ContextCompat.getDrawable(
+                context,
                 if (App.preferences.isDarkTheme) R.drawable.ic_close_dark
                 else R.drawable.ic_close_light
             )?.let {

@@ -6,14 +6,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.Icon
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationCompat.BADGE_ICON_SMALL
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.IconCompat
-import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.model.AllLogo
 import ru.get.better.ui.activity.main.MainActivity

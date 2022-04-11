@@ -14,7 +14,7 @@ class AffirmationsViewModel @Inject constructor(
     val nasaDataViewState =
         mutableLiveDataOf<ViewState<NasaDataViewStateData>>(ViewState.Idle)
 
-     fun loadTodayNasaData() {
+    fun loadTodayNasaData() {
         affirmationRepo.getAffirmations()
             .manageLoading(nasaDataViewState)
             .subscribe({
@@ -24,8 +24,8 @@ class AffirmationsViewModel @Inject constructor(
                     ViewState.Data(
                         NasaDataViewStateData(
                             imgUrl = BuildConfig.AFFIRMATIONS_BASE_URL + "/affirmations/" +
-                            if (App.preferences.isDarkTheme) affirmation.imageD
-                            else affirmation.imageL,
+                                    if (App.preferences.isDarkTheme) affirmation.imageD
+                                    else affirmation.imageL,
                             justLoaded = true
                         )
                     )

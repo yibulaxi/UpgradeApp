@@ -1,46 +1,35 @@
 package ru.get.better.ui.activity.main.ext
 
+import android.content.Intent
+import android.graphics.*
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.util.Log
+import androidx.annotation.Nullable
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
+import com.bumptech.glide.request.target.CustomTarget
 import kotlinx.android.synthetic.main.view_affirmation.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
+import ru.get.better.R
+import ru.get.better.event.ChangeProgressStateEvent
 import ru.get.better.glide.GlideApp
 import ru.get.better.model.getTodayAffirmation
 import ru.get.better.ui.activity.main.MainActivity
 import ru.get.better.util.ViewState
+import ru.get.better.util.convertDpToPx
 import ru.get.better.util.doOn
 import ru.get.better.util.ext.scaleXY
 import ru.get.better.vm.AffirmationsViewModel
-import android.graphics.drawable.Drawable
-
-import android.net.Uri
-import android.transition.Transition
-import android.util.Log
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
-
-import com.bumptech.glide.request.target.CustomTarget
 import java.io.ByteArrayOutputStream
-import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import androidx.core.content.ContextCompat.startActivity
-
-import android.content.Intent
-import android.graphics.*
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import com.google.protobuf.Empty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.greenrobot.eventbus.EventBus
-import ru.get.better.R
-import ru.get.better.event.ChangeProgressStateEvent
-import ru.get.better.util.convertDpToPx
 
 
 fun MainActivity.observeNasaData(
@@ -50,7 +39,7 @@ fun MainActivity.observeNasaData(
         showProgress = {},
         hideProgress = {},
         data = { nasaData ->
-           affirmationIconUrl = nasaData.imgUrl
+            affirmationIconUrl = nasaData.imgUrl
             setupAffirmationIcon()
         }
     )
@@ -84,7 +73,8 @@ private fun MainActivity.showAffirmation() {
     this.getTodayAffirmation()
     lifecycleScope.launch(Dispatchers.Main) {
 
-        binding.affirmationView.affirmationTitle.text = applicationContext.getTodayAffirmation().title
+        binding.affirmationView.affirmationTitle.text =
+            applicationContext.getTodayAffirmation().title
 
         binding.affirmationView.affirmationDesc.isVisible =
             !applicationContext.getTodayAffirmation().desc.isNullOrEmpty()
@@ -180,23 +170,23 @@ fun MainActivity.getRoundedRectBitmap(bitmap: Bitmap, pixels: Int): Bitmap {
     return result
 }
 
- fun MainActivity.saveAffirmationImg(bitmap: Bitmap): Uri? {
+fun MainActivity.saveAffirmationImg(bitmap: Bitmap): Uri? {
 //    coroutineScope {
 //        withContext(Dispatchers.IO) {
-            val imagesFolder = File(cacheDir, "images")
-            var uri: Uri? = null
-            try {
-                imagesFolder.mkdirs()
-                val file = File(imagesFolder, "affirmation_${App.preferences.currentAffirmationNumber}.png")
-                val stream = FileOutputStream(file)
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
-                stream.flush()
-                stream.close()
-                uri = FileProvider.getUriForFile(this, "ru.get.better.fileprovider", file)
-            } catch (e: IOException) {
-                Log.d("IOException", "IOException while trying to write file for sharing: " + e.message)
-            }
-             return uri
+    val imagesFolder = File(cacheDir, "images")
+    var uri: Uri? = null
+    try {
+        imagesFolder.mkdirs()
+        val file = File(imagesFolder, "affirmation_${App.preferences.currentAffirmationNumber}.png")
+        val stream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
+        stream.flush()
+        stream.close()
+        uri = FileProvider.getUriForFile(this, "ru.get.better.fileprovider", file)
+    } catch (e: IOException) {
+        Log.d("IOException", "IOException while trying to write file for sharing: " + e.message)
+    }
+    return uri
 }
 
 fun MainActivity.shareAffirmation() {

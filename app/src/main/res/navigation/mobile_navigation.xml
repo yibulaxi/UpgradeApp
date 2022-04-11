@@ -3,29 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_splash"
     >
-
-    <fragment
-        android:id="@+id/navigation_splash"
-        android:name="ru.get.better.ui.splash.SplashFragment"
-        android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash">
-        <action
-            android:id="@+id/action_navigation_splash_to_navigation_metric"
-            app:destination="@id/navigation_metric"
-            app:enterAnim="@anim/activity_open_translate_from_bottom"
-            app:exitAnim="@anim/activity_close_translate_to_bottom"
-            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
-            app:popExitAnim="@anim/activity_close_translate_to_bottom" />
-        <action
-            android:id="@+id/action_navigation_splash_to_navigation_welcome"
-            app:destination="@id/navigation_welcome"
-            app:enterAnim="@anim/activity_open_translate_from_bottom"
-            app:exitAnim="@anim/activity_close_translate_to_bottom"
-            app:popEnterAnim="@anim/activity_open_translate_from_bottom"
-            app:popExitAnim="@anim/activity_close_translate_to_bottom"/>
-    </fragment>
 
     <fragment
         android:id="@+id/navigation_metric"

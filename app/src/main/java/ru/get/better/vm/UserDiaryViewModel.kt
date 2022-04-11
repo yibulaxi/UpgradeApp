@@ -37,7 +37,7 @@ class UserDiaryViewModel @Inject constructor(
 
     private fun updateAllNotesLiveData() =
         GlobalScope.launch(Dispatchers.IO) {
-            allNotesLiveData.postValue(App.database.userDiaryDao().getAll()?: emptyList())
+            allNotesLiveData.postValue(App.database.userDiaryDao().getAll() ?: emptyList())
             updateActiveTrackerLiveData()
         }
 

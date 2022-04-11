@@ -1,7 +1,6 @@
 package ru.get.better.ui.diary
 
 import android.content.res.ColorStateList
-import android.media.metrics.Event
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -21,7 +19,10 @@ import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.RoundedRectangle
 import kotlinx.android.synthetic.main.target_diary_habits.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
@@ -31,7 +32,7 @@ import ru.get.better.event.*
 import ru.get.better.model.DiaryNote
 import ru.get.better.model.NoteType
 import ru.get.better.model.getHabitsRealization
-import ru.get.better.rest.UserSettingsFields
+import ru.get.better.ui.activity.main.ext.SecondaryViews
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.diary.adapter.NotesAdapter
 import ru.get.better.ui.diary.adapter.habits.HabitsAdapter
@@ -42,15 +43,13 @@ import ru.get.better.util.ext.setUpRemoveItemTouchHelper
 import ru.get.better.util.stickyheader.Section
 import ru.get.better.util.stickyheader.SectionHeader
 import ru.get.better.util.stickyheader.SectionItem
-import ru.get.better.vm.*
+import ru.get.better.vm.DateComparator
+import ru.get.better.vm.StringDateComparator
+import ru.get.better.vm.UserDiaryViewModel
+import ru.get.better.vm.UserSettingsViewModel
+import java.lang.Thread.sleep
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.coroutines.EmptyCoroutineContext
-import kotlinx.coroutines.*
-import ru.get.better.ui.activity.main.ext.SecondaryViews
-import java.lang.Thread.sleep
-import java.util.concurrent.Executors
-import kotlin.coroutines.coroutineContext
 
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
@@ -177,10 +176,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                 var sectionName = "--------------"
 
                 val items = arrayListOf<Section>()
-//
-//                var reversedAllNotes = mutableListOf<DiaryNote>()
-//                reversedAllNotes.addAll(allNotes)
-//                reversedAllNotes = reversedAllNotes.reversed().tob
 
                 for (i in allNotes.indices) {
                     if (
@@ -323,54 +318,19 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
             binding.horizontalRecycler.adapter = habitsAdapter
 
             binding.horizontalRecycler.post {
-                if (habitsAdapter.itemCount != 0 && allowShowHabitsSpotlight)
+                if (habitsAdapter.itemCount != 0 && !App.preferences.isDiaryHabitsSpotlightShown)
                     showHabitsSpotlight()
             }
         }
-
-//        userDiaryViewModel.getHabits().observe(this) { habits ->
-//            val habitsRealization = arrayListOf<DiaryNote>()
-//
-//            habits.forEach { habit ->
-//                habit!!.datesCompletion!!.firstOrNull { dateCompletion ->
-//                    dateCompletion.datesCompletionIsCompleted == false
-//                            && dateCompletion.datesCompletionDatetime!!.toLong() <= System.currentTimeMillis()
-//                }.let {
-//                    if (it != null) habitsRealization.add(habit)
-//                }
-//            }
-//
-//            habitsAdapter = HabitsAdapter(requireContext(), habitsRealization.toMutableList())
-//            binding.horizontalRecycler.adapter = habitsAdapter
-//
-//            binding.horizontalRecycler.post {
-//                if (habitsAdapter.itemCount != 0 && allowShowHabitsSpotlight)
-//                    showHabitsSpotlight()
-//            }
-//        }
     }
 
     private fun setupDiary() {
-//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-//            val notes = userDiaryViewModel.getNotes()
-//            observeDiary(notes)
-//        }
-
         userDiaryViewModel.allNotesLiveData.observe(this) { notes ->
-//            lifecycleScope.launch(Dispatchers.IO) {
             GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                 setupHabitsRealization()
                 observeDiary(notes)
             }
-
-//            }
         }
-//        userDiaryViewModel.getNotes().observe(this) { notes ->
-//            lifecycleScope.launch(Dispatchers.IO) {
-//                observeDiary(notes)
-//            }
-////
-//        }
     }
 
     @Subscribe
@@ -462,19 +422,20 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
             .build()
         spotlight.start()
 
-        EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.DiarySpotlight))
+        EventBus.getDefault()
+            .post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.DiarySpotlight))
         EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(true))
 
 
         habitsTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
             spotlight.finish()
-            EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.Empty))
+            EventBus.getDefault()
+                .post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.Empty))
 
             App.preferences.isDiaryHabitsSpotlightShown = true
             EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))
 
             App.preferences.isDiaryHabitsSpotlightShown = true
-//            userSettingsViewModel.updateField(UserSettingsFields.IsDiaryHabitsSpotlightShown, true)
         }
     }
 

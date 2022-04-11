@@ -10,7 +10,7 @@ import ru.get.better.R
 
 fun Fragment.getBalloon(
     text: String,
-    ): Balloon =
+): Balloon =
     Balloon.Builder(context!!)
         .setArrowSize(10)
         .setArrowOrientation(ArrowOrientation.TOP)

@@ -1,26 +1,18 @@
 package ru.get.better.vm
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
 import ru.get.better.event.InitUserInterestsEvent
+import ru.get.better.event.LoadMainEvent
 import ru.get.better.event.UpdateMetricsEvent
 import ru.get.better.event.UpdateUserInterestEvent
-import ru.get.better.model.EmptyInterest
 import ru.get.better.model.Interest
 import ru.get.better.model.UserCustomInterest
-import ru.get.better.navigation.Navigator
-import ru.get.better.rest.UserInterestsFields
-import ru.get.better.rest.UserInterestsTable
-import ru.get.better.rest.UserSettingsTable
-import ru.get.better.util.SingleLiveEvent
+import ru.get.better.model.UserInterest
+import ru.get.better.util.ext.mutableLiveDataOf
 import javax.inject.Inject
 
 class UserInterestsViewModel @Inject constructor(
@@ -28,203 +20,178 @@ class UserInterestsViewModel @Inject constructor(
     private val userSettingsViewModel: UserSettingsViewModel,
 ) : BaseViewModel() {
 
+    lateinit var interestsLiveData: MutableLiveData<List<UserInterest>?>
+
     init {
         EventBus.getDefault().register(this)
+
+        interestsLiveData = mutableLiveDataOf(emptyList())
     }
 
-    private var interests = mutableListOf<Interest>()
+    fun init() {
 
-    private val getDiaryEvent = SingleLiveEvent<Boolean>()
+    }
 
-    private fun setInterests(
-        documentSnapshot: DocumentSnapshot,
-        onSuccess: () -> Unit
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            interests.clear()
-
-            documentSnapshot.data?.map {
-                interests.add(
-                    UserCustomInterest(
-                        id = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Id]].toString(),
-                        name = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Name]].toString(),
-                        description = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Description]].toString(),
-                        startValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.StartValue]].toString()
-                            .toFloat(),
-                        currentValue = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]].toString()
-                            .toFloat(),
-                        dateLastUpdate = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]].toString(),
-                        logoId = (it.value as HashMap<*, *>)[UserInterestsTable().tableFields[UserInterestsFields.Icon]].toString()
-                    )
-                )
+    suspend fun getInterestsLiveData() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userInterestsDao().getByUserIdLiveData(App.preferences.uid!!)
             }
-        }.invokeOnCompletion {
-            viewModelScope.launch(Dispatchers.Main) {
-                onSuccess.invoke()
-            }
-
         }
-    }
 
-    fun getInterests() = interests
+//            interestsLiveData.postValue(App.database.userInterestsDao().getByUserId(App.preferences.uid!!))
 
-    fun getInterestById(id: String): Interest =
-        interests.first { it.id == id }
+
+    suspend fun getInterestsByUserId() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.preferences.uid?.let {
+//                    updateInterestsLiveData()
+                    App.database.userInterestsDao().getByUserId(App.preferences.uid!!)
+                        ?: emptyList()
+                } ?: emptyList()
+            }
+        }
+
+    suspend fun getInterestById(id: String): UserInterest? =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userInterestsDao().getById(id)
+            }
+        }
 
     @Subscribe
     fun onInitUserInterestsEvent(e: InitUserInterestsEvent) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val map = hashMapOf<String, HashMap<String, String>>()
-            val list = e.data.map { it.toFirestore() }
-
-            list.forEach {
-                map.plusAssign(it)
+        GlobalScope.launch {
+            e.data.forEach {
+                App.database.userInterestsDao().insert(it.toUserInterest())
             }
 
-            cloudFirestoreDatabase
-                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-                .set(map)
-                .addOnSuccessListener {
-                    App.preferences.isInterestsInitialized = true
-                    viewModelScope.launch(Dispatchers.IO) {
-                        getInterests { Navigator.toMetric(e.f) }
-                    }
-                }
-                .addOnFailureListener { }
-        }
-    }
+//            updateInterestsLiveData()
+            App.preferences.isInterestsInitialized = true
 
-    private fun Interest.toFirestore() =
-        hashMapOf(
-            /*System.currentTimeMillis().toString() + java.util.UUID.randomUUID().toString()*/
-            id to hashMapOf<String, String>(
-                UserInterestsTable().tableFields[UserInterestsFields.Id]!! to id,
-                UserInterestsTable().tableFields[UserInterestsFields.Name]!! to name!!,
-                UserInterestsTable().tableFields[UserInterestsFields.Description]!! to description!!,
-                UserInterestsTable().tableFields[UserInterestsFields.StartValue]!! to startValue.toString(),
-                UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]!! to currentValue.toString(),
-                UserInterestsTable().tableFields[UserInterestsFields.DateLastUpdate]!! to System.currentTimeMillis()
-                    .toString(),
-                UserInterestsTable().tableFields[UserInterestsFields.Icon]!! to logoId.toString()
-            )
-        )
-
-    internal fun getInterests(onSuccess: () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cloudFirestoreDatabase.collection(UserInterestsTable().tableName)
-                .document(App.preferences.uid!!)
-                .get()
-                .addOnSuccessListener {
-                    setInterests(it) {
-
-                        onSuccess.invoke()
-                        setupNavMenuEvent.postValue("success")
-                    }
-                }
-                .addOnFailureListener {}
-        }
+        }.invokeOnCompletion { EventBus.getDefault().post(LoadMainEvent()) }
     }
 
     fun updateInterest(interest: Interest, onSuccess: () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cloudFirestoreDatabase
-                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-                .update(interest.toFirestore() as Map<String, Any>)
-                .addOnSuccessListener {
-                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                    onSuccess.invoke()
-                }
-                .addOnFailureListener {}
+        GlobalScope.launch {
+            val userInterest = App.database.userInterestsDao().getById(interest.id)
+
+            if (userInterest != null) {
+                userInterest.name = interest.name
+                userInterest.description = interest.description
+                userInterest.startValue = interest.startValue
+                userInterest.currentValue = interest.currentValue
+                userInterest.logoId = interest.logoId!!.toInt()
+                userInterest.dateLastUpdate = System.currentTimeMillis()
+
+                App.database.userInterestsDao().update(userInterest)
+
+//                updateInterestsLiveData()
+                onSuccess.invoke()
+            }
         }
     }
 
     fun addInterest(interest: Interest) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cloudFirestoreDatabase
-                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-                .update(interest.toFirestore() as Map<String, Any>)
-                .addOnSuccessListener {
-                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                }
-                .addOnFailureListener { }
+        GlobalScope.launch {
+            App.database.userInterestsDao().insert(interest.toUserInterest())
+
+//            updateInterestsLiveData()
+            EventBus.getDefault().post(UpdateMetricsEvent(true))
         }
     }
 
     fun deleteInterest(interest: Interest, onSuccess: () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cloudFirestoreDatabase
-                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-                .update(
-                    hashMapOf(
-                        interest.id to FieldValue.delete()
-                    ) as Map<String, Any>
-                )
-                .addOnSuccessListener {
-                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                    viewModelScope.launch(Dispatchers.Main) { onSuccess.invoke() }
+        GlobalScope.launch {
+            val userInterest = App.database.userInterestsDao().getById(interest.id)
+
+            if (userInterest != null) {
+                App.database.userInterestsDao().delete(userInterest)
+
+//                updateInterestsLiveData()
+                EventBus.getDefault().post(UpdateMetricsEvent(true))
+                onSuccess.invoke()
+            }
+        }
+    }
+
+    suspend fun calculateCurrentValueAverage(): Float =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                val list = App.database.userInterestsDao().getByUserId(App.preferences.uid!!)
+                    ?: emptyList()
+
+                var average = 0f
+                list.forEach {
+                    average += it.currentValue ?: 0f
                 }
-                .addOnFailureListener {}
+
+                average /= list.size
+
+                average
+            }
         }
-    }
-
-    fun calculateCurrentValueAverage(): Float {
-        val list = getInterests().toMutableList()
-        list.remove(EmptyInterest())
-
-        var average = 0f
-        list.forEach {
-            average += it.currentValue ?: 0f
-        }
-
-        average /= list.size
-
-        return average
-    }
-
-    private fun setInterestAmount(interest: Interest) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cloudFirestoreDatabase
-                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-                .update(interest.toFirestore() as Map<String, Any>)
-                .addOnSuccessListener {
-                    getInterests { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
-                }
-                .addOnFailureListener {}
-        }
-    }
-
-    private fun HashMap<*, *>.toUserCustomInterest() =
-        UserCustomInterest(
-            id = get(UserInterestsTable().tableFields[UserInterestsFields.Id]).toString(),
-            name = get(UserInterestsTable().tableFields[UserInterestsFields.Name]).toString(),
-            description = get(UserInterestsTable().tableFields[UserInterestsFields.Description]).toString(),
-            startValue = get(UserInterestsTable().tableFields[UserInterestsFields.StartValue]).toString()
-                .toFloat(),
-            currentValue = get(UserInterestsTable().tableFields[UserInterestsFields.CurrentValue]).toString()
-                .toFloat(),
-            logoId = get(UserInterestsTable().tableFields[UserInterestsFields.Icon]).toString()
-        )
 
     @Subscribe
     fun onUpdateUserInterestEvent(e: UpdateUserInterestEvent) {
-        viewModelScope.launch(Dispatchers.IO) {
-            cloudFirestoreDatabase
-                .collection(UserInterestsTable().tableName).document(App.preferences.uid!!)
-                .get()
-                .addOnSuccessListener {
+        GlobalScope.launch {
+            val userInterest = App.database.userInterestsDao().getById(e.interestId)
 
-                    Log.d("keke", "step2")
-                    val interestToUpdate =
-                        (it.get(e.interestId) as HashMap<*, *>).toUserCustomInterest()
-                    interestToUpdate.currentValue = interestToUpdate.currentValue?.plus(e.amount)
+            if (userInterest != null) {
+                userInterest.currentValue = userInterest.currentValue?.plus(e.amount)
 
-                    if (interestToUpdate.currentValue!! > 10f) interestToUpdate.currentValue = 10f
-                    if (interestToUpdate.currentValue!! < 0f) interestToUpdate.currentValue = 0f
+                if (userInterest.currentValue!! > 10f) userInterest.currentValue = 10f
+                if (userInterest.currentValue!! < 0f) userInterest.currentValue = 0f
 
-                    setInterestAmount(interestToUpdate)
-                }
-                .addOnFailureListener {}
+                App.database.userInterestsDao().update(userInterest)
+//                updateInterestsLiveData()
+            }
         }
     }
 
+    private fun Interest.toUserInterest() =
+        UserInterest(
+            interestId = id,
+            name = name,
+            description = description,
+            startValue = startValue,
+            currentValue = currentValue,
+            logoId = logoId!!.toInt(),
+            dateLastUpdate = System.currentTimeMillis(),
+            userId = App.preferences.uid!!
+        )
+
+    fun List<Interest>.toUserInterestsList(): MutableList<UserInterest> {
+        val list = mutableListOf<UserInterest>()
+
+        forEach { interest ->
+            list.add(interest.toUserInterest())
+        }
+
+        return list
+    }
+
+
 }
+
+internal fun List<UserInterest>.toInterestsList(): MutableList<Interest> {
+    val list = mutableListOf<Interest>()
+
+    forEach { userInterest ->
+        list.add(userInterest.toInterest())
+    }
+
+    return list
+}
+
+fun UserInterest.toInterest() =
+    UserCustomInterest(
+        id = interestId,
+        name = name,
+        description = description,
+        startValue = startValue,
+        currentValue = currentValue,
+        dateLastUpdate = dateLastUpdate.toString(),
+        logoId = logoId.toString(),
+    )

@@ -6,16 +6,13 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialFadeThrough
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.snackbar_success.view.*
 import org.greenrobot.eventbus.EventBus
@@ -28,7 +25,6 @@ import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.glide.GlideApp
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.settings.SettingsFragment
-import ru.get.better.util.ext.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KClass
@@ -70,7 +66,8 @@ abstract class BaseFragment<B : ViewDataBinding>(
     open fun updateThemeAndLocale(
         withAnimation: Boolean = false,
         withTextAnimation: Boolean = false
-    ) {}
+    ) {
+    }
 
     open fun updateThemeAndLocale() {}
 

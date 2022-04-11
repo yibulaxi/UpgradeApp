@@ -17,7 +17,7 @@ import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.databinding.ItemAdapterPagerNotesNewBinding
 import ru.get.better.event.EditDiaryNoteEvent
-import ru.get.better.model.DefaultInterest
+import ru.get.better.model.AllLogo
 import ru.get.better.model.DiaryNote
 import ru.get.better.model.Media
 import ru.get.better.model.NoteType
@@ -208,7 +208,8 @@ class NotesPagerViewHolder(
         binding.icon.setImageDrawable(
             AppCompatResources.getDrawable(
                 context,
-                DefaultInterest.getInterestById(note.interest!!.interestId.toInt()).getLogo()
+                AllLogo().getLogoById(note.interest!!.interestIcon)
+//                DefaultInterest.getInterestById(note.interest!!.interestId.toInt()).getLogo()
             )
         )
 

@@ -4,13 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.get.better.R
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import ru.get.better.databinding.ItemNotesMediaBinding
 import ru.get.better.model.Media
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.request.RequestOptions
 
 
 class NotesMediaViewHolder(

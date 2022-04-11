@@ -19,7 +19,10 @@ class RetrofitModule(val context: Context) {
     @AppScope
     @Provides
     fun affirmationService(): AffirmationService =
-        createRetrofit(BuildConfig.AFFIRMATIONS_BASE_URL, context).create(AffirmationService::class.java)
+        createRetrofit(
+            BuildConfig.AFFIRMATIONS_BASE_URL,
+            context
+        ).create(AffirmationService::class.java)
 }
 
 @Module

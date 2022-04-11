@@ -9,19 +9,16 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
-import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.RadarData
@@ -42,6 +39,10 @@ import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.interestDe
 import kotlinx.android.synthetic.main.dialog_alert_edit_interest.view.interestName
 import kotlinx.android.synthetic.main.snackbar_success.view.*
 import kotlinx.android.synthetic.main.target_metric_wheel.view.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.better.App
@@ -53,27 +54,15 @@ import ru.get.better.model.EmptyInterest
 import ru.get.better.model.Interest
 import ru.get.better.model.UserCustomInterest
 import ru.get.better.navigation.Navigator
-import ru.get.better.rest.UserSettingsFields
+import ru.get.better.ui.activity.main.ext.SecondaryViews
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.metric.adapter.MetricListAdapter
 import ru.get.better.ui.view.CustomWheelPickerView
 import ru.get.better.util.ext.getBalloon
-import ru.get.better.vm.BaseViewModel
-import ru.get.better.vm.UserDiaryViewModel
-import ru.get.better.vm.UserInterestsViewModel
-import ru.get.better.vm.UserSettingsViewModel
+import ru.get.better.vm.*
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.util.*
 import kotlin.collections.ArrayList
-import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import ru.get.better.ui.activity.main.ext.SecondaryViews
-import ru.get.better.util.Keyboard
 
 
 class MetricFragment : BaseFragment<FragmentMetricBinding>(
@@ -407,12 +396,14 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
             .build()
         spotlight.start()
 
-        EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.MetricSpotlight))
+        EventBus.getDefault()
+            .post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.MetricSpotlight))
         EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(true))
 
         wheelTargetLayout.findViewById<ConstraintLayout>(R.id.container).setOnClickListener {
             spotlight.finish()
-            EventBus.getDefault().post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.Empty))
+            EventBus.getDefault()
+                .post(SecondaryViewUpdateStateEvent(newState = SecondaryViews.Empty))
 
             App.preferences.isMetricWheelSpotlightShown = true
             EventBus.getDefault().post(ChangeIsAnySpotlightActiveNowEvent(false))
@@ -897,18 +888,23 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
     }
 
     private fun setAverageAmount() {
-        binding.averageAmount.text =
-            if (userInterestsViewModel.getInterests().size != 0)
-                String.format("%.1f", (userInterestsViewModel.calculateCurrentValueAverage()))
-                    .replace(".", ",")
-            else "0"
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            binding.averageAmount.text =
+                if (userInterestsViewModel.getInterestsByUserId().isNotEmpty())
+                    String.format("%.1f", (userInterestsViewModel.calculateCurrentValueAverage()))
+                        .replace(".", ",")
+                else "0"
+        }
+
     }
 
     private fun setupList() {
-        val list = userInterestsViewModel.getInterests().toMutableList()
-        list.add(EmptyInterest())
-        adapter = MetricListAdapter(requireContext(), list)
-        binding.recycler.adapter = adapter
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            val list = userInterestsViewModel.getInterestsByUserId().toInterestsList()
+            list.add(EmptyInterest())
+            adapter = MetricListAdapter(requireContext(), list)
+            binding.recycler.adapter = adapter
+        }
 
         setAverageAmount()
 
@@ -919,11 +915,11 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             userSettingsViewModel
                 .getUserSettingsById(App.preferences.uid!!)?.let {
-                binding.daysAmount.text =
-                    ((System.currentTimeMillis() - (it.dateRegistration
-                        ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
-                        .toString()
-            }
+                    binding.daysAmount.text =
+                        ((System.currentTimeMillis() - (it.dateRegistration
+                            ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
+                            .toString()
+                }
         }
 
         binding.list.animate()
@@ -1213,18 +1209,21 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
 
     private fun setChartData() {
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val icons: ArrayList<RadarEntry> = ArrayList()
             val entries1: ArrayList<RadarEntry> = ArrayList()
             val entries2: ArrayList<RadarEntry> = ArrayList()
 
-            val interests = userInterestsViewModel.getInterests()
+            val interests = userInterestsViewModel.getInterestsByUserId()
 
-            for (i in 0 until interests.size) {
+            for (i in interests.indices) {
                 val val0 = 12f
                 val radarEntryIcon = RadarEntry(val0)
 
-                val bMap = BitmapFactory.decodeResource(resources, interests[i].getLogo())
+                val bMap = BitmapFactory.decodeResource(
+                    resources,
+                    AllLogo().getLogoById(interests[i].logoId.toString())
+                )
                 val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
 
                 radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
@@ -1236,6 +1235,7 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
                 val val2 = interests[i].startValue
                 entries2.add(RadarEntry(val2!!))
             }
+
 
             val set0 = RadarDataSet(icons, "")
 

@@ -2,7 +2,6 @@ package ru.get.better.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.telephony.ims.ImsRegistrationAttributes
 import ru.get.better.App
 
 class Preferences(context: Context) {
@@ -84,7 +83,8 @@ class Preferences(context: Context) {
         get() = sharedPreferences.getInt(CURRENT_AFFIRMATION_NUMBER, 0)
 
     var lastDayShownAffirmationMills: Long
-        set(value) = sharedPreferences.edit().putLong(LAST_DAY_SHOWN_AFFIRMATION_MILLS, value).apply()
+        set(value) = sharedPreferences.edit().putLong(LAST_DAY_SHOWN_AFFIRMATION_MILLS, value)
+            .apply()
         get() = sharedPreferences.getLong(LAST_DAY_SHOWN_AFFIRMATION_MILLS, 0)
 
     companion object {

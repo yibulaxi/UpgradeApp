@@ -3,7 +3,6 @@ package ru.get.better.ui.activity.main.adapter
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.get.better.glide.GlideRequest
 import ru.get.better.glide.GlideRequests
 import ru.get.better.model.Media
 

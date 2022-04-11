@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.PagerAdapter
-import com.google.android.material.transition.MaterialFadeThrough
 import com.lriccardo.timelineview.TimelineDecorator
 import com.lriccardo.timelineview.TimelineView
 import kotlinx.android.synthetic.main.item_achievement.view.*
@@ -22,9 +21,7 @@ import ru.get.better.event.ChangeProgressStateEvent
 import ru.get.better.model.Achievement
 import ru.get.better.ui.achievements.adapter.AchievementsAdapter
 import ru.get.better.ui.base.BaseFragment
-import ru.get.better.util.ext.observeOnView
 import ru.get.better.vm.UserAchievementsViewModel
-import ru.get.better.vm.UserInterestsViewModel
 
 
 class AchievementsFragment : BaseFragment<FragmentAchievementsBinding>(

@@ -1,19 +1,14 @@
 package ru.get.better.ui.view
 
 import android.content.Context
-import android.content.pm.PackageManager
-import android.graphics.Color
 import android.text.Layout
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.LinearLayout
-import android.widget.Spinner
 import com.onegravity.rteditor.RTToolbar
 import com.onegravity.rteditor.RTToolbarListener
 import com.onegravity.rteditor.effects.Effects
-import com.onegravity.rteditor.fonts.FontManager
 import com.onegravity.rteditor.fonts.RTTypeface
 import com.onegravity.rteditor.toolbar.RTToolbarImageButton
 import com.onegravity.rteditor.toolbar.spinner.FontSpinnerItem
@@ -47,8 +42,7 @@ class OwnHorizontalRTToolbar : LinearLayout, RTToolbar, View.OnClickListener {
     }
 
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int)
-            : super(context, attrs, defStyle)
-    {
+            : super(context, attrs, defStyle) {
         init()
     }
 

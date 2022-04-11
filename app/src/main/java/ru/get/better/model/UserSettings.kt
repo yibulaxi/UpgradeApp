@@ -41,7 +41,7 @@ class UserSettings(
     @ColumnInfo(name = "isInterestsInitialized")
     val isInterestsInitialized: Boolean? = true,
 
-)
+    )
 
 
 fun UserSettings.getDifficultyValue(): Float {

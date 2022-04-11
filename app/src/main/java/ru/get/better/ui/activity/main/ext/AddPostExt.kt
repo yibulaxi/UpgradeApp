@@ -11,7 +11,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.onegravity.rteditor.RTManager
 import com.onegravity.rteditor.api.RTApi
@@ -442,7 +441,7 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
         noteType.setOnClickListener {
             hideSelectNoteTypeView(hideBackgroundImage = false)
 
-           addPostBehavior.state =
+            addPostBehavior.state =
                 BottomSheetBehavior.STATE_EXPANDED
 
             binding.addPostBottomSheet.noteId = null
@@ -697,45 +696,55 @@ fun MainActivity.setupAddPostBottomSheet() {
                 )
             )
 
-            val itemCount = userInterestsViewModel.getInterests().size
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                userInterestsViewModel.getInterestsLiveData()
+                    .observe(this@setupAddPostBottomSheet) { interests ->
+                        if (!interests.isNullOrEmpty()) {
+                            val itemCount = interests.size
 
-            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
-            icon.adapter.values = (0 until itemCount).map {
-                CustomWheelPickerView.Item(
-                    userInterestsViewModel.getInterests()[it].id,
-                    ContextCompat.getDrawable(
-                        context,
-                        userInterestsViewModel.getInterests()[it].getLogo()
-                    )
-                )
-            }
+                            icon.getRecycler().setItemViewCacheSize(interests.size)
+                            icon.adapter.values = (0 until itemCount).map {
+                                CustomWheelPickerView.Item(
+                                    interests[it].interestId,
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        AllLogo().getLogoById(interests[it].logoId.toString())
+                                    )
+                                )
+                            }
 
-            icon.getRecycler().post { icon.getRecycler().scrollToPosition(5) }
+                            icon.getRecycler()
+                                .post { icon.getRecycler().scrollToPosition(interests.size / 2) }
+                            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                        }
+                    }
 
-            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                icon.isHapticFeedbackEnabled = true
+                icon.getRecycler().setOnTouchListener { v, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        (addPostBehavior as LockableBottomSheetBehavior).swipeEnabled =
+                            false
+                    } else if (event.action == MotionEvent.ACTION_UP) {
+                        (addPostBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    }
 
-            icon.isHapticFeedbackEnabled = true
-
-            icon.getRecycler().setOnTouchListener { v, event ->
-
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    (addPostBehavior as LockableBottomSheetBehavior).swipeEnabled = false
-                } else if (event.action == MotionEvent.ACTION_UP) {
-                    (addPostBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    false
                 }
 
-                false
+                icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
+                    override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+                        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                            interestName.text =
+                                userInterestsViewModel.getInterestsByUserId().firstOrNull {
+                                    it.interestId == icon.adapter.values.getOrNull(index)?.id
+                                }?.name
+
+                            selectedInterestIdToAddPost =
+                                icon.adapter.values.getOrNull(index)?.id.toString()
+                        }
+                    }
+                })
             }
-
-            icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
-                override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-                    interestName.text = userInterestsViewModel.getInterests()
-                        .first { it.id == icon.adapter.values.getOrNull(index)?.id }.name
-
-                    selectedInterestIdToAddPost =
-                        icon.adapter.values.getOrNull(index)?.id.toString()
-                }
-            })
 
             val currentDate = SimpleDateFormat(
                 "dd MMMM, EEEE",
@@ -974,43 +983,66 @@ fun MainActivity.setupAddGoalBottomSheet() {
                 )
             )
 
-            val itemCount = userInterestsViewModel.getInterests().size
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                userInterestsViewModel.getInterestsLiveData()
+                    .observe(this@setupAddGoalBottomSheet) { interests ->
+                        if (!interests.isNullOrEmpty()) {
+                            val itemCount = interests.size
 
-            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
-            icon.adapter.values = (0 until itemCount).map {
-                CustomWheelPickerView.Item(
-                    userInterestsViewModel.getInterests()[it].id,
-                    androidx.core.content.ContextCompat.getDrawable(
-                        context,
-                        userInterestsViewModel.getInterests()[it].getLogo()
-                    )
-                )
-            }
+                            icon.getRecycler().setItemViewCacheSize(interests.size)
+                            icon.adapter.values = (0 until itemCount).map {
+                                CustomWheelPickerView.Item(
+                                    interests[it].interestId,
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        AllLogo().getLogoById(interests[it].logoId.toString())
+                                    )
+                                )
+                            }
 
-            icon.getRecycler().post { icon.getRecycler().scrollToPosition(5) }
+                            icon.getRecycler()
+                                .post { icon.getRecycler().scrollToPosition(interests.size / 2) }
+                            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                        }
+                    }
 
-            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                icon.isHapticFeedbackEnabled = true
+                icon.getRecycler().setOnTouchListener { v, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        (addGoalBehavior as LockableBottomSheetBehavior).swipeEnabled =
+                            false
+                    } else if (event.action == MotionEvent.ACTION_UP) {
+                        (addGoalBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    }
 
-            icon.isHapticFeedbackEnabled = true
-
-            icon.getRecycler().setOnTouchListener { v, event ->
-
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    (addGoalBehavior as LockableBottomSheetBehavior).swipeEnabled = false
-                } else if (event.action == MotionEvent.ACTION_UP) {
-                    (addGoalBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    false
                 }
 
-                false
+                icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
+                    override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+                        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                            interestName.text =
+                                userInterestsViewModel.getInterestsByUserId().firstOrNull {
+                                    it.interestId == icon.adapter.values.getOrNull(index)?.id
+                                }?.name
+
+                            selectedInterestIdToAddPost =
+                                icon.adapter.values.getOrNull(index)?.id.toString()
+                        }
+                    }
+                })
             }
+
 
             icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
                 override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-                    interestName.text = userInterestsViewModel.getInterests()
-                        .first { it.id == icon.adapter.values.getOrNull(index)?.id }.name
+                    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                        interestName.text = userInterestsViewModel.getInterestsByUserId()
+                            .first { it.interestId == icon.adapter.values.getOrNull(index)?.id }.name
 
-                    selectedInterestIdToAddPost =
-                        icon.adapter.values.getOrNull(index)?.id.toString()
+                        selectedInterestIdToAddPost =
+                            icon.adapter.values.getOrNull(index)?.id.toString()
+                    }
                 }
             })
 
@@ -1218,45 +1250,55 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                 )
             )
 
-            val itemCount = userInterestsViewModel.getInterests().size
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                userInterestsViewModel.getInterestsLiveData()
+                    .observe(this@setupAddTrackerBottomSheet) { interests ->
+                        if (!interests.isNullOrEmpty()) {
+                            val itemCount = interests.size
 
-            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
-            icon.adapter.values = (0 until itemCount).map {
-                CustomWheelPickerView.Item(
-                    userInterestsViewModel.getInterests()[it].id,
-                    ContextCompat.getDrawable(
-                        context,
-                        userInterestsViewModel.getInterests()[it].getLogo()
-                    )
-                )
-            }
+                            icon.getRecycler().setItemViewCacheSize(interests.size)
+                            icon.adapter.values = (0 until itemCount).map {
+                                CustomWheelPickerView.Item(
+                                    interests[it].interestId,
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        AllLogo().getLogoById(interests[it].logoId.toString())
+                                    )
+                                )
+                            }
 
-            icon.getRecycler().post { icon.getRecycler().scrollToPosition(5) }
+                            icon.getRecycler()
+                                .post { icon.getRecycler().scrollToPosition(interests.size / 2) }
+                            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                        }
+                    }
 
-            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                icon.isHapticFeedbackEnabled = true
+                icon.getRecycler().setOnTouchListener { v, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        (addTrackerBehavior as LockableBottomSheetBehavior).swipeEnabled =
+                            false
+                    } else if (event.action == MotionEvent.ACTION_UP) {
+                        (addTrackerBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    }
 
-            icon.isHapticFeedbackEnabled = true
-
-            icon.getRecycler().setOnTouchListener { v, event ->
-
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    (addTrackerBehavior as LockableBottomSheetBehavior).swipeEnabled = false
-                } else if (event.action == MotionEvent.ACTION_UP) {
-                    (addTrackerBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    false
                 }
 
-                false
+                icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
+                    override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+                        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                            interestName.text =
+                                userInterestsViewModel.getInterestsByUserId().firstOrNull {
+                                    it.interestId == icon.adapter.values.getOrNull(index)?.id
+                                }?.name
+
+                            selectedInterestIdToAddPost =
+                                icon.adapter.values.getOrNull(index)?.id.toString()
+                        }
+                    }
+                })
             }
-
-            icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
-                override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-                    interestName.text = userInterestsViewModel.getInterests()
-                        .first { it.id == icon.adapter.values.getOrNull(index)?.id }.name
-
-                    selectedInterestIdToAddPost =
-                        icon.adapter.values.getOrNull(index)?.id.toString()
-                }
-            })
 
             val currentDate = SimpleDateFormat(
                 "dd MMMM, EEEE",
@@ -1302,13 +1344,11 @@ fun MainActivity.setupTrackerSheet() {
 
     runOnUiThread { binding.trackerSheet.setFab(binding.trackerFab) }
 
-
     binding.trackerFab.setOnClickListener {
         runOnUiThread {
             binding.trackerSheet.expandFab()
             binding.trackerFab.isVisible = false
         }
-
     }
 
     val context = this
@@ -1642,45 +1682,55 @@ fun MainActivity.setupAddHabitBottomSheet() {
             regularityControlGroupDark.isVisible = App.preferences.isDarkTheme
             regularityControlGroupLight.isVisible = !App.preferences.isDarkTheme
 
-            val itemCount = userInterestsViewModel.getInterests().size
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                userInterestsViewModel.getInterestsLiveData()
+                    .observe(this@setupAddHabitBottomSheet) { interests ->
+                        if (!interests.isNullOrEmpty()) {
+                            val itemCount = interests.size
 
-            icon.getRecycler().setItemViewCacheSize(userInterestsViewModel.getInterests().size)
-            icon.adapter.values = (0 until itemCount).map {
-                CustomWheelPickerView.Item(
-                    userInterestsViewModel.getInterests()[it].id,
-                    androidx.core.content.ContextCompat.getDrawable(
-                        context,
-                        userInterestsViewModel.getInterests()[it].getLogo()
-                    )
-                )
-            }
+                            icon.getRecycler().setItemViewCacheSize(interests.size)
+                            icon.adapter.values = (0 until itemCount).map {
+                                CustomWheelPickerView.Item(
+                                    interests[it].interestId,
+                                    ContextCompat.getDrawable(
+                                        context,
+                                        AllLogo().getLogoById(interests[it].logoId.toString())
+                                    )
+                                )
+                            }
 
-            icon.getRecycler().post { icon.getRecycler().scrollToPosition(5) }
+                            icon.getRecycler()
+                                .post { icon.getRecycler().scrollToPosition(interests.size / 2) }
+                            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                        }
+                    }
 
-            kotlin.runCatching { icon.adapter.notifyDataSetChanged() }
+                icon.isHapticFeedbackEnabled = true
+                icon.getRecycler().setOnTouchListener { v, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        (addHabitBehavior as LockableBottomSheetBehavior).swipeEnabled =
+                            false
+                    } else if (event.action == MotionEvent.ACTION_UP) {
+                        (addHabitBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    }
 
-            icon.isHapticFeedbackEnabled = true
-
-            icon.getRecycler().setOnTouchListener { v, event ->
-
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    (addHabitBehavior as LockableBottomSheetBehavior).swipeEnabled = false
-                } else if (event.action == MotionEvent.ACTION_UP) {
-                    (addHabitBehavior as LockableBottomSheetBehavior).swipeEnabled = true
+                    false
                 }
 
-                false
+                icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
+                    override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+                        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                            interestName.text =
+                                userInterestsViewModel.getInterestsByUserId().firstOrNull {
+                                    it.interestId == icon.adapter.values.getOrNull(index)?.id
+                                }?.name
+
+                            selectedInterestIdToAddPost =
+                                icon.adapter.values.getOrNull(index)?.id.toString()
+                        }
+                    }
+                })
             }
-
-            icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
-                override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-                    interestName.text = userInterestsViewModel.getInterests()
-                        .first { it.id == icon.adapter.values.getOrNull(index)?.id }.name
-
-                    selectedInterestIdToAddPost =
-                        icon.adapter.values.getOrNull(index)?.id.toString()
-                }
-            })
 
             val currentDate = SimpleDateFormat(
                 "dd MMMM, EEEE",

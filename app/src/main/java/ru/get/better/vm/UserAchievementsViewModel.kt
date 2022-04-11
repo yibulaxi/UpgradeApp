@@ -56,7 +56,7 @@ class UserAchievementsViewModel @Inject constructor(
                         checkAchievement9HabitCompleted()
                     }
                     AchievementId.Get10PointsInterest.id -> {
-                        userInterestsViewModel.getInterests().any { it.currentValue == 10f }
+                        userInterestsViewModel.getInterestsByUserId().any { it.currentValue == 10f }
                     }
                     AchievementId.CreateNotes3Days.id -> {
                         notesInRow >= 3

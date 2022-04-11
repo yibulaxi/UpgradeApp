@@ -11,7 +11,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +26,6 @@ import ru.get.better.event.UpdateThemeEvent
 import ru.get.better.model.AllLogo
 import ru.get.better.navigation.Navigator
 import ru.get.better.ui.base.BaseFragment
-import ru.get.better.vm.SettingsViewModel
 import ru.get.better.vm.UserDiaryViewModel
 import ru.get.better.vm.UserSettingsViewModel
 import timber.log.Timber
@@ -59,8 +57,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-
-//        requireView().post {
         binding.version.text = getString(R.string.version) + " " + BuildConfig.VERSION_NAME
 
         setupThemeSwitch()
@@ -72,7 +68,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
                 EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
             }
         }
-
 
         binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             if (allowChangeLocale) {
@@ -106,17 +101,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
             userSettingsViewModel
                 .getUserSettingsById(App.preferences.uid!!)?.let {
-                binding.name.text = it.login
+                    binding.name.text = it.login
 
-                currentDifficulty = it.difficulty!!.toInt()
-                binding.difficultySpinner.selectItemByIndex(currentDifficulty)
-                binding.difficultySpinner.setOnSpinnerOutsideTouchListener { view, motionEvent ->
-                    binding.difficultySpinner.dismiss()
+                    currentDifficulty = it.difficulty!!.toInt()
+                    binding.difficultySpinner.selectItemByIndex(currentDifficulty)
+                    binding.difficultySpinner.setOnSpinnerOutsideTouchListener { view, motionEvent ->
+                        binding.difficultySpinner.dismiss()
+                    }
+                    allowChangeDifficulty = true
+
+                    setupLocaleSpinner(App.preferences.locale)
                 }
-                allowChangeDifficulty = true
-
-                setupLocaleSpinner(App.preferences.locale)
-            }
 
         }
     }
@@ -1061,25 +1056,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         }
 
         fun onLogoutClicked(v: View) {
-//            AuthUI.getInstance()
-//                .signOut(requireContext())
-//                .addOnCompleteListener {
 
-                    App.preferences.uid = ""
-                    App.preferences.isDiaryHabitsSpotlightShown = false
-                    App.preferences.isMainAddPostSpotlightShown = false
-                    App.preferences.isMetricWheelSpotlightShown = false
-                    App.preferences.isInterestsInitialized = false
+            App.preferences.uid = ""
+            App.preferences.isDiaryHabitsSpotlightShown = false
+            App.preferences.isMainAddPostSpotlightShown = false
+            App.preferences.isMetricWheelSpotlightShown = false
+            App.preferences.isInterestsInitialized = false
 
-                    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-                        userSettingsViewModel.resetUserSettings()
-                    }
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                userSettingsViewModel.resetUserSettings()
+            }
 
-                    userDiaryViewModel.resetDiary()
-
-                    Navigator.settingsToSplash(this@SettingsFragment)
-
-//                }
+            userDiaryViewModel.resetDiary()
         }
     }
 }

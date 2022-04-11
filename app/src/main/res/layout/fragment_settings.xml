@@ -49,6 +49,7 @@
                     <!--            android:backgroundTint="@color/colorFragmentSettingsLogoutBackgroundTint"-->
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/logout"
+                        android:visibility="gone"
                         style="@style/Text16.Light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

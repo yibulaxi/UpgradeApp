@@ -67,7 +67,10 @@ class NotesViewHolder(
 
         binding.title.text = Html.fromHtml(note.text)
         binding.description.text =
-            SimpleDateFormat("dd MMM, HH:mm", Locale(App.preferences.locale)).format(note.date.toLong())
+            SimpleDateFormat(
+                "dd MMM, HH:mm",
+                Locale(App.preferences.locale)
+            ).format(note.date.toLong())
 
 
         binding.value.setImageDrawable(

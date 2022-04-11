@@ -1,12 +1,8 @@
 package ru.get.better.ui.base
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -30,7 +26,7 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
     private val handler: KClass<*>? = null
 ) : DaggerAppCompatActivity(), Toolbar.OnMenuItemClickListener {
 
-//    protected val nullableBinding: B? get() = _binding
+    //    protected val nullableBinding: B? get() = _binding
     var binding: B
         get() = _binding!!
         set(value) {
@@ -39,7 +35,7 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
 
     val glideRequestManager by lazy { GlideApp.with(this) }
 
-//    protected val nullableViewModel: V? get() = _viewModel
+    //    protected val nullableViewModel: V? get() = _viewModel
     protected var viewModel: V
         get() = _viewModel!!
         set(value) {
@@ -62,7 +58,7 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
      * Overriding classes should use onLayoutReady or onViewModelReady instead of onCreate to ensure app is fully initialized
      */
     final override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         Timber.e("onCreate")
 
@@ -133,7 +129,9 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
 
         try {
             EventBus.getDefault().register(this)
-        } catch (e: EventBusException) { Timber.i(e) }
+        } catch (e: EventBusException) {
+            Timber.i(e)
+        }
     }
 
     override fun onStop() {

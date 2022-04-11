@@ -3,11 +3,9 @@ package ru.get.better.ui.welcome
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +32,6 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
         super.onLayoutReady(savedInstanceState)
 
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(isVisible = false))
-
 
         binding.viewPager.post {
             binding.viewPager.adapter = adapter
@@ -70,7 +67,6 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
             EventBus.getDefault().post(
                 InitUserInterestsEvent(
                     adapter.getInterests().filter { it !is DefaultInterest.Companion },
-                    this@WelcomeFragment
                 )
             )
         }
@@ -88,10 +84,10 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
             EventBus.getDefault().post(
                 InitUserInterestsEvent(
                     adapter.getInterests().filter { it !is DefaultInterest.Companion },
-                    this@WelcomeFragment
                 )
             )
         }
+
     }
 
     inner class Handler {
@@ -100,7 +96,6 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
                 EventBus.getDefault().post(
                     InitUserInterestsEvent(
                         adapter.getInterests().filter { it !is DefaultInterest.Companion },
-                        this@WelcomeFragment
                     )
                 )
             }

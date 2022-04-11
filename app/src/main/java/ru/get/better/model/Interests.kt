@@ -41,9 +41,8 @@ class EmptyInterest(
 class UserCustomInterest(
     override val id: String,
     override var name: String?,
-//    override val nameRes: Int? = null,
     override var description: String? = null,
-//    override val descriptionRes: Int? = null,
+
     override var startValue: Float? = null,
     override var currentValue: Float? = null,
     val dateLastUpdate: String? = null,

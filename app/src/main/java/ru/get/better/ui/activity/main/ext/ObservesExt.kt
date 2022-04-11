@@ -1,6 +1,5 @@
 package ru.get.better.ui.activity.main.ext
 
-import android.util.Log
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.R

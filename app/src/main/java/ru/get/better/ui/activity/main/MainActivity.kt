@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.net.Uri
 import android.os.*
@@ -20,12 +21,13 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -110,14 +112,19 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }
-            navController = findNavController(R.id.nav_host_fragment)
-        }
+//            navController = findNavController(R.id.nav_host_fragment)
 
+        }
+        initStart()
         lifecycleScope.async {
-            addPostBehavior = BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
-            addTrackerBehavior = BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
-            addGoalBehavior = BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
-            addHabitBehavior = BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
+            addPostBehavior =
+                BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
+            addTrackerBehavior =
+                BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
+            addGoalBehavior =
+                BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
+            addHabitBehavior =
+                BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
 
             cloudStorage = FirebaseStorage.getInstance()
         }
@@ -130,10 +137,92 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         affirmationsViewModel.loadTodayNasaData()
         userAchievementsViewModel.getAchievements()
-
+        userInterestsViewModel.init()
         affirmationsViewModel.nasaDataViewState.observe(this, ::observeNasaData)
-        userInterestsViewModel.setupNavMenuEvent.observe(this, ::setupNavMenu)
         userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
+    }
+
+    private fun initStart() {
+        setupInitTheme()
+        setupLocale()
+
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            navController =
+                (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+            val navGraph = navController!!.navInflater.inflate(R.navigation.mobile_navigation)
+
+            navGraph.startDestination = if (App.preferences.uid.isNullOrEmpty()) {
+                App.preferences.uid = System.currentTimeMillis().toString()
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
+
+                    EventBus.getDefault()
+                        .post(
+                            InitUserSettingsEvent(
+                                userId = App.preferences.uid!!,
+                                login = App.preferences.uid!!,
+                                locale =
+                                if (
+                                    locale == "ru"
+                                    || locale == "ua"
+                                    || locale == "kz"
+                                    || locale == "be"
+                                    || locale == "uk"
+                                ) "ru" else "en"
+                            )
+                        )
+                }
+
+                R.id.navigation_welcome
+            } else {
+                if (App.preferences.isInterestsInitialized) {
+//                    setupNavMenu()
+                    R.id.navigation_metric
+                } else {
+                    R.id.navigation_welcome
+                }
+            }
+            navController!!.graph = navGraph
+
+            if (!App.preferences.uid.isNullOrEmpty() && App.preferences.isInterestsInitialized)
+                setupNavMenu()
+        }
+    }
+
+    private fun setupLocale() {
+        GlobalScope.launch(Dispatchers.IO) {
+            if (App.preferences.isFirstLaunch || App.preferences.locale.isNullOrEmpty()) {
+                App.preferences.isFirstLaunch = false
+
+                val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
+                App.preferences.locale =
+                    if (locale == "ru" || locale == "ua" || locale == "kz" || locale == "be" || locale == "uk") "ru"
+                    else "en"
+            }
+
+            Locale.setDefault(Locale(App.preferences.locale))
+            val config = resources.configuration
+            config.setLocale(Locale(App.preferences.locale))
+            resources.updateConfiguration(config, resources.displayMetrics)
+        }
+    }
+
+    private fun setupInitTheme() {
+        GlobalScope.launch(Dispatchers.IO) {
+            if (App.preferences.isFirstLaunch) {
+                EventBus.getDefault().post(
+                    UpdateThemeEvent(
+                        when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                            Configuration.UI_MODE_NIGHT_NO -> false
+                            Configuration.UI_MODE_NIGHT_YES -> true
+                            Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+                            else -> false
+                        }
+                    )
+                )
+            }
+        }
     }
 
     @Subscribe
@@ -165,13 +254,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
 
         GlobalScope.async {
-            setupBottomSheets()
-            setupSelectNoteTypeBottomSheet()
-            setupAddPostBottomSheet()
-            setupAddGoalBottomSheet()
-            setupAddTrackerBottomSheet()
-            setupTrackerSheet()
-            setupAddHabitBottomSheet()
+            if (!App.preferences.uid.isNullOrEmpty()) {
+                setupBottomSheets()
+                setupSelectNoteTypeBottomSheet()
+                setupAddPostBottomSheet()
+                setupAddGoalBottomSheet()
+                setupAddTrackerBottomSheet()
+                setupTrackerSheet()
+                setupAddHabitBottomSheet()
+            }
         }
 
         GlobalScope.launch(Dispatchers.Main) {
@@ -503,7 +594,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                                 date = date
                             )
                         }
-                    } else { /* Handle failures .. */ }
+                    } else { /* Handle failures .. */
+                    }
                 }
             }
         }
@@ -565,7 +657,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onLoadMainEvent(e: LoadMainEvent) =
-        userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            setupNavMenu()
+            Navigator.toMetric(navController!!)
+        }
+//        userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
 
     @Subscribe
     fun onChangeNavViewVisibilityEvent(e: ChangeNavViewVisibilityEvent) {
@@ -583,7 +679,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         showSpotlights()
     }
 
-    private fun setupNavMenu(msg: String) {
+    private fun setupNavMenu() {
         if (binding.navView.menu.size() != 0) return
 
         binding.navView.setupWithNavController(navController!!)
@@ -591,8 +687,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navViewContainer.isVisible = true
         binding.navView.isVisible = true
         lifecycleScope.launch(Dispatchers.IO) {
-
-
             val options = NavOptions.Builder()
                 .setLaunchSingleTop(true)
                 .setEnterAnim(R.anim.open_from_top)
@@ -629,7 +723,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             binding.navView.setOnNavigationItemReselectedListener {
                 if (binding.navView.selectedItemId == it.itemId) {
-                    val navGraph = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
+                    val navGraph =
+                        Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
                     navGraph.popBackStack(it.itemId, false)
 
                     return@setOnNavigationItemReselectedListener
@@ -890,33 +985,39 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         tags: ArrayList<String>? = arrayListOf()
     ) {
 
-        val noteInterest =
-            userInterestsViewModel.getInterestById(selectedInterestIdToAddPost)
-        userDiaryViewModel.setNote(
-            DiaryNote(
-                diaryNoteId = (noteId ?: System.currentTimeMillis()).toString(),
-                noteType = noteType,
-                text = text,
-                date = date,
-                media = mediaUrls,
-                changeOfPoints = selectedDiffPointToAddPost,
-                interest = DiaryNoteInterest(
-                    interestId = noteInterest.id,
-                    interestName = noteInterest.name!!,
-                    interestIcon = noteInterest.logoId!!
-                ),
-                datetimeStart = datetimeStart,
-                datetimeEnd = datetimeEnd,
-                isActiveNow = isActiveNow,
-                isPushAvailable = isPushAvailable,
-                initialAmount = initialAmount,
-                currentAmount = currentAmount,
-                regularity = regularity,
-                color = color,
-                datesCompletion = datesCompletion,
-                tags = tags
-            ),
-        )
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            val noteInterest =
+                userInterestsViewModel.getInterestById(selectedInterestIdToAddPost)
+
+            if (noteInterest != null) {
+                userDiaryViewModel.setNote(
+                    DiaryNote(
+                        diaryNoteId = (noteId ?: System.currentTimeMillis()).toString(),
+                        noteType = noteType,
+                        text = text,
+                        date = date,
+                        media = mediaUrls,
+                        changeOfPoints = selectedDiffPointToAddPost,
+                        interest = DiaryNoteInterest(
+                            interestId = noteInterest.interestId,
+                            interestName = noteInterest.name!!,
+                            interestIcon = noteInterest.logoId.toString()
+                        ),
+                        datetimeStart = datetimeStart,
+                        datetimeEnd = datetimeEnd,
+                        isActiveNow = isActiveNow,
+                        isPushAvailable = isPushAvailable,
+                        initialAmount = initialAmount,
+                        currentAmount = currentAmount,
+                        regularity = regularity,
+                        color = color,
+                        datesCompletion = datesCompletion,
+                        tags = tags
+                    ),
+                )
+            }
+        }
+
     }
 
     @Subscribe

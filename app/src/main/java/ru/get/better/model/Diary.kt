@@ -16,6 +16,9 @@ data class DiaryNote(
     @ColumnInfo(name = "diaryNoteId")
     val diaryNoteId: String = "",
 
+    @ColumnInfo(name = "userId")
+    var userId: String = "",
+
     @ColumnInfo(name = "noteType")
     val noteType: Int = 1,
 

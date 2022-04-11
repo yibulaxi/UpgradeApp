@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class AffirmationsRepoImpl @Inject constructor(
     private val affirmationService: AffirmationService
-): AffirmationsRepo {
+) : AffirmationsRepo {
 
     override fun getAffirmations(): Single<List<AffirmationResponse>> =
         affirmationService.getAffirmations().subscribeIoObserveMain()

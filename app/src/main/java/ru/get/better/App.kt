@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import com.onegravity.rteditor.fonts.FontManager
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import kotlinx.coroutines.CoroutineStart

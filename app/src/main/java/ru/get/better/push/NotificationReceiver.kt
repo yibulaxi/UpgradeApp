@@ -1,19 +1,9 @@
 package ru.get.better.push
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.util.Log
-import android.content.ComponentName
-
-import android.os.IBinder
-
-import android.content.ServiceConnection
+import android.content.*
 import android.os.Build
-
-import ru.get.better.di.AppModule_ContextFactory.context
-
-
+import android.os.IBinder
+import android.util.Log
 
 
 class NotificationReceiver : BroadcastReceiver() {
