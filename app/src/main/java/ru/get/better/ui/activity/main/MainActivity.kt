@@ -143,6 +143,26 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private fun initStart() {
+        if (App.preferences.isFirstLaunch) {
+            App.preferences.isUpdatedFrom2VersionTo3 = true
+        }
+
+        if (!App.preferences.isFirstLaunch && !App.preferences.isUpdatedFrom2VersionTo3) {
+            App.preferences.isUpdatedFrom2VersionTo3 = true
+
+            App.preferences.uid = ""
+            App.preferences.isDiaryHabitsSpotlightShown = false
+            App.preferences.isMainAddPostSpotlightShown = false
+            App.preferences.isMetricWheelSpotlightShown = false
+            App.preferences.isInterestsInitialized = false
+
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                userSettingsViewModel.resetUserSettings()
+            }
+
+            userDiaryViewModel.resetDiary()
+        }
+
         setupInitTheme()
         setupLocale()
 

@@ -87,6 +87,10 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getLong(LAST_DAY_SHOWN_AFFIRMATION_MILLS, 0)
 
+    var isUpdatedFrom2VersionTo3: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("is_updated", value).apply()
+        get() = sharedPreferences.getBoolean("is_updated", false)
+
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
 
