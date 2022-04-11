@@ -446,7 +446,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         if (event.action == MotionEvent.ACTION_DOWN) {
             if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 val outRect = Rect()
-
                 binding.addPostBottomSheet.container.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -457,7 +456,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             } else if (binding.selectNoteTypeBottomSheet.title.translationY == 0f) {
                 val outRect = Rect()
-
                 binding.selectNoteTypeBottomSheet.container.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -468,7 +466,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             } else if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 val outRect = Rect()
-
                 binding.addGoalBottomSheet.container.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -479,7 +476,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             } else if (addTrackerBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 val outRect = Rect()
-
                 binding.addTrackerBottomSheet.container.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -490,7 +486,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             } else if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 val outRect = Rect()
-
                 binding.addHabitBottomSheet.container.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -503,7 +498,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             if (binding.trackerSheet.isFabExpanded) {
                 val outRect = Rect()
-
                 binding.trackerContainer.getGlobalVisibleRect(outRect)
 
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -527,8 +521,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             )
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 2, (
-                        1000 * 60 * 60 * 24).toLong(), pendingIntent
+                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 2,
+                (1000 * 60 * 60 * 24).toLong(), pendingIntent
             )
         }
     }
@@ -661,7 +655,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             setupNavMenu()
             Navigator.toMetric(navController!!)
         }
-//        userInterestsViewModel.getInterests { Navigator.toMetric(navController!!) }
 
     @Subscribe
     fun onChangeNavViewVisibilityEvent(e: ChangeNavViewVisibilityEvent) {
@@ -733,7 +726,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         GlobalScope.async {
-            Log.d("keke", "setup1")
             setupBottomSheets()
             setupSelectNoteTypeBottomSheet()
             setupAddPostBottomSheet()
@@ -984,7 +976,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         datesCompletion: ArrayList<DiaryNoteDatesCompletion>? = arrayListOf(),
         tags: ArrayList<String>? = arrayListOf()
     ) {
-
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val noteInterest =
                 userInterestsViewModel.getInterestById(selectedInterestIdToAddPost)
@@ -1017,7 +1008,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 )
             }
         }
-
     }
 
     @Subscribe
