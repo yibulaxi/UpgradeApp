@@ -82,10 +82,21 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private var navController: NavController? = null
 
-    lateinit var addPostBehavior: BottomSheetBehavior<ConstraintLayout>
-    lateinit var addTrackerBehavior: BottomSheetBehavior<ConstraintLayout>
-    lateinit var addGoalBehavior: BottomSheetBehavior<ConstraintLayout>
-    lateinit var addHabitBehavior: BottomSheetBehavior<ConstraintLayout>
+     val addPostBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
+    }
+
+     val addTrackerBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
+    }
+
+     val addGoalBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
+    }
+
+     val addHabitBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
+    }
 
     lateinit var cloudStorage: FirebaseStorage
 
@@ -117,14 +128,14 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
         initStart()
         lifecycleScope.async {
-            addPostBehavior =
-                BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
-            addTrackerBehavior =
-                BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
-            addGoalBehavior =
-                BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
-            addHabitBehavior =
-                BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
+//            addPostBehavior =
+//                BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
+//            addTrackerBehavior =
+//                BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
+//            addGoalBehavior =
+//                BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
+//            addHabitBehavior =
+//                BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
 
             cloudStorage = FirebaseStorage.getInstance()
         }
@@ -273,7 +284,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             else R.color.colorLightNavigationBar
         )
 
-        GlobalScope.async {
+//        GlobalScope.async {
             if (!App.preferences.uid.isNullOrEmpty()) {
                 setupBottomSheets()
                 setupSelectNoteTypeBottomSheet()
@@ -283,7 +294,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 setupTrackerSheet()
                 setupAddHabitBottomSheet()
             }
-        }
+//        }
 
         GlobalScope.launch(Dispatchers.Main) {
             binding.dateTitle.text = App.resourcesProvider.getStringLocale(
@@ -745,7 +756,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
         }
 
-        GlobalScope.async {
+//        GlobalScope.async {
             setupBottomSheets()
             setupSelectNoteTypeBottomSheet()
             setupAddPostBottomSheet()
@@ -753,7 +764,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             setupAddTrackerBottomSheet()
             setupTrackerSheet()
             setupAddHabitBottomSheet()
-        }
+//        }
 
         android.os.Handler().postDelayed({
             showSpotlights()

@@ -160,8 +160,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                     )
                 }
 
-                Collections.sort(datesSet.toList(), StringDateComparator())
-                Collections.sort(datesSet.toList(), Collections.reverseOrder())
+                Collections.sort(datesSet.toMutableList(), StringDateComparator())
+                Collections.sort(datesSet.toMutableList(), Collections.reverseOrder())
 
                 adapter = NotesAdapter(
                     context = requireContext(),
@@ -197,7 +197,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
 
             } else adapter.updateNotes(allNotes.toMutableList())
 
-            pagerAdapter = NotesPagerAdapter(context!!, allNotes.toMutableList())
+            pagerAdapter = NotesPagerAdapter(requireContext(), allNotes.toMutableList())
             binding.viewPagerBottomSheet.viewPager.adapter = pagerAdapter
             binding.viewPagerBottomSheet.viewPager.offscreenPageLimit = 1
 
@@ -213,8 +213,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
             binding.viewPagerBottomSheet.viewPager.setPageTransformer(pageTransformer)
 
             val itemDecoration = WelcomeFragment.HorizontalMarginItemDecoration(
-                context!!,
-                R.dimen.diary_viewpager_current_item_horizontal_margin
+                requireContext(), R.dimen.diary_viewpager_current_item_horizontal_margin
             )
 
             if (binding.viewPagerBottomSheet.viewPager.itemDecorationCount == 0)

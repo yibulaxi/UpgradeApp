@@ -179,7 +179,7 @@
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_achievement.xml" value="0.2546875" />
         <entry key="app/src/main/res/layout/item_adapter_pager_notes.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/item_adapter_pager_notes_new.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/item_adapter_pager_notes_new.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_faq.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/item_faq_child.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/item_faq_parent.xml" value="0.5101449275362319" />
@@ -206,7 +206,7 @@
         <entry key="app/src/main/res/layout/toolbar_rich_edittext.xml" value="0.33" />
         <entry key="app/src/main/res/layout/view_active_tracker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_affirmation.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.18" />
         <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.16" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
