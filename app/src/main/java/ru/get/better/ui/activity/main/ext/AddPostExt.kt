@@ -11,6 +11,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.onegravity.rteditor.RTManager
 import com.onegravity.rteditor.api.RTApi
@@ -29,6 +32,7 @@ import ru.get.better.event.ChangeProgressStateEvent
 import ru.get.better.model.*
 import ru.get.better.ui.activity.main.MainActivity
 import ru.get.better.ui.activity.main.adapter.AddPostMediaAdapter
+import ru.get.better.ui.activity.main.ext.adapter.TagsAdapter
 import ru.get.better.ui.view.CustomWheelPickerView
 import ru.get.better.ui.view.LockableBottomSheetBehavior
 import ru.get.better.ui.view.OwnHorizontalRTToolbar
@@ -618,6 +622,12 @@ fun MainActivity.setupAddPostBottomSheet() {
                 else R.drawable.bg_edittext_light
             )
 
+            tagsContainer.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+                else R.drawable.bg_edittext_light
+            )
+
             background.background = ContextCompat.getDrawable(
                 context,
                 if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
@@ -757,6 +767,15 @@ fun MainActivity.setupAddPostBottomSheet() {
                 length.text = editText.text?.toString()?.length.toString() + "/2000"
             }
 
+            val lm = FlexboxLayoutManager(context)
+            lm.flexDirection = FlexDirection.ROW
+            lm.justifyContent = JustifyContent.FLEX_START
+
+            tagsRecycler.layoutManager = lm
+
+            tagsRecycler.adapter = tagsAdapter
+            tagsAdapter.createList(mutableListOf())
+
             addPost.setOnClickListener {
                 if (editText.text?.length == 0) {
                     showFail(getString(R.string.enter_note_text))
@@ -769,29 +788,15 @@ fun MainActivity.setupAddPostBottomSheet() {
                             mediaUrls = diaryNote?.media,
                             text = editText.getText(RTFormat.HTML),
                             date =
-                            if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis()
-                                .toString()
-                            else diaryNote?.date!!
+                            if (diaryNote?.date == null) System.currentTimeMillis()
+                            else diaryNote.date
                         )
                     }
-//                userDiaryViewModel.getNoteMediaById(noteId ?: "")
-//                    .observeOnce(context) { diaryNote ->
-//                        setDiaryNote(
-//                            noteId = noteId,
-//                            noteType = NoteType.Note.id,
-//                            mediaUrls = diaryNote?.media,
-//                            text = editText.getText(RTFormat.HTML),//editText.text.toString(),
-//                            date =
-//                            if (diaryNote?.date.isNullOrEmpty()) System.currentTimeMillis()
-//                                .toString()
-//                            else diaryNote?.date!!
-//                        )
-//                    }
                 } else uploadMedia(
                     noteId = noteId,
                     text = editText.getText(RTFormat.HTML),
                     date =
-                    System.currentTimeMillis().toString()
+                    System.currentTimeMillis()
 
                 )
             }
@@ -1065,7 +1070,7 @@ fun MainActivity.setupAddGoalBottomSheet() {
                         noteId = noteId,
                         noteType = NoteType.Goal.id,
                         text = editText.getText(RTFormat.HTML),//editText.text.toString(),
-                        date = System.currentTimeMillis().toString()
+                        date = System.currentTimeMillis()
                     )
             }
         }
@@ -1324,10 +1329,9 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                                 noteType = NoteType.Tracker.id,
                                 text = editText.getText(RTFormat.HTML),//editText.text.toString(),
                                 date =
-                                if (activeTracker?.date.isNullOrEmpty()) System.currentTimeMillis()
-                                    .toString()
-                                else activeTracker?.date!!,
-                                datetimeStart = System.currentTimeMillis().toString(),
+                                if (activeTracker?.date == null) System.currentTimeMillis()
+                                else activeTracker.date,
+                                datetimeStart = System.currentTimeMillis(),
                                 isActiveNow = true
                             )
                         } else {
@@ -1855,8 +1859,8 @@ fun MainActivity.setupAddHabitBottomSheet() {
                             noteId = noteId,
                             noteType = NoteType.Habit.id,
                             text = editText.getText(RTFormat.HTML),
-                            date = System.currentTimeMillis().toString(),
-                            datetimeStart = System.currentTimeMillis().toString(),
+                            date = System.currentTimeMillis(),
+                            datetimeStart = System.currentTimeMillis(),
                             regularity = selectedRegularityToAddHabit.id,
                             initialAmount = editAmount.text.toString().toInt(),
                             datesCompletion = generateDatesCompletion(
@@ -1887,7 +1891,7 @@ fun generateDatesCompletion(
                             Regularity.Daily -> Milliseconds.Day.mills
                             else -> Milliseconds.Week.mills
                         }
-                        ).toString(),
+                        ),
                 datesCompletionIsCompleted = false
             )
         )

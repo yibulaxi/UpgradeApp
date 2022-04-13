@@ -1,19 +1,28 @@
 package ru.get.better.ui.diary
 
+import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.SparseIntArray
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.aminography.primecalendar.civil.CivilCalendar
+import com.aminography.primedatepicker.calendarview.PrimeCalendarView
+import com.aminography.primedatepicker.common.BackgroundShapeType
+import com.aminography.primedatepicker.common.LabelFormatter
+import com.aminography.primedatepicker.picker.PrimeDatePicker
+import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.shuhart.stickyheader.StickyHeaderItemDecorator
 import com.takusemba.spotlight.Spotlight
@@ -22,6 +31,7 @@ import com.takusemba.spotlight.shape.RoundedRectangle
 import github.com.st235.lib_expandablebottombar.MenuItem
 import github.com.st235.lib_expandablebottombar.MenuItemDescriptor
 import kotlinx.android.synthetic.main.target_diary_habits.view.*
+import kotlinx.android.synthetic.main.view_goal_add.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -100,6 +110,175 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                 setupLogic()
             }
         }
+    }
+
+    private fun setupCalendarSheet() {
+
+        val themeFactory = object : LightThemeFactory() {
+
+            override val dialogBackgroundColor: Int
+                get() =
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.calendarBgColorDark
+                        else R.color.calendarBgColorLight
+                    )
+
+            override val calendarViewBackgroundColor: Int
+                get() =
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.calendarBgColorDark
+                        else R.color.calendarBgColorLight
+                    )
+
+            override val pickedDayBackgroundShapeType: BackgroundShapeType
+                get() = BackgroundShapeType.ROUND_SQUARE
+
+            override val calendarViewPickedDayBackgroundColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.calendarPickedDayBgDark
+                    else R.color.calendarPickedDayBgLight
+                )
+
+            override val calendarViewPickedDayInRangeBackgroundColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.calendarPickedDayInRangeBgDark
+                    else R.color.calendarPickedDayInRangeBgLight
+                )
+
+            override val calendarViewPickedDayInRangeLabelTextColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkNotification
+                    else R.color.colorLightNotification
+                )
+
+            override val calendarViewTodayLabelTextColor: Int
+                get() = ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkNotification
+                else R.color.colorLightNotification
+            )
+
+            override val calendarViewWeekLabelFormatter: LabelFormatter
+                get() = { primeCalendar ->
+                    String.format("%s", primeCalendar.weekDayNameShort.replaceFirstChar { it.uppercase() })
+                }
+
+            override val calendarViewWeekLabelTextColors: SparseIntArray
+                get() = SparseIntArray(7).apply {
+                    val color = ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.colorDarkNotification
+                        else R.color.colorLightNotification
+                    )
+
+                    put(Calendar.SATURDAY, color)
+                    put(Calendar.SUNDAY, color)
+                    put(Calendar.MONDAY, color)
+                    put(Calendar.TUESDAY, color)
+                    put(Calendar.WEDNESDAY, color)
+                    put(Calendar.THURSDAY, color)
+                    put(Calendar.FRIDAY, color)
+                }
+
+            override val calendarViewShowAdjacentMonthDays: Boolean
+                get() = true
+
+            override val selectionBarBackgroundColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.calendarSelectionBarBgDark
+                    else R.color.calendarSelectionBarBgLight
+                )
+
+            override val selectionBarRangeDaysItemBackgroundColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
+                    else R.color.colorLightNavViewContainerBackgroundTint
+                )
+
+            override val selectionBarRangeDaysItemBottomLabelTextColor: Int
+                get() =
+                    if (!App.preferences.isDarkTheme)
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorLightNotification
+                        )
+                    else super.selectionBarRangeDaysItemBottomLabelTextColor
+
+            override val selectionBarRangeDaysItemTopLabelTextColor: Int
+                get() =
+                    if (!App.preferences.isDarkTheme)
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorLightNotification
+                        )
+                    else super.selectionBarRangeDaysItemBottomLabelTextColor
+
+            override val calendarViewDayLabelTextColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                    else R.color.colorLightBottomNavSelectorUnchecked
+                )
+
+            override val actionBarTodayTextColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                    else R.color.colorLightBottomNavSelectorUnchecked
+                )
+
+            override val calendarViewAdjacentMonthDayLabelTextColor: Int
+                get() = ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkCustomWheelHighlightBgSolid
+                    else R.color.colorLightCustomWheelHighlightBgSolid
+                )
+
+        }
+
+        val today = CivilCalendar()
+        PrimeCalendarView
+        val datePicker = PrimeDatePicker
+            .dialogWith(today)
+            .pickRangeDays { startDay, endDay ->
+                userDiaryViewModel.filterData.startDay = (startDay.timeInMillis / 86400000).toInt().toLong() * 86400000L
+                userDiaryViewModel.filterData.endDay = ((endDay.timeInMillis / 86400000) + 1).toInt().toLong() * 86400000L
+
+                lifecycleScope.launch { userDiaryViewModel.updateFilteredNotes() }
+            }
+            .autoSelectPickEndDay(true)
+
+        val startDay = CivilCalendar()
+            startDay.timeInMillis =
+            if (userDiaryViewModel.filterData.startDay == null)
+                System.currentTimeMillis()
+            else userDiaryViewModel.filterData.startDay!!
+
+        val endDay = CivilCalendar()
+            endDay.timeInMillis =
+            if (userDiaryViewModel.filterData.endDay == null)
+                System.currentTimeMillis()
+            else userDiaryViewModel.filterData.endDay!! - 86400000L
+
+        if (
+            userDiaryViewModel.filterData.endDay != null
+            && userDiaryViewModel.filterData.startDay != null
+        ) datePicker.initiallyPickedRangeDays(startDay, endDay)
+
+        datePicker
+            .applyTheme(themeFactory)
+            .firstDayOfWeek(Calendar.MONDAY)
+
+        val dialog = datePicker.build()
+        dialog.show(childFragmentManager, "calendar")
+
     }
 
     private fun setupNoteTypesBar() {
@@ -189,7 +368,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
             }
 
             isRecreateNotesAdapter = true
-            GlobalScope.launch { userDiaryViewModel.updateFilteredNotes() }
+            lifecycleScope.launch { userDiaryViewModel.updateFilteredNotes() }
         }
 
     }
@@ -201,6 +380,13 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         }
 
         setupNoteTypesBar()
+
+        binding.filterSearch.addTextChangedListener {
+            lifecycleScope.launch {
+                userDiaryViewModel.filterData.pattern = it.toString()
+                userDiaryViewModel.updateFilteredNotes()
+            }
+        }
 
         viewPagerBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -431,6 +617,47 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                 else R.color.colorLightBlur
             )
         )
+
+        binding.filterCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
+            else R.color.colorLightNavViewContainerBackgroundTint
+        ))
+
+//        binding.filterSearch.background = ContextCompat.getDrawable(
+//            requireContext(),
+//            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+//            else R.drawable.bg_edittext_light
+//        )
+
+        binding.filterSearch.hint = App.resourcesProvider.getStringLocale(R.string.filter_search)
+        binding.filterSearch.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextText
+                else R.color.colorLightViewPostAddEditTextText
+            )
+        )
+
+        binding.filterSearch.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextHint
+                else R.color.colorLightViewPostAddEditTextHint
+            )
+        )
+
+        binding.icTags.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+            else R.color.colorLightBottomNavSelectorUnchecked
+        ))
+
+        binding.icCalendar.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+            else R.color.colorLightBottomNavSelectorUnchecked
+        ))
     }
 
     @Subscribe
@@ -604,6 +831,10 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         fun onBlurClicked(v: View) {
             viewPagerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 //            EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+        }
+
+        fun onCalendarClicked(v: View) {
+            setupCalendarSheet()
         }
     }
 }

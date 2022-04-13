@@ -70,7 +70,7 @@ class NotesViewHolder(
             SimpleDateFormat(
                 "dd MMM, HH:mm",
                 Locale(App.preferences.locale)
-            ).format(note.date.toLong())
+            ).format(note.date)
 
 
         binding.value.setImageDrawable(

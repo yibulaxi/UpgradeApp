@@ -19,7 +19,7 @@ import ru.get.better.repo.dao.UserSettingsDao
         DiaryNote::class,
         UserAchievements::class,
         UserInterest::class
-    ], version = 23
+    ], version = 24
 )
 @TypeConverters(
     MediaConverters::class,
@@ -47,7 +47,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context,
-            AppDatabase::class.java, "get_better_db.db"
+            AppDatabase::class.java, "get_better_dbb.db"
         )
             .build()
     }

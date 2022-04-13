@@ -2,6 +2,7 @@ package ru.get.better.vm
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -40,7 +41,7 @@ class UserDiaryViewModel @Inject constructor(
     }
 
     private fun updateAllNotesLiveData() =
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             allNotesLiveData.postValue(App.database.userDiaryDao().getAll() ?: emptyList())
 
             updateFilteredNotes()
@@ -50,26 +51,28 @@ class UserDiaryViewModel @Inject constructor(
     suspend fun updateFilteredNotes() =
         coroutineScope {
             withContext(Dispatchers.IO) {
+
                 filteredNotesLiveData.postValue(
-                    if (filterData.noteType == NoteType.All.id) {
-                        App.database.userDiaryDao().getAll()
-                    } else {
-                        App.database.userDiaryDao().getAllFiltered(
-                            noteType = filterData.noteType
-                        )
-                    }
+                    App.database.userDiaryDao().getAllFiltered(
+                        noteType =
+                        if (filterData.noteType == NoteType.All.id) null
+                        else filterData.noteType,
+                        startDay = filterData.startDay,
+                        endDay = filterData.endDay,
+                        pattern = filterData.pattern
+                    )
                 )
 
             }
         }
 
     private fun updateActiveTrackerLiveData() =
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             activeTrackerLiveData.postValue(App.database.userDiaryDao().getActiveTracker())
         }
 
     fun resetDiary() =
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             App.database.userDiaryDao().clear()
             updateAllNotesLiveData()
         }
@@ -108,7 +111,7 @@ class UserDiaryViewModel @Inject constructor(
 //        userDiaryRepository.getActiveTracker()
 
     private fun deleteDiaryNote(noteId: String) {
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             App.database.userDiaryDao().deleteNoteById(noteId)
             updateAllNotesLiveData()
         }
@@ -118,9 +121,9 @@ class UserDiaryViewModel @Inject constructor(
         tracker: DiaryNote,
         isActiveNow: Boolean
     ) {
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             tracker.isActiveNow = isActiveNow
-            if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis().toString()
+            if (!tracker.isActiveNow!!) tracker.datetimeEnd = System.currentTimeMillis()
 
             App.database.userDiaryDao().update(tracker)
             updateAllNotesLiveData()
@@ -133,7 +136,7 @@ class UserDiaryViewModel @Inject constructor(
         Log.d("keke", "setNote")
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val oldNote = App.database.userDiaryDao().getById(note.diaryNoteId)
 
             if (oldNote != null) {
@@ -197,16 +200,22 @@ class UserDiaryViewModel @Inject constructor(
         onComplete: () -> Unit
     ) {
         filterData.reset()
-        GlobalScope.launch { updateFilteredNotes() }
+        viewModelScope.launch { updateFilteredNotes() }
             .invokeOnCompletion { onComplete.invoke() }
     }
 }
 
 data class FilterData(
-    var noteType: Int = NoteType.All.id
+    var noteType: Int = NoteType.All.id,
+    var startDay: Long? = null,
+    var endDay: Long? = null,
+    var pattern: String? = null
 ) {
     fun reset() {
         noteType = NoteType.All.id
+        startDay = null
+        endDay = null
+        pattern = null
     }
 }
 

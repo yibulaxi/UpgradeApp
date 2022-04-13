@@ -62,6 +62,7 @@ import ru.get.better.navigation.Navigator
 import ru.get.better.push.NotificationReceiver
 import ru.get.better.ui.activity.main.adapter.AddPostMediaAdapter
 import ru.get.better.ui.activity.main.ext.*
+import ru.get.better.ui.activity.main.ext.adapter.TagsAdapter
 import ru.get.better.ui.base.BaseActivity
 import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.vm.*
@@ -97,6 +98,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
      val addHabitBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
     }
+
+    val tagsAdapter: TagsAdapter by lazy { TagsAdapter() }
 
     lateinit var cloudStorage: FirebaseStorage
 
@@ -156,10 +159,29 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     private fun initStart() {
         if (App.preferences.isFirstLaunch) {
             App.preferences.isUpdatedFrom2VersionTo3 = true
+            App.preferences.isUpdatedFrom3VersionTo31 = true
         }
 
-        if (!App.preferences.isFirstLaunch && !App.preferences.isUpdatedFrom2VersionTo3) {
+        if (!App.preferences.isFirstLaunch && !App.preferences.isUpdatedFrom3VersionTo31) {
             App.preferences.isUpdatedFrom2VersionTo3 = true
+            App.preferences.isUpdatedFrom3VersionTo31 = true
+
+            App.preferences.uid = ""
+            App.preferences.isDiaryHabitsSpotlightShown = false
+            App.preferences.isMainAddPostSpotlightShown = false
+            App.preferences.isMetricWheelSpotlightShown = false
+            App.preferences.isInterestsInitialized = false
+
+//            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//                userSettingsViewModel.resetUserSettings()
+//            }
+//
+//            userDiaryViewModel.resetDiary()
+
+            return
+        } else if (!App.preferences.isFirstLaunch && !App.preferences.isUpdatedFrom2VersionTo3) {
+            App.preferences.isUpdatedFrom2VersionTo3 = true
+            App.preferences.isUpdatedFrom3VersionTo31 = true
 
             App.preferences.uid = ""
             App.preferences.isDiaryHabitsSpotlightShown = false
@@ -571,7 +593,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     fun uploadMedia(
         noteId: String? = null,
         text: String,
-        date: String
+        date: Long
     ) {
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
         val storageRef = cloudStorage.reference
@@ -821,7 +843,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.date
+                date.text = e.note.date.toString()
 
                 val urls = arrayListOf<Media>()
                 for (url in e.note.media ?: arrayListOf()) {
@@ -856,7 +878,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.date
+                date.text = e.note.date.toString()
             }
         } else if (e.note.noteType == NoteType.Tracker.id) {
             addTrackerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -884,7 +906,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.date
+                date.text = e.note.date.toString()
             }
         } else if (e.note.noteType == NoteType.HabitRealization.id) {
             addHabitBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -985,7 +1007,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.datetimeStart
+                date.text = e.note.datetimeStart.toString()
             }
         }
     }
@@ -995,9 +1017,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         noteType: Int,
         mediaUrls: ArrayList<String>? = arrayListOf(),
         text: String,
-        date: String,
-        datetimeStart: String? = null,
-        datetimeEnd: String? = null,
+        date: Long,
+        datetimeStart: Long? = null,
+        datetimeEnd: Long? = null,
         isActiveNow: Boolean? = null,
         initialAmount: Int? = null,
         currentAmount: Int? = null,
@@ -1070,6 +1092,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     @Subscribe
     fun onSecondaryViewUpdateStateEvent(e: SecondaryViewUpdateStateEvent) {
         currentSecondaryView = e.newState
+    }
+
+    @Subscribe
+    fun onAddTagEvent(e: AddTagEvent) {
+        tagsAdapter.addTag(e.tag)
+    }
+
+    @Subscribe
+    fun onRemoveTagEvent(e: RemoveTagEvent) {
+        tagsAdapter.removeTag(e.tag)
     }
 
     private fun showAddPostSpotlight() {

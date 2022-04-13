@@ -12,9 +12,14 @@ interface UserDiaryDao {
     @Query("SELECT * FROM user_diary_table")
     fun getAllLiveData(): LiveData<List<DiaryNote>?>
 
-    @Query("SELECT * FROM user_diary_table WHERE noteType = :noteType")
+    @Query(
+        "SELECT * FROM user_diary_table WHERE (:noteType IS NULL OR noteType = :noteType) AND (:startDay IS NULL OR date >= :startDay) AND (:endDay IS NULL OR date <= :endDay) AND (:pattern IS NULL OR text  LIKE '%' || :pattern || '%')"
+    )
     fun getAllFiltered(
-        noteType: Int?
+        noteType: Int?,
+        startDay: Long?,
+        endDay: Long?,
+        pattern: String?
     ): List<DiaryNote>?
 
     @Query("SELECT * FROM user_diary_table WHERE diaryNoteId = :id")

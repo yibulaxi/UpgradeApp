@@ -20,7 +20,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 12
-        versionName "3.1.0"
+        versionName "3.1.1"
 
         resConfigs "en", "ru"
     }
@@ -165,7 +165,12 @@ dependencies {
 
     implementation 'com.github.st235:expandablebottombar:1.4.0'
 
+    implementation 'com.aminography:primedatepicker:3.6.0'
+    implementation 'com.aminography:primecalendar:1.7.0'
 
+
+    //    flexbox layout manager
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
 
 //    room

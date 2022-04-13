@@ -187,7 +187,9 @@ class NotesAdapter(
     }
 
     override fun getHeaderPositionForItem(itemPosition: Int): Int =
-        items!![itemPosition].sectionPosition()
+        if (itemPosition < items!!.size)
+            items!![itemPosition].sectionPosition()
+        else 0
 
     override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder?, headerPosition: Int) {
 
@@ -255,7 +257,7 @@ class NotesAdapter(
 
     private fun getNotePosition(
         diaryNoteId: String,
-        date: String
+        date: Long
     ): Int =
         items!!.filter { it !is SectionHeader }
             .indexOfFirst {

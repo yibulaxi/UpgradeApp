@@ -23,7 +23,7 @@ data class DiaryNote(
     val noteType: Int = 1,
 
     @ColumnInfo(name = "date")
-    var date: String = "",
+    var date: Long = 0L,
 
     @ColumnInfo(name = "title")
     var title: String? = null,
@@ -39,10 +39,10 @@ data class DiaryNote(
     var changeOfPoints: Int = ChangeOfPoints.Neutral.id,
 
     @ColumnInfo(name = "datetimeStart")
-    var datetimeStart: String? = null,
+    var datetimeStart: Long? = null,
 
     @ColumnInfo(name = "datetimeEnd")
-    var datetimeEnd: String? = null,
+    var datetimeEnd: Long? = null,
 
     @ColumnInfo(name = "isActiveNow")
     var isActiveNow: Boolean? = false,
@@ -82,7 +82,7 @@ data class DiaryNoteInterest(
 )
 
 data class DiaryNoteDatesCompletion(
-    var datesCompletionDatetime: String? = null,
+    var datesCompletionDatetime: Long? = null,
     var datesCompletionIsCompleted: Boolean? = null
 ) : Serializable
 
@@ -180,6 +180,5 @@ fun DiaryNote.recalculateDatesCompletion() {
                             else -> Milliseconds.Day.mills
                         }
                         )
-                    .toString()
         }
 }
