@@ -46,17 +46,17 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="24dp"
                     android:letterSpacing="0.1"
-                    app:layout_constraintTop_toBottomOf="@id/title" />
+                    app:layout_constraintTop_toBottomOf="@id/noteTypesBar" />
                 <!--android:textColor="@color/colorFragmentDiaryEmptyTextText"-->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/emptyAnim"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emptyText"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
+                    app:lottie_enableMergePathsForKitKatAndAbove="true"
                     app:lottie_rawRes="@raw/empty_anim"
                     app:lottie_repeatMode="reverse" />
 
@@ -80,6 +80,21 @@
                     app:layout_constraintBottom_toBottomOf="@id/horizontalRecycler"
                     app:layout_constraintTop_toTopOf="@id/horizontalRecycler" />
 
+                <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
+                    android:id="@+id/noteTypesBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:exb_backgroundCornerRadius="6dp"
+                    app:exb_itemBackgroundCornerRadius="6dp"
+                    app:exb_itemInactiveColor="#8092a0"
+                    app:exb_item_horizontal_margin="5dp"
+                    app:exb_item_horizontal_padding="10dp"
+                    app:exb_item_vertical_margin="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/horizontalRecycler"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:fadeScrollbars="true"
                     android:fadingEdge="vertical"
@@ -92,7 +107,7 @@
                     android:layout_marginBottom="72dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/horizontalRecycler" />
+                    app:layout_constraintTop_toBottomOf="@id/noteTypesBar" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/info"

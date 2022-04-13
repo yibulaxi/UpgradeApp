@@ -1,6 +1,7 @@
 package ru.get.better.ui.diary
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,6 +19,8 @@ import com.shuhart.stickyheader.StickyHeaderItemDecorator
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.RoundedRectangle
+import github.com.st235.lib_expandablebottombar.MenuItem
+import github.com.st235.lib_expandablebottombar.MenuItemDescriptor
 import kotlinx.android.synthetic.main.target_diary_habits.view.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -99,8 +102,105 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         }
     }
 
+    private fun setupNoteTypesBar() {
+        binding.noteTypesBar.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
+            else R.color.colorLightNavViewContainerBackgroundTint
+        ))
+
+        binding.noteTypesBar.menu.add(
+            MenuItemDescriptor.Builder(
+                requireContext(),
+                R.id.filter_all_notes,
+                ru.get.better.R.drawable.ic_all_filter,
+                R.string.filter_all,
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (!App.preferences.isDarkTheme) R.color.colorDarkNavigationBar
+                    else R.color.colorLightNavigationBar
+                )
+            ).build()
+        )
+
+        binding.noteTypesBar.menu.add(
+            MenuItemDescriptor.Builder(
+                requireContext(),
+                R.id.filter_notes,
+                ru.get.better.R.drawable.diary,
+                R.string.filter_notes,
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (!App.preferences.isDarkTheme) R.color.colorDarkNavigationBar
+                    else R.color.colorLightNavigationBar
+                )
+            ).build()
+        )
+
+        binding.noteTypesBar.menu.add(
+            MenuItemDescriptor.Builder(
+                requireContext(),
+                R.id.filter_goals,
+                ru.get.better.R.drawable.ic_goal,
+                R.string.filter_goals,
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (!App.preferences.isDarkTheme) R.color.colorDarkNavigationBar
+                    else R.color.colorLightNavigationBar
+                )
+            ).build()
+        )
+
+        binding.noteTypesBar.menu.add(
+            MenuItemDescriptor.Builder(
+                requireContext(),
+                R.id.filter_habits,
+                ru.get.better.R.drawable.ic_habit,
+                R.string.filter_habits,
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (!App.preferences.isDarkTheme) R.color.colorDarkNavigationBar
+                    else R.color.colorLightNavigationBar
+                )
+            ).build()
+        )
+
+        binding.noteTypesBar.menu.add(
+            MenuItemDescriptor.Builder(
+                requireContext(),
+                R.id.filter_trackers,
+                ru.get.better.R.drawable.ic_tracker_dark,
+                R.string.filter_trackers,
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (!App.preferences.isDarkTheme) R.color.colorDarkNavigationBar
+                    else R.color.colorLightNavigationBar
+                )
+            ).build()
+        )
+
+        binding.noteTypesBar.onItemSelectedListener = { view: View, menuItem: MenuItem, b: Boolean ->
+            when(menuItem.id) {
+                R.id.filter_all_notes -> userDiaryViewModel.filterData.noteType = NoteType.All.id
+                R.id.filter_notes -> userDiaryViewModel.filterData.noteType = NoteType.Note.id
+                R.id.filter_goals -> userDiaryViewModel.filterData.noteType = NoteType.Goal.id
+                R.id.filter_habits -> userDiaryViewModel.filterData.noteType = NoteType.Habit.id
+                R.id.filter_trackers -> userDiaryViewModel.filterData.noteType = NoteType.Tracker.id
+            }
+
+            isRecreateNotesAdapter = true
+            GlobalScope.launch { userDiaryViewModel.updateFilteredNotes() }
+        }
+
+    }
+
     private fun setupLogic() {
-        setupDiary()
+        userDiaryViewModel.resetFilter {
+            isRecreateNotesAdapter = true
+            setupDiary()
+        }
+
+        setupNoteTypesBar()
 
         viewPagerBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -126,6 +226,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         })
     }
 
+    private var isRecreateNotesAdapter = false
     private fun observeDiary(notes: List<DiaryNote>) {
         val notesWithoutHabits = notes.filter { it.noteType != NoteType.Habit.id }
 
@@ -134,7 +235,52 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         Log.d("keke", "step3")
         val allNotes = notesWithoutHabits.plus(habits)
 
+        when(userDiaryViewModel.filterData.noteType) {
+            NoteType.All.id -> {
+                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().show(allNotes.size.toString())
+
+                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
+            }
+            NoteType.Note.id -> {
+                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().show(allNotes.size.toString())
+
+                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
+            }
+            NoteType.Goal.id -> {
+                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().show(allNotes.size.toString())
+
+                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
+            }
+            NoteType.Habit.id -> {
+                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().show(allNotes.size.toString())
+
+                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
+            }
+            NoteType.Tracker.id -> {
+                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().show(allNotes.size.toString())
+
+                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
+            }
+        }
+
         if (allNotes.isEmpty()) {
+//            binding.noteTypesBar.hide()
+
             binding.emptyText.isVisible = true
             binding.emptyAnim.isVisible = true
 
@@ -142,13 +288,20 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
 
             EventBus.getDefault().post(ChangeProgressStateEvent(false))
         } else {
+//            binding.noteTypesBar.isVisible = true
+
             binding.emptyText.isVisible = false
             binding.emptyAnim.isVisible = false
 
             binding.recycler.isVisible = true
 
             Collections.sort(allNotes, DateComparator())
-            if (!::adapter.isInitialized) {
+
+            if (
+                !::adapter.isInitialized ||
+                isRecreateNotesAdapter
+            ) {
+                isRecreateNotesAdapter = false
                 val datesSet = linkedSetOf<String>()
                 val formatter = SimpleDateFormat("MMMM, yyyy", Locale(App.preferences.locale))
 
@@ -284,7 +437,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
     fun onShowSpotlightEvent(e: ShowSpotlightEvent) {
         if (e.spotlightType == SpotlightType.DiaryHabits)
             allowShowHabitsSpotlight = true
-
     }
 
     @Subscribe
@@ -324,10 +476,10 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
     }
 
     private fun setupDiary() {
-        userDiaryViewModel.allNotesLiveData.observe(this) { notes ->
-            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            userDiaryViewModel.filteredNotesLiveData.observe(this@DiaryFragment) { notes ->
                 setupHabitsRealization()
-                observeDiary(notes)
+                observeDiary(notes?: emptyList())
             }
         }
     }
@@ -349,11 +501,17 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         binding.viewPagerBottomSheet.viewPager.post {
             binding.viewPagerBottomSheet.viewPager.setCurrentItem(
                 getViewPagerPositionByNoteId(e.noteId),
-                true
+                false
             )
         }
 
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
+    }
+
+    override fun onStop() {
+
+        super.onStop()
+
     }
 
     private fun getViewPagerPositionByNoteId(noteId: String): Int =

@@ -539,4 +539,10 @@
         <item>Add an event to the diary, set a goal, start a time tracker :)</item>
         <item>What made you better today?</item>
     </string-array>
+
+    <string name="filter_all">All</string>
+    <string name="filter_notes">Notes</string>
+    <string name="filter_goals">Goals</string>
+    <string name="filter_habits">Habits</string>
+    <string name="filter_trackers">Trackers</string>
 </resources>

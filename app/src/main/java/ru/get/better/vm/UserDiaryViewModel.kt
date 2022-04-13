@@ -9,9 +9,9 @@ import ru.get.better.App
 import ru.get.better.event.ChangeProgressStateEvent
 import ru.get.better.event.DeleteDiaryNoteEvent
 import ru.get.better.event.UpdateUserInterestEvent
-import ru.get.better.model.*
-import ru.get.better.rest.UserDiaryFields
-import ru.get.better.rest.UserDiaryTable
+import ru.get.better.model.DiaryNote
+import ru.get.better.model.NoteType
+import ru.get.better.model.getDifficultyValue
 import ru.get.better.util.SingleLiveEvent
 import ru.get.better.util.ext.mutableLiveDataOf
 import java.text.SimpleDateFormat
@@ -24,12 +24,16 @@ class UserDiaryViewModel @Inject constructor(
     val setDiaryNoteEvent = SingleLiveEvent<Boolean>()
 
     lateinit var allNotesLiveData: MutableLiveData<List<DiaryNote>>
+    lateinit var filteredNotesLiveData: MutableLiveData<List<DiaryNote>>
     lateinit var activeTrackerLiveData: MutableLiveData<DiaryNote?>
+
+    var filterData = FilterData()
 
     init {
         EventBus.getDefault().register(this)
 
         allNotesLiveData = mutableLiveDataOf<List<DiaryNote>>(emptyList())
+        filteredNotesLiveData = mutableLiveDataOf<List<DiaryNote>>(emptyList())
         activeTrackerLiveData = mutableLiveDataOf<DiaryNote?>(null)
 
         updateAllNotesLiveData()
@@ -38,7 +42,25 @@ class UserDiaryViewModel @Inject constructor(
     private fun updateAllNotesLiveData() =
         GlobalScope.launch(Dispatchers.IO) {
             allNotesLiveData.postValue(App.database.userDiaryDao().getAll() ?: emptyList())
+
+            updateFilteredNotes()
             updateActiveTrackerLiveData()
+        }
+
+    suspend fun updateFilteredNotes() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                filteredNotesLiveData.postValue(
+                    if (filterData.noteType == NoteType.All.id) {
+                        App.database.userDiaryDao().getAll()
+                    } else {
+                        App.database.userDiaryDao().getAllFiltered(
+                            noteType = filterData.noteType
+                        )
+                    }
+                )
+
+            }
         }
 
     private fun updateActiveTrackerLiveData() =
@@ -166,22 +188,25 @@ class UserDiaryViewModel @Inject constructor(
         }
     }
 
-    private fun DiaryNoteInterest.toFirestore() =
-        hashMapOf(
-            UserDiaryTable().tableFields[UserDiaryFields.InterestId] to interestId,
-            UserDiaryTable().tableFields[UserDiaryFields.InterestName] to interestName,
-            UserDiaryTable().tableFields[UserDiaryFields.InterestIcon] to interestIcon
-        )
-
-    private fun DiaryNoteDatesCompletion.toFirestore() =
-        hashMapOf(
-            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionDatetime] to datesCompletionDatetime,
-            UserDiaryTable().tableFields[UserDiaryFields.DatesCompletionIsCompleted] to datesCompletionIsCompleted
-        )
-
     @Subscribe
     fun onDeleteDiaryNoteEvent(e: DeleteDiaryNoteEvent) {
         deleteDiaryNote(e.noteId)
+    }
+
+    fun resetFilter(
+        onComplete: () -> Unit
+    ) {
+        filterData.reset()
+        GlobalScope.launch { updateFilteredNotes() }
+            .invokeOnCompletion { onComplete.invoke() }
+    }
+}
+
+data class FilterData(
+    var noteType: Int = NoteType.All.id
+) {
+    fun reset() {
+        noteType = NoteType.All.id
     }
 }
 

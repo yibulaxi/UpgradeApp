@@ -1,5 +1,6 @@
 package ru.get.better.repo.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import ru.get.better.model.DiaryNote
 
@@ -7,6 +8,14 @@ import ru.get.better.model.DiaryNote
 interface UserDiaryDao {
     @Query("SELECT * FROM user_diary_table")
     fun getAll(): List<DiaryNote>?
+
+    @Query("SELECT * FROM user_diary_table")
+    fun getAllLiveData(): LiveData<List<DiaryNote>?>
+
+    @Query("SELECT * FROM user_diary_table WHERE noteType = :noteType")
+    fun getAllFiltered(
+        noteType: Int?
+    ): List<DiaryNote>?
 
     @Query("SELECT * FROM user_diary_table WHERE diaryNoteId = :id")
     fun getById(id: String): DiaryNote?

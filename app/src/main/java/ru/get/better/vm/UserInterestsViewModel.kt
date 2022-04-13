@@ -20,12 +20,8 @@ class UserInterestsViewModel @Inject constructor(
     private val userSettingsViewModel: UserSettingsViewModel,
 ) : BaseViewModel() {
 
-    lateinit var interestsLiveData: MutableLiveData<List<UserInterest>?>
-
     init {
         EventBus.getDefault().register(this)
-
-        interestsLiveData = mutableLiveDataOf(emptyList())
     }
 
     fun init() {
@@ -38,9 +34,6 @@ class UserInterestsViewModel @Inject constructor(
                 App.database.userInterestsDao().getByUserIdLiveData(App.preferences.uid!!)
             }
         }
-
-//            interestsLiveData.postValue(App.database.userInterestsDao().getByUserId(App.preferences.uid!!))
-
 
     suspend fun getInterestsByUserId() =
         coroutineScope {

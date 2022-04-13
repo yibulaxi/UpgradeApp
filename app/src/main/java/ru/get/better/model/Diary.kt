@@ -97,6 +97,7 @@ enum class Milliseconds(val mills: Long) {
 }
 
 enum class NoteType(val id: Int) {
+    All(0),
     Note(1),
     Habit(2),
     Goal(3),

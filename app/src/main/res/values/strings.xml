@@ -563,4 +563,10 @@
         <item>Добавить событие в дневник, поставить цель, запустить тайм-трекер :)</item>
         <item>Что сегодня сделало тебя лучше?</item>
     </string-array>
+
+    <string name="filter_all">Все</string>
+    <string name="filter_notes">Записи</string>
+    <string name="filter_goals">Цели</string>
+    <string name="filter_habits">Привычки</string>
+    <string name="filter_trackers">Трекеры</string>
 </resources>

@@ -5,4 +5,10 @@
     <item name="navigation_add_post" type="id" />
     <item name="navigation_achievements" type="id" />
     <item name="navigation_settings" type="id" />
+
+    <item name="filter_all_notes" type="id"/>
+    <item name="filter_notes" type="id"/>
+    <item name="filter_trackers" type="id"/>
+    <item name="filter_goals" type="id"/>
+    <item name="filter_habits" type="id"/>
 </resources>
