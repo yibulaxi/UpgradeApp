@@ -34,6 +34,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
 import com.jaeger.library.StatusBarUtil
+import com.onegravity.rteditor.RTManager
+import com.onegravity.rteditor.api.RTApi
+import com.onegravity.rteditor.api.RTMediaFactoryImpl
+import com.onegravity.rteditor.api.RTProxyImpl
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.effet.RippleEffect
@@ -64,6 +68,7 @@ import ru.get.better.ui.activity.main.adapter.AddPostMediaAdapter
 import ru.get.better.ui.activity.main.ext.*
 import ru.get.better.ui.activity.main.ext.adapter.TagsAdapter
 import ru.get.better.ui.base.BaseActivity
+import ru.get.better.ui.view.OwnHorizontalRTToolbar
 import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.vm.*
 import java.util.*
@@ -119,6 +124,42 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     var currentSecondaryView = SecondaryViews.Empty
 
+    private val mRTManagerAddPost: RTManager by lazy {
+        val rtApi = RTApi(
+            this@MainActivity,
+            RTProxyImpl(this@MainActivity),
+            RTMediaFactoryImpl(this@MainActivity, false)
+        )
+        RTManager(rtApi, null)
+    }
+
+    private val mRTManagerAddGoal: RTManager by lazy {
+        val rtApi = RTApi(
+            this@MainActivity,
+            RTProxyImpl(this@MainActivity),
+            RTMediaFactoryImpl(this@MainActivity, false)
+        )
+        RTManager(rtApi, null)
+    }
+
+    private val mRTManagerAddHabit: RTManager by lazy {
+        val rtApi = RTApi(
+            this@MainActivity,
+            RTProxyImpl(this@MainActivity),
+            RTMediaFactoryImpl(this@MainActivity, false)
+        )
+        RTManager(rtApi, null)
+    }
+
+    private val mRTManagerAddTracker: RTManager by lazy {
+        val rtApi = RTApi(
+            this@MainActivity,
+            RTProxyImpl(this@MainActivity),
+            RTMediaFactoryImpl(this@MainActivity, false)
+        )
+        RTManager(rtApi, null)
+    }
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
@@ -126,21 +167,30 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             }
-//            navController = findNavController(R.id.nav_host_fragment)
-
         }
+
         initStart()
         lifecycleScope.async {
-//            addPostBehavior =
-//                BottomSheetBehavior.from(binding.addPostBottomSheet.bottomSheetContainer)
-//            addTrackerBehavior =
-//                BottomSheetBehavior.from(binding.addTrackerBottomSheet.bottomSheetContainer)
-//            addGoalBehavior =
-//                BottomSheetBehavior.from(binding.addGoalBottomSheet.bottomSheetContainer)
-//            addHabitBehavior =
-//                BottomSheetBehavior.from(binding.addHabitBottomSheet.bottomSheetContainer)
-
             cloudStorage = FirebaseStorage.getInstance()
+
+            val rtToolbarCharacterAddTracker =
+                binding.addTrackerBottomSheet.rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
+            val rtToolbarCharacterAddPost =
+                binding.addPostBottomSheet.rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
+            val rtToolbarCharacterAddHabit =
+                binding.addHabitBottomSheet.rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
+            val rtToolbarCharacterAddGoal =
+                binding.addGoalBottomSheet.rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
+
+            mRTManagerAddGoal.registerToolbar(binding.addGoalBottomSheet.rteToolbarContainer, rtToolbarCharacterAddGoal)
+            mRTManagerAddHabit.registerToolbar(binding.addHabitBottomSheet.rteToolbarContainer, rtToolbarCharacterAddHabit)
+            mRTManagerAddPost.registerToolbar(binding.addPostBottomSheet.rteToolbarContainer, rtToolbarCharacterAddPost)
+            mRTManagerAddTracker.registerToolbar(binding.addTrackerBottomSheet.rteToolbarContainer, rtToolbarCharacterAddTracker)
+
+            mRTManagerAddGoal.registerEditor(binding.addGoalBottomSheet.editText, true)
+            mRTManagerAddTracker.registerEditor(binding.addTrackerBottomSheet.editText, true)
+            mRTManagerAddPost.registerEditor(binding.addPostBottomSheet.editText, true)
+            mRTManagerAddHabit.registerEditor(binding.addHabitBottomSheet.editText, true)
         }
 
         initNotificationReceiver()
@@ -779,6 +829,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
 //        GlobalScope.async {
+        if (!App.preferences.uid.isNullOrEmpty() && App.preferences.isInterestsInitialized) {
             setupBottomSheets()
             setupSelectNoteTypeBottomSheet()
             setupAddPostBottomSheet()
@@ -786,6 +837,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             setupAddTrackerBottomSheet()
             setupTrackerSheet()
             setupAddHabitBottomSheet()
+        }
 //        }
 
         android.os.Handler().postDelayed({

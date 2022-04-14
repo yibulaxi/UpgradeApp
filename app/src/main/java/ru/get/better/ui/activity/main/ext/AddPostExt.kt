@@ -512,17 +512,9 @@ fun MainActivity.setupAddPostBottomSheet() {
     with(binding.addPostBottomSheet) {
 
         runOnUiThread {
-            val rtApi = RTApi(
-                context,
-                RTProxyImpl(context),
-                RTMediaFactoryImpl(context, true)
-            )
-            val mRTManager = RTManager(rtApi, savedInstanceState)
 
             val rtToolbarCharacter =
                 rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
-            mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
-            mRTManager.registerEditor(editText, true)
 
             rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
                 ContextCompat.getDrawable(
@@ -816,17 +808,8 @@ fun MainActivity.setupAddGoalBottomSheet() {
     with(binding.addGoalBottomSheet) {
 
         runOnUiThread {
-            val rtApi = RTApi(
-                context,
-                RTProxyImpl(context),
-                RTMediaFactoryImpl(context, true)
-            )
-            val mRTManager = RTManager(rtApi, savedInstanceState)
-
             val rtToolbarCharacter =
                 rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
-            mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
-            mRTManager.registerEditor(editText, true)
 
             rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
                 ContextCompat.getDrawable(
@@ -1083,17 +1066,8 @@ fun MainActivity.setupAddTrackerBottomSheet() {
     with(binding.addTrackerBottomSheet) {
 
         runOnUiThread {
-            val rtApi = RTApi(
-                context,
-                RTProxyImpl(context),
-                RTMediaFactoryImpl(context, true)
-            )
-            val mRTManager = RTManager(rtApi, savedInstanceState)
-
             val rtToolbarCharacter =
                 rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
-            mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
-            mRTManager.registerEditor(editText, true)
 
             rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
                 ContextCompat.getDrawable(
@@ -1450,17 +1424,8 @@ fun MainActivity.setupAddHabitBottomSheet() {
     with(binding.addHabitBottomSheet) {
 
         runOnUiThread {
-            val rtApi = RTApi(
-                context,
-                RTProxyImpl(context),
-                RTMediaFactoryImpl(context, true)
-            )
-            val mRTManager = RTManager(rtApi, savedInstanceState)
-
             val rtToolbarCharacter =
                 rteToolbarContainer.findViewById<OwnHorizontalRTToolbar>(R.id.rte_toolbar)
-            mRTManager.registerToolbar(rteToolbarContainer, rtToolbarCharacter)
-            mRTManager.registerEditor(editText, true)
 
             rtToolbarCharacter.findViewById<RTToolbarImageButton>(R.id.toolbar_bold).background =
                 ContextCompat.getDrawable(
