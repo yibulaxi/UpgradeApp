@@ -12,6 +12,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.R
@@ -21,6 +24,7 @@ import ru.get.better.model.AllLogo
 import ru.get.better.model.DiaryNote
 import ru.get.better.model.Media
 import ru.get.better.model.NoteType
+import ru.get.better.ui.activity.main.ext.adapter.TagsAdapter
 import ru.get.better.ui.diary.adapter.NotesMediaAdapter
 import ru.get.better.util.formatMillsToFullDateTime
 
@@ -103,12 +107,6 @@ class NotesPagerViewHolder(
             )
         )
 
-//        binding.wasteTime.background = ContextCompat.getDrawable(
-//            context,
-//            if (App.preferences.isDarkTheme) R.drawable.bg_waste_time_dark
-//            else R.drawable.bg_waste_time_light
-//        )
-
         binding.habitsRealizationValue.background = ContextCompat.getDrawable(
             context,
             if (App.preferences.isDarkTheme) R.drawable.bg_habits_realization_value_dark
@@ -130,14 +128,6 @@ class NotesPagerViewHolder(
                 else R.color.colorLightItemAdapterPagerNotesInterestNameText
             )
         )
-
-//        binding.amount.setTextColor(
-//            ContextCompat.getColor(
-//                context,
-//                if (App.preferences.isDarkTheme) R.color.colorDarkItemAdapterPagerNotesAmountText
-//                else R.color.colorLightItemAdapterPagerNotesAmountText
-//            )
-//        )
 
         binding.text.setTextColor(
             ContextCompat.getColor(
@@ -209,20 +199,8 @@ class NotesPagerViewHolder(
             AppCompatResources.getDrawable(
                 context,
                 AllLogo().getLogoById(note.interest!!.interestIcon)
-//                DefaultInterest.getInterestById(note.interest!!.interestId.toInt()).getLogo()
             )
         )
-
-//        binding.amount.text = note.changeOfPoints.toString().replace(".", ",")
-
-//        when {
-//            note.changeOfPoints.toFloat() > 0 -> binding.amount.background =
-//                AppCompatResources.getDrawable(context, R.drawable.snack_success_gradient_light)
-//            note.changeOfPoints.toFloat() < 0 -> binding.amount.background =
-//                AppCompatResources.getDrawable(context, R.drawable.snack_warning_gradient_light)
-//            else -> binding.amount.background =
-//                AppCompatResources.getDrawable(context, R.drawable.bg_list_metric_value_light)
-//        }
 
         binding.noteType.setImageDrawable(
             when (note.noteType) {
@@ -312,6 +290,21 @@ class NotesPagerViewHolder(
             override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
             override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
         })
+
+        val lm = FlexboxLayoutManager(context)
+        lm.flexDirection = FlexDirection.ROW
+        lm.justifyContent = JustifyContent.FLEX_START
+
+        binding.tagsRecycler.layoutManager = lm
+
+        val tagsAdapter = TagsAdapter()
+        binding.tagsRecycler.adapter = tagsAdapter
+
+        if (!note.tags.isNullOrEmpty()) {
+            tagsAdapter.createList(note.tags!!.toMutableList(), isAddEmptyTag = false)
+        } else {
+            binding.tagsRecycler.isVisible = false
+        }
     }
 
     inner class Handler

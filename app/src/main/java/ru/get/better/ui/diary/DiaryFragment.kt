@@ -421,52 +421,69 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         Log.d("keke", "step3")
         val allNotes = notesWithoutHabits.plus(habits)
 
-        when(userDiaryViewModel.filterData.noteType) {
-            NoteType.All.id -> {
-                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().show(allNotes.size.toString())
+        lifecycleScope.launch(Dispatchers.IO) {
+            when (userDiaryViewModel.filterData.noteType) {
+                NoteType.All.id -> {
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification()
+                        .show(allNotes.size.toString())
 
-                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
-            }
-            NoteType.Note.id -> {
-                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().show(allNotes.size.toString())
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification()
+                        .clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification()
+                        .clear()
+                }
+                NoteType.Note.id -> {
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification()
+                        .show(allNotes.size.toString())
 
-                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
-            }
-            NoteType.Goal.id -> {
-                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().show(allNotes.size.toString())
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification()
+                        .clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification()
+                        .clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification()
+                        .clear()
+                }
+                NoteType.Goal.id -> {
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification()
+                        .show(allNotes.size.toString())
 
-                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
-            }
-            NoteType.Habit.id -> {
-                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().show(allNotes.size.toString())
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification()
+                        .clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification()
+                        .clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification()
+                        .clear()
+                }
+                NoteType.Habit.id -> {
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification()
+                        .show(allNotes.size.toString())
 
-                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().clear()
-            }
-            NoteType.Tracker.id -> {
-                binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification().show(allNotes.size.toString())
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification()
+                        .clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification()
+                        .clear()
+                }
+                NoteType.Tracker.id -> {
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_trackers).notification()
+                        .show(allNotes.size.toString())
 
-                binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
-                binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification()
+                        .clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_notes).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_goals).notification().clear()
+                    binding.noteTypesBar.menu.findItemById(R.id.filter_habits).notification()
+                        .clear()
+                }
             }
         }
 
         if (allNotes.isEmpty()) {
-//            binding.noteTypesBar.hide()
-
             binding.emptyText.isVisible = true
             binding.emptyAnim.isVisible = true
 
@@ -474,8 +491,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
 
             EventBus.getDefault().post(ChangeProgressStateEvent(false))
         } else {
-//            binding.noteTypesBar.isVisible = true
-
             binding.emptyText.isVisible = false
             binding.emptyAnim.isVisible = false
 
@@ -487,52 +502,58 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                 !::adapter.isInitialized ||
                 isRecreateNotesAdapter
             ) {
-                isRecreateNotesAdapter = false
-                val datesSet = linkedSetOf<String>()
-                val formatter = SimpleDateFormat("MMMM, yyyy", Locale(App.preferences.locale))
-
-                allNotes.forEach {
-                    val calendar = Calendar.getInstance()
-                    calendar.timeInMillis = it.date.toLong()
-                    datesSet.add(
-                        formatter.format(calendar.time)
-                    )
-                }
-
-                Collections.sort(datesSet.toMutableList(), StringDateComparator())
-                Collections.sort(datesSet.toMutableList(), Collections.reverseOrder())
-
-                adapter = NotesAdapter(
-                    context = requireContext(),
-                    datesSet = datesSet
-                )
-                binding.recycler.adapter = adapter
-
-                val decorator = StickyHeaderItemDecorator(adapter)
-                decorator.attachToRecyclerView(binding.recycler)
-
-                var section = -1
-                var sectionName = "--------------"
-
                 val items = arrayListOf<Section>()
+                val datesSet = linkedSetOf<String>()
 
-                for (i in allNotes.indices) {
-                    if (
-                        !formatter.format(allNotes[i].date.toLong())
-                            .contains(sectionName)
-                    ) {
-                        section++
-                        sectionName = datesSet.elementAt(section)
-                        items.add(SectionHeader(section, sectionName))
+                lifecycleScope.launch(Dispatchers.IO) {
+                    isRecreateNotesAdapter = false
+
+                    val formatter = SimpleDateFormat("MMMM, yyyy", Locale(App.preferences.locale))
+
+                    allNotes.forEach {
+                        val calendar = Calendar.getInstance()
+                        calendar.timeInMillis = it.date.toLong()
+                        datesSet.add(
+                            formatter.format(calendar.time)
+                        )
                     }
-                    items.add(SectionItem(section, sectionName, allNotes[i]))
+
+                    Collections.sort(datesSet.toMutableList(), StringDateComparator())
+                    Collections.sort(datesSet.toMutableList(), Collections.reverseOrder())
+
+                    var section = -1
+                    var sectionName = "--------------"
+
+                    for (i in allNotes.indices) {
+                        if (
+                            !formatter.format(allNotes[i].date)
+                                .contains(sectionName)
+                        ) {
+                            section++
+                            sectionName = datesSet.elementAt(section)
+                            items.add(SectionHeader(section, sectionName))
+                        }
+                        items.add(SectionItem(section, sectionName, allNotes[i]))
+                    }
+                }.invokeOnCompletion {
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        adapter = NotesAdapter(
+                            context = requireContext(),
+                            datesSet = datesSet
+                        )
+                        binding.recycler.adapter = adapter
+
+                        val decorator = StickyHeaderItemDecorator(adapter)
+                        decorator.attachToRecyclerView(binding.recycler)
+
+                        adapter.items = items
+                        binding.recycler.setUpRemoveItemTouchHelper(
+                            ::onItemInListSwiped
+                        )
+                    }
                 }
 
-                adapter.items = items
 
-                binding.recycler.setUpRemoveItemTouchHelper(
-                    ::onItemInListSwiped
-                )
 
             } else adapter.updateNotes(allNotes.toMutableList())
 
@@ -578,86 +599,90 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         if (::pagerAdapter.isInitialized)
             pagerAdapter.notifyDataSetChanged()
 
-        binding.container.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryBackground
-                else R.color.colorLightFragmentDiaryBackground
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            binding.container.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryBackground
+                    else R.color.colorLightFragmentDiaryBackground
+                )
             )
-        )
 
-        binding.title.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryTitleText
-                else R.color.colorLightFragmentDiaryTitleText
+            binding.title.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryTitleText
+                    else R.color.colorLightFragmentDiaryTitleText
+                )
             )
-        )
 
-        binding.emptyText.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryEmptyTextText
-                else R.color.colorLightFragmentDiaryEmptyTextText
+            binding.emptyText.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryEmptyTextText
+                    else R.color.colorLightFragmentDiaryEmptyTextText
+                )
             )
-        )
 
-        binding.info.imageTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryInfoTint
-                else R.color.colorLightFragmentDiaryInfoTint
+            binding.info.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryInfoTint
+                    else R.color.colorLightFragmentDiaryInfoTint
+                )
             )
-        )
 
-        binding.blur.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkBlur
-                else R.color.colorLightBlur
+            binding.blur.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBlur
+                    else R.color.colorLightBlur
+                )
             )
-        )
 
-        binding.filterCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
-            else R.color.colorLightNavViewContainerBackgroundTint
-        ))
-
-//        binding.filterSearch.background = ContextCompat.getDrawable(
-//            requireContext(),
-//            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
-//            else R.drawable.bg_edittext_light
-//        )
-
-        binding.filterSearch.hint = App.resourcesProvider.getStringLocale(R.string.filter_search)
-        binding.filterSearch.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextText
-                else R.color.colorLightViewPostAddEditTextText
+            binding.filterCard.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkNavViewContainerBackgroundTint
+                    else R.color.colorLightNavViewContainerBackgroundTint
+                )
             )
-        )
 
-        binding.filterSearch.setHintTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextHint
-                else R.color.colorLightViewPostAddEditTextHint
+            binding.filterSearch.hint =
+                App.resourcesProvider.getStringLocale(R.string.filter_search)
+            binding.filterSearch.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextText
+                    else R.color.colorLightViewPostAddEditTextText
+                )
             )
-        )
 
-        binding.icTags.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
-            else R.color.colorLightBottomNavSelectorUnchecked
-        ))
+            binding.filterSearch.setHintTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextHint
+                    else R.color.colorLightViewPostAddEditTextHint
+                )
+            )
 
-        binding.icCalendar.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
-            else R.color.colorLightBottomNavSelectorUnchecked
-        ))
+            binding.icTags.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                    else R.color.colorLightBottomNavSelectorUnchecked
+                )
+            )
+
+            binding.icCalendar.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                    else R.color.colorLightBottomNavSelectorUnchecked
+                )
+            )
+        }
     }
 
     @Subscribe

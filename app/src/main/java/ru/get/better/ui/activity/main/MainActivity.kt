@@ -30,6 +30,9 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
@@ -71,7 +74,9 @@ import ru.get.better.ui.base.BaseActivity
 import ru.get.better.ui.view.OwnHorizontalRTToolbar
 import ru.get.better.ui.view.SimpleCustomSnackbar
 import ru.get.better.vm.*
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -203,7 +208,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         userAchievementsViewModel.getAchievements()
         userInterestsViewModel.init()
         affirmationsViewModel.nasaDataViewState.observe(this, ::observeNasaData)
-        userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
+//        userDiaryViewModel.setDiaryNoteEvent.observe(this, ::observeSetDiaryNote)
     }
 
     private fun initStart() {
@@ -782,6 +787,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.inflateMenu(R.menu.bottom_nav_menu)
         binding.navViewContainer.isVisible = true
         binding.navView.isVisible = true
+
         lifecycleScope.launch(Dispatchers.IO) {
             val options = NavOptions.Builder()
                 .setLaunchSingleTop(true)
@@ -895,7 +901,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.date.toString()
+                date.text = SimpleDateFormat("dd MMMM, EEEE", Locale(App.preferences.locale))
+                    .format(e.note.date)
 
                 val urls = arrayListOf<Media>()
                 for (url in e.note.media ?: arrayListOf()) {
@@ -903,6 +910,17 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
                 mediaAdapter = AddPostMediaAdapter(this@MainActivity, urls, glideRequestManager)
                 mediaRecycler.adapter = mediaAdapter
+
+                if (!e.note.tags.isNullOrEmpty())
+                    tagsAdapter.createList(e.note.tags!!.toMutableList())
+                else tagsAdapter.createList(mutableListOf())
+
+                val lm = FlexboxLayoutManager(this@MainActivity)
+                lm.flexDirection = FlexDirection.ROW
+                lm.justifyContent = JustifyContent.FLEX_START
+
+                tagsRecycler.layoutManager = lm
+                tagsRecycler.adapter = tagsAdapter
             }
         } else if (e.note.noteType == NoteType.Goal.id) {
             addGoalBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -930,7 +948,19 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.date.toString()
+                date.text = SimpleDateFormat("dd MMMM, EEEE", Locale(App.preferences.locale))
+                    .format(e.note.date)
+
+                if (!e.note.tags.isNullOrEmpty())
+                    tagsAdapter.createList(e.note.tags!!.toMutableList())
+                else tagsAdapter.createList(mutableListOf())
+
+                val lm = FlexboxLayoutManager(this@MainActivity)
+                lm.flexDirection = FlexDirection.ROW
+                lm.justifyContent = JustifyContent.FLEX_START
+
+                tagsRecycler.layoutManager = lm
+                tagsRecycler.adapter = tagsAdapter
             }
         } else if (e.note.noteType == NoteType.Tracker.id) {
             addTrackerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -958,7 +988,19 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.date.toString()
+                date.text = SimpleDateFormat("dd MMMM, EEEE", Locale(App.preferences.locale))
+                    .format(e.note.date)
+
+                if (!e.note.tags.isNullOrEmpty())
+                    tagsAdapter.createList(e.note.tags!!.toMutableList())
+                else tagsAdapter.createList(mutableListOf())
+
+                val lm = FlexboxLayoutManager(this@MainActivity)
+                lm.flexDirection = FlexDirection.ROW
+                lm.justifyContent = JustifyContent.FLEX_START
+
+                tagsRecycler.layoutManager = lm
+                tagsRecycler.adapter = tagsAdapter
             }
         } else if (e.note.noteType == NoteType.HabitRealization.id) {
             addHabitBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -1059,7 +1101,19 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     )
                 }
 
-                date.text = e.note.datetimeStart.toString()
+                date.text = SimpleDateFormat("dd MMMM, EEEE", Locale(App.preferences.locale))
+                    .format(e.note.date)
+
+                if (!e.note.tags.isNullOrEmpty())
+                    tagsAdapter.createList(e.note.tags!!.toMutableList())
+                else tagsAdapter.createList(mutableListOf())
+
+                val lm = FlexboxLayoutManager(this@MainActivity)
+                lm.flexDirection = FlexDirection.ROW
+                lm.justifyContent = JustifyContent.FLEX_START
+
+                tagsRecycler.layoutManager = lm
+                tagsRecycler.adapter = tagsAdapter
             }
         }
     }
@@ -1078,10 +1132,21 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         regularity: Int? = null,
         isPushAvailable: Boolean = false,
         color: String? = null,
-        datesCompletion: ArrayList<DiaryNoteDatesCompletion>? = arrayListOf(),
-        tags: ArrayList<String>? = arrayListOf()
+        datesCompletion: ArrayList<DiaryNoteDatesCompletion>? = arrayListOf()
     ) {
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addGoalBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            if (addTrackerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addTrackerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addHabitBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
             val noteInterest =
                 userInterestsViewModel.getInterestById(selectedInterestIdToAddPost)
 
@@ -1108,7 +1173,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         regularity = regularity,
                         color = color,
                         datesCompletion = datesCompletion,
-                        tags = tags
+                        tags = ArrayList(tagsAdapter.getItems())
                     ),
                 )
             }

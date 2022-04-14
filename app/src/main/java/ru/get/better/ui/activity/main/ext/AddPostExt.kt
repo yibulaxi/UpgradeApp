@@ -457,6 +457,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
 
             mediaAdapter = AddPostMediaAdapter(context, arrayListOf(), glideRequestManager)
             binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
+
+            tagsAdapter.createList(mutableListOf())
         }
 
         trackerType.setOnClickListener {
@@ -471,12 +473,13 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addTrackerBottomSheet.editText.requestFocus()
 
             selectedDiffPointToAddPost = 0
+
+            tagsAdapter.createList(mutableListOf())
         }
 
         goalType.setOnClickListener {
             hideSelectNoteTypeView(hideBackgroundImage = false)
-//            selectNoteTypeBehavior.state =
-//                BottomSheetBehavior.STATE_COLLAPSED
+
             addGoalBehavior.state =
                 BottomSheetBehavior.STATE_EXPANDED
 
@@ -486,6 +489,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addGoalBottomSheet.editText.requestFocus()
 
             selectedDiffPointToAddPost = 0
+
+            tagsAdapter.createList(mutableListOf())
         }
 
         habbitType.setOnClickListener {
@@ -501,6 +506,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addHabitBottomSheet.editText.requestFocus()
 
             selectedDiffPointToAddPost = 0
+
+            tagsAdapter.createList(mutableListOf())
         }
     }
 }

@@ -34,14 +34,24 @@ class TagsAdapter : EpoxyAdapter() {
     private var items: MutableList<String> = mutableListOf()
     private val tagEmptyModel = TagEmptyModel(items)
 
-    fun createList(models: MutableList<String>) {
+    fun createList(
+        models: MutableList<String>,
+        isAddEmptyTag: Boolean = true
+    ) {
         items = models
         tagEmptyModel.items = items
 
         removeAllModels()
 
-        models.map { addModel(TagModel(it)) }
-        addModel(tagEmptyModel)
+        models.map { addModel(TagModel(it, isAddEmptyTag)) }
+
+        if (
+            isAddEmptyTag
+            && items.size < 5
+        ) {
+            addModel(tagEmptyModel)
+            showModel(tagEmptyModel)
+        }
 
         notifyDataSetChanged()
     }
@@ -54,6 +64,9 @@ class TagsAdapter : EpoxyAdapter() {
             TagModel(tag),
             tagEmptyModel
         )
+
+        if (items.size >= 5)
+            hideModel(tagEmptyModel)
     }
 
     fun removeTag(tag: String) {
@@ -65,6 +78,10 @@ class TagsAdapter : EpoxyAdapter() {
                 it is TagModel && it.model == tag
             }
         )
+
+        if (items.size < 5)
+            showModel(tagEmptyModel)
+
     }
 
     fun getItems() = items
@@ -73,6 +90,7 @@ class TagsAdapter : EpoxyAdapter() {
 
 class TagModel(
     val model: String,
+    private val isAllowDelete: Boolean = true
 ): EpoxyModel<View>() {
 
     private var root: View? = null
@@ -101,6 +119,8 @@ class TagModel(
                 if (App.preferences.isDarkTheme) R.color.colorDarkViewPostAddEditTextHint
                 else R.color.colorLightViewPostAddEditTextHint
             ))
+
+            chip.isCloseIconVisible = isAllowDelete
 
             chip.setOnCloseIconClickListener {
                 EventBus.getDefault().post(RemoveTagEvent(model))

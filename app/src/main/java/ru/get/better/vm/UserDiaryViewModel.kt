@@ -1,5 +1,6 @@
 package ru.get.better.vm
 
+import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -134,7 +135,7 @@ class UserDiaryViewModel @Inject constructor(
         note: DiaryNote
     ) {
         Log.d("keke", "setNote")
-        EventBus.getDefault().post(ChangeProgressStateEvent(true))
+//        EventBus.getDefault().post(ChangeProgressStateEvent(true))
 
         viewModelScope.launch(Dispatchers.IO) {
             val oldNote = App.database.userDiaryDao().getById(note.diaryNoteId)
@@ -161,7 +162,7 @@ class UserDiaryViewModel @Inject constructor(
                 App.database.userDiaryDao().insert(note)
             }
 
-            setDiaryNoteEvent.postValue(true)
+//            setDiaryNoteEvent.postValue(true)
 
             userSettingsViewModel
                 .getUserSettingsById(App.preferences.uid!!)?.let { userSettings ->
@@ -187,8 +188,7 @@ class UserDiaryViewModel @Inject constructor(
                         )
                 }
 
-            updateAllNotesLiveData()
-        }
+        }.invokeOnCompletion { updateAllNotesLiveData() }
     }
 
     @Subscribe

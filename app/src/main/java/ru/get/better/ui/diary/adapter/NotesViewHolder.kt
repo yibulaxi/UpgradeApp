@@ -4,11 +4,16 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.R
@@ -17,6 +22,7 @@ import ru.get.better.event.ShowNoteDetailEvent
 import ru.get.better.model.AllLogo
 import ru.get.better.model.DiaryNote
 import ru.get.better.model.NoteType
+import ru.get.better.ui.activity.main.ext.adapter.TagsAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -96,6 +102,27 @@ class NotesViewHolder(
                 else -> AppCompatResources.getDrawable(context, R.drawable.diary)
             }
         )
+
+        val lm = FlexboxLayoutManager(context)
+        lm.flexDirection = FlexDirection.ROW
+        lm.justifyContent = JustifyContent.FLEX_START
+
+        binding.tagsRecycler.layoutManager = lm
+
+        val tagsAdapter = TagsAdapter()
+        binding.tagsRecycler.adapter = tagsAdapter
+
+        if (!note.tags.isNullOrEmpty()) {
+            tagsAdapter.createList(note.tags!!.toMutableList(), isAddEmptyTag = false)
+        } else {
+            binding.tagsRecycler.isVisible = false
+        }
+
+        binding.tagsRecycler.setOnClickListener {
+            EventBus.getDefault().post(
+                ShowNoteDetailEvent(position, note.diaryNoteId)
+            )
+        }
 
         binding.container.setOnClickListener {
             EventBus.getDefault().post(

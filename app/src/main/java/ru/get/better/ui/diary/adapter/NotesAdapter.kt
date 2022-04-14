@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.shuhart.stickyheader.StickyAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import ru.get.better.App
 import ru.get.better.R
@@ -53,74 +56,83 @@ class NotesAdapter(
         val notesToAddIndexes = arrayListOf<Int>()
         val notesToUpdateIndexes = arrayListOf<Int>()
 
-        for (i in 0 until items!!.size) {
-            if (items!![i] is SectionHeader) continue
+        GlobalScope.launch {
+            for (i in 0 until items!!.size) {
+                if (items!![i] is SectionHeader) continue
 
-            val foundNote =
-                newNotes.findLast { it.diaryNoteId == items!![i].diaryNote!!.diaryNoteId }
+                val foundNote =
+                    newNotes.findLast { it.diaryNoteId == items!![i].diaryNote!!.diaryNoteId }
 
-            if (foundNote == null) {
-                notesToDeleteIndexes.add(i)
-            } else if (
-                items!![i].diaryNote!!.text != foundNote.text
-                || items!![i].diaryNote!!.media != foundNote.media
-                || items!![i].diaryNote!!.interest?.interestIcon != foundNote.interest?.interestIcon
-                || items!![i].diaryNote!!.interest?.interestId != foundNote.interest?.interestId
-                || items!![i].diaryNote!!.interest?.interestName != foundNote.interest?.interestName
-                || items!![i].diaryNote!!.changeOfPoints != foundNote.changeOfPoints
-            ) {
-                notesToUpdateIndexes.add(i)
-            }
-        }
+                if (foundNote == null) {
+                    notesToDeleteIndexes.add(i)
+                } else if (
+                    items!![i].diaryNote!!.text != foundNote.text
+                    || items!![i].diaryNote!!.media != foundNote.media
+                    || items!![i].diaryNote!!.interest?.interestIcon != foundNote.interest?.interestIcon
+                    || items!![i].diaryNote!!.interest?.interestId != foundNote.interest?.interestId
+                    || items!![i].diaryNote!!.interest?.interestName != foundNote.interest?.interestName
+                    || items!![i].diaryNote!!.changeOfPoints != foundNote.changeOfPoints
+                    || !items!![i].diaryNote!!.tags!!.compareTags(foundNote.tags!!)
+                    || !foundNote.tags!!.compareTags(items!![i].diaryNote!!.tags!!)
 
-        for (i in 0 until newNotes.size) {
-            val foundNote = items!!.findLast {
-                it is SectionItem
-                        && it.diaryNote!!.diaryNoteId == newNotes[i].diaryNoteId
-                //&& it.diaryNote!!.date == newNotes[i].date
+                ) {
+                    notesToUpdateIndexes.add(i)
+                }
             }
 
-            if (foundNote == null && !notesToUpdateIndexes.contains(i)) {
-                notesToAddIndexes.add(i)
+            for (i in 0 until newNotes.size) {
+                val foundNote = items!!.findLast {
+                    it is SectionItem
+                            && it.diaryNote!!.diaryNoteId == newNotes[i].diaryNoteId
+                    //&& it.diaryNote!!.date == newNotes[i].date
+                }
+
+                if (foundNote == null && !notesToUpdateIndexes.contains(i)) {
+                    notesToAddIndexes.add(i)
+                }
+            }
+
+        }.invokeOnCompletion {
+            GlobalScope.launch(Dispatchers.Main) {
+                notesToDeleteIndexes.forEach {
+                    val section = items!![it].sectionPosition()
+
+                    items!!.removeAt(it)
+                    notifyItemRemoved(it)
+
+                    checkIsSectionEmpty(section)
+                }
+
+                notesToAddIndexes.forEach {
+                    items!!.add(
+                        1,
+                        getSectionItem(
+                            newNotes[it]
+                        )
+                    )
+
+                    notifyItemInserted(1)
+                }
+
+                notesToUpdateIndexes.forEach {
+                    newNotes.filter { diaryNote ->
+                        diaryNote.diaryNoteId == items!![it].diaryNote!!.diaryNoteId
+                    }.forEach { foundNote ->
+                        items!![it].diaryNote!!.text = foundNote.text
+                        items!![it].diaryNote!!.media = foundNote.media
+                        items!![it].diaryNote!!.interest?.interestId = foundNote.interest?.interestId!!
+                        items!![it].diaryNote!!.interest?.interestName = foundNote.interest!!.interestName
+                        items!![it].diaryNote!!.interest?.interestIcon = foundNote.interest!!.interestIcon
+                        items!![it].diaryNote!!.changeOfPoints = foundNote.changeOfPoints
+                        items!![it].diaryNote!!.tags = foundNote.tags
+
+                        notifyItemChanged(it)
+                    }
+                }
+
+                EventBus.getDefault().post(ChangeProgressStateEvent(false))
             }
         }
-
-        notesToDeleteIndexes.forEach {
-            val section = items!![it].sectionPosition()
-
-            items!!.removeAt(it)
-            notifyItemRemoved(it)
-
-            checkIsSectionEmpty(section)
-        }
-
-        notesToAddIndexes.forEach {
-            items!!.add(
-                1,
-                getSectionItem(
-                    newNotes[it]
-                )
-            )
-
-            notifyItemInserted(1)
-        }
-
-        notesToUpdateIndexes.forEach {
-            newNotes.filter { diaryNote ->
-                diaryNote.diaryNoteId == items!![it].diaryNote!!.diaryNoteId
-            }.forEach { foundNote ->
-                items!![it].diaryNote!!.text = foundNote.text
-                items!![it].diaryNote!!.media = foundNote.media
-                items!![it].diaryNote!!.interest?.interestId = foundNote.interest?.interestId!!
-                items!![it].diaryNote!!.interest?.interestName = foundNote.interest!!.interestName
-                items!![it].diaryNote!!.interest?.interestIcon = foundNote.interest!!.interestIcon
-                items!![it].diaryNote!!.changeOfPoints = foundNote.changeOfPoints
-
-                notifyItemChanged(it)
-            }
-        }
-
-        EventBus.getDefault().post(ChangeProgressStateEvent(false))
     }
 
     private fun checkIsSectionEmpty(section: Int) {//
@@ -269,3 +281,6 @@ class NotesAdapter(
 class HeaderViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var textView: TextView = itemView.findViewById(ru.get.better.R.id.textView)
 }
+
+fun List<*>.compareTags(other : List<*>) =
+    this.size == other.size && this.mapIndexed { index, element -> element == other[index] }.all { it }

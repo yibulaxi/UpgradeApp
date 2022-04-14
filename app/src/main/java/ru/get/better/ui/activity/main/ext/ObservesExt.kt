@@ -11,17 +11,20 @@ fun MainActivity.observeSetDiaryNote(isSuccess: Boolean) {
         showSuccess(getString(R.string.note_created))
         binding.addPostBottomSheet.editText.text?.clear()
 
-        if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-            addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        runOnUiThread {
 
-        if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-            addGoalBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            if (addPostBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addPostBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        if (addTrackerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-            addTrackerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            if (addGoalBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addGoalBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-            addHabitBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            if (addTrackerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addTrackerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            if (addHabitBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                addHabitBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
 
         EventBus.getDefault().post(ChangeProgressStateEvent(isActive = false))
     } else showFail(getString(ru.get.better.R.string.error_happened))
