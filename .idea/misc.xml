@@ -212,6 +212,7 @@
         <entry key="app/src/main/res/layout/view_active_tracker.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_affirmation.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_detail_interest.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/view_filter_tags.xml" value="0.34754402224281744" />
         <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.16" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />

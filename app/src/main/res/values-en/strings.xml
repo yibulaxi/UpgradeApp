@@ -559,4 +559,7 @@
     <string name="no_day_is_selected">No day is selected!</string>
 
     <string name="add_tag_hint">Add tag…</string>
+    <string name="tags_title">Tags</string>
+    <string name="tags_all">All</string>
+    <string name="tags_clear">Clear</string>
 </resources>

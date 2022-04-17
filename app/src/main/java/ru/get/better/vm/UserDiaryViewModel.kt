@@ -203,19 +203,45 @@ class UserDiaryViewModel @Inject constructor(
         viewModelScope.launch { updateFilteredNotes() }
             .invokeOnCompletion { onComplete.invoke() }
     }
+
+    fun setupTags(
+        onComplete: () -> Unit
+    ) {
+        GlobalScope.launch {
+            val notes = App.database.userDiaryDao().getAll()
+            val tags = mutableSetOf<String>()
+
+            notes?.forEach { note ->
+                if (!note.tags.isNullOrEmpty())
+                    tags.addAll(note.tags!!.toList())
+            }
+
+            filterData.setupAllTags(tags.toList())
+        }.invokeOnCompletion {
+            viewModelScope.launch(Dispatchers.Main) { onComplete.invoke() }
+
+        }
+    }
 }
 
 data class FilterData(
     var noteType: Int = NoteType.All.id,
     var startDay: Long? = null,
     var endDay: Long? = null,
-    var pattern: String? = null
+    var pattern: String? = null,
+    var allTags: List<String>? = null,
+    var tags: List<String>? = null
 ) {
+    fun setupAllTags(allTags: List<String>?) {
+        this.allTags = allTags
+    }
+
     fun reset() {
         noteType = NoteType.All.id
         startDay = null
         endDay = null
         pattern = null
+        tags = null
     }
 }
 

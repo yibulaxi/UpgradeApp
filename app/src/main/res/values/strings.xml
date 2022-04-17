@@ -582,4 +582,7 @@
     <string name="no_day_is_selected">No day is selected!</string>
 
     <string name="add_tag_hint">Добавить метку…</string>
+    <string name="tags_title">Метки</string>
+    <string name="tags_all">Все</string>
+    <string name="tags_clear">Очистить</string>
 </resources>

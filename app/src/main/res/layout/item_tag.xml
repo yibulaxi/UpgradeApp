@@ -2,20 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.chip.Chip
         android:id="@+id/chip"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
+        android:layout_marginBottom="2dp"
         android:textSize="12sp"
         android:text="3254"
         app:ensureMinTouchTargetSize="false"
         app:closeIcon="@drawable/ic_close"
         app:closeIconEnabled="true"
         android:layout_width="wrap_content"
-        android:layout_height="28dp"/>
+        android:layout_height="26dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

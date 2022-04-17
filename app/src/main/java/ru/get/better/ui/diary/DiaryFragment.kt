@@ -23,6 +23,9 @@ import com.aminography.primedatepicker.common.BackgroundShapeType
 import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.shuhart.stickyheader.StickyHeaderItemDecorator
 import com.takusemba.spotlight.Spotlight
@@ -48,6 +51,7 @@ import ru.get.better.model.getHabitsRealization
 import ru.get.better.ui.activity.main.ext.SecondaryViews
 import ru.get.better.ui.base.BaseFragment
 import ru.get.better.ui.diary.adapter.NotesAdapter
+import ru.get.better.ui.diary.adapter.filter.FilterTagsAdapter
 import ru.get.better.ui.diary.adapter.habits.HabitsAdapter
 import ru.get.better.ui.diary.adapter.viewpager.NotesPagerAdapter
 import ru.get.better.ui.welcome.WelcomeFragment
@@ -82,8 +86,16 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         )
     }
 
+    private val filterTagsBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.tagsBottomSheet.bottomSheetContainer)
+    }
+
     private val viewPagerBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.viewPagerBottomSheet.bottomSheetContainer)
+    }
+
+    private val filterTagsAdapter: FilterTagsAdapter by lazy {
+        FilterTagsAdapter()
     }
 
     private lateinit var adapter: NotesAdapter
@@ -110,6 +122,59 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                 setupLogic()
             }
         }
+    }
+
+    private fun setupFilterTags() {
+        if (userDiaryViewModel.filterData.allTags.isNullOrEmpty()) {
+            binding.filterTags.isVisible = false
+            return
+        }
+
+        binding.filterTags.isVisible = true
+
+        val lm = FlexboxLayoutManager(context)
+        lm.flexDirection = FlexDirection.ROW
+        lm.justifyContent = JustifyContent.FLEX_START
+
+        binding.tagsBottomSheet.tagsRecycler.layoutManager = lm
+
+        binding.tagsBottomSheet.tagsRecycler.adapter = filterTagsAdapter
+        filterTagsAdapter.createList(userDiaryViewModel.filterData.allTags?.toMutableList()?: mutableListOf())
+
+        binding.tagsBottomSheet.tagsCancel.setOnClickListener {
+            filterTagsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.tagsBottomSheet.tagsSubmit.setOnClickListener {
+            isRecreateNotesAdapter = true
+            lifecycleScope.launch {
+                userDiaryViewModel.updateFilteredNotes()
+            }
+            filterTagsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.tagsBottomSheet.tagsClear.setOnClickListener {
+            filterTagsAdapter.clearAll()
+        }
+
+        binding.tagsBottomSheet.tagsAll.setOnClickListener {
+            filterTagsAdapter.selectAll()
+        }
+
+        binding.tagsBottomSheet.tagsCancel.setTextColor(
+            requireContext().getColor(
+                com.aminography.primedatepicker.R.color.lightButtonBarNegativeTextColor
+            )
+        )
+
+        binding.tagsBottomSheet.tagsSubmit.setTextColor(
+            requireContext().getColor(
+                com.aminography.primedatepicker.R.color.lightButtonBarPositiveTextColor
+            )
+        )
+
+
+
     }
 
     private fun setupCalendarSheet() {
@@ -241,6 +306,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                     else R.color.colorLightCustomWheelHighlightBgSolid
                 )
 
+            override val actionBarNegativeTextColor: Int
+                get() = super.actionBarNegativeTextColor
         }
 
         val today = CivilCalendar()
@@ -374,6 +441,10 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
     }
 
     private fun setupLogic() {
+        userDiaryViewModel.setupTags {
+            setupFilterTags()
+        }
+
         userDiaryViewModel.resetFilter {
             isRecreateNotesAdapter = true
             setupDiary()
@@ -410,6 +481,29 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                 }
             }
         })
+
+        filterTagsBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.blur.alpha = slideOffset
+
+                if (!binding.blur.isVisible) {
+                    binding.blur.isVisible = true
+                }
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.blur.alpha = 0f
+                    binding.blur.isVisible = false
+                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    binding.blur.alpha = 1f
+                    binding.blur.isVisible = true
+                    EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
+                }
+            }
+        })
     }
 
     private var isRecreateNotesAdapter = false
@@ -419,7 +513,13 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         val habits = notes.filter { it.noteType == NoteType.Habit.id }.getHabitsRealization()
 
         Log.d("keke", "step3")
-        val allNotes = notesWithoutHabits.plus(habits)
+        val allNotes = notesWithoutHabits.plus(habits).filter {
+            when {
+                filterTagsAdapter.getSelectedItems().isNullOrEmpty() -> true
+                it.tags.isNullOrEmpty() -> false
+                else -> it.tags!!.any(filterTagsAdapter.getSelectedItems()::contains)
+            }
+        }
 
         lifecycleScope.launch(Dispatchers.IO) {
             when (userDiaryViewModel.filterData.noteType) {
@@ -553,8 +653,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                     }
                 }
 
-
-
             } else adapter.updateNotes(allNotes.toMutableList())
 
             pagerAdapter = NotesPagerAdapter(requireContext(), allNotes.toMutableList())
@@ -682,6 +780,65 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                     else R.color.colorLightBottomNavSelectorUnchecked
                 )
             )
+
+            binding.tagsBottomSheet.container.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.background_bottom_sheet_dark
+                else R.drawable.background_bottom_sheet_light
+            )
+
+            binding.tagsBottomSheet.viewHeader.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.snack_neutral_gradient_dark
+                else R.drawable.snack_neutral_gradient_light
+            )
+
+            binding.tagsBottomSheet.tagsCancel.text = App.resourcesProvider.getStringLocale(R.string.action_cancel)
+            binding.tagsBottomSheet.tagsSubmit.text = App.resourcesProvider.getStringLocale(R.string.action_select)
+            binding.tagsBottomSheet.tagsClear.text = App.resourcesProvider.getStringLocale(R.string.tags_clear)
+            binding.tagsBottomSheet.tagsAll.text = App.resourcesProvider.getStringLocale(R.string.tags_all)
+
+
+//            binding.tagsBottomSheet.tagsCancel.setTextColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryTitleText
+//                    else R.color.colorLightFragmentDiaryTitleText
+//                )
+//            )
+//
+//            binding.tagsBottomSheet.tagsSubmit.setTextColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryTitleText
+//                    else R.color.colorLightFragmentDiaryTitleText
+//                )
+//            )
+
+            binding.tagsBottomSheet.title.text = App.resourcesProvider.getStringLocale(R.string.tags_title)
+            binding.tagsBottomSheet.title.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentDiaryTitleText
+                    else R.color.colorLightFragmentDiaryTitleText
+                )
+            )
+
+            binding.tagsBottomSheet.tagsClear.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                    else R.color.colorLightBottomNavSelectorUnchecked
+                )
+            )
+
+            binding.tagsBottomSheet.tagsAll.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkBottomNavSelectorUnchecked
+                    else R.color.colorLightBottomNavSelectorUnchecked
+                )
+            )
         }
     }
 
@@ -695,6 +852,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
     fun onBackPressedEvent(e: BackPressedEvent) {
         if (viewPagerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
             viewPagerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        else if (filterTagsBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            filterTagsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun onItemInListSwiped(vh: RecyclerView.ViewHolder, swipeDirection: Int) {
@@ -854,12 +1013,18 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         }
 
         fun onBlurClicked(v: View) {
-            viewPagerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//            EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
+            if (viewPagerBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                viewPagerBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            else if (filterTagsBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                filterTagsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         fun onCalendarClicked(v: View) {
             setupCalendarSheet()
+        }
+
+        fun onTagsClicked(v: View) {
+            filterTagsBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 }
