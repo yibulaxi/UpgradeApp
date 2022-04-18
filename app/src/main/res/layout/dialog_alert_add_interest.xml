@@ -4,11 +4,12 @@
     android:id="@+id/addInterestContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--android:background="@color/colorLightDialogAlertAddInterestBackground"-->
+
     <ru.get.better.ui.view.CustomWheelPickerView
         android:id="@+id/icon"
         android:layout_width="80dp"
-        android:layout_height="120dp"
+        android:layout_height="160dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,9 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent" />
-    <!--    android:textColor="@color/colorLightDialogAlertAddInterestNameText"
-            android:textColorHint="@color/colorLightDialogAlertAddInterestNameHint"-->
-    <!--android:background="@drawable/bg_edittext_light"-->
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/interestDescription"
         style="@style/Text14.Light"
@@ -44,7 +43,7 @@
         android:layout_marginStart="12dp"
         android:gravity="start"
         android:letterSpacing="0.1"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionNext"
         android:maxLength="140"
         android:singleLine="false"
         android:minHeight="@dimen/list_item_double_line"
@@ -54,7 +53,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toBottomOf="@id/interestName" />
-    <!--    android:textColor="@color/colorLightDialogAlertAddInterestDescriptionText"
-            android:textColorHint="@color/colorLightDialogAlertAddInterestDescriptionHint"-->
-    <!--    android:background="@drawable/bg_edittext_light"-->
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/interestInitialValue"
+        style="@style/Text14.Light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:gravity="start"
+        android:imeOptions="actionDone"
+        android:letterSpacing="0.1"
+        android:maxLength="15"
+
+        android:inputType="numberDecimal|numberSigned"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toBottomOf="@id/interestDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

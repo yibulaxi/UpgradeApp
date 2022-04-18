@@ -39,16 +39,14 @@ class UserSettings(
     var locale: String? = null,
 
     @ColumnInfo(name = "isInterestsInitialized")
-    val isInterestsInitialized: Boolean? = true,
-
-    )
-
+    val isInterestsInitialized: Boolean? = true
+)
 
 fun UserSettings.getDifficultyValue(): Float {
     return when (difficulty?.toInt()) {
-        0 -> 0.3f
-        1 -> 0.1f
-        2 -> 0.05f
+        0 -> 0.1f
+        1 -> 0.06f
+        2 -> 0.03f
         else -> 0.01f
     }
 }

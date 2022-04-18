@@ -921,6 +921,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 tagsRecycler.layoutManager = lm
                 tagsRecycler.adapter = tagsAdapter
+
+                pointsDark.setSelectedIndex(
+                    when(e.note.changeOfPoints) {
+                        -1 -> 0
+                        0 -> 1
+                        else -> 2
+                    }, true
+                )
+
+                pointsLight.setSelectedIndex(
+                    when(e.note.changeOfPoints) {
+                        -1 -> 0
+                        0 -> 1
+                        else -> 2
+                    }, true
+                )
             }
         } else if (e.note.noteType == NoteType.Goal.id) {
             addGoalBehavior.state = BottomSheetBehavior.STATE_EXPANDED

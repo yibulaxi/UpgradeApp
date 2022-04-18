@@ -585,4 +585,6 @@
     <string name="tags_title">Метки</string>
     <string name="tags_all">Все</string>
     <string name="tags_clear">Очистить</string>
+
+    <string name="add_interest_initial_value">Начальное значение</string>
 </resources>

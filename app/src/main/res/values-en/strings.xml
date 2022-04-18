@@ -562,4 +562,6 @@
     <string name="tags_title">Tags</string>
     <string name="tags_all">All</string>
     <string name="tags_clear">Clear</string>
+
+    <string name="add_interest_initial_value">Initial value</string>
 </resources>

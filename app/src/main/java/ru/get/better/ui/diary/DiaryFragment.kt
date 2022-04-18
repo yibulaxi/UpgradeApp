@@ -172,13 +172,9 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
                 com.aminography.primedatepicker.R.color.lightButtonBarPositiveTextColor
             )
         )
-
-
-
     }
 
     private fun setupCalendarSheet() {
-
         val themeFactory = object : LightThemeFactory() {
 
             override val dialogBackgroundColor: Int
@@ -345,7 +341,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
 
         val dialog = datePicker.build()
         dialog.show(childFragmentManager, "calendar")
-
     }
 
     private fun setupNoteTypesBar() {

@@ -63,8 +63,14 @@ class NotesViewHolder(
         binding.noteType.imageTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
                 context,
-                if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteNoteTypeTint
-                else R.color.colorLightItemNoteNoteTypeTint
+                when(note.changeOfPoints) {
+                    -1 -> com.aminography.primedatepicker.R.color.lightButtonBarNegativeTextColor
+                    1 -> com.aminography.primedatepicker.R.color.lightButtonBarPositiveTextColor
+                    else -> {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkItemNoteNoteTypeTint
+                        else R.color.colorLightItemNoteNoteTypeTint
+                    }
+                }
             )
         )
 

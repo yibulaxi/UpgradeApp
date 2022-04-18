@@ -1,6 +1,7 @@
 package ru.get.better.vm
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -138,8 +139,11 @@ class UserInterestsViewModel @Inject constructor(
                 if (userInterest.currentValue!! < 0f) userInterest.currentValue = 0f
 
                 App.database.userInterestsDao().update(userInterest)
+
 //                updateInterestsLiveData()
             }
+        }.invokeOnCompletion {
+            viewModelScope.launch { EventBus.getDefault().post(UpdateMetricsEvent(true)) }
         }
     }
 

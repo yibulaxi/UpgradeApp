@@ -19,7 +19,6 @@
             android:value="null" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomSheetContainer"
         android:layout_width="match_parent"
@@ -107,7 +106,112 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/interestName" />
 
+                        <com.alanvan.segmented_control.SegmentedControlGroup
+                            android:id="@+id/pointsDark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/colorDarkFragmentMetricStateControlGroupBackgroundTint"
+                            app:customDividerColor="@color/colorDarkFragmentMetricStateControlGroupCustomDivider"
+                            app:customShadowColor="@color/colorDarkFragmentMetricStateControlGroupCustomShadow"
+                            app:customSliderColor="@color/colorDarkFragmentMetricStateControlGroupCustomSlider"
+                            app:layout_constraintStart_toStartOf="@id/interestName"
+                            app:layout_constraintTop_toBottomOf="@id/date"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
 
+                            <com.alanvan.segmented_control.SegmentedControlButton
+                                android:id="@+id/negativePointDark"
+                                android:text="-"
+                                android:layout_gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:letterSpacing="0.2"
+                                android:lines="1"
+                                android:layout_width="48dp"
+                                android:layout_height="16dp"/>
+
+                            <com.alanvan.segmented_control.SegmentedControlButton
+                                android:id="@+id/neutralPointDark"
+                                android:text="0"
+                                android:layout_gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:letterSpacing="0.2"
+                                android:lines="1"
+                                android:layout_width="48dp"
+                                android:layout_height="16dp"/>
+
+                            <com.alanvan.segmented_control.SegmentedControlButton
+                                android:id="@+id/positivePointDark"
+                                android:text="+"
+                                android:layout_gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:letterSpacing="0.2"
+                                android:lines="1"
+                                android:layout_width="48dp"
+                                android:layout_height="16dp"/>
+
+                        </com.alanvan.segmented_control.SegmentedControlGroup>
+                        <com.alanvan.segmented_control.SegmentedControlGroup
+                            android:id="@+id/pointsLight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/colorLightFragmentMetricRadarStateControlGroupBackgroundTint"
+                            app:customDividerColor="@color/colorLightFragmentMetricRadarStateControlGroupCustomDivider"
+                            app:customShadowColor="@color/colorLightFragmentMetricRadarStateControlGroupCustomShadow"
+                            app:customSliderColor="@color/colorLightFragmentMetricRadarStateControlGroupCustomSlider"
+                            app:layout_constraintStart_toStartOf="@id/interestName"
+                            app:layout_constraintTop_toBottomOf="@id/date"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+
+                            <com.alanvan.segmented_control.SegmentedControlButton
+                                android:id="@+id/negativePointLight"
+                                android:text="-"
+                                android:layout_gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:letterSpacing="0.2"
+                                android:lines="1"
+                                android:layout_width="48dp"
+                                android:layout_height="16dp"/>
+
+                            <com.alanvan.segmented_control.SegmentedControlButton
+                                android:id="@+id/neutralPointLight"
+                                android:text="0"
+                                android:layout_gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:letterSpacing="0.2"
+                                android:lines="1"
+                                android:layout_width="48dp"
+                                android:layout_height="16dp"/>
+
+                            <com.alanvan.segmented_control.SegmentedControlButton
+                                android:id="@+id/positivePointLight"
+                                android:text="+"
+                                android:layout_gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:letterSpacing="0.2"
+                                android:lines="1"
+                                android:layout_width="48dp"
+                                android:layout_height="16dp"/>
+
+                        </com.alanvan.segmented_control.SegmentedControlGroup>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ru.get.better.ui.view.CustomWheelPickerView

@@ -454,6 +454,44 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addPostBottomSheet.editText.requestFocus()
 
             selectedDiffPointToAddPost = 0
+            binding.addPostBottomSheet.pointsDark.setSelectedIndex(1, false)
+            binding.addPostBottomSheet.pointsLight.setSelectedIndex(1, false)
+
+            binding.addPostBottomSheet.negativePointDark.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                else R.color.colorLightMetricControlGroupInactiveText
+            ))
+
+            binding.addPostBottomSheet.neutralPointDark.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                else R.color.colorLightMetricControlGroupActiveText
+            ))
+
+            binding.addPostBottomSheet.positivePointDark.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                else R.color.colorLightMetricControlGroupInactiveText
+            ))
+
+            binding.addPostBottomSheet.negativePointLight.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                else R.color.colorLightMetricControlGroupInactiveText
+            ))
+
+            binding.addPostBottomSheet.neutralPointLight.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                else R.color.colorLightMetricControlGroupActiveText
+            ))
+
+            binding.addPostBottomSheet.positivePointLight.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                else R.color.colorLightMetricControlGroupInactiveText
+            ))
 
             mediaAdapter = AddPostMediaAdapter(context, arrayListOf(), glideRequestManager)
             binding.addPostBottomSheet.mediaRecycler.adapter = mediaAdapter
@@ -472,7 +510,7 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addTrackerBottomSheet.editText.setText("")
             binding.addTrackerBottomSheet.editText.requestFocus()
 
-            selectedDiffPointToAddPost = 0
+            selectedDiffPointToAddPost = 1
 
             tagsAdapter.createList(mutableListOf())
         }
@@ -488,7 +526,7 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addGoalBottomSheet.editText.setText("")
             binding.addGoalBottomSheet.editText.requestFocus()
 
-            selectedDiffPointToAddPost = 0
+            selectedDiffPointToAddPost = 1
 
             tagsAdapter.createList(mutableListOf())
         }
@@ -505,7 +543,7 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
             binding.addHabitBottomSheet.editAmount.setText("")
             binding.addHabitBottomSheet.editText.requestFocus()
 
-            selectedDiffPointToAddPost = 0
+            selectedDiffPointToAddPost = 1
 
             tagsAdapter.createList(mutableListOf())
         }
@@ -704,6 +742,139 @@ fun MainActivity.setupAddPostBottomSheet() {
                     else R.color.colorLightViewPostAddTvMessageText
                 )
             )
+
+            negativePointDark.textSize = 12f
+            neutralPointDark.textSize = 12f
+            positivePointDark.textSize = 12f
+            negativePointLight.textSize = 12f
+            neutralPointLight.textSize = 12f
+            positivePointLight.textSize = 12f
+
+            pointsDark.isVisible = App.preferences.isDarkTheme
+            pointsLight.isVisible = !App.preferences.isDarkTheme
+
+            negativePointDark.setTextColor(ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                    else R.color.colorLightMetricControlGroupInactiveText
+                ))
+
+            neutralPointDark.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                else R.color.colorLightMetricControlGroupActiveText
+            ))
+
+            positivePointDark.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                else R.color.colorLightMetricControlGroupInactiveText
+            ))
+
+            negativePointLight.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                else R.color.colorLightMetricControlGroupInactiveText
+            ))
+
+            neutralPointLight.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                else R.color.colorLightMetricControlGroupActiveText
+            ))
+
+            positivePointLight.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                else R.color.colorLightMetricControlGroupInactiveText
+            ))
+
+            pointsDark.setOnSelectedOptionChangeCallback {
+                negativePointDark.setTextColor(ContextCompat.getColor(
+                    context,
+                    if (it == 0) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                        else R.color.colorLightMetricControlGroupActiveText
+                    } else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                        else R.color.colorLightMetricControlGroupInactiveText
+                    }
+                ))
+
+                neutralPointDark.setTextColor(ContextCompat.getColor(
+                    context,
+                    if (it == 1) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                        else R.color.colorLightMetricControlGroupActiveText
+                    } else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                        else R.color.colorLightMetricControlGroupInactiveText
+                    }
+                ))
+
+                positivePointDark.setTextColor(ContextCompat.getColor(
+                    context,
+                    if (it == 2) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                        else R.color.colorLightMetricControlGroupActiveText
+                    } else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                        else R.color.colorLightMetricControlGroupInactiveText
+                    }
+                ))
+
+                selectedDiffPointToAddPost =
+                    when(it) {
+                        0 -> -1
+                        1 -> 0
+                        else -> 1
+                    }
+            }
+
+            pointsLight.setOnSelectedOptionChangeCallback {
+                negativePointLight.setTextColor(ContextCompat.getColor(
+                    context,
+                    if (it == 0) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                        else R.color.colorLightMetricControlGroupActiveText
+                    } else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                        else R.color.colorLightMetricControlGroupInactiveText
+                    }
+                ))
+
+                neutralPointLight.setTextColor(ContextCompat.getColor(
+                    context,
+                    if (it == 1) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                        else R.color.colorLightMetricControlGroupActiveText
+                    } else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                        else R.color.colorLightMetricControlGroupInactiveText
+                    }
+                ))
+
+                positivePointLight.setTextColor(ContextCompat.getColor(
+                    context,
+                    if (it == 2) {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupActiveText
+                        else R.color.colorLightMetricControlGroupActiveText
+                    } else {
+                        if (App.preferences.isDarkTheme) R.color.colorDarkMetricControlGroupInactiveText
+                        else R.color.colorLightMetricControlGroupInactiveText
+                    }
+                ))
+
+                selectedDiffPointToAddPost =
+                    when(it) {
+                        0 -> -1
+                        1 -> 0
+                        else -> 1
+                    }
+            }
+
+            binding.addPostBottomSheet.pointsDark.setSelectedIndex(1, false)
+            binding.addPostBottomSheet.pointsLight.setSelectedIndex(1, false)
 
             GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                 userInterestsViewModel.getInterestsLiveData()
@@ -1027,7 +1198,6 @@ fun MainActivity.setupAddGoalBottomSheet() {
                     }
                 })
             }
-
 
             icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
                 override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {

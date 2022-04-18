@@ -176,7 +176,7 @@
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.3203125" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.35833333333333334" />
-        <entry key="app/src/main/res/layout/fragment_metric.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/fragment_metric.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_welcome.xml" value="0.25" />
@@ -216,7 +216,7 @@
         <entry key="app/src/main/res/layout/view_goal_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_habit_add.xml" value="0.16" />
         <entry key="app/src/main/res/layout/view_notes_viewpager.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/view_post_add.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/view_post_add.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_select_note_type.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_snackbar_simple.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_tracker_add.xml" value="0.1" />

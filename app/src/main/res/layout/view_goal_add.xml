@@ -106,8 +106,6 @@
                         android:layout_marginTop="12dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/interestName" />
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ru.get.better.ui.view.CustomWheelPickerView

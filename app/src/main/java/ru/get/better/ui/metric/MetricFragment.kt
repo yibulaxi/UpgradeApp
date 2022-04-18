@@ -63,6 +63,12 @@ import ru.get.better.vm.*
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import java.util.*
 import kotlin.collections.ArrayList
+import ru.get.better.util.InputFilterMinMax
+
+import android.text.InputFilter
+
+
+
 
 
 class MetricFragment : BaseFragment<FragmentMetricBinding>(
@@ -114,7 +120,6 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
                 }
             }
         }
-
     }
 
     private fun setupLogic() {
@@ -339,7 +344,6 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
             }, 1500)
 
         }
-
     }
 
     private fun showWheelSpotlight() {
@@ -621,6 +625,9 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
             R.string.add_interest_description,
             App.preferences.locale
         )
+        view.interestInitialValue.hint = App.resourcesProvider.getStringLocale(
+            R.string.add_interest_initial_value
+        )
 
         view.addInterestContainer.setBackgroundColor(
             ContextCompat.getColor(
@@ -641,6 +648,27 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameText
                 else R.color.colorLightDialogAlertAddInterestNameText
+            )
+        )
+
+        view.interestInitialValue.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+            else R.drawable.bg_edittext_light
+        )
+        view.interestInitialValue.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestNameHint
+                else R.color.colorLightDialogAlertAddInterestNameHint
+            )
+        )
+
+        view.interestInitialValue.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.colorDarkDialogAlertAddInterestDescriptionText
+                else R.color.colorLightDialogAlertAddInterestDescriptionText
             )
         )
 
@@ -681,6 +709,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
 
         view.icon.isHapticFeedbackEnabled = true
 
+        view.interestInitialValue.filters = arrayOf<InputFilter>(InputFilterMinMax("0.0", "10.0"))
+
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 when {
@@ -694,8 +724,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
                                 .toString(),
                             name = view.interestName.text.toString(),
                             description = view.interestDescription.text.toString(),
-                            startValue = 5f,
-                            currentValue = 5f,
+                            startValue = view.interestInitialValue.text.toString().toFloat(),
+                            currentValue = view.interestInitialValue.text.toString().toFloat(),
                             logoId = iconValues[view.icon.selectedIndex].id,
                             dateLastUpdate = System.currentTimeMillis().toString()
                         )
