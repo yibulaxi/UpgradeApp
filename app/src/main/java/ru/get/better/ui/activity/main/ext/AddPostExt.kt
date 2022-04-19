@@ -1149,6 +1149,21 @@ fun MainActivity.setupAddGoalBottomSheet() {
                 )
             )
 
+            tagsContainer.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+                else R.drawable.bg_edittext_light
+            )
+
+            val lm = FlexboxLayoutManager(context)
+            lm.flexDirection = FlexDirection.ROW
+            lm.justifyContent = JustifyContent.FLEX_START
+
+            tagsRecycler.layoutManager = lm
+
+            tagsRecycler.adapter = tagsAdapter
+            tagsAdapter.createList(mutableListOf())
+
             GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                 userInterestsViewModel.getInterestsLiveData()
                     .observe(this@setupAddGoalBottomSheet) { interests ->
@@ -1405,6 +1420,21 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                     else R.color.colorLightViewPostAddTvMessageText
                 )
             )
+
+            tagsContainer.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+                else R.drawable.bg_edittext_light
+            )
+
+            val lm = FlexboxLayoutManager(context)
+            lm.flexDirection = FlexDirection.ROW
+            lm.justifyContent = JustifyContent.FLEX_START
+
+            tagsRecycler.layoutManager = lm
+
+            tagsRecycler.adapter = tagsAdapter
+            tagsAdapter.createList(mutableListOf())
 
             GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                 userInterestsViewModel.getInterestsLiveData()
@@ -1824,6 +1854,21 @@ fun MainActivity.setupAddHabitBottomSheet() {
                     else R.color.colorLightViewPostAddTvMessageText
                 )
             )
+
+            tagsContainer.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_edittext_dark
+                else R.drawable.bg_edittext_light
+            )
+
+            val lm = FlexboxLayoutManager(context)
+            lm.flexDirection = FlexDirection.ROW
+            lm.justifyContent = JustifyContent.FLEX_START
+
+            tagsRecycler.layoutManager = lm
+
+            tagsRecycler.adapter = tagsAdapter
+            tagsAdapter.createList(mutableListOf())
 
             regularityControlGroupDark.isVisible = App.preferences.isDarkTheme
             regularityControlGroupLight.isVisible = !App.preferences.isDarkTheme

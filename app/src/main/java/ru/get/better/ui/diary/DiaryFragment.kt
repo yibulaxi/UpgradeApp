@@ -448,6 +448,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         setupNoteTypesBar()
 
         binding.filterSearch.addTextChangedListener {
+            isRecreateNotesAdapter = true
             lifecycleScope.launch {
                 userDiaryViewModel.filterData.pattern = it.toString()
                 userDiaryViewModel.updateFilteredNotes()
