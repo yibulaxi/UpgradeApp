@@ -254,7 +254,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         setupInitTheme()
         setupLocale()
 
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             navController =
                 (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
             val navGraph = navController!!.navInflater.inflate(R.navigation.mobile_navigation)
@@ -295,7 +295,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             if (!App.preferences.uid.isNullOrEmpty() && App.preferences.isInterestsInitialized)
                 setupNavMenu()
-        }
+//        }
     }
 
     private fun setupLocale() {

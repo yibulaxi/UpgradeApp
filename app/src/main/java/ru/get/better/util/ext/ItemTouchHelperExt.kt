@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.get.better.App
 import ru.get.better.R
 import ru.get.better.model.NoteType
+import ru.get.better.ui.diary.adapter.HeaderViewHolder
 import ru.get.better.ui.diary.adapter.NotesAdapter
 
 fun RecyclerView.setUpRemoveItemTouchHelper(
@@ -61,6 +62,10 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
             viewHolder: RecyclerView.ViewHolder
         ): Int {
             val position = viewHolder.adapterPosition
+
+            if (viewHolder is HeaderViewHolder)
+                return ItemTouchHelper.ACTION_STATE_IDLE
+
             val conversationModel = (recyclerView.adapter as NotesAdapter).getNoteAt(position)
             val canSwipe = conversationModel.noteType != NoteType.HabitRealization.id
             return if (canSwipe) super.getSwipeDirs(

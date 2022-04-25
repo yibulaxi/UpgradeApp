@@ -1214,18 +1214,6 @@ fun MainActivity.setupAddGoalBottomSheet() {
                 })
             }
 
-            icon.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
-                override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
-                    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-                        interestName.text = userInterestsViewModel.getInterestsByUserId()
-                            .first { it.interestId == icon.adapter.values.getOrNull(index)?.id }.name
-
-                        selectedInterestIdToAddPost =
-                            icon.adapter.values.getOrNull(index)?.id.toString()
-                    }
-                }
-            })
-
             val currentDate = SimpleDateFormat(
                 "dd MMMM, EEEE",
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) resources.configuration.locales[0]

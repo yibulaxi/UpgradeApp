@@ -67,10 +67,6 @@ import ru.get.better.util.InputFilterMinMax
 
 import android.text.InputFilter
 
-
-
-
-
 class MetricFragment : BaseFragment<FragmentMetricBinding>(
     R.layout.fragment_metric,
     Handler::class
@@ -106,12 +102,13 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
         EventBus.getDefault().post(ChangeProgressStateEvent(true))
         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
 
-        setupChart()
+
         lifecycleScope.launch(Dispatchers.IO) {
             Thread.sleep(500)
         }.invokeOnCompletion {
             lifecycleScope.launch(Dispatchers.Main) {
                 if (isAdded) {
+                    setupChart()
                     setupLogic()
 
                     android.os.Handler().postDelayed({
@@ -1247,23 +1244,25 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
             val interests = userInterestsViewModel.getInterestsByUserId()
 
             for (i in interests.indices) {
-                val val0 = 12f
-                val radarEntryIcon = RadarEntry(val0)
+                if (isAdded) {
+                    val val0 = 12f
+                    val radarEntryIcon = RadarEntry(val0)
 
-                val bMap = BitmapFactory.decodeResource(
-                    resources,
-                    AllLogo().getLogoById(interests[i].logoId.toString())
-                )
-                val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
+                    val bMap = BitmapFactory.decodeResource(
+                        requireActivity().resources,
+                        AllLogo().getLogoById(interests[i].logoId.toString())
+                    )
+                    val bMapScaled = Bitmap.createScaledBitmap(bMap, 60, 60, true)
 
-                radarEntryIcon.icon = BitmapDrawable(resources, bMapScaled)
-                icons.add(radarEntryIcon)
+                    radarEntryIcon.icon = BitmapDrawable(requireActivity().resources, bMapScaled)
+                    icons.add(radarEntryIcon)
 
-                val val1 = interests[i].currentValue
-                entries1.add(RadarEntry(val1!!))
+                    val val1 = interests[i].currentValue
+                    entries1.add(RadarEntry(val1!!))
 
-                val val2 = interests[i].startValue
-                entries2.add(RadarEntry(val2!!))
+                    val val2 = interests[i].startValue
+                    entries2.add(RadarEntry(val2!!))
+                }
             }
 
 

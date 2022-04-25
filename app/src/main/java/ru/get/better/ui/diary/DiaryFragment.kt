@@ -517,7 +517,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
             }
         }
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.Main) {
             when (userDiaryViewModel.filterData.noteType) {
                 NoteType.All.id -> {
                     binding.noteTypesBar.menu.findItemById(R.id.filter_all_notes).notification()
@@ -693,7 +693,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         if (::pagerAdapter.isInitialized)
             pagerAdapter.notifyDataSetChanged()
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.Main) {
 
             binding.container.setBackgroundColor(
                 ContextCompat.getColor(

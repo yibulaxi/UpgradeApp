@@ -47,7 +47,7 @@ class NotificationHelper(private val mContext: Context) {
         val resultPendingIntent = PendingIntent.getActivity(
             mContext,
             2 /* Request code */, resultIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE + PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val icon = AllLogo().getRandomLogo()
