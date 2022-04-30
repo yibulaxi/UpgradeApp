@@ -66,6 +66,7 @@ import kotlin.collections.ArrayList
 import ru.get.better.util.InputFilterMinMax
 
 import android.text.InputFilter
+import android.util.Log
 
 class MetricFragment : BaseFragment<FragmentMetricBinding>(
     R.layout.fragment_metric,
@@ -344,6 +345,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
     }
 
     private fun showWheelSpotlight() {
+        if (!isAdded) return
+
         val wheelTargetLayout =
             layoutInflater.inflate(R.layout.target_metric_wheel, FrameLayout(requireContext()))
 
@@ -707,6 +710,7 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
         view.icon.isHapticFeedbackEnabled = true
 
         view.interestInitialValue.filters = arrayOf<InputFilter>(InputFilterMinMax("0.0", "10.0"))
+        view.interestInitialValue.setText(5f.toString())
 
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
@@ -939,14 +943,21 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
             binding.diaryAmount.text = notes.size.toString()
         }
 
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-            userSettingsViewModel
-                .getUserSettingsById(App.preferences.uid!!)?.let {
-                    binding.daysAmount.text =
-                        ((System.currentTimeMillis() - (it.dateRegistration
-                            ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
-                            .toString()
-                }
+        lifecycleScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            val userSettings = userSettingsViewModel.getUserSettingsById(App.preferences.uid!!)
+            binding.daysAmount.text =
+                ((System.currentTimeMillis() - (userSettings?.dateRegistration
+                    ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
+                    .toString()
+//            userSettingsViewModel
+//                .getUserSettingsById(App.preferences.uid!!)?.let {
+//                    Log.d("keke_1", System.currentTimeMillis().toString())
+//                    Log.d("keke_2", it.dateRegistration.toString())
+//                    binding.daysAmount.text =
+//                        ((System.currentTimeMillis() - (it.dateRegistration
+//                            ?: "0").toLong()) / 1000 / 60 / 60 / 24).toInt()
+//                            .toString()
+//                }
         }
 
         binding.list.animate()

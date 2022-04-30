@@ -19,8 +19,8 @@ android {
         applicationId "ru.get.better"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 13
-        versionName "3.1.7"
+        versionCode 14
+        versionName "3.1.8"
 
         resConfigs "en", "ru"
     }

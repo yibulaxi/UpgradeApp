@@ -62,7 +62,7 @@ class AchievementsFragment : BaseFragment<FragmentAchievementsBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.Main) {
             binding.lvlTitle.text =
                 App.resourcesProvider.getStringLocale(R.string.level, App.preferences.locale)
             binding.efficiencyTitle.text =
@@ -155,6 +155,7 @@ class AchievementsFragment : BaseFragment<FragmentAchievementsBinding>(
             override fun instantiateItem(container: ViewGroup, position: Int): Any {
                 return when (position) {
                     0 -> {
+
                         val view = layoutInflater.inflate(R.layout.item_task, null)
 
                         view.taskTitle.text =

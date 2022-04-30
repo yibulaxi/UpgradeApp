@@ -262,25 +262,36 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             navGraph.startDestination = if (App.preferences.uid.isNullOrEmpty()) {
                 App.preferences.uid = System.currentTimeMillis().toString()
 
-                GlobalScope.launch(Dispatchers.IO) {
+//                GlobalScope.launch(Dispatchers.IO) {
                     val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
 
-                    EventBus.getDefault()
-                        .post(
-                            InitUserSettingsEvent(
-                                userId = App.preferences.uid!!,
-                                login = App.preferences.uid!!,
-                                locale =
-                                if (
-                                    locale == "ru"
-                                    || locale == "ua"
-                                    || locale == "kz"
-                                    || locale == "be"
-                                    || locale == "uk"
-                                ) "ru" else "en"
-                            )
-                        )
-                }
+                userSettingsViewModel.initUserSettings(
+                    App.preferences.uid!!,
+                    App.preferences.uid!!,
+                    if (
+                        locale == "ru"
+                        || locale == "ua"
+                        || locale == "kz"
+                        || locale == "be"
+                        || locale == "uk"
+                    ) "ru" else "en"
+                )
+//                    EventBus.getDefault()
+//                        .post(
+//                            InitUserSettingsEvent(
+//                                userId = App.preferences.uid!!,
+//                                login = App.preferences.uid!!,
+//                                locale =
+//                                if (
+//                                    locale == "ru"
+//                                    || locale == "ua"
+//                                    || locale == "kz"
+//                                    || locale == "be"
+//                                    || locale == "uk"
+//                                ) "ru" else "en"
+//                            )
+//                        )
+//                }
 
                 R.id.navigation_welcome
             } else {

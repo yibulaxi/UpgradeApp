@@ -52,6 +52,30 @@ class UserSettingsViewModel @Inject constructor() : BaseViewModel() {
         updateDifficulty(e.difficulty)
     }
 
+    fun initUserSettings(
+        userId: String,
+        login: String,
+        locale: String
+    ) {
+        GlobalScope.launch {
+            val userSettings = UserSettings(
+                userId = userId,
+                authType = 1.toString(),
+                login = login,
+                password = "",
+                difficulty = 1.toString(),
+                greeting = login,
+                dateRegistration = System.currentTimeMillis().toString(),
+                dateLastLogin = System.currentTimeMillis().toString(),
+                avatar = "",
+                locale = locale,
+                isInterestsInitialized = false,
+            )
+
+            App.database.userSettingsDao().insert(userSettings)
+        }
+    }
+
     @Subscribe
     fun onInitUserSettingsEvent(e: InitUserSettingsEvent) {
         GlobalScope.launch {
