@@ -101,7 +101,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
             userSettingsViewModel
                 .getUserSettingsById(App.preferences.uid!!)?.let {
-                    binding.name.text = it.login
+//                    binding.name.text = it.login
 
                     currentDifficulty = it.difficulty!!.toInt()
                     binding.difficultySpinner.selectItemByIndex(currentDifficulty)
@@ -446,6 +446,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     private fun updateTheme(
         withAnimation: Boolean
     ) {
+
         binding.separatorTheme.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -687,10 +688,21 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
                 binding.userBlock.backgroundTintList = ColorStateList.valueOf(
                     it.animatedValue.toString().toInt()
                 )
+                binding.achievementsBlock.backgroundTintList = ColorStateList.valueOf(
+                    it.animatedValue.toString().toInt()
+                )
             }
             userBlockBackgroundTintAnimation.start()
         } else {
             binding.userBlock.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsUserBlockBackgroundTint
+                    else R.color.colorLightFragmentSettingsUserBlockBackgroundTint
+                )
+            )
+
+            binding.achievementsBlock.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsUserBlockBackgroundTint
@@ -715,17 +727,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             )
             nameTextColorAnimation.duration = updateThemeDuration
             nameTextColorAnimation.addUpdateListener {
-                binding.name.setTextColor(it.animatedValue.toString().toInt())
+//                binding.name.setTextColor(it.animatedValue.toString().toInt())
             }
             nameTextColorAnimation.start()
         } else {
-            binding.name.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
-                    else R.color.colorLightFragmentSettingsPushTitleText
-                )
-            )
+//            binding.name.setTextColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    if (App.preferences.isDarkTheme) R.color.colorDarkFragmentSettingsPushTitleText
+//                    else R.color.colorLightFragmentSettingsPushTitleText
+//                )
+//            )
         }
 
         if (withAnimation) {
@@ -1010,6 +1022,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     }
 
     inner class Handler {
+
+        fun onAchievementsClicked(v: View) {
+            Navigator.toAchievements(this@SettingsFragment)
+        }
 
         fun onFaqBlockClicked(v: View) {
             Navigator.fromSettingsToFaq(this@SettingsFragment)

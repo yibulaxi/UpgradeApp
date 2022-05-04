@@ -90,6 +90,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     val userDiaryViewModel: UserDiaryViewModel by viewModels { viewModelFactory }
     val userAchievementsViewModel: UserAchievementsViewModel by viewModels { viewModelFactory }
     val affirmationsViewModel: AffirmationsViewModel by viewModels { viewModelFactory }
+    val articlesViewModel: ArticlesViewModel by viewModels { viewModelFactory }
 
     private var navController: NavController? = null
 
@@ -825,7 +826,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
 
             binding.navView.menu.getItem(3).setOnMenuItemClickListener {
-                navController!!.navigate(R.id.navigation_achievements, null, options)
+//                navController!!.navigate(R.id.navigation_achievements, null, options)
+                navController!!.navigate(R.id.navigation_articles, null, options)
                 return@setOnMenuItemClickListener true
             }
 

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="ru.get.better.ui.articles.ArticlesFragment.Handler" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            tools:context=".ui.activity.main.MainActivity">
+            <!--android:background="@color/colorFragmentDiaryBackground"-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title"
+                    style="@style/Text24.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:letterSpacing="0.2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/info"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="16dp"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{handler::onInfoClicked}"
+                    android:src="@drawable/ic_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <github.com.st235.lib_expandablebottombar.ExpandableBottomBar
+                    android:id="@+id/typesBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:layout_marginVertical="16dp"
+                    app:exb_itemBackgroundCornerRadius="6dp"
+                    app:exb_itemInactiveColor="#8092a0"
+                    app:exb_item_horizontal_margin="5dp"
+                    app:exb_item_horizontal_padding="10dp"
+                    app:exb_item_vertical_margin="5dp"
+
+                    app:exb_elevation="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/title"
+                    app:layout_constraintEnd_toStartOf="@id/amountCard"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/amountCard"
+                    app:layout_constraintTop_toTopOf="@id/typesBar"
+                    app:layout_constraintBottom_toBottomOf="@id/typesBar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:animateLayoutChanges="true"
+                    android:layout_width="wrap_content"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="6dp"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:id="@+id/amountArticles"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textSize="14sp"
+                        android:paddingHorizontal="12dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:fadeScrollbars="true"
+                    android:fadingEdge="vertical"
+                    android:requiresFadingEdge="vertical"
+                    android:id="@+id/recycler"
+                    android:transitionGroup="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="72dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/typesBar" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/viewArticle"
+            android:visibility="gone"
+            layout="@layout/view_article"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

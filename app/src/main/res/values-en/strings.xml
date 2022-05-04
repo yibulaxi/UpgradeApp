@@ -151,6 +151,7 @@
     <string name="signin_error">Authorisation Error</string>
     <string name="soon">Soon</string>
     <string name="diary">Diary</string>
+    <string name="articles">Articles</string>
     <string name="diary_empty_text">This is where your diary posts will be. Each of them will pump your wheel of life. Try adding the first entry</string>
     <string name="wheel">Wheel</string>
     <string name="list">List</string>
@@ -564,4 +565,8 @@
     <string name="tags_clear">Clear</string>
 
     <string name="add_interest_initial_value">Initial value</string>
+
+    <string name="articles_short">Short</string>
+    <string name="articles_mid">Medium</string>
+    <string name="articles_long">Long</string>
 </resources>

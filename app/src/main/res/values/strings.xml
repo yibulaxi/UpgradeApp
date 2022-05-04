@@ -166,6 +166,7 @@
     <string name="signin_error">Ошибка авторизации</string>
     <string name="soon">Скоро</string>
     <string name="diary">Дневник</string>
+    <string name="articles">Статьи</string>
     <string name="diary_empty_text">Здесь будут посты твоего дневника. Каждый из них будет прокачивать твое колесо жизни. Попробуй добавить первую запись</string>
     <string name="wheel">Колесо</string>
     <string name="list">Список</string>
@@ -587,4 +588,8 @@
     <string name="tags_clear">Очистить</string>
 
     <string name="add_interest_initial_value">Начальное значение</string>
+
+    <string name="articles_short">Короткие</string>
+    <string name="articles_mid">Средние</string>
+    <string name="articles_long">Длинные</string>
 </resources>

@@ -11,4 +11,8 @@
     <item name="filter_trackers" type="id"/>
     <item name="filter_goals" type="id"/>
     <item name="filter_habits" type="id"/>
+
+    <item name="filter_articles_short" type="id"/>
+    <item name="filter_articles_mid" type="id"/>
+    <item name="filter_articles_long" type="id"/>
 </resources>

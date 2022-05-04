@@ -17,9 +17,14 @@
         android:title="" />
 
     <item
-        android:id="@+id/navigation_achievements"
-        android:icon="@drawable/achievements"
+        android:id="@+id/navigation_articles"
+        android:icon="@drawable/ic_article"
         android:title="" />
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_achievements"-->
+<!--        android:icon="@drawable/achievements"-->
+<!--        android:title="" />-->
 
     <item
         android:id="@+id/navigation_settings"

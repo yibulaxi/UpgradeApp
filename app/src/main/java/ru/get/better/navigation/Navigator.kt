@@ -65,4 +65,20 @@ object Navigator {
             null, options
         )
     }
+
+    fun toAchievements(f: Fragment) {
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.open_from_top)
+            .setExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopEnterAnim(R.anim.open_from_top)
+            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
+            .setPopUpTo(f.findNavController().graph.startDestination, false)
+            .build()
+
+        f.findNavController().navigate(
+            R.id.navigation_achievements,
+            null, options
+        )
+    }
 }

@@ -14,6 +14,7 @@ import lv.chi.photopicker.ChiliPhotoPicker
 import ru.get.better.di.AppModule
 import ru.get.better.di.DaggerAppComponent
 import ru.get.better.repo.databases.AppDatabase
+import ru.get.better.repo.databases.ArticlesDatabase
 import ru.get.better.rest.di.RetrofitModule
 import ru.get.better.util.GlideImageLoader
 import ru.get.better.util.Preferences
@@ -36,16 +37,13 @@ class App : DaggerApplication() {
         preferences = Preferences(this@App)
         resourcesProvider = ResourcesProvider(this@App)
         database = AppDatabase(this@App)
+        articlesDatabase = ArticlesDatabase(this@App)
 
         GlobalScope.launch(Dispatchers.IO, CoroutineStart.DEFAULT) {
-
-
             ChiliPhotoPicker.init(
                 loader = GlideImageLoader(),
                 authority = "ru.get.better.fileprovider"
             )
-
-
         }
 
 
@@ -92,6 +90,8 @@ class App : DaggerApplication() {
         lateinit var instance: App
         lateinit var preferences: Preferences
         lateinit var database: AppDatabase
+        lateinit var articlesDatabase: ArticlesDatabase
+
 
         @SuppressLint("StaticFieldLeak")
         lateinit var resourcesProvider: ResourcesProvider

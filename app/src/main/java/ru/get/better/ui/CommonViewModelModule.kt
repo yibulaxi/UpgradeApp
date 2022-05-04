@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.get.better.di.scope.ViewModelKey
+import ru.get.better.vm.ArticlesViewModel
 import ru.get.better.ui.welcome.WelcomeViewModel
 import ru.get.better.vm.*
 
@@ -45,5 +46,10 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(AffirmationsViewModel::class)
     fun affirmationsViewModel(m: AffirmationsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ArticlesViewModel::class)
+    fun articlesViewModel(m: ArticlesViewModel): ViewModel
 
 }
