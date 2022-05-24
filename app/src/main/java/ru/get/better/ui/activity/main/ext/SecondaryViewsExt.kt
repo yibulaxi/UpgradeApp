@@ -68,6 +68,8 @@ fun MainActivity.setupRateDialog() {
 
     alertDialog.setOnShowListener {
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            App.analyticsEventsManager.rateAppTapped()
+
             val uri: Uri = Uri.parse("market://details?id=ru.get.better")
             val goToMarket = Intent(Intent.ACTION_VIEW, uri)
 
@@ -95,6 +97,8 @@ fun MainActivity.setupRateDialog() {
         }
 
         alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+            App.analyticsEventsManager.rateAppLaterTapped()
+
             App.preferences.isRateAppLater = true
 
             alertDialog.dismiss()

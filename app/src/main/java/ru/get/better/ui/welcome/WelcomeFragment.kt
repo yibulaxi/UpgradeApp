@@ -62,6 +62,8 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
 
     @Subscribe
     fun onSkipWelcomeEvent(e: SkipWelcomeEvent) {
+        App.analyticsEventsManager.registrationSkipped()
+
         GlobalScope.launch(Dispatchers.IO) {
             EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
             EventBus.getDefault().post(
@@ -79,6 +81,8 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
 
     @Subscribe
     fun onSaveInterestsClickedEvent(e: SaveInterestsClickedEvent) {
+        App.analyticsEventsManager.registrationCompleted()
+
         GlobalScope.launch(Dispatchers.IO) {
             EventBus.getDefault().post(ChangeProgressStateEvent(isActive = true))
             EventBus.getDefault().post(
@@ -92,6 +96,8 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
 
     inner class Handler {
         fun onSaveInterestsClicked(v: View) {
+            App.analyticsEventsManager.registrationCompleted()
+
             GlobalScope.launch(Dispatchers.IO) {
                 EventBus.getDefault().post(
                     InitUserInterestsEvent(

@@ -87,6 +87,8 @@ private fun MainActivity.showAffirmation() {
         binding.affirmationView.affirmationContainer.isVisible = true
 
         binding.affirmationView.affirmationContainer.scaleXY(1f, 1f, 500) {
+            App.analyticsEventsManager.tab1AffirmationShown()
+
             binding.affirmationView.affirmationBlur.isVisible = true
         }
 
@@ -100,6 +102,8 @@ private fun MainActivity.showAffirmation() {
         }
 
         binding.affirmationView.affirmationShareBtn.setOnClickListener {
+            App.analyticsEventsManager.tab1AffirmationShareTapped()
+
             shareAffirmation()
         }
 

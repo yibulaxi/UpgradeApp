@@ -64,6 +64,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
         binding.difficultySpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             if (allowChangeDifficulty) {
+                when(newIndex) {
+                    0 -> App.analyticsEventsManager.tab5DifficultyLowTapped()
+                    1 -> App.analyticsEventsManager.tab5DifficultyNormalTapped()
+                    2 -> App.analyticsEventsManager.tab5DifficultyHighTapped()
+                    3 -> App.analyticsEventsManager.tab5DifficultyHardcoreTapped()
+                }
+
                 currentDifficulty = newIndex
                 EventBus.getDefault().post(UpdateDifficultyEvent(newIndex))
             }
@@ -119,6 +126,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     private fun setupThemeSwitch() {
         binding.themeSwitch.isChecked = App.preferences.isDarkTheme
         binding.themeSwitch.setOnCheckedChangeListener { view, isChecked ->
+
+            if (isChecked) App.analyticsEventsManager.tab5DarkThemeTapped()
+            else App.analyticsEventsManager.tab5LightThemeTapped()
+
             App.preferences.isDarkTheme = isChecked
             EventBus.getDefault().post(
                 UpdateThemeEvent(
@@ -132,6 +143,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     private fun setupPushSwitch() {
         binding.pushSwitch.isChecked = App.preferences.isPushAvailable
         binding.pushSwitch.setOnCheckedChangeListener { view, isChecked ->
+
+            if (isChecked) App.analyticsEventsManager.tab5NotificationsOnTapped()
+            else App.analyticsEventsManager.tab5NotificationsOffTapped()
+
             App.preferences.isPushAvailable = isChecked
         }
     }
@@ -346,6 +361,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
                         binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
                             if (allowChangeLocale) {
 
+                                if (newIndex == 0)
+                                    App.analyticsEventsManager.tab5LanguageRuTapped()
+                                else App.analyticsEventsManager.tab5LanguageEnTapped()
+
                                 App.preferences.locale =
                                     if (newIndex == 0) "ru"
                                     else "en"
@@ -402,13 +421,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
                 binding.difficultySpinner.selectItemByIndex(currentDifficulty)
 
-                binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem -> }
                 binding.localeSpinner.selectItemByIndex(
                     if (App.preferences.locale == "ru") 0
                     else 1
                 )
                 binding.localeSpinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
                     if (allowChangeLocale) {
+
+                        if (newIndex == 0)
+                            App.analyticsEventsManager.tab5LanguageRuTapped()
+                        else App.analyticsEventsManager.tab5LanguageEnTapped()
 
                         App.preferences.locale =
                             if (newIndex == 0) "ru"
@@ -1024,15 +1046,21 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     inner class Handler {
 
         fun onAchievementsClicked(v: View) {
+            App.analyticsEventsManager.tab5AchievementsTapped()
+
             Navigator.toAchievements(this@SettingsFragment)
         }
 
         fun onFaqBlockClicked(v: View) {
+            App.analyticsEventsManager.tab5FaqTapped()
+
             Navigator.fromSettingsToFaq(this@SettingsFragment)
         }
 
         fun onWriteBlockClicked(v: View) {
             try {
+                App.analyticsEventsManager.tab5WriteToDeveloperTapped()
+
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/velkonost")))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -1040,6 +1068,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         }
 
         fun onRateBlockClicked(v: View) {
+            App.analyticsEventsManager.tab5RateAppTapped()
+
             val uri: Uri = Uri.parse("market://details?id=ru.get.better")
             val goToMarket = Intent(Intent.ACTION_VIEW, uri)
 
@@ -1062,6 +1092,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         }
 
         fun onAboutClicked(v: View) {
+            App.analyticsEventsManager.tab5AboutAppTapped()
+
             binding.blur.isVisible = true
             binding.aboutText.isVisible = true
         }

@@ -53,6 +53,8 @@ class UserDiaryViewModel @Inject constructor(
         coroutineScope {
             withContext(Dispatchers.IO) {
 
+                App.analyticsEventsManager.tab2FilterApplied()
+
                 filteredNotesLiveData.postValue(
                     App.database.userDiaryDao().getAllFiltered(
                         noteType =

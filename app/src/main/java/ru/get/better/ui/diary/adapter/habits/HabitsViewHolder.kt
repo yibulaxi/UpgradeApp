@@ -104,6 +104,8 @@ class HabitsViewHolder(
                                                 && it.datesCompletionDatetime!!.toLong() <= System.currentTimeMillis()
                                     }.let {
                                         if (it != null) {
+                                            App.analyticsEventsManager.habitTaskCompleted()
+
                                             habitRealization.recalculateDatesCompletion()
                                             it.datesCompletionIsCompleted = true
 

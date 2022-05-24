@@ -154,6 +154,7 @@ fun MainActivity.setupBottomSheets() {
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                App.analyticsEventsManager.noteCancelled()
 
                 binding.backgroundImage.alpha = 0f
                 binding.navView.isVisible = true
@@ -182,6 +183,8 @@ fun MainActivity.setupBottomSheets() {
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                App.analyticsEventsManager.noteCancelled()
+
                 binding.navView.isVisible = true
 
                 binding.backgroundImage.alpha = 0f
@@ -214,6 +217,8 @@ fun MainActivity.setupBottomSheets() {
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                App.analyticsEventsManager.noteCancelled()
+
                 binding.navView.isVisible = true
 
                 binding.backgroundImage.alpha = 0f
@@ -246,6 +251,8 @@ fun MainActivity.setupBottomSheets() {
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                App.analyticsEventsManager.noteCancelled()
+
                 binding.navView.isVisible = true
 
                 binding.backgroundImage.alpha = 0f
@@ -443,6 +450,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
         }
 
         noteType.setOnClickListener {
+            App.analyticsEventsManager.addNoteTapped()
+
             hideSelectNoteTypeView(hideBackgroundImage = false)
 
             addPostBehavior.state =
@@ -500,6 +509,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
         }
 
         trackerType.setOnClickListener {
+            App.analyticsEventsManager.addTrackerTapped()
+
             hideSelectNoteTypeView(hideBackgroundImage = false)
 
             addTrackerBehavior.state =
@@ -516,6 +527,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
         }
 
         goalType.setOnClickListener {
+            App.analyticsEventsManager.addGoalTapped()
+
             hideSelectNoteTypeView(hideBackgroundImage = false)
 
             addGoalBehavior.state =
@@ -532,6 +545,8 @@ fun MainActivity.setupSelectNoteTypeBottomSheet() {
         }
 
         habbitType.setOnClickListener {
+            App.analyticsEventsManager.addHabitTapped()
+
             hideSelectNoteTypeView(hideBackgroundImage = false)
 
             addHabitBehavior.state =
@@ -790,6 +805,12 @@ fun MainActivity.setupAddPostBottomSheet() {
             ))
 
             pointsDark.setOnSelectedOptionChangeCallback {
+                when (it) {
+                    0 -> App.analyticsEventsManager.noteNegativePointTapped()
+                    1 -> App.analyticsEventsManager.noteNeutralPointTapped()
+                    else -> App.analyticsEventsManager.notePositivePointTapped()
+                }
+
                 negativePointDark.setTextColor(ContextCompat.getColor(
                     context,
                     if (it == 0) {
@@ -832,6 +853,12 @@ fun MainActivity.setupAddPostBottomSheet() {
             }
 
             pointsLight.setOnSelectedOptionChangeCallback {
+                when (it) {
+                    0 -> App.analyticsEventsManager.noteNegativePointTapped()
+                    1 -> App.analyticsEventsManager.noteNeutralPointTapped()
+                    else -> App.analyticsEventsManager.notePositivePointTapped()
+                }
+
                 negativePointLight.setTextColor(ContextCompat.getColor(
                     context,
                     if (it == 0) {
@@ -951,6 +978,8 @@ fun MainActivity.setupAddPostBottomSheet() {
                     showFail(getString(R.string.enter_note_text))
                 } else if (!isMediaAdapterInitialized() || mediaAdapter.getMedia().size == 0) {
                     GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                        App.analyticsEventsManager.noteSaved()
+
                         val diaryNote = userDiaryViewModel.getNoteMediaById(noteId ?: "")
                         setDiaryNote(
                             noteId = noteId,
@@ -972,6 +1001,8 @@ fun MainActivity.setupAddPostBottomSheet() {
             }
 
             addMedia.setOnClickListener {
+                App.analyticsEventsManager.noteAddMediaTapped()
+
                 if (checkPermissionForReadExternalStorage()) {
                     openGallery()
                 }
@@ -1228,13 +1259,16 @@ fun MainActivity.setupAddGoalBottomSheet() {
             addPost.setOnClickListener {
                 if (editText.text?.length == 0) {
                     showFail(getString(R.string.enter_note_text))
-                } else
+                } else {
+                    App.analyticsEventsManager.goalSaved()
+
                     setDiaryNote(
                         noteId = noteId,
                         noteType = NoteType.Goal.id,
                         text = editText.getText(RTFormat.HTML),//editText.text.toString(),
                         date = System.currentTimeMillis()
                     )
+                }
             }
         }
     }
@@ -1493,6 +1527,8 @@ fun MainActivity.setupAddTrackerBottomSheet() {
                         val activeTracker = userDiaryViewModel.getActiveTracker()
 
                         if (activeTracker == null) {
+                            App.analyticsEventsManager.trackerStarted()
+
                             setDiaryNote(
                                 noteId = noteId,
                                 noteType = NoteType.Tracker.id,
@@ -1558,6 +1594,8 @@ fun MainActivity.setupTrackerSheet() {
 
             if (activeTracker != null) {
                 binding.stopTracker.setOnClickListener {
+                    App.analyticsEventsManager.trackerStopped()
+
                     userDiaryViewModel.changeTrackerState(
                         activeTracker,
                         false
@@ -1924,8 +1962,16 @@ fun MainActivity.setupAddHabitBottomSheet() {
 
             regularityControlGroupLight.setOnSelectedOptionChangeCallback {
                 selectedRegularityToAddHabit = when (it) {
-                    0 -> Regularity.Daily
-                    else -> Regularity.Weekly
+                    0 -> {
+                        App.analyticsEventsManager.habitDailyTapped()
+
+                        Regularity.Daily
+                    }
+                    else -> {
+                        App.analyticsEventsManager.habitWeeklyTapped()
+
+                        Regularity.Weekly
+                    }
                 }
 
                 dailyPointLight.setTextColor(
@@ -1955,8 +2001,16 @@ fun MainActivity.setupAddHabitBottomSheet() {
 
             regularityControlGroupDark.setOnSelectedOptionChangeCallback {
                 selectedRegularityToAddHabit = when (it) {
-                    0 -> Regularity.Daily
-                    else -> Regularity.Weekly
+                    0 -> {
+                        App.analyticsEventsManager.habitDailyTapped()
+
+                        Regularity.Daily
+                    }
+                    else -> {
+                        App.analyticsEventsManager.habitWeeklyTapped()
+
+                        Regularity.Weekly
+                    }
                 }
 
                 dailyPointDark.setTextColor(
@@ -1984,37 +2038,6 @@ fun MainActivity.setupAddHabitBottomSheet() {
                 )
             }
 
-
-            regularityControlGroupLight.setOnSelectedOptionChangeCallback {
-                selectedRegularityToAddHabit = when (it) {
-                    0 -> Regularity.Daily
-                    else -> Regularity.Weekly
-                }
-
-                dailyPointLight.setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        if (it == 0)
-                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
-                            else R.color.colorLightAddHabitRegularityPointActiveText
-                        else
-                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
-                            else R.color.colorLightAddHabitRegularityPointInactiveText
-                    )
-                )
-
-                weeklyPointLight.setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        if (it == 1)
-                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointActiveText
-                            else R.color.colorLightAddHabitRegularityPointActiveText
-                        else
-                            if (App.preferences.isDarkTheme) R.color.colorDarkAddHabitRegularityPointInactiveText
-                            else R.color.colorLightAddHabitRegularityPointInactiveText
-                    )
-                )
-            }
             dailyPointLight.textSize = 10f
             dailyPointDark.textSize = 10f
             weeklyPointLight.textSize = 10f
@@ -2030,6 +2053,8 @@ fun MainActivity.setupAddHabitBottomSheet() {
                         showFail(getString(R.string.warning_edit_repeat_amount))
                     }
                     else -> {
+                        App.analyticsEventsManager.habitSaved()
+
                         setDiaryNote(
                             noteId = noteId,
                             noteType = NoteType.Habit.id,

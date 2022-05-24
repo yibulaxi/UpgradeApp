@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.lriccardo.timelineview.TimelineDecorator
 import com.lriccardo.timelineview.TimelineView
 import kotlinx.android.synthetic.main.item_achievement.view.*
@@ -208,6 +209,21 @@ class AchievementsFragment : BaseFragment<FragmentAchievementsBinding>(
         binding.ntsCenter.post {
             binding.ntsCenter.setTabIndex(2, true)
         }
+
+        binding.viewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {}
+
+            override fun onPageSelected(position: Int) {
+                if (position == 0) App.analyticsEventsManager.achievementsAchievementsTapped()
+                else App.analyticsEventsManager.achievementsTasksTapped()
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
     }
 
     private fun observeAchievements(list: List<Achievement>) {

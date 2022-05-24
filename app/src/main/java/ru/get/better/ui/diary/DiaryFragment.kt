@@ -142,10 +142,14 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         filterTagsAdapter.createList(userDiaryViewModel.filterData.allTags?.toMutableList()?: mutableListOf())
 
         binding.tagsBottomSheet.tagsCancel.setOnClickListener {
+            App.analyticsEventsManager.tab2TagsCancelTapped()
+
             filterTagsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         binding.tagsBottomSheet.tagsSubmit.setOnClickListener {
+            App.analyticsEventsManager.tab2TagsApplyTapped()
+
             isRecreateNotesAdapter = true
             lifecycleScope.launch {
                 userDiaryViewModel.updateFilteredNotes()
@@ -154,6 +158,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         }
 
         binding.tagsBottomSheet.tagsClear.setOnClickListener {
+
+
             filterTagsAdapter.clearAll()
         }
 
@@ -175,6 +181,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
     }
 
     private fun setupCalendarSheet() {
+        App.analyticsEventsManager.tab2CalendarTapped()
+
         val themeFactory = object : LightThemeFactory() {
 
             override val dialogBackgroundColor: Int
@@ -307,10 +315,12 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         }
 
         val today = CivilCalendar()
-        PrimeCalendarView
+
         val datePicker = PrimeDatePicker
             .dialogWith(today)
             .pickRangeDays { startDay, endDay ->
+                App.analyticsEventsManager.tab2CalendarApplyTapped()
+
                 userDiaryViewModel.filterData.startDay = (startDay.timeInMillis / 86400000).toInt().toLong() * 86400000L
                 userDiaryViewModel.filterData.endDay = ((endDay.timeInMillis / 86400000) + 1).toInt().toLong() * 86400000L
 
@@ -422,11 +432,31 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
 
         binding.noteTypesBar.onItemSelectedListener = { view: View, menuItem: MenuItem, b: Boolean ->
             when(menuItem.id) {
-                R.id.filter_all_notes -> userDiaryViewModel.filterData.noteType = NoteType.All.id
-                R.id.filter_notes -> userDiaryViewModel.filterData.noteType = NoteType.Note.id
-                R.id.filter_goals -> userDiaryViewModel.filterData.noteType = NoteType.Goal.id
-                R.id.filter_habits -> userDiaryViewModel.filterData.noteType = NoteType.Habit.id
-                R.id.filter_trackers -> userDiaryViewModel.filterData.noteType = NoteType.Tracker.id
+                R.id.filter_all_notes -> {
+                    App.analyticsEventsManager.tab2AllNotesTapped()
+
+                    userDiaryViewModel.filterData.noteType = NoteType.All.id
+                }
+                R.id.filter_notes -> {
+                    App.analyticsEventsManager.tab2DiaryNotesTapped()
+
+                    userDiaryViewModel.filterData.noteType = NoteType.Note.id
+                }
+                R.id.filter_goals -> {
+                    App.analyticsEventsManager.tab2GoalNotesTapped()
+
+                    userDiaryViewModel.filterData.noteType = NoteType.Goal.id
+                }
+                R.id.filter_habits -> {
+                    App.analyticsEventsManager.tab2HabitNotesTapped()
+
+                    userDiaryViewModel.filterData.noteType = NoteType.Habit.id
+                }
+                R.id.filter_trackers -> {
+                    App.analyticsEventsManager.tab2TrackerNotesTapped()
+
+                    userDiaryViewModel.filterData.noteType = NoteType.Tracker.id
+                }
             }
 
             isRecreateNotesAdapter = true
@@ -677,6 +707,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
             binding.viewPagerBottomSheet.viewPager.post {
                 EventBus.getDefault().post(ChangeProgressStateEvent(false))
             }
+
+            App.analyticsEventsManager.tab2NotesShown()
         }
     }
 
@@ -903,6 +935,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
 
     @Subscribe
     fun onShowNoteDetailEvent(e: ShowNoteDetailEvent) {
+        App.analyticsEventsManager.tab2NoteDetailsShown()
+
         viewPagerBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         binding.blur.isVisible = true
         binding.viewPagerBottomSheet.viewPager.post {
@@ -927,6 +961,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         )
 
     private fun showHabitsSpotlight() {
+        App.analyticsEventsManager.tab2SpotlightShown()
+
         val habitsTargetLayout =
             layoutInflater.inflate(R.layout.target_diary_habits, FrameLayout(requireContext()))
         habitsTargetLayout.title.setTextColor(
@@ -1005,6 +1041,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
 
     inner class Handler {
         fun onInfoClicked(v: View) {
+            App.analyticsEventsManager.tab2AdviceTapped()
+
             getBalloon(getString(R.string.diary_info)).showAlignBottom(binding.info)
         }
 
@@ -1020,6 +1058,8 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(
         }
 
         fun onTagsClicked(v: View) {
+            App.analyticsEventsManager.tab2TagsTapped()
+
             filterTagsBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }

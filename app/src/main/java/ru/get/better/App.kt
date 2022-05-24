@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import kotlinx.coroutines.CoroutineStart
@@ -16,6 +19,7 @@ import ru.get.better.di.DaggerAppComponent
 import ru.get.better.repo.databases.AppDatabase
 import ru.get.better.repo.databases.ArticlesDatabase
 import ru.get.better.rest.di.RetrofitModule
+import ru.get.better.util.AnalyticEventsManager
 import ru.get.better.util.GlideImageLoader
 import ru.get.better.util.Preferences
 import ru.get.better.util.ResourcesProvider
@@ -29,13 +33,18 @@ class App : DaggerApplication() {
         .retrofitModule(RetrofitModule(this))
         .build()
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+
     override fun onCreate() {
         super.onCreate()
 
         instance = this
 
+        firebaseAnalytics = Firebase.analytics
         preferences = Preferences(this@App)
         resourcesProvider = ResourcesProvider(this@App)
+        analyticsEventsManager = AnalyticEventsManager(firebaseAnalytics)
         database = AppDatabase(this@App)
         articlesDatabase = ArticlesDatabase(this@App)
 
@@ -95,6 +104,7 @@ class App : DaggerApplication() {
 
         @SuppressLint("StaticFieldLeak")
         lateinit var resourcesProvider: ResourcesProvider
+        lateinit var analyticsEventsManager: AnalyticEventsManager
 
         val READ_EXTERNAL_STORAGE_REQUEST_CODE = 123
 

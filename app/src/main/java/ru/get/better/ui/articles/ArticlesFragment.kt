@@ -70,6 +70,13 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>(
         articlesViewModel.getArticles(ArticleType.SHORT)
 
         articlesViewModel.currentArticlesLiveData.observe(this) { list ->
+
+            when(selectedType) {
+                ArticleType.SHORT -> App.analyticsEventsManager.tab4ShortArticleShown()
+                ArticleType.MID -> App.analyticsEventsManager.tab4MidArticleShown()
+                ArticleType.LONG -> App.analyticsEventsManager.tab4LongArticleShown()
+            }
+
             articlesAdapter.createList(list)
 
             binding.amountArticles.text = "${list.count { it.flag == ArticleState.READ.flag }} / ${list.size}"
@@ -207,14 +214,20 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>(
         binding.typesBar.onItemSelectedListener = { view: View, menuItem: MenuItem, b: Boolean ->
             when(menuItem.id) {
                 R.id.filter_articles_short -> {
+                    App.analyticsEventsManager.tab4ShortArticlesTapped()
+
                     selectedType = ArticleType.SHORT
                     articlesViewModel.getArticles(ArticleType.SHORT)
                 }
                 R.id.filter_articles_mid -> {
+                    App.analyticsEventsManager.tab4MidArticlesTapped()
+
                     selectedType = ArticleType.MID
                     articlesViewModel.getArticles(ArticleType.MID)
                 }
                 R.id.filter_articles_long -> {
+                    App.analyticsEventsManager.tab4LongArticlesTapped()
+
                     selectedType = ArticleType.LONG
                     articlesViewModel.getArticles(ArticleType.LONG)
                 }
@@ -272,9 +285,13 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>(
                                 val getScrollY: Double =
                                     binding.viewArticle.articleScroll.scrollY.toDouble()
                                 val scrollPosition = getScrollY / scrollViewHeight * 100.0
-                                Log.i("keke", "scroll Percent Y: " + scrollPosition.toInt())
 
                                 if (scrollPosition > 50 && openedArticle!!.flag != ArticleState.READ.flag) {
+                                    when(selectedType) {
+                                        ArticleType.SHORT -> App.analyticsEventsManager.tab4ShortArticleCompletelyRead()
+                                        ArticleType.MID -> App.analyticsEventsManager.tab4MidArticleCompletelyRead()
+                                        ArticleType.LONG -> App.analyticsEventsManager.tab4LongArticleCompletelyRead()
+                                    }
 
                                     openedArticle!!.flag = ArticleState.READ.flag
                                     articlesViewModel.updateReadStateArticle(

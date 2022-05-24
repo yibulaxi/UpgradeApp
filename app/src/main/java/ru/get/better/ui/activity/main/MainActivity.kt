@@ -35,6 +35,10 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.jaeger.library.StatusBarUtil
 import com.onegravity.rteditor.RTManager
@@ -166,8 +170,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         RTManager(rtApi, null)
     }
 
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+
+        App.analyticsEventsManager.appOpened()
 
         lifecycleScope.launch(Dispatchers.IO) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -648,6 +655,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     override fun onImagesPicked(photos: ArrayList<Uri>) {
+        App.analyticsEventsManager.noteMediasAdded()
+
         val media = arrayListOf<Media>()
         photos.map { media.add(Media(it)) }
 
@@ -700,6 +709,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         uploadedUrls.add(task.result.toString())
 
                         if (uploadedUrls.size == mediaAdapter.getMedia().size) {
+                            App.analyticsEventsManager.noteSaved()
+
                             setDiaryNote(
                                 noteId = noteId,
                                 noteType = NoteType.Note.id,
@@ -750,8 +761,12 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     ) {
         if (requestCode == READ_EXTERNAL_STORAGE_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                App.analyticsEventsManager.permissionStorageAllowed()
+
                 openGallery()
             } else {
+                App.analyticsEventsManager.permissionStorageDeclined()
+
                 showFail(getString(R.string.warning_gallery_disabled))
             }
         }
@@ -811,27 +826,37 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 .build()
 
             binding.navView.menu.getItem(0).setOnMenuItemClickListener {
+                App.analyticsEventsManager.tab1Tapped()
+
                 navController!!.navigate(R.id.navigation_metric, null, options)
                 return@setOnMenuItemClickListener true
             }
 
             binding.navView.menu.getItem(1).setOnMenuItemClickListener {
+                App.analyticsEventsManager.tab2Tapped()
+
                 navController!!.navigate(R.id.navigation_diary, null, options)
                 return@setOnMenuItemClickListener true
             }
 
             binding.navView.menu.getItem(2).setOnMenuItemClickListener {
+                App.analyticsEventsManager.addNoteTabTapped()
+
                 showSelectNoteTypeView()
                 return@setOnMenuItemClickListener true
             }
 
             binding.navView.menu.getItem(3).setOnMenuItemClickListener {
+                App.analyticsEventsManager.tab4Tapped()
+
 //                navController!!.navigate(R.id.navigation_achievements, null, options)
                 navController!!.navigate(R.id.navigation_articles, null, options)
                 return@setOnMenuItemClickListener true
             }
 
             binding.navView.menu.getItem(4).setOnMenuItemClickListener {
+                App.analyticsEventsManager.tab5Tapped()
+
                 navController!!.navigate(R.id.navigation_settings, null, options)
                 return@setOnMenuItemClickListener true
             }
@@ -888,6 +913,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     @Subscribe
     fun onEditDiaryNoteEvent(e: EditDiaryNoteEvent) {
+        App.analyticsEventsManager.tab2NoteDetailsEditTapped()
+
         if (e.note.noteType == NoteType.Note.id) {
             addPostBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             binding.addPostBottomSheet.editText.requestFocus()
@@ -1251,6 +1278,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private fun showAddPostSpotlight() {
+        App.analyticsEventsManager.tab3SpotlightShown()
+
         val addPostTargetLayout =
             layoutInflater.inflate(R.layout.target_menu_addpost, FrameLayout(this))
 

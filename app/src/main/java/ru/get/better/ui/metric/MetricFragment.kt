@@ -136,6 +136,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
                         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(true))
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
+                        App.analyticsEventsManager.tab1InterestDetailsShown()
+
                         EventBus.getDefault().post(ChangeNavViewVisibilityEvent(false))
                     }
                     BottomSheetBehavior.STATE_SETTLING -> {
@@ -346,6 +348,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
 
     private fun showWheelSpotlight() {
         if (!isAdded) return
+
+        App.analyticsEventsManager.tab1SpotlightShown()
 
         val wheelTargetLayout =
             layoutInflater.inflate(R.layout.target_metric_wheel, FrameLayout(requireContext()))
@@ -720,6 +724,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
                     view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault()
                         .post(ShowFailEvent(getString(R.string.entry_description_interest)))
                     else -> {
+                        App.analyticsEventsManager.tab1InterestAdded()
+
                         val interest = UserCustomInterest(
                             id = System.currentTimeMillis().toString() + UUID.randomUUID()
                                 .toString(),
@@ -874,6 +880,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
                     view.interestDescription.text.isNullOrEmpty() -> EventBus.getDefault()
                         .post(ShowFailEvent(getString(R.string.entry_description_interest)))
                     else -> {
+                        App.analyticsEventsManager.tab1InterestEdited()
+
                         interest.name = view.interestName.text.toString()
                         interest.description = view.interestDescription.text.toString()
 
@@ -889,6 +897,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
             }
 
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                App.analyticsEventsManager.tab1InterestDeleted()
+
                 userInterestsViewModel.deleteInterest(interest) {
                     EventBus.getDefault().post(ShowSuccessEvent(getString(R.string.deleted)))
                 }
@@ -1045,6 +1055,8 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
 
     private fun changeMetricListVisibility(isVisible: Boolean) {
         if (isVisible) {
+            App.analyticsEventsManager.tab1ListShown()
+
             binding.list.visibility = View.VISIBLE
             binding.list.animate()
                 .translationY(0f)
@@ -1078,6 +1090,10 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
         binding.startStateDark.textSize = 12f
 
         binding.radarStateControlGroupLight.setOnSelectedOptionChangeCallback {
+            if (it == 1) {
+                App.analyticsEventsManager.tab1StartWheelShown()
+            }
+
             binding.currentStateLight.setTextColor(
                 ContextCompat.getColor(
                     context!!,
@@ -1109,6 +1125,10 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
         }
 
         binding.radarStateControlGroupDark.setOnSelectedOptionChangeCallback {
+            if (it == 1) {
+                App.analyticsEventsManager.tab1StartWheelShown()
+            }
+
             binding.currentStateDark.setTextColor(
                 ContextCompat.getColor(
                     context!!,
@@ -1345,11 +1365,15 @@ class MetricFragment : BaseFragment<FragmentMetricBinding>(
 
     inner class Handler {
         fun onInfoClicked(v: View) {
+            App.analyticsEventsManager.tab1AdviceTapped()
+
             getBalloon(getString(R.string.metric_info))
                 .showAlignBottom(binding.info)
         }
 
         fun onAffirmationClicked(v: View) {
+            App.analyticsEventsManager.tab1AffirmationTapped()
+
             EventBus.getDefault().post(ShowAffirmationEvent())
         }
     }

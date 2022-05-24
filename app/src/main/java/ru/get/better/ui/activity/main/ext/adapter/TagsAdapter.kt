@@ -57,6 +57,8 @@ class TagsAdapter : EpoxyAdapter() {
     }
 
     fun addTag(tag: String) {
+        App.analyticsEventsManager.noteTagAdded()
+
         items.add(tag)
         tagEmptyModel.items = items
 
@@ -70,6 +72,8 @@ class TagsAdapter : EpoxyAdapter() {
     }
 
     fun removeTag(tag: String) {
+        App.analyticsEventsManager.noteTagDeleted()
+
         items.remove(tag)
         tagEmptyModel.items = items
 
